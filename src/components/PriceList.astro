@@ -1,0 +1,44 @@
+---
+import { useTranslations } from "../i18n/utils";
+
+interface Price {
+  duration: string;
+  price: number;
+}
+interface Props {
+  prices: Price[];
+  currentLang?: string;
+}
+
+const { prices, currentLang = "en" } = Astro.props;
+const t = useTranslations(currentLang);
+---
+
+<div class="w-full py-8 px-4 bg-[var(--color-warm-sand)] rounded-lg shadow-md">
+  <h2
+    class="text-3xl font-semibold md:mb-6 text-center text-[var(--color-terracotta)]"
+  >
+    {t.prices.title}
+  </h2>
+  <div
+    class="flex flex-col md:flex-row justify-between items-start md:items-center py-4 border-b border-[var(--color-natural-green)] md:hidden"
+  >
+  </div>
+
+  <div class="max-w-3xl mx-auto">
+    {
+      prices.map((item) => (
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center py-4 border-b border-[var(--color-natural-green)]">
+          <div class="flex-1">
+            <h3 class="text-xl font-medium text-[var(--color-deep-charcoal)]">
+              {item.duration}
+            </h3>
+          </div>
+          <div class="text-2xl font-bold text-[var(--color-terracotta)] mt-2 md:mt-0">
+            €{item.price}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>

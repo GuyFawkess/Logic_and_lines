@@ -1,0 +1,119 @@
+---
+import Location from "../../components/Location.astro";
+import Layout from "../../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+import { useTranslations } from "../../i18n/utils";
+
+const currentLang = 'es';
+const t = useTranslations(currentLang);
+---
+
+<Layout title="contacto">
+  <main class="w-full mb-20 py-10 px-4 text-center">
+    <div class="max-w-6xl mx-auto">
+      <h1 class="text-3xl font-bold mb-8 text-[var(--color-terracotta)]">
+        {t.contact.title}
+      </h1>
+      <div class="flex flex-col md:flex-row gap-10">
+        <div class="md:block w-full md:w-1/2 h-full mx-auto text-left">
+          <h2
+            class="text-xl font-medium mb-4 text-[var(--color-atention)] text-center"
+          >
+            {t.contact.info}
+          </h2>
+          <h3 class="mb-3 font-medium">
+            {t.contact.thankYou}
+          </h3>
+          <p class="mb-3">
+            {t.contact.preparation}
+          </p>
+          <p class="mb-3">
+            {t.contact.offering}
+          </p>
+          <p class="mb-3">
+            {t.contact.bookSession}
+          </p>
+          <p>{t.contact.lookForward}</p>
+        </div>
+        <div class="w-full md:w-1/2 text-left h-full">
+          <h2
+            class="text-xl font-medium mb-4 text-[var(--color-atention)] text-center"
+          >
+            {t.contact.reachMe}
+          </h2>
+          <ul class="flex flex-col space-y-8 w-full">
+            <li class="flex items-center">
+              <a
+                href="https://wa.me/34628125302"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center gap-3 group"
+                aria-label="Contáctanos por WhatsApp"
+              >
+                <span class="inline-block">
+                  <Icon
+                    name="whatsapp"
+                    class="text-3xl text-[var(--color-deep-charcoal)] transition duration-200 ease-in-out group-hover:scale-125 group-hover:text-[var(--color-terracotta)]"
+                  />
+                </span>
+                <span>WhatsApp</span>
+              </a>
+            </li>
+            <li class="flex items-center">
+              <a
+                href="https://www.instagram.com/malaithaimassagelanzarote?igsh=MTRoY3h1cGRiOWFpaQ=="
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center gap-3 group"
+                aria-label="Siguenos en Instagram"
+              >
+                <span class="inline-block">
+                  <Icon
+                    name="instagram"
+                    class="text-3xl text-[var(--color-deep-charcoal)] transition duration-200 ease-in-out group-hover:scale-125 group-hover:text-[var(--color-terracotta)]"
+                  />
+                </span>
+                <span>Instagram</span>
+              </a>
+            </li>
+            <li class="flex items-center">
+              <a
+                href="https://www.facebook.com/malaithaimassagelanzarote"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center gap-3 group"
+                aria-label="Siguenos en Facebook"
+              >
+                <span class="inline-block">
+                  <Icon
+                    name="facebook3"
+                    class="text-3xl text-[var(--color-deep-charcoal)] transition duration-200 ease-in-out group-hover:scale-125 group-hover:text-[var(--color-terracotta)]"
+                  />
+                </span>
+                <span>Facebook</span>
+              </a>
+            </li>
+            <li class="flex items-center">
+              <a
+                href="mailto:malaithai89@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center gap-3 group"
+                aria-label="Envianos un email"
+              >
+                <span class="inline-block">
+                  <Icon
+                    name="gmail2"
+                    class="text-3xl text-[var(--color-deep-charcoal)] transition duration-200 ease-in-out group-hover:scale-125 group-hover:text-[var(--color-terracotta)]"
+                  />
+                </span>
+                <span>Email</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Location currentLang={currentLang} />
+</Layout>

@@ -1,0 +1,151 @@
+---
+import { getCollection } from "astro:content";
+import { useTranslations } from "../i18n/utils";
+
+const { currentLang = 'en' } = Astro.props;
+const t = useTranslations(currentLang);
+
+const allServices = await getCollection("services");
+const services = allServices.sort(
+  (a: { data: { sortOrder?: number } }, b: { data: { sortOrder?: number } }) =>
+    (a.data.sortOrder || 999) - (b.data.sortOrder || 999)
+);
+---
+
+<section id="services" class="w-full py-10 px-4">
+  <div class="max-w-6xl mx-auto">
+    <h2
+      transition:name="services"
+      class="text-3xl font-semibold mb-8 text-center text-[var(--color-terracotta)]"
+    >
+      {t.service.title}
+    </h2>
+
+    <div class="flex flex-wrap justify-center gap-8">
+      {
+        services.map((service: { data: any; slug: string }, index: number) => {
+          const { data, slug } = service;
+          // Use language-specific content
+          const title = currentLang === 'es' && data.title_es ? data.title_es : data.title;
+          const description = currentLang === 'es' && data.description_es ? data.description_es : data.description;
+          const { img } = data;
+          
+          // Create the correct URL based on language
+          const serviceUrl = currentLang === 'es' 
+            ? `/es/service/${slug}` 
+            : `/service/${slug}`;
+            
+          return (
+            <article data-duration="700" data-animate="zoom-in" class="opacity-0 scale-90 card shadow-xl">
+              <figure>
+                <img
+                  transition:name={`img-${slug}`}
+                  src={`${img}`}
+                  alt={`Thai massage service: ${title}`}
+                  width="400"
+                  height="300"
+                  loading={index > 2 ? "lazy" : "eager"}
+                  decoding={index > 2 ? "async" : "auto"}
+                  class="w-full h-full object-cover"
+                />
+              </figure>
+              <div class="card-body flex items-center justify-center text-center">
+                <h2 class="card-title text-2xl text-[var(--color-terracotta)]">
+                  {title}
+                </h2>
+                <p class="text-white text-lg mt-10">{description}</p>
+                <div class="card-actions mt-4">
+                  <a
+                    href={serviceUrl}
+                    class="btn btn-lg bg-[var(--color-terracotta)] text-[var(--color-warm-sand)] border-none hover:scale-115 transition duration-200 ease-in-out "
+                    aria-label={`learn more about ${title}`}
+                  >
+                    {t.service.button}
+                  </a>
+                </div>
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+
+    <style>
+      .card {
+        position: relative;
+        overflow: hidden;
+        border-radius: 0.5rem;
+        width: 100%;
+        height: 400px; 
+        max-width: 300px;
+        flex: 0 0 auto;
+      }
+
+      /* For medium screens, limit to 2 cards per row */
+      @media (min-width: 768px) and (max-width: 1023px) {
+        .card {
+          width: calc(50% - 1rem);
+          max-width: 450px;
+        }
+      }
+
+      /* For large screens, limit to 3 cards per row */
+      @media (min-width: 1024px) {
+        .card {
+          width: calc(33.333% - 1.5rem);
+          max-width: 350px;
+        }
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(67, 77, 57, 0.9);
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .card:hover::before {
+        opacity: 1;
+      }
+
+      .card-body {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 1.5rem;
+        z-index: 2;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .card:hover .card-body {
+        opacity: 1;
+      }
+
+      figure {
+        height: 100%;
+        margin: 0;
+      }
+
+      /* Mobile styles - show text but with transparent background */
+      @media (max-width: 768px) {
+        .card-body {
+          background: rgba(67, 77, 57, 0.9);
+          opacity: 1;
+        }
+      }
+    </style>
+  </div>
+</section>

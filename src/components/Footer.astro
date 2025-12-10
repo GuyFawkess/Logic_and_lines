@@ -1,0 +1,64 @@
+---
+import { Icon } from "astro-icon/components";
+import { useTranslations } from "../i18n/utils";
+
+const { currentLang } = Astro.props;
+const t = useTranslations(currentLang);
+---
+
+<footer class="w-full">
+  <div class="bg-[var(--color-natural-green)]">
+    <ul class="h-18 flex items-center justify-center space-x-8 py-0">
+      <!-- Update the social media links in your Footer component -->
+      <li class="nav-item">
+        <a
+          href="https://www.instagram.com/malaithaimassagelanzarote?igsh=MTRoY3h1cGRiOWFpaQ=="
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Follow us on Instagram"
+        >
+          <Icon
+            name="instagram"
+            class="h-8 w-8 text-[var(--color-warm-sand)] transition duration-200 ease-in-out hover:scale-125 hover:text-[var(--color-terracotta)]"
+          />
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          href="https://www.facebook.com/malaithaimassagelanzarote"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Follow us on Facebook"
+        >
+          <Icon
+            name="facebook3"
+            class="h-8 w-8 text-[var(--color-warm-sand)] transition duration-200 ease-in-out hover:scale-125 hover:text-[var(--color-terracotta)]"
+          />
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          href="https://wa.me/34628125302"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Contact us on WhatsApp"
+        >
+          <Icon name="whatsapp" class="h-8 w-8 text-[var(--color-warm-sand)] transition duration-200 ease-in-out hover:scale-125 hover:text-[var(--color-terracotta)]" />
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          href="mailto:malaithai89@gmail.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Send us an email"
+        >
+          <Icon name="gmail2" class="h-8 w-8 text-[var(--color-warm-sand)] transition duration-200 ease-in-out hover:scale-125 hover:text-[var(--color-terracotta)]" />
+        </a>
+      </li>
+    </ul>
+    <p class="footer sm:footer-horizontal footer-center text-base-content">
+      {t.footer.copyright.replace("{year}", new Date().getFullYear())}
+    </p>
+  </div>
+</footer>

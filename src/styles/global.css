@@ -1,0 +1,51 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+:root {
+  /* FONDO PRINCIPAL O SECCIONES */
+  --color-primary: #A0AE91;
+  /* FONDOS CLAROS Y BLOQUE DE CONTENIDO */
+  --color-secondary: #D9C9B6;
+  /* FONDO DE BOTONES TARJETAS O DETALLES */
+  --color-botones: #C8B79B;
+  /* DETALLES O LLAMADAS A LA ACCION SUTILES */
+  --color-atention: #8B6648; /* Darkened from #A97E60 for better contrast */
+  /* TEXTOS SECUNDARIOS O ELEMENTOS NEUTRO */
+  --color-text-secundary: #C6C2B8;
+  /* TEXTOS PRINCIPALES O FONDOS LIMPIOS */
+  --color-text-primary: #F5F2EC;
+
+  /* Text */
+  --color-deep-charcoal: #2D2D2B;
+  /* Background */
+  --color-warm-sand: #E5DED4;
+  /* Primary */
+  --color-natural-green: #7B8D68;
+  /* Secondary */
+  --color-warm-wood: #B38251;
+  /* Accent */
+  --color-terracotta: #B05A36; /* Darkened from #C97E5A for better contrast */
+
+  --color-test: #5f603e;
+}
+
+
+/* Text
+	•	Deep Charcoal – #2D2D2B
+(Elegant, highly readable, pairs well with earth tones)
+
+Background
+	•	Warm Sand – #E5DED4
+(Light beige, calming, evokes a spa-like, grounded feel)
+
+Primary
+	•	Natural Green – #7B8D68
+(Muted sage green, matches the tiles in the image and reinforces a natural, healing vibe)
+
+Secondary
+	•	Warm Wood – #B38251
+(Inspired by the wooden tiles—adds warmth and a handcrafted feel)
+
+Accent
+	•	Terracotta Woven – #C97E5A
+(Inspired by the woven material—adds vibrance and complements the greens beautifully) */

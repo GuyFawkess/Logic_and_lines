@@ -1,0 +1,104 @@
+---
+import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { getLanguageFromURL, useTranslations } from "../i18n/utils";
+import StructuredData from "../components/StructuredData.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const { title, description, ogImage = "/logoNav.png" } = Astro.props;
+const currentLang = getLanguageFromURL(Astro.url);
+const t = useTranslations(currentLang);
+
+// Create proper page title
+const siteTitle = "Malai Thai Massage Lanzarote";
+const fullTitle = title === 'main' || title === 'principal' 
+  ? siteTitle 
+  : `${title} | ${siteTitle}`;
+
+// Default description if none provided
+const metaDescription = description || (currentLang === 'en' 
+  ? "Experience authentic Thai massage in Lanzarote. Professional Thai therapists offering traditional techniques for relaxation and wellness."
+  : "Experimenta auténtico masaje tailandés en Lanzarote. Terapeutas tailandeses profesionales que ofrecen técnicas tradicionales para relajación y bienestar.");
+
+// Canonical URL
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://thaimassagelanzarote.com");
+---
+
+<!doctype html>
+<html lang={currentLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/webp" href="/logoNav.webp" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="google-site-verification" content="93bXGfrbTzfsg5eqg_RvRBCIVYqGd_IWJrrpBLEDiTc" />
+    
+    <!-- Primary Meta Tags -->
+    <title>{fullTitle}</title>
+    <meta name="title" content={fullTitle} />
+    <meta name="description" content={metaDescription} />
+    <meta name="keywords" content="thai massage, massage, massage lanzarote, lanzarote, massage therapy, relaxation, wellness, spa, thai oil massage, foot massage" />
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:image" content={new URL(ogImage, Astro.site || "https://thaimassagelanzarote.com")} />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={fullTitle} />
+    <meta property="twitter:description" content={metaDescription} />
+    <meta property="twitter:image" content={new URL(ogImage, Astro.site || "https://thaimassagelanzarote.com")} />
+    
+    <ClientRouter />
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap"
+      rel="stylesheet"
+    />
+    
+    <!-- Add alternate language links for SEO -->
+    {currentLang === 'en' && <link rel="alternate" hreflang="es" href={`https://thaimassagelanzarote.com${Astro.url.pathname.replace(/^\/(en\/)?/, '/es/')}`} />}
+    {currentLang === 'es' && <link rel="alternate" hreflang="en" href={`https://thaimassagelanzarote.com${Astro.url.pathname.replace(/^\/(es\/)?/, '/')}`} />}
+    <link rel="alternate" hreflang="x-default" href={`https://thaimassagelanzarote.com${Astro.url.pathname.replace(/^\/(en|es)\//, '/')}`} />
+    
+    <!-- Add this in the head section -->
+    <link rel="preload" href="/heroSinTexto.webp" as="image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body>
+    <Header currentLang={currentLang} />
+    <slot />
+    <Footer currentLang={currentLang} />
+    <StructuredData currentLang={currentLang} />
+    <script src="/scroll-animate.js" defer></script>
+  </body>
+</html>
+
+<style>
+  html,
+  body {
+    background-color: #f4f1eb;
+    font-family: "Montserrat", sans-serif;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    justify-items: center;
+    color: black;
+    overflow-x: hidden;
+  }
+  p {
+    color: var(--color-deep-charcoal);
+  }
+</style>

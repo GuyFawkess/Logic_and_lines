@@ -1,0 +1,30 @@
+---
+import BookButton from "../components/BookButton.astro";
+import { useTranslations } from "../i18n/utils";
+
+const { currentLang = 'en' } = Astro.props;
+const t = useTranslations(currentLang);
+---
+
+<div class="relative hero min-h-[100dvh] bg-[url(/heroSinTexto.webp)]">
+  <div class="absolute inset-0 bg-[var(--color-natural-green)]/40"></div>
+  <div class="hero-content text-neutral-content text-center">
+    <div class="max-w-xl">
+      <h1
+        data-animate="zoom-in"
+        data-duration="2000"
+        class="text-shadow-md mb-5 text-5xl font-bold text-white opacity-0 scale-90 transition-all duration-700 ease-out"
+      >
+        {t.hero.welcome}
+      </h1>
+      <h2
+        data-animate="fade-up"
+        data-duration="1500"
+        class="opacity-0 translate-y-10 mb-6 text-2xl text-white text-shadow-md"
+      >
+        "{t.hero.slogan}"
+      </h2>
+        <BookButton currentLang={currentLang} />
+    </div>
+  </div>
+</div>

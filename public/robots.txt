@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.malaithaimassagelanzarote.com/sitemap-index.xml

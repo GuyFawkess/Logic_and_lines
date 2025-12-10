@@ -1,0 +1,23 @@
+---
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Layout from '../layouts/Layout.astro';
+import ServicesList from '../components/ServicesList.astro';
+import Location from '../components/Location.astro';
+import BookButton from '../components/BookButton.astro';
+
+// Add metadata for better SEO
+const currentLang = 'en';
+---
+
+<Layout 
+  title='main'
+  description="Authentic Thai massage in Lanzarote. Professional Thai therapists offering traditional techniques for relaxation and wellness."
+  ogImage="/hero-image-optimized.webp"
+>
+	<Hero currentLang={currentLang} />
+	<About currentLang={currentLang} />
+	<ServicesList currentLang={currentLang} />
+	<BookButton currentLang={currentLang} />
+	<Location currentLang={currentLang} />
+</Layout>
