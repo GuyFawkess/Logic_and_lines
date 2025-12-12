@@ -4,27 +4,107 @@ import { useTranslations } from "../i18n/utils";
 
 const { currentLang = 'en' } = Astro.props;
 const t = useTranslations(currentLang);
----
+interface Props {
+  videoSrc?: string;
+  title?: string;
+  subtitle?: string;
+  currentLang?: string;
+}
 
-<div class="relative hero min-h-[100dvh] bg-[url(/heroSinTexto.webp)]">
-  <div class="absolute inset-0 bg-[var(--color-natural-green)]/40"></div>
-  <div class="hero-content text-neutral-content text-center">
-    <div class="max-w-xl">
-      <h1
-        data-animate="zoom-in"
-        data-duration="2000"
-        class="text-shadow-md mb-5 text-5xl font-bold text-white opacity-0 scale-90 transition-all duration-700 ease-out"
-      >
-        {t.hero.welcome}
-      </h1>
-      <h2
-        data-animate="fade-up"
-        data-duration="1500"
-        class="opacity-0 translate-y-10 mb-6 text-2xl text-white text-shadow-md"
-      >
-        "{t.hero.slogan}"
-      </h2>
-        <BookButton currentLang={currentLang} />
+const { 
+  videoSrc = '/public/uCLsXBlZ0CNUQzP58kcPxMlUU.mp4',
+  title = 'Your Main Heading',
+  subtitle = 'Your subtitle or description'
+} = Astro.props;
+---
+<!-- Astro component template (editing within the main <section>) -->
+<section class="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-black">
+  <!-- Video Background Layer 1 -->
+  <div class="absolute inset-y-0 left-0 w-1/2 overflow-hidden opacity-60 hidden md:block">
+    <video
+      autoplay
+      muted
+      loop
+      playsinline
+      class="w-full h-full object-cover rotate-90 origin-center"
+      style="filter: sepia(1) saturate(500%) hue-rotate(340deg) brightness(0.9);"
+    >
+      <source src={videoSrc} type="video/mp4" />
+    </video>
+  </div>
+
+  <!-- Video Background Layer 2 (Mirrored horizontally on the right) -->
+  <div class="absolute inset-y-0 right-0 w-1/2 overflow-hidden opacity-40 hidden md:block">
+    <video
+      autoplay
+      muted
+      loop
+      playsinline
+      class="w-full h-full object-cover -rotate-90 origin-center"
+      style="filter: sepia(1) saturate(500%) hue-rotate(340deg) brightness(0.9);"
+    >
+      <source src={videoSrc} type="video/mp4" />
+    </video>
+  </div>
+
+  <!-- Mobile-only Top Video -->
+  <div class="absolute top-0 inset-x-0 w-full h-1/2 overflow-hidden opacity-60 md:hidden">
+    <video
+      autoplay
+      muted
+      loop
+      playsinline
+      class="w-full h-full object-cover rotate-180 origin-center"
+      style="filter: sepia(1) saturate(500%) hue-rotate(340deg) brightness(0.9);"
+    >
+      <source src={videoSrc} type="video/mp4" />
+    </video>
+  </div>
+
+  <!-- Mobile-only Bottom Video -->
+  <div class="absolute bottom-0 inset-x-0 w-full h-1/2 overflow-hidden opacity-60 md:hidden">
+    <video
+      autoplay
+      muted
+      loop
+      playsinline
+      class="w-full h-full object-cover"
+      style="filter: sepia(1) saturate(500%) hue-rotate(340deg) brightness(0.9);"
+    >
+      <source src={videoSrc} type="video/mp4" />
+    </video>
+  </div>
+
+  <!-- Overlay for better text readability -->
+  <div class="absolute top-0 left-0 w-full h-full bg-gradient-radial from-black/30 via-black/50 to-black/70 z-10"></div>
+
+  <!-- Content -->
+  <div class="relative z-20 text-center text-white max-w-7xl px-8 md:px-4">
+    <h1 class="text-5xl md:text-6xl lg:text-8xl font-bold mb-6 leading-tight drop-shadow-[2px_2px_20px_rgba(0,0,0,0.5)]">
+      {title}
+    </h1>
+    <p class="text-lg md:text-xl lg:text-2xl mb-8 opacity-90 max-w-3xl mx-auto drop-shadow-[1px_1px_10px_rgba(0,0,0,0.5)]">
+      {subtitle}
+    </p>
+    <div class="flex gap-4 justify-center flex-wrap">
+      <button class="px-8 py-4 text-base font-semibold border-none rounded-lg cursor-pointer transition-all duration-300 uppercase tracking-wider bg-gradient-to-br from-indigo-500 to-purple-600 text-white hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(102,126,234,0.4)]">
+        Get Started
+      </button>
+      <button class="px-8 py-4 text-base font-semibold border-2 border-white rounded-lg cursor-pointer transition-all duration-300 uppercase tracking-wider bg-transparent text-white hover:bg-white hover:text-black hover:-translate-y-0.5">
+        Learn More
+      </button>
     </div>
   </div>
-</div>
+</section>
+<!-- 
+<style>
+  /* Custom gradient for radial effect (Tailwind doesn't have radial gradient by default) */
+  .bg-gradient-radial {
+    background: radial-gradient(
+      circle at center,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0.5) 50%,
+      rgba(0, 0, 0, 0.7) 100%
+    );
+  }
+</style> -->
