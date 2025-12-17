@@ -10,8 +10,8 @@ export default {
     slogan: "Where tension melts and serenity begins"
   },
   about: {
-    title: "About us",
-    subtitle: "Experience the Art of Traditional Thai Massage",
+    title: "Benefits",
+    subtitle: "Revolucionamos tu negocio con inteligencia artificial",
     intro: "At Malai Thai Massage Lanzarote, we bring you the authentic art of traditional Thai massage, founded by native Thai experts as the first Thai-owned massage spa in Lanzarote.",
     mission: "Our mission is to provide you with a deeply relaxing and rejuvenating experience in a serene, luxurious, and welcoming atmosphere.",
     services: "Our services include:",
@@ -26,7 +26,7 @@ export default {
     closing: "Experience the true essence of Thai healing and let us take care of your well-being with expertise from the very roots of Thai tradition here in Lanzarote."
   },
   service: {
-    title: "Our Services",
+    title: "Servicioss",
     button: "More info"
   },
   prices: {

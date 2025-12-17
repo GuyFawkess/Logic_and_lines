@@ -17,94 +17,118 @@ const {
   subtitle = 'Your subtitle or description'
 } = Astro.props;
 ---
-<!-- Astro component template (editing within the main <section>) -->
-<section class="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-black">
-  <!-- Video Background Layer 1 -->
-  <div class="absolute inset-y-0 left-0 w-1/2 overflow-hidden opacity-60 hidden md:block">
+
+<section class="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-[var(--color-bg)] pt-24 md:pt-28">
+  <!-- Video Background Layer 1 (Left) - brillante y nítido -->
+  <div class="absolute inset-y-0 left-0 w-[58%] overflow-hidden hidden md:block" style="height: 110vh; top: -5vh;">
     <video
       autoplay
       muted
       loop
       playsinline
-      class="w-full h-full object-cover rotate-90 origin-center"
-      style="filter: sepia(1) saturate(500%) hue-rotate(340deg) brightness(0.9);"
+      preload="auto"
+      class="w-full h-full object-cover rotate-90 origin-center scale-115"
+      style="filter: hue-rotate(200deg) saturate(180%) brightness(1.3) contrast(1.15); mix-blend-mode: lighten;"
     >
       <source src={videoSrc} type="video/mp4" />
     </video>
+    <!-- Overlay amarillo para forzar el color -->
+    <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(235, 170, 0, 0.35) 0%, rgba(235, 170, 0, 0.15) 40%, transparent 100%); mix-blend-mode: overlay; pointer-events: none;"></div>
   </div>
 
-  <!-- Video Background Layer 2 (Mirrored horizontally on the right) -->
-  <div class="absolute inset-y-0 right-0 w-1/2 overflow-hidden opacity-40 hidden md:block">
+  <!-- Video Background Layer 2 (Right) - brillante y nítido -->
+  <div class="absolute inset-y-0 right-0 w-[58%] overflow-hidden hidden md:block" style="height: 110vh; top: -5vh;">
     <video
       autoplay
       muted
       loop
       playsinline
-      class="w-full h-full object-cover -rotate-90 origin-center"
-      style="filter: sepia(1) saturate(500%) hue-rotate(340deg) brightness(0.9);"
+      preload="auto"
+      class="w-full h-full object-cover -rotate-90 origin-center scale-115"
+      style="filter: hue-rotate(200deg) saturate(180%) brightness(1.3) contrast(1.15); mix-blend-mode: lighten;"
     >
       <source src={videoSrc} type="video/mp4" />
     </video>
+    <!-- Overlay amarillo para forzar el color -->
+    <div class="absolute inset-0" style="background: linear-gradient(225deg, rgba(235, 170, 0, 0.35) 0%, rgba(235, 170, 0, 0.15) 50%, transparent 100%); mix-blend-mode: overlay; pointer-events: none;"></div>
   </div>
 
-  <!-- Mobile-only Top Video -->
-  <div class="absolute top-0 inset-x-0 w-full h-1/2 overflow-hidden opacity-60 md:hidden">
+  <!-- Gradiente central muy sutil para ocultar overlap -->
+  <div class="absolute inset-0 hidden md:block pointer-events-none z-[5]" 
+       style="background: linear-gradient(to right, transparent 0%, transparent 45%, rgba(15, 34, 45, 0.7) 49%, rgba(15, 34, 45, 0.7) 51%, transparent 55%, transparent 100%);"></div>
+
+  <!-- Mobile-only Top Video - brillante -->
+  <div class="absolute top-0 inset-x-0 w-full h-[55%] overflow-hidden md:hidden">
     <video
       autoplay
       muted
       loop
       playsinline
-      class="w-full h-full object-cover rotate-180 origin-center"
-      style="filter: sepia(1) saturate(500%) hue-rotate(340deg) brightness(0.9);"
+      preload="auto"
+      class="w-full h-full object-cover rotate-180 origin-center scale-110"
+      style="filter: hue-rotate(200deg) saturate(180%) brightness(1.3) contrast(1.15);"
     >
       <source src={videoSrc} type="video/mp4" />
     </video>
+    <div class="absolute inset-0" style="background: linear-gradient(180deg, rgba(235, 170, 0, 0.3) 0%, transparent 100%); mix-blend-mode: overlay; pointer-events: none;"></div>
   </div>
 
-  <!-- Mobile-only Bottom Video -->
-  <div class="absolute bottom-0 inset-x-0 w-full h-1/2 overflow-hidden opacity-60 md:hidden">
+  <!-- Mobile-only Bottom Video - brillante -->
+  <div class="absolute bottom-0 inset-x-0 w-full h-[55%] overflow-hidden md:hidden">
     <video
       autoplay
       muted
       loop
       playsinline
-      class="w-full h-full object-cover"
-      style="filter: sepia(1) saturate(500%) hue-rotate(340deg) brightness(0.9);"
+      preload="auto"
+      class="w-full h-full object-cover scale-110"
+      style="filter: hue-rotate(200deg) saturate(180%) brightness(1.3) contrast(1.15);"
     >
       <source src={videoSrc} type="video/mp4" />
     </video>
+    <div class="absolute inset-0" style="background: linear-gradient(0deg, rgba(235, 170, 0, 0.3) 0%, transparent 100%); mix-blend-mode: overlay; pointer-events: none;"></div>
   </div>
 
-  <!-- Overlay for better text readability -->
-  <div class="absolute top-0 left-0 w-full h-full bg-gradient-radial from-black/30 via-black/50 to-black/70 z-10"></div>
+  <!-- Overlay mínimo solo en bordes extremos -->
+  <div class="absolute inset-0 z-10 pointer-events-none" 
+       style="background: radial-gradient(ellipse at center, transparent 0%, transparent 70%, rgba(15, 34, 45, 0.3) 100%);"></div>
+
+  <!-- Vignette muy ligero -->
+  <div class="absolute inset-0 z-[11] pointer-events-none" 
+       style="box-shadow: inset 0 0 100px 25px rgba(15, 34, 45, 0.25);"></div>
 
   <!-- Content -->
   <div class="relative z-20 text-center text-white max-w-7xl px-8 md:px-4">
-    <h1 class="text-5xl md:text-6xl lg:text-8xl font-bold mb-6 leading-tight drop-shadow-[2px_2px_20px_rgba(0,0,0,0.5)]">
+    <h1 class="text-5xl md:text-6xl lg:text-8xl font-bold mb-6 leading-tight drop-shadow-[3px_3px_25px_rgba(0,0,0,0.7)]" 
+        style="color: var(--color-text);">
       {title}
     </h1>
-    <p class="text-lg md:text-xl lg:text-2xl mb-8 opacity-90 max-w-3xl mx-auto drop-shadow-[1px_1px_10px_rgba(0,0,0,0.5)]">
+    <p class="text-lg md:text-xl lg:text-2xl mb-8 opacity-95 max-w-3xl mx-auto drop-shadow-[2px_2px_15px_rgba(0,0,0,0.6)]"
+       style="color: var(--color-text);">
       {subtitle}
     </p>
     <div class="flex gap-4 justify-center flex-wrap">
-      <button class="px-8 py-4 text-base font-semibold border-none rounded-lg cursor-pointer transition-all duration-300 uppercase tracking-wider bg-gradient-to-br from-indigo-500 to-purple-600 text-white hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(102,126,234,0.4)]">
+      <button class="px-8 py-4 text-base font-semibold border-none rounded-lg cursor-pointer transition-all duration-300 uppercase tracking-wider text-[var(--color-bg)] hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(235,170,0,0.5)] hover:scale-105"
+              style="background: var(--color-primary);">
         Get Started
       </button>
-      <button class="px-8 py-4 text-base font-semibold border-2 border-white rounded-lg cursor-pointer transition-all duration-300 uppercase tracking-wider bg-transparent text-white hover:bg-white hover:text-black hover:-translate-y-0.5">
+      <button class="px-8 py-4 text-base font-semibold border-2 rounded-lg cursor-pointer transition-all duration-300 uppercase tracking-wider bg-transparent hover:-translate-y-0.5 hover:scale-105"
+              style="border-color: var(--color-accent); color: var(--color-text);"
+              onmouseover="this.style.background='var(--color-accent)'; this.style.color='var(--color-bg)'"
+              onmouseout="this.style.background='transparent'; this.style.color='var(--color-text)'">
         Learn More
       </button>
     </div>
   </div>
 </section>
-<!-- 
+
 <style>
-  /* Custom gradient for radial effect (Tailwind doesn't have radial gradient by default) */
-  .bg-gradient-radial {
-    background: radial-gradient(
-      circle at center,
-      rgba(0, 0, 0, 0.3) 0%,
-      rgba(0, 0, 0, 0.5) 50%,
-      rgba(0, 0, 0, 0.7) 100%
-    );
+  /* Asegurar calidad del video */
+  video {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    will-change: transform;
   }
-</style> -->
+</style>

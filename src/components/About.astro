@@ -1,5 +1,6 @@
 ---
 import { useTranslations } from "../i18n/utils";
+import SuccessCard from "./SuccessCard.astro";
 
 const { currentLang = "en" } = Astro.props;
 const t = useTranslations(currentLang);
@@ -7,55 +8,44 @@ const t = useTranslations(currentLang);
 
 <section
   id="about"
-  class="w-full py-12 px-4 bg-[var(--color-warm-sand)] text-center shadow-sm"
+  class="w-full py-12 px-4 text-center shadow-sm"
 >
   <div class="max-w-6xl mx-auto">
     <h2 class="text-3xl font-semibold mb-8 text-[var(--color-terracotta)]">
       {t.about.title}
     </h2>
-    <div class="flex flex-col md:flex-row gap-8 items-center">
-      <img
-        data-duration="1000"
-        data-animate="fade-left"
-        loading="lazy"
-        decoding="async"
-        src="/aboutPic.webp"
-        alt="Thai Massage Lanzarote - Traditional Thai massage techniques"
-        width="600"
-        height="400"
-        class="opacity-0 -translate-x-10 rounded-lg hidden md:block w-full md:w-1/2 mr-7"
-      />
-
+    <!-- CHANGED: Stack content vertically -->
+    <div class="flex flex-col gap-8">
       <div
         data-duration="1000"
         data-animate="fade-up"
-        class="opacity-0 translate-y-10 w-full md:w-1/2 text-left"
+        class="opacity-0 translate-y-10 w-full text-center"
       >
-        <h3 class="text-xl font-bold mb-4 text-[var(--color-atention)]">
+        <h3 class="text-xl font-bold mb-4 text-[var(--color-accent)]">
           {t.about.subtitle}
         </h3>
 
         <p class="mb-4 leading-relaxed">
           {t.about.intro}
         </p>
+      </div>
 
-        <p class="mb-4 leading-relaxed">
-          {t.about.mission}
-        </p>
-
-        <p class="mb-4 leading-relaxed">{t.about.services}</p>
-
-        <ul class="list-disc pl-6 mb-4">
-          {t.about.servicesList.map((service) => <li>{service}</li>)}
-        </ul>
-
-        <p class="leading-relaxed">
-          {t.about.benefits}
-        </p>
-
-        <p class="mt-4 italic">
-          {t.about.closing}
-        </p>
+      <!-- INSERTED: Cards row under subtitle, side-by-side on md+ -->
+      <div class="flex flex-col md:flex-row gap-8 w-full">
+        <SuccessCard
+          title="+300% Increase in Leads"
+          description="Automated the entire sales funnel with AI agents."
+        />
+        <SuccessCard
+          title="+300% Increase in Leads"
+          description="Automated the entire sales funnel with AI agents."
+        />
+        
+        <SuccessCard
+          title="-50% Cost Reduction"
+          description="Cut operational costs in half using smart workflows."
+          accent="#5FB3A2"
+        />
       </div>
     </div>
   </div>

@@ -4,15 +4,20 @@ export default {
   theme: {
     extend: {
       colors: {
-        'dark-blue': '#050e1b',
-        'medium-blue': '#0e356a',
-        'bright-blue': '#1057af',
-        'cyan': '#3e98da',
-        'accent-red': '#9f2239',
+        bg: "#0F222D",
+        card: "#2C3E47",
+        primary: "#EBAA00",
+        text: "#EBE7D9",
+        accent: "#5FB3A2",
+        error: "#D96C6C",
       },
       fontFamily: {
         'display': ['"Playfair Display"', 'serif'],
         'sans': ['"Host Grotesk"', 'system-ui', 'sans-serif'],
+      },
+      borderRadius: {
+        xl: "1rem",
+        "2xl": "1.25rem",
       },
     },
   },
