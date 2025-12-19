@@ -1,0 +1,145 @@
+---
+import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
+import thumb1 from "../assets/githubapi.png";
+import thumb2 from "../assets/githubapi.png";
+import thumb3 from "../assets/githubapi.png";
+import thumb4 from "../assets/githubapi.png";
+
+const cards = [
+  {
+    title: "Instagram",
+    icon: "instagram",
+    href: "https://google.com",
+  },
+  {
+    title: "LinkedIn",
+    icon: "whatsapp",
+    href: "https://google.com",
+  },
+  {
+    title: "Facebook",
+    icon: "facebook3",
+    href: "https://google.com",
+  },
+  {
+    title: "Email",
+    icon: "gmail2",
+    href: "https://google.com",
+  },
+  {
+    title: "Instagram",
+    icon: "instagram",
+    href: "https://google.com",
+  },
+  {
+    title: "LinkedIn",
+    icon: "whatsapp",
+    href: "https://google.com",
+  },
+  {
+    title: "Facebook",
+    icon: "facebook3",
+    href: "https://google.com",
+  },
+  {
+    title: "Email",
+    icon: "gmail2",
+    href: "https://google.com",
+  },
+  {
+    title: "Instagram",
+    icon: "instagram",
+    href: "https://google.com",
+  },
+  {
+    title: "LinkedIn",
+    icon: "whatsapp",
+    href: "https://google.com",
+  },
+  {
+    title: "Facebook",
+    icon: "facebook3",
+    href: "https://google.com",
+  },
+  {
+    title: "Email",
+    icon: "gmail2",
+    href: "https://google.com",
+  },
+  {
+    title: "Instagram",
+    icon: "instagram",
+    href: "https://google.com",
+  },
+  {
+    title: "LinkedIn",
+    icon: "whatsapp",
+    href: "https://google.com",
+  },
+  {
+    title: "Facebook",
+    icon: "facebook3",
+    href: "https://google.com",
+  },
+  {
+    title: "Email",
+    icon: "gmail2",
+    href: "https://google.com",
+  },
+];
+---
+<div class="flex h-full items-center justify-center py-8">
+  <div class="relative w-full overflow-hidden">
+    <!-- Vignette effects -->
+    <div class="dark:hidden">
+      <div class="pointer-events-none absolute -top-1 z-10 h-20 w-full bg-gradient-to-b from-cyan-700 to-transparent" />
+      <div class="pointer-events-none absolute -bottom-1 z-10 h-20 w-full bg-gradient-to-t from-cyan-700 to-transparent" />
+      <div class="pointer-events-none absolute -left-1 z-10 h-full w-20 bg-gradient-to-r from-cyan-700 to-transparent" />
+      <div class="pointer-events-none absolute -right-1 z-10 h-full w-20 bg-gradient-to-l from-cyan-700 to-transparent" />
+    </div>
+    <div class="hidden dark:block">
+      <div class="pointer-events-none absolute -top-1 z-10 h-20 w-full bg-gradient-to-b from-cyan-700 to-transparent" />
+      <div class="pointer-events-none absolute -bottom-1 z-10 h-20 w-full bg-gradient-to-t from-cyan-700 to-transparent" />
+      <div class="pointer-events-none absolute -left-1 z-10 h-full w-20 bg-gradient-to-r from-cyan-700 to-transparent" />
+      <div class="pointer-events-none absolute -right-1 z-10 h-full w-20 bg-gradient-to-l from-cyan-700 to-transparent" />
+    </div>
+
+    <!-- Put cards inside the grid container -->
+    <div
+      class="mx-auto grid h-[250px] w-[300px] animate-skew-scroll grid-cols-[repeat(2,max-content)] place-items-center gap-4 sm:w-[600px]">
+      {cards.map((card) => (
+        <a
+          href={card.href}
+          class="flex cursor-pointer items-center dark:bg-gray-800 space-x-2 rounded-md border border-gray-100 p-3 w-[140px] sm:w-[160px] shadow-md transition-all hover:-translate-y-1 hover:translate-x-1 hover:scale-[1.025] hover:shadow-xl justify-self-center">
+          <!-- changed: added flex, reduced padding, fixed smaller width, centered card -->
+          <div class="flex-shrink-0">
+            <Icon name={card.icon} class="h-6 w-6 text-gray-600 dark:text-white" />
+            <!-- changed: smaller icon size -->
+          </div>
+          <div class="flex flex-col">
+            <h3 class="text-sm text-gray-600 font-semibold dark:text-white underline">{card.title}</h3>
+            <!-- changed: smaller text -->
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+@keyframes skew-scroll {
+  0% {
+    transform: rotateX(20deg) rotateZ(-20deg) skewX(20deg) translateZ(0) translateY(0);
+  }
+  100% {
+    transform: rotateX(20deg) rotateZ(-20deg) skewX(20deg) translateZ(0) translateY(-100%);
+  }
+}
+.animate-skew-scroll {
+  animation: skew-scroll 20s linear infinite;
+}
+@media (hover: hover) and (pointer: fine) {
+  /* Hover styles applied only on devices with hover support */
+}
+</style>

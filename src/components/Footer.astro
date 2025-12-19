@@ -1,15 +1,22 @@
 ---
 import { Icon } from "astro-icon/components";
 import { useTranslations } from "../i18n/utils";
+import SocialScroll from "./SocialScroll.astro";
 
 const { currentLang } = Astro.props;
 const t = useTranslations(currentLang);
 ---
 
-<footer class="w-full">
-  <div class="bg-[var(--color-natural-green)]">
+<footer class="w-full bg-cyan-700 min-h-[200px] flex items-center">
+  <div class="w-full flex justify-start">
+    <div class="w-1/2">
+      <SocialScroll />
+    </div>
+  </div>
+</footer>
+
+  <!-- <div class="bg-cyan-700">
     <ul class="h-18 flex items-center justify-center space-x-8 py-0">
-      <!-- Update the social media links in your Footer component -->
       <li class="nav-item">
         <a
           href="https://www.instagram.com/malaithaimassagelanzarote?igsh=MTRoY3h1cGRiOWFpaQ=="
@@ -60,5 +67,5 @@ const t = useTranslations(currentLang);
     <p class="footer sm:footer-horizontal footer-center text-base-content">
       {t.footer.copyright.replace("{year}", new Date().getFullYear())}
     </p>
-  </div>
-</footer>
+  </div> -->
+<!-- </footer> -->
