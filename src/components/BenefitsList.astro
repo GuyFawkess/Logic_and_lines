@@ -1,0 +1,46 @@
+---
+import { getCollection } from "astro:content";
+import { useTranslations } from "../i18n/utils";
+import SuccessCard from "./SuccessCard.astro";
+
+const { currentLang = 'en' } = Astro.props;
+const t = useTranslations(currentLang);
+
+const allBenefits = await getCollection("benefits");
+const benefits = allBenefits.sort(
+  (a: { data: { sortOrder?: number } }, b: { data: { sortOrder?: number } }) =>
+    (a.data.sortOrder || 999) - (b.data.sortOrder || 999)
+);
+---
+
+<section id="services" class="w-full py-10 px-4">
+  <div class="max-w-6xl mx-auto">
+    <h2
+      transition:name="services"
+      class="text-3xl font-semibold mb-8 text-center text-[var(--color-terracotta)]"
+    >
+      BENEFITS
+    </h2>
+
+    <div class="flex flex-wrap justify-center gap-8">
+     {
+  benefits.map((benefit: { data: any; slug: string }, index: number) => {
+    const { data, slug } = benefit;
+    const title = currentLang === 'es' && data.title_es ? data.title_es : data.title;
+    const description = currentLang === 'es' && data.description_es ? data.description_es : data.description;
+    const { img } = data;
+    
+    console.log('Passing to card:', { title, description, img }); // DEBUG
+      
+    return (
+      <SuccessCard
+        title={title}
+        text={description}
+        img={img}
+      />
+    );
+  })
+}
+    </div>
+  </div>
+</section>

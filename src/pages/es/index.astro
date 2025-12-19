@@ -1,17 +1,17 @@
 ---
 import Hero from '../../components/Hero.astro';
-import About from '../../components/About.astro';
 import Layout from '../../layouts/Layout.astro';
 import ServicesList from '../../components/ServicesList.astro';
 import Location from '../../components/Location.astro';
 import BookButton from '../../components/BookButton.astro';
+import BenefitsList from '../../components/BenefitsList.astro';
 
 const currentLang = 'es';
 ---
 
 <Layout title='principal'>
 	<Hero currentLang={currentLang} />
-	<About currentLang={currentLang} />
+	<BenefitsList currentLang={currentLang} />
 	<ServicesList currentLang={currentLang} />
 	<BookButton currentLang={currentLang} />
 	<Location currentLang={currentLang} />

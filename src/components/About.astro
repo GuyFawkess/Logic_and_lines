@@ -4,6 +4,7 @@ import SuccessCard from "./SuccessCard.astro";
 
 const { currentLang = "en" } = Astro.props;
 const t = useTranslations(currentLang);
+
 ---
 
 <section
@@ -33,7 +34,7 @@ const t = useTranslations(currentLang);
       <!-- INSERTED: Cards row under subtitle, side-by-side on md+ -->
       <div class="flex flex-col md:flex-row gap-8 w-full">
         <SuccessCard
-          title="+300% Increase in Leads"
+          title=""
           description="Automated the entire sales funnel with AI agents."
         />
         <SuccessCard

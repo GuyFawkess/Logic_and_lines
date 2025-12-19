@@ -1,21 +1,24 @@
 ---
+import { useTranslations } from "../i18n/utils";
 
+// CHANGED: Remove currentLang from destructuring since we don't need translations here
+const { img = 'https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp', title = 'Card Title', text = '' } = Astro.props;
 ---
 
-<div class="custom-card">
+<div class="custom-card"> 
   <div class="card-inner">
     <div class="image-container">
       <img
-        src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-        alt="Shoes"
+        src={img}
+        alt={title}
         class="card-image" 
       />
     </div>
     
     <div class="card-content">
-      <h2 class="card-title">Card Title</h2>
+      <h2 class="card-title">{title}</h2>
       <p class="card-text">
-        A card component has a figure, a body part, and inside body there are title and actions parts
+        {text}
       </p>
     </div>
   </div>
@@ -23,10 +26,10 @@
 
 <style>
 .custom-card {
-  width: 24rem; /* w-96 */
-  height: 450px; /* CHANGED: altura fija */
+  width: 20rem; 
+  height: auto;/* w-96 */
+  min-height: 450px; /* CHANGED: altura fija */
   border-radius: 0.75rem;
-  cursor: pointer;
   position: relative;
   overflow: hidden;
   background: var(--color-card, #2a3f4f);
@@ -70,7 +73,7 @@
 
 .image-container {
   height: 50%; /* CHANGED: exactamente la mitad */
-  padding: 1.5rem; /* padding uniforme */
+  padding: 1rem; /* padding uniforme */
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -92,7 +95,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end; /* CHANGED: contenido pegado al bottom */
   flex-shrink: 0;
 }
 
