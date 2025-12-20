@@ -64,6 +64,12 @@ const { img = 'https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5
 }
 
 .card-inner {
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.1) 1px, 
+    transparent 1px
+  );
+  background-position: 50% 50%;
+  background-size: 1.1rem 1.1rem;
   position: relative;
   z-index: 1;
   height: 100%;
@@ -89,6 +95,7 @@ const { img = 'https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5
 }
 
 .card-content {
+  
   height: 50%; /* CHANGED: la otra mitad */
   padding: 2rem;
   text-align: center;

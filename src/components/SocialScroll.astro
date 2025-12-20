@@ -105,6 +105,7 @@ const cards = [
       class="mx-auto grid h-[250px] w-[300px] animate-skew-scroll grid-cols-[repeat(2,max-content)] place-items-center gap-4 sm:w-[600px]">
       {cards.map((card) => (
         <a
+          target="_blank"
           href={card.href}
           class="flex cursor-pointer items-center dark:bg-(--color-primary) space-x-2 rounded-md border border-gray-100 p-3 w-[140px] sm:w-[160px] shadow-md transition-all hover:-translate-y-1 hover:translate-x-1 hover:scale-[1.025] hover:shadow-xl justify-self-center">
           <!-- changed: added flex, reduced padding, fixed smaller width, centered card -->

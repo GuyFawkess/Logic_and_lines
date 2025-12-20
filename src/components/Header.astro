@@ -8,9 +8,9 @@ const t = useTranslations(currentLang);
 // Create base URL for the current language
 const baseUrl = currentLang === 'en' ? '/' : '/es/';
 ---
-<header class="w-full max-h-22 top-0 left-0 right-0 z-50 relative"> <!-- changed: make header fixed and above hero -->
+<header class="w-full max-h-22 top-0 left-0 right-0 z-50 "> <!-- changed: make header fixed and above hero -->
     <!-- Desktop Navigation -->
-    <nav class="mx-auto w-full hidden md:block bg-transparent backdrop-blur-md absolute"> <!-- changed: transparent + blur to avoid color seam -->
+    <nav class="mx-auto w-full hidden md:block bg-transparent backdrop-blur-md"> <!-- changed: transparent + blur to avoid color seam -->
         <div class="container mx-auto px-4">
             <ul class="flex items-center justify-center space-x-8 py-0">
                 <!-- Updated hover text color to use --color-bg for contrast on primary background -->
