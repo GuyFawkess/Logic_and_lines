@@ -89,20 +89,15 @@ const cards = [
   },
 ];
 ---
-<div class="flex h-full items-center justify-center py-8">
+<div class="flex h-full items-center justify-center">
   <div class="relative w-full overflow-hidden">
     <!-- Vignette effects -->
-    <div class="dark:hidden">
-      <div class="pointer-events-none absolute -top-1 z-10 h-20 w-full bg-gradient-to-b from-cyan-700 to-transparent" />
-      <div class="pointer-events-none absolute -bottom-1 z-10 h-20 w-full bg-gradient-to-t from-cyan-700 to-transparent" />
-      <div class="pointer-events-none absolute -left-1 z-10 h-full w-20 bg-gradient-to-r from-cyan-700 to-transparent" />
-      <div class="pointer-events-none absolute -right-1 z-10 h-full w-20 bg-gradient-to-l from-cyan-700 to-transparent" />
-    </div>
+
     <div class="hidden dark:block">
-      <div class="pointer-events-none absolute -top-1 z-10 h-20 w-full bg-gradient-to-b from-cyan-700 to-transparent" />
-      <div class="pointer-events-none absolute -bottom-1 z-10 h-20 w-full bg-gradient-to-t from-cyan-700 to-transparent" />
-      <div class="pointer-events-none absolute -left-1 z-10 h-full w-20 bg-gradient-to-r from-cyan-700 to-transparent" />
-      <div class="pointer-events-none absolute -right-1 z-10 h-full w-20 bg-gradient-to-l from-cyan-700 to-transparent" />
+      <div class="pointer-events-none absolute -top-1 z-10 h-14 w-full bg-gradient-to-b from-(--color-bg) to-transparent" />
+      <div class="pointer-events-none absolute -bottom-1 z-10 h-20 w-full bg-gradient-to-t from-(--color-card) to-transparent" />
+      <div class="pointer-events-none absolute -left-1 z-10 h-full w-20 bg-gradient-to-r from-(--color-bg) to-transparent" />
+      <div class="pointer-events-none absolute -right-1 z-10 h-full w-20 bg-gradient-to-l from-(--color-card) to-transparent" />
     </div>
 
     <!-- Put cards inside the grid container -->
@@ -111,10 +106,10 @@ const cards = [
       {cards.map((card) => (
         <a
           href={card.href}
-          class="flex cursor-pointer items-center dark:bg-gray-800 space-x-2 rounded-md border border-gray-100 p-3 w-[140px] sm:w-[160px] shadow-md transition-all hover:-translate-y-1 hover:translate-x-1 hover:scale-[1.025] hover:shadow-xl justify-self-center">
+          class="flex cursor-pointer items-center dark:bg-(--color-primary) space-x-2 rounded-md border border-gray-100 p-3 w-[140px] sm:w-[160px] shadow-md transition-all hover:-translate-y-1 hover:translate-x-1 hover:scale-[1.025] hover:shadow-xl justify-self-center">
           <!-- changed: added flex, reduced padding, fixed smaller width, centered card -->
           <div class="flex-shrink-0">
-            <Icon name={card.icon} class="h-6 w-6 text-gray-600 dark:text-white" />
+            <Icon name={card.icon} class="h-6 w-6 text-gray-600 dark:text-(--color-card)" />
             <!-- changed: smaller icon size -->
           </div>
           <div class="flex flex-col">

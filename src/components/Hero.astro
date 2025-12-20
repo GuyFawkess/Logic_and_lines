@@ -4,131 +4,296 @@ import { useTranslations } from "../i18n/utils";
 
 const { currentLang = 'en' } = Astro.props;
 const t = useTranslations(currentLang);
+
 interface Props {
-  videoSrc?: string;
-  title?: string;
-  subtitle?: string;
+  leftTitle?: string;
+  leftFancyWord?: string;
+  rightTitle?: string;
+  rightFancyWord?: string;
   currentLang?: string;
 }
 
 const { 
-  videoSrc = '/public/uCLsXBlZ0CNUQzP58kcPxMlUU.mp4',
-  title = 'Your Main Heading',
-  subtitle = 'Your subtitle or description'
+  leftTitle = 'Automatiza tu',
+  leftFancyWord = 'éxito',
+  rightTitle = 'Multiplica tu',
+  rightFancyWord = 'impacto'
 } = Astro.props;
 ---
 
-<section class="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-[var(--color-bg)] pt-24 md:pt-28">
-  <!-- Video Background Layer 1 (Left) - brillante y nítido -->
-  <div class="absolute inset-y-0 left-0 w-[58%] overflow-hidden hidden md:block" style="height: 110vh; top: -5vh;">
-    <video
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="auto"
-      class="w-full h-full object-cover rotate-90 origin-center scale-115"
-      style="filter: hue-rotate(200deg) saturate(180%) brightness(1.3) contrast(1.15); mix-blend-mode: lighten;"
-    >
-      <source src={videoSrc} type="video/mp4" />
-    </video>
-    <!-- Overlay amarillo para forzar el color -->
-    <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(235, 170, 0, 0.35) 0%, rgba(235, 170, 0, 0.15) 40%, transparent 100%); mix-blend-mode: overlay; pointer-events: none;"></div>
-  </div>
-
-  <!-- Video Background Layer 2 (Right) - brillante y nítido -->
-  <div class="absolute inset-y-0 right-0 w-[58%] overflow-hidden hidden md:block" style="height: 110vh; top: -5vh;">
-    <video
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="auto"
-      class="w-full h-full object-cover -rotate-90 origin-center scale-115"
-      style="filter: hue-rotate(200deg) saturate(180%) brightness(1.3) contrast(1.15); mix-blend-mode: lighten;"
-    >
-      <source src={videoSrc} type="video/mp4" />
-    </video>
-    <!-- Overlay amarillo para forzar el color -->
-    <div class="absolute inset-0" style="background: linear-gradient(225deg, rgba(235, 170, 0, 0.35) 0%, rgba(235, 170, 0, 0.15) 50%, transparent 100%); mix-blend-mode: overlay; pointer-events: none;"></div>
-  </div>
-
-  <!-- Gradiente central muy sutil para ocultar overlap -->
-  <div class="absolute inset-0 hidden md:block pointer-events-none z-[5]" 
-       style="background: linear-gradient(to right, transparent 0%, transparent 45%, rgba(15, 34, 45, 0.7) 49%, rgba(15, 34, 45, 0.7) 51%, transparent 55%, transparent 100%);"></div>
-
-  <!-- Mobile-only Top Video - brillante -->
-  <div class="absolute top-0 inset-x-0 w-full h-[55%] overflow-hidden md:hidden">
-    <video
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="auto"
-      class="w-full h-full object-cover rotate-180 origin-center scale-110"
-      style="filter: hue-rotate(200deg) saturate(180%) brightness(1.3) contrast(1.15);"
-    >
-      <source src={videoSrc} type="video/mp4" />
-    </video>
-    <div class="absolute inset-0" style="background: linear-gradient(180deg, rgba(235, 170, 0, 0.3) 0%, transparent 100%); mix-blend-mode: overlay; pointer-events: none;"></div>
-  </div>
-
-  <!-- Mobile-only Bottom Video - brillante -->
-  <div class="absolute bottom-0 inset-x-0 w-full h-[55%] overflow-hidden md:hidden">
-    <video
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="auto"
-      class="w-full h-full object-cover scale-110"
-      style="filter: hue-rotate(200deg) saturate(180%) brightness(1.3) contrast(1.15);"
-    >
-      <source src={videoSrc} type="video/mp4" />
-    </video>
-    <div class="absolute inset-0" style="background: linear-gradient(0deg, rgba(235, 170, 0, 0.3) 0%, transparent 100%); mix-blend-mode: overlay; pointer-events: none;"></div>
-  </div>
-
-  <!-- Overlay mínimo solo en bordes extremos -->
-  <div class="absolute inset-0 z-10 pointer-events-none" 
-       style="background: radial-gradient(ellipse at center, transparent 0%, transparent 70%, rgba(15, 34, 45, 0.3) 100%);"></div>
-
-  <!-- Vignette muy ligero -->
-  <div class="absolute inset-0 z-[11] pointer-events-none" 
-       style="box-shadow: inset 0 0 100px 25px rgba(15, 34, 45, 0.25);"></div>
-
-  <!-- Content -->
-  <div class="relative z-20 text-center text-white max-w-7xl px-8 md:px-4">
-    <h1 class="text-5xl md:text-6xl lg:text-8xl font-bold mb-6 leading-tight drop-shadow-[3px_3px_25px_rgba(0,0,0,0.7)]" 
-        style="color: var(--color-text);">
-      {title}
-    </h1>
-    <p class="text-lg md:text-xl lg:text-2xl mb-8 opacity-95 max-w-3xl mx-auto drop-shadow-[2px_2px_15px_rgba(0,0,0,0.6)]"
-       style="color: var(--color-text);">
-      {subtitle}
-    </p>
-    <div class="flex gap-4 justify-center flex-wrap">
-      <button class="px-8 py-4 text-base font-semibold border-none rounded-lg cursor-pointer transition-all duration-300 uppercase tracking-wider text-[var(--color-bg)] hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(235,170,0,0.5)] hover:scale-105"
-              style="background: var(--color-primary);">
-        Get Started
-      </button>
-      <button class="px-8 py-4 text-base font-semibold border-2 rounded-lg cursor-pointer transition-all duration-300 uppercase tracking-wider bg-transparent hover:-translate-y-0.5 hover:scale-105"
-              style="border-color: var(--color-accent); color: var(--color-text);"
-              onmouseover="this.style.background='var(--color-accent)'; this.style.color='var(--color-bg)'"
-              onmouseout="this.style.background='transparent'; this.style.color='var(--color-text)'">
-        Learn More
-      </button>
+<section class="relative w-full min-h-screen overflow-hidden bg-[var(--color-bg)]">
+  <!-- Left Side -->
+  <div id="left-side" class="side-panel left-panel">
+    <div class="content-wrapper">
+      <h2 class="hero-title">
+        {leftTitle}
+        <span class="fancy-text left-fancy">{leftFancyWord}</span>
+      </h2>
     </div>
   </div>
+
+  <!-- Right Side -->
+  <div id="right-side" class="side-panel right-panel">
+    <div class="content-wrapper">
+      <h2 class="hero-title">
+        {rightTitle}
+        <span class="fancy-text right-fancy">{rightFancyWord}</span>
+      </h2>
+    </div>
+  </div>
+
+  <!-- Mobile Drag Handle -->
+  <div id="drag-handle" class="drag-handle">
+    <div class="drag-line"></div>
+    <div class="drag-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </div>
+    <div class="drag-line"></div>
+  </div>
+
+  <!-- Bottom Fade Gradient -->
+  <div class="absolute bottom-0 left-0 right-0 h-64 pointer-events-none z-20" 
+       style="background: linear-gradient(to bottom, transparent 0%, transparent 20%, rgba(var(--color-bg-rgb, 3, 7, 18), 0.1) 40%, rgba(var(--color-bg-rgb, 3, 7, 18), 0.3) 60%, rgba(var(--color-bg-rgb, 3, 7, 18), 0.6) 80%, var(--color-bg, rgb(3, 7, 18)) 100%);"></div>
 </section>
 
 <style>
-  /* Asegurar calidad del video */
-  video {
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
-    backface-visibility: hidden;
-    transform: translateZ(0);
-    will-change: transform;
+  /* Load required fonts (Montserrat 800 and Permanent Marker) */
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Permanent+Marker&display=swap');
+
+  .side-panel {
+    display: grid;
+    height: 100vh;
+    overflow: hidden;
+    place-items: center;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
+
+  .content-wrapper {
+    margin: 0 10vw;
+    width: 80vw;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: clamp(1.5rem, 7vw, 4rem);
+    font-weight: 800;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .fancy-text {
+    font-family: "Permanent Marker", cursive, sans-serif;
+    font-size: 1.8em;
+    line-height: 0.6em;
+    display: inline-block;
+    margin-top: 20px;
+  }
+
+  .left-panel {
+    background-color: var(--color-bg, rgb(3, 7, 18));
+    width: 60%;
+    z-index: 2;
+  }
+
+  @media (min-width: 769px) {
+    .left-panel {
+      transition: width 0.1s ease-out;
+    }
+  }
+
+  .left-panel .hero-title {
+    color: var(--color-text, white);
+  }
+
+  .left-fancy {
+    color: var(--color-primary, rgb(163, 230, 53));
+  }
+
+  .right-panel {
+    background-color: var(--color-primary, rgb(163, 230, 53));
+    width: 100%;
+    z-index: 1;
+  }
+
+  .right-panel .hero-title {
+    color: var(--color-bg, rgb(3, 7, 18));
+  }
+
+  .right-fancy {
+    color: var(--color-text, white);
+  }
+
+  /* Drag Handle */
+  .drag-handle {
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 8px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 20px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+    opacity: 0.3s ease;
+    backdrop-filter: blur(4px);
+  }
+
+  @media (min-width: 769px) {
+    .drag-handle {
+      transition: left 0.1s ease-out, opacity 0.3s ease;
+    }
+  }
+
+  .drag-handle:active {
+    cursor: grabbing;
+    background: rgba(255, 255, 255, 0.95);
+  }
+
+  .drag-line {
+    width: 20px;
+    height: 2px;
+    background: var(--color-primary, rgb(163, 230, 53));
+    border-radius: 2px;
+    opacity: 0.7;
+  }
+
+  .drag-icon {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    color: var(--color-bg, rgb(3, 7, 18));
+    animation: wiggle 2s ease-in-out infinite;
+    opacity: 0.8;
+  }
+
+  .drag-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  @keyframes wiggle {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-3px);
+    }
+    75% {
+      transform: translateX(3px);
+    }
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: clamp(2rem, 10vw, 4rem);
+    }
+
+    .content-wrapper {
+      margin: 0 8vw;
+      width: 90vw;
+      text-align: center;
+    }
+
+    .drag-handle {
+      display: flex;
+    }
   }
 </style>
+
+<script>
+  const leftSide = document.getElementById("left-side");
+  const dragHandle = document.getElementById("drag-handle");
+  let isDragging = false;
+  
+  const handleMove = (clientX: number) => {
+    const percentage = (clientX / window.innerWidth) * 100;
+    const clampedPercentage = Math.max(0, Math.min(100, percentage));
+    
+    if (leftSide) {
+      leftSide.style.width = `${clampedPercentage}%`;
+    }
+    
+    if (dragHandle && window.innerWidth <= 768) {
+      dragHandle.style.left = `${clampedPercentage}%`;
+    }
+  };
+
+  // Mouse events for desktop
+  document.addEventListener('mousemove', (e) => {
+    if (window.innerWidth > 768) {
+      handleMove(e.clientX);
+    }
+  });
+
+  // Touch events for mobile
+  document.addEventListener('touchmove', (e) => {
+    if (isDragging && e.touches.length > 0) {
+      e.preventDefault();
+      handleMove(e.touches[0].clientX);
+    }
+  }, { passive: false });
+
+  // Drag handle events
+  if (dragHandle) {
+    dragHandle.addEventListener('touchstart', (e) => {
+      isDragging = true;
+      dragHandle.style.opacity = '1';
+    });
+
+    dragHandle.addEventListener('touchend', () => {
+      isDragging = false;
+    });
+
+    // Also allow mouse dragging on mobile breakpoint
+    dragHandle.addEventListener('mousedown', (e) => {
+      if (window.innerWidth <= 768) {
+        isDragging = true;
+        e.preventDefault();
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging && window.innerWidth <= 768) {
+        handleMove(e.clientX);
+      }
+    });
+  }
+
+  // Fade out drag handle after a few seconds on mobile
+  let fadeTimeout: number;
+  const setupFadeOut = () => {
+    if (dragHandle && window.innerWidth <= 768) {
+      clearTimeout(fadeTimeout);
+      dragHandle.style.opacity = '1';
+      fadeTimeout = setTimeout(() => {
+        if (!isDragging) {
+          dragHandle.style.opacity = '0.4';
+        }
+      }, 3000);
+    }
+  };
+
+  document.addEventListener('touchstart', setupFadeOut);
+  window.addEventListener('load', setupFadeOut);
+</script>
