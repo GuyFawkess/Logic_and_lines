@@ -1,8 +1,8 @@
 ---
-title: "Aromatherapy Massage"
+title: "Flujos de Trabajo para Documentos"
 title_es: "Masaje de Aromaterapia"
-img: "/aroma-massage/IMG_0267.webp"
-description: "Combines the power of essential oils with therapeutic massage techniques."
+img: "/workflows/workflow.png"
+description: "Del caos a la claridad. Optimiza el procesamiento de facturas, la generación de cotizaciones o la creación de contratos con flujos de trabajo impulsados por IA como n8n + GPT."
 description_es: "Combina el poder de los aceites esenciales con técnicas terapéuticas de masaje."
 sortOrder: 3
 images:

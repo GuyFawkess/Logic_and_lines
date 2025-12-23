@@ -1,8 +1,8 @@
 ---
-title: "Traditional Thai Massage"
+title: "Automatización de Leads"
 title_es: "Masaje Tailandés Tradicional"
-img: "/thai-massage/IMG_0178.webp"
-description: "Experience authentic Thai massage techniques that combine acupressure, stretching, and energy work for deep relaxation and renewal."
+img: "/leads/captacion-leads.png"
+description: "Convierte más leads, más rápido. Automatiza la calificación de leads, los seguimientos y la programación de citas con agentes de IA, aumentando la conversión sin esfuerzo."
 description_es: "Experimenta técnicas auténticas de masaje tailandés que combinan acupresión, estiramientos y trabajo energético para una profunda relajación y renovación."
 sortOrder: 1
 images:

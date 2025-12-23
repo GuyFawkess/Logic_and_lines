@@ -1,8 +1,8 @@
 ---
-title: "Thai Oil Massage"
-title_es: "Masaje Tailandés con Aceite"
-img: "/oil-massage/IMG_0182.webp"
-description: "A relaxing massage using premium oils to soothe muscles and nourish your skin."
+title: "Automatización de Base de Conocimientos"
+title_es: "Automatización de Base de Conocimientos"
+img: "/RAG/RAG.png"
+description: "Responde todo, al instante. Implementa agentes RAG inteligentes que extraen respuestas en tiempo real de tus documentos internos, FAQs o SOPs — cero alucinaciones."
 description_es: "Un masaje relajante que utiliza aceites premium para calmar los músculos y nutrir tu piel."
 sortOrder: 2
 images:
