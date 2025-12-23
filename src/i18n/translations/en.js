@@ -50,7 +50,7 @@ export default {
     opening: "Next opening soon!"
   },
   buttons: {
-    book: "Book now!"
+    book: "Agenda una cita"
   },
   footer: {
     copyright: "Copyright © {year} - All right reserved by Malai Thai Massage"

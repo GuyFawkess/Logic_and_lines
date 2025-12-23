@@ -6,8 +6,9 @@ const t = useTranslations(currentLang)
 ---
 
 <a href={currentLang === 'en' ? "/contact" : "/es/contact"} class="w-full flex justify-center items-center">
-<button
-class="text-white my-8 btn btn-xl bg-[var(--color-warm-wood)] border-none hover:scale-110 transition ease-in-out duration-300"
->{t.buttons.book}</button
+    <button
+    class="my-8 btn btn-xl bg-(--color-accent) text-(--color-bg) border-2 border-transparent hover:bg-(--color-card) hover:text-(--color-terracotta) hover:border-(--color-accent) hover:scale-110 transition ease-in-out duration-300"
+    style="box-shadow: 0 4px 12px var(--color-accent);"
+  >{t.buttons.book}</button
 >
 </a>

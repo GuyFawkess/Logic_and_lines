@@ -10,8 +10,10 @@ const services = allServices.sort(
   (a: { data: { sortOrder?: number } }, b: { data: { sortOrder?: number } }) =>
     (a.data.sortOrder || 999) - (b.data.sortOrder || 999)
 );
----
 
+// ADD: Slugs that should show the "¡Muy pronto!" ribbon
+const soonSlugs = new Set(["smarthost", "digital-marketing"]);
+---
 <section id="services" class="w-full py-16 px-4">
   <div class="max-w-6xl mx-auto">
     <h2
@@ -42,9 +44,8 @@ const services = allServices.sort(
               data-animate="zoom-in"
               class="opacity-0 scale-90 card group relative overflow-hidden rounded-2xl w-full h-[450px] max-w-[320px] md:w-[calc(50%-1rem)] md:max-w-[450px] lg:w-[calc(33.333%-1.5rem)] lg:max-w-[20rem] shadow-[0_10px_30px_rgba(0,0,0,0.2)] transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)]"
             >
-              {slug === "smarthost" && (
-                <!-- Hide ribbon on hover -->
-                <!-- Added 'soon-ribbon' and group-hover:hidden to fully remove it on hover; also drop z-index on hover -->
+              {/* UPDATED: Show ribbon for both smarthost and digital marketing */}
+              {soonSlugs.has(slug) && (
                 <div class="soon-ribbon whitespace-nowrap absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-[-8deg] bg-(--color-accent) text-(--color-text) text-2xl font-bold px-10 py-6 rounded-xl shadow-2xl border-4 border-(--color-terracotta) animate-pulse-slow z-30 transition-opacity duration-300 group-hover:hidden group-hover:-z-10 pointer-events-none">
                   ¡Muy pronto!
                 </div>
@@ -66,10 +67,10 @@ const services = allServices.sort(
               <div class="card-overlay absolute inset-0 bg-gradient-to-b from-[rgba(67,77,57,0.3)] via-[rgba(67,77,57,0.7)] to-[rgba(67,77,57,0.95)] opacity-0 group-hover:opacity-100 transition-opacity duration-400 z-10" />
 
               <div class="absolute inset-0 p-8 z-20 flex flex-col justify-center items-center text-center opacity-0 translate-y-5 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-400 ease-out hover:z-40">
-                <h2 class="text-3xl font-bold text-[var(--color-terracotta)] mb-4 text-shadow-md">
+                <h2 class="text-3xl font-bold text-(--color-primary) mb-4 text-shadow-md">
                   {title}
                 </h2>
-                <p class="text-white text-base leading-relaxed mb-6 text-shadow-sm">
+                <p class="text-(--color-text) text-base leading-relaxed mb-6 text-shadow-sm">
                   {description}
                 </p>
                 <div class="mt-auto">
@@ -93,11 +94,11 @@ const services = allServices.sort(
         0%,
         100% {
           opacity: 1;
-          transform: translate(-50%, -50%) scale(1) rotate(-8deg);
+          transform: translate(-50%, -50%) scale(1) rotate(-15deg);
         }
         50% {
           opacity: 0.95;
-          transform: translate(-50%, -50%) scale(1.08) rotate(-8deg);
+          transform: translate(-50%, -50%) scale(1.08) rotate(-15deg);
         }
       }
       @keyframes pulseSlowMobile {
@@ -114,6 +115,7 @@ const services = allServices.sort(
 
       .animate-pulse-slow {
         animation: pulseSlow 4s ease-in-out infinite;
+        transform-origin: center center;
       }
 
       .text-shadow-md {
@@ -155,8 +157,6 @@ const services = allServices.sort(
   z-index: 15;
   opacity: 0.95;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
-
-  /* NEW: diagonal ribbon */
   transform-origin: left center;
   animation: pulseSlowMobile 4s ease-in-out infinite;
 }
