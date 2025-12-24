@@ -13,14 +13,17 @@ const benefits = allBenefits.sort(
 );
 ---
 
-<section id="services" class="w-full py-10 px-4">
+<section id="benefits" class="w-full py-10 px-4">
   <div class="max-w-6xl mx-auto">
     <h2
       transition:name="services"
-      class="text-3xl font-semibold mb-8 text-center text-[var(--color-terracotta)]"
+      class="text-3xl font-semibold mb-8 text-center text-(--color-primary)"
     >
-      BENEFITS
+    Optimiza, Acelera y Automatiza
     </h2>
+    <h4 class="mb-8 text-xl text-center">
+      Reduce los costes operativos y elimina tareas repetitivas con soluciones inteligentes que mejoran la eficiencia y la precisión en cada proceso.
+    </h4>
 
     <div class="flex flex-wrap justify-center gap-8">
      {
@@ -30,13 +33,12 @@ const benefits = allBenefits.sort(
     const description = currentLang === 'es' && data.description_es ? data.description_es : data.description;
     const { img } = data;
     
-    console.log('Passing to card:', { title, description, img }); // DEBUG
       
     return (
       <SuccessCard
         title={title}
         text={description}
-        img={img}
+        img={img} 
       />
     );
   })

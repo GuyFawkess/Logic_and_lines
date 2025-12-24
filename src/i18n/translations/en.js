@@ -1,6 +1,6 @@
 export default {
   nav: {
-    about: "About us",
+    about: "Beneficios",
     services: "Services",
     contact: "Contact",
     location: "Location"
@@ -43,7 +43,7 @@ export default {
     lookForward: "I look forward to welcoming you soon!"
   },
   location: {
-    title: "Where to find us",
+    title: "AQUI IRA UNA OPINION",
     address: "Centro Comercial Puerto Calero, Lanzarote",
     hours: "Opening Hours:",
     schedule: "Monday – Sunday: 10:00 – 22:00",

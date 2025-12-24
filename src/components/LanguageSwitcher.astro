@@ -11,7 +11,7 @@ const alternateURLs = getAlternateURLs(currentPath, currentLang);
   {Object.entries(languages).map(([lang, label]) => (
     <a 
       href={alternateURLs[lang as keyof typeof alternateURLs]}
-      class={`p-1 mx-1 rounded text-[var(--color-text-primary)] ${currentLang === lang ? 'font-bold p-2 bg-[var(--color-terracotta)]' : 'text-white'}`}
+      class={`p-1 mx-1 rounded text-(--color-primary) hover:bg-(--color-primary) hover:text-(--color-bg) ${currentLang === lang ? 'font-bold p-2 bg-(--color-bg)' : 'text-white'} ${currentLang === lang? 'hover:text-(--color-bg)' : 'hover:text-(--color-text)'}`}
       aria-label={`Switch to ${label}`}
     >
       {lang.toUpperCase()}

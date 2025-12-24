@@ -11,14 +11,13 @@ const services = allServices.sort(
     (a.data.sortOrder || 999) - (b.data.sortOrder || 999)
 );
 
-// ADD: Slugs that should show the "¡Muy pronto!" ribbon
 const soonSlugs = new Set(["smarthost", "digital-marketing"]);
 ---
 <section id="services" class="w-full py-16 px-4">
   <div class="max-w-6xl mx-auto">
     <h2
       transition:name="services"
-      class="text-4xl font-bold mb-12 text-center text-[var(--color-terracotta)]"
+      class="text-3xl font-bold mb-12 text-center text-(--color-primary)"
     >
       {t.service.title}
     </h2>
@@ -44,9 +43,8 @@ const soonSlugs = new Set(["smarthost", "digital-marketing"]);
               data-animate="zoom-in"
               class="opacity-0 scale-90 card group relative overflow-hidden rounded-2xl w-full h-[450px] max-w-[320px] md:w-[calc(50%-1rem)] md:max-w-[450px] lg:w-[calc(33.333%-1.5rem)] lg:max-w-[20rem] shadow-[0_10px_30px_rgba(0,0,0,0.2)] transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)]"
             >
-              {/* UPDATED: Show ribbon for both smarthost and digital marketing */}
               {soonSlugs.has(slug) && (
-                <div class="soon-ribbon whitespace-nowrap absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-[-8deg] bg-(--color-accent) text-(--color-text) text-2xl font-bold px-10 py-6 rounded-xl shadow-2xl border-4 border-(--color-terracotta) animate-pulse-slow z-30 transition-opacity duration-300 group-hover:hidden group-hover:-z-10 pointer-events-none">
+                <div class="soon-ribbon whitespace-nowrap absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-[-8deg] bg-(--color-accent) text-(--color-text) text-2xl font-bold px-10 py-6 rounded-xl shadow-2xl border-4 border-(--color-terracotta) animate-pulse-slow z-[18] transition-opacity duration-300 group-hover:hidden group-hover:-z-10 pointer-events-none">
                   ¡Muy pronto!
                 </div>
               )}
@@ -64,10 +62,22 @@ const soonSlugs = new Set(["smarthost", "digital-marketing"]);
                 />
               </figure>
 
-              <div class="card-overlay absolute inset-0 bg-gradient-to-b from-[rgba(67,77,57,0.3)] via-[rgba(67,77,57,0.7)] to-[rgba(67,77,57,0.95)] opacity-0 group-hover:opacity-100 transition-opacity duration-400 z-10" />
+              {/* Base overlay - always visible */}
+              <div class="absolute inset-0 bg-gradient-to-b from-[rgba(67,77,57,0.3)] via-transparent to-[rgba(67,77,57,0.7)] z-10 pointer-events-none" />
 
-              <div class="absolute inset-0 p-8 z-20 flex flex-col justify-center items-center text-center opacity-0 translate-y-5 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-400 ease-out hover:z-40">
-                <h2 class="text-3xl font-bold text-(--color-primary) mb-4 text-shadow-md">
+              {/* Hover overlay - appears on hover */}
+              <div class="card-overlay absolute inset-0 bg-gradient-to-b from-[rgba(67,77,57,0.5)] via-[rgba(67,77,57,0.8)] to-[rgba(67,77,57,0.95)] opacity-0 group-hover:opacity-100 transition-opacity duration-400 z-15 pointer-events-none" />
+
+              {/* Title - always visible at top */}
+              <div class="absolute top-0 left-0 right-0 p-6 z-[35] pointer-events-none">
+                <h2 class="text-3xl font-bold text-(--color-primary) text-center text-shadow-md">
+                  {title}
+                </h2>
+              </div>
+
+              {/* Description and button - appear on hover */}
+              <div class="mobile-content absolute top-40 left-0 right-0 bottom-0 px-8 pb-8 z-25 flex flex-col justify-center items-center text-center opacity-0 translate-y-5 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-400 ease-out">
+                <h2 class="mobile-title text-3xl font-bold text-(--color-primary) mb-4 text-shadow-md">
                   {title}
                 </h2>
                 <p class="text-(--color-text) text-base leading-relaxed mb-6 text-shadow-sm">
@@ -126,7 +136,7 @@ const soonSlugs = new Set(["smarthost", "digital-marketing"]);
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
       }
 
-      /* Mobile: always show text */
+      /* Mobile: always show all content centered */
       @media (max-width: 768px) {
         .card {
           height: 400px;
@@ -141,26 +151,48 @@ const soonSlugs = new Set(["smarthost", "digital-marketing"]);
           );
         }
 
-        .card > div:last-child {
-          opacity: 1;
-          transform: translateY(0);
+        /* Hide the desktop-only title on mobile */
+        .card > div:nth-child(4) {
+          display: none;
         }
 
-  .card .soon-ribbon {
-  display: block;
-  position: absolute;
-  top: 3.75rem;
-  left: 4rem;
-  padding: 0.4rem 0.75rem;
-  font-size: 0.95rem;
-  line-height: 1;
-  z-index: 15;
-  opacity: 0.95;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
-  transform-origin: left center;
-  animation: pulseSlowMobile 4s ease-in-out infinite;
-}
+        /* Show mobile content container centered with all content */
+        .card .mobile-content {
+          opacity: 1;
+          transform: translateY(0);
+          top: 0;
+          bottom: 0;
+          padding: 2rem;
+          justify-content: center;
+        }
 
+        /* Show the title inside mobile content */
+        .card .mobile-title {
+          display: block;
+        }
+
+        .card .soon-ribbon {
+          display: block;
+          position: absolute;
+          top: 3.75rem;
+          left: 4rem;
+          padding: 0.4rem 0.75rem;
+          font-size: 0.95rem;
+          line-height: 1;
+          z-index: 40;
+          opacity: 0.95;
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+          transform-origin: left center;
+          animation: pulseSlowMobile 4s ease-in-out infinite;
+        }
+      }
+
+      /* Desktop: hide mobile title */
+      @media (min-width: 769px) {
+        .card .mobile-title {
+          display: none;
+        }
+      }
     </style>
   </div>
 </section>

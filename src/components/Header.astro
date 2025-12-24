@@ -14,15 +14,15 @@ const baseUrl = currentLang === 'en' ? '/' : '/es/';
         <div class="container mx-auto px-4">
             <ul class="flex items-center justify-center space-x-8 py-0">
                 <!-- Updated hover text color to use --color-bg for contrast on primary background -->
-                <li class="btn btn-ghost text-[var(--color-text)] hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] border-none text-lg"><a href={`${baseUrl}#about`}>{t.nav.about}</a></li>
-                <li class="btn btn-ghost text-[var(--color-text)] hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] border-none text-lg"><a href={`${baseUrl}#services`}>{t.nav.services}</a></li>
+                <li class="btn btn-ghost text-(--color-text) hover:bg-(--color-primary) hover:text-(--color-bg) border-none text-lg"><a href={`${baseUrl}#benefits`}>{t.nav.about}</a></li>
+                <li class="btn btn-ghost text-(--color-text) hover:bg-(--color-primary) hover:text-(--color-bg) border-none text-lg"><a href={`${baseUrl}#services`}>{t.nav.services}</a></li>
                 <li class="flex items-center justify-center hover:scale-110 transition ease-in-out duration-150">
                     <a href={baseUrl}>
                         <img data-astro-prefetch src="/logoNav.webp" alt="Thai Massage Lanzarote Logo" class="h-24 w-24">
                     </a>
                 </li>
-                <li class="btn btn-ghost text-[var(--color-text)] hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] border-none text-lg"><a href={currentLang === 'en' ? "/contact" : "/es/contact"}>{t.nav.contact}</a></li>
-                <li class="btn btn-ghost text-[var(--color-text)] hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] border-none text-lg"><a href={`${baseUrl}#location`}>{t.nav.location}</a></li>
+                <li class="btn btn-ghost text-(--color-text) hover:bg-(--color-primary) hover:text-(--color-bg) border-none text-lg"><a href={currentLang === 'en' ? "/contact" : "/es/contact"}>{t.nav.contact}</a></li>
+                <li class="btn btn-ghost text-(--color-text) hover:bg-(--color-primary) hover:text-(--color-bg) border-none text-lg"><a href={`${baseUrl}#location`}>{t.nav.location}</a></li>
             </ul>
             
             <div class="absolute right-4 top-1/2 -translate-y-1/2">
