@@ -1,0 +1,40 @@
+---
+// Stats.astro
+const stats = [
+  {
+    value: "85%",
+    label: "Reducción de tiempo"
+  },
+  {
+      value: "24/7",
+      label: "Disponibilidad"
+    },
+    {
+      value: "95%",
+      label: "Tasa de éxito"
+  }
+];
+---
+
+<section class="w-full py-12 px-4 bg-gradient-to-b from-[#0a1f1f] to-[#0f2f2f]">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+      {stats.map((stat) => (
+        <div class="text-center">
+          <div class="text-5xl md:text-6xl font-bold text-[#F59E0B] mb-3">
+            {stat.value}
+          </div>
+          <div class="text-gray-400 text-lg">
+            {stat.label}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  section {
+    border-bottom: 1px solid rgba(42, 74, 74, 0.3);
+  }
+</style>

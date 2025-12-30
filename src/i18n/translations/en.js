@@ -43,10 +43,10 @@ export default {
     lookForward: "I look forward to welcoming you soon!"
   },
   location: {
-    title: "AQUI IRA UNA OPINION",
-    address: "Centro Comercial Puerto Calero, Lanzarote",
-    hours: "Opening Hours:",
-    schedule: "Monday – Sunday: 10:00 – 22:00",
+    title: "¿Qué opinan de nosotros?",
+    address: "Contratar sus servicios de automatización con inteligencia artificial ha sido una de las mejores decisiones para mi negocio. Antes perdía mucho tiempo en tareas repetitivas y procesos manuales, pero gracias a sus soluciones todo es ahora más rápido, eficiente y organizado.",
+    hours: "Lo que más valoro es su capacidad para entender exactamente las necesidades de mi empresa y transformarlas en automatizaciones prácticas y fáciles de usar. Además, el acompañamiento y la atención al detalle han sido excelentes en todo momento.",
+    schedule: "Hoy puedo centrarme en hacer crecer mi negocio mientras la inteligencia artificial se encarga del trabajo operativo. Sin duda, un servicio altamente profesional y totalmente recomendable.",
     opening: "Next opening soon!"
   },
   buttons: {

@@ -20,6 +20,18 @@ const services = defineCollection({
   }),
 });
 
+const reasons = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    title_es: z.string().optional(),
+    img: z.string().optional(),
+    description: z.string().optional(),
+    description_es: z.string().optional(),
+    sortOrder: z.number().default(999),
+
+  }),
+})
+
 const benefits = defineCollection({
   schema: z.object({
     title: z.string(),
