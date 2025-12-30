@@ -95,14 +95,14 @@ const cards = [
 
     <div class="hidden dark:block">
       <div class="pointer-events-none absolute -top-1 z-10 h-14 w-full bg-gradient-to-b from-(--color-bg) to-transparent" />
-      <div class="pointer-events-none absolute -bottom-1 z-10 h-20 w-full bg-gradient-to-t from-(--color-card) to-transparent" />
+      <div class="pointer-events-none absolute -bottom-1 z-10 h-20 w-full bg-gradient-to-t from-(--color-bg) to-transparent" />
       <div class="pointer-events-none absolute -left-1 z-10 h-full w-20 bg-gradient-to-r from-(--color-bg) to-transparent" />
-      <div class="pointer-events-none absolute -right-1 z-10 h-full w-20 bg-gradient-to-l from-(--color-card) to-transparent" />
+      <!-- <div class="pointer-events-none absolute -right-1 z-10 h-full w-20 bg-gradient-to-l from-(--color-bg) to-transparent" /> -->
     </div>
 
     <!-- Put cards inside the grid container -->
     <div
-      class="mx-auto grid h-[250px] w-[300px] animate-skew-scroll grid-cols-[repeat(2,max-content)] place-items-center gap-4 sm:w-[600px]">
+      class="mx-auto grid h-[250px] w-[300px] animate-skew-scroll grid-cols-1 sm:grid-cols-[repeat(2,max-content)] place-items-center gap-4 sm:w-[600px]">
       {cards.map((card) => (
         <a
           target="_blank"

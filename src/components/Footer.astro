@@ -1,5 +1,4 @@
 ---
-import { Icon } from "astro-icon/components";
 import { useTranslations } from "../i18n/utils";
 import SocialScroll from "./SocialScroll.astro";
 
@@ -7,11 +6,57 @@ const { currentLang } = Astro.props;
 const t = useTranslations(currentLang);
 ---
 
-<footer class="w-full bg-(--color-card) flex items-center">
-  <div class="w-full flex justify-start">
-    <div class="w-1/2">
-      <SocialScroll />
+<footer class="w-full bg-[--color-card] border-t border-[#2a4a4a]">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+      
+      <!-- Left Section: Social Scroll -->
+      <div class="flex justify-center md:justify-start">
+        <SocialScroll />
+      </div>
+
+      <!-- Middle Section: Logo and Name -->
+      <div class="flex flex-col items-center justify-center gap-3">
+        <img 
+          src="/logoNav.webp" 
+          alt="Logic & Lines Logo" 
+          class="w-12 h-12 object-contain"
+        />
+        <span class="text-white font-bold text-xl">Logic & Lines</span>
+      </div>
+
+      <!-- Right Section: Navigation Links -->
+      <nav class="flex flex-col gap-4 items-center lg:items-end lg:pr-12">
+        <a 
+          href="#hero"
+          class="text-gray-400 hover:text-[#F59E0B] transition-colors duration-300 text-lg font-medium"
+        >
+          {currentLang === 'es' ? 'Inicio' : 'Home'}
+        </a>
+        <a 
+          href="#services"
+          class="text-gray-400 hover:text-[#F59E0B] transition-colors duration-300 text-lg font-medium"
+        >
+          {currentLang === 'es' ? 'Servicios' : 'Services'}
+        </a>
+        <a 
+          href="#contact"
+          class="text-gray-400 hover:text-[#F59E0B] transition-colors duration-300 text-lg font-medium"
+        >
+          {currentLang === 'es' ? 'Contacto' : 'Contact'}
+        </a>
+        <a 
+          href="#testimonials"
+          class="text-gray-400 hover:text-[#F59E0B] transition-colors duration-300 text-lg font-medium"
+        >
+          {currentLang === 'es' ? 'Opiniones' : 'Testimonials'}
+        </a>
+      </nav>
+
     </div>
+
+    <!-- Bottom Copyright -->
+    
   </div>
 </footer>
 
