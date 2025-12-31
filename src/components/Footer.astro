@@ -4,12 +4,13 @@ import SocialScroll from "./SocialScroll.astro";
 
 const { currentLang } = Astro.props;
 const t = useTranslations(currentLang);
+
+const baseUrl = currentLang === "en" ? "/" : "/es/";
 ---
 
 <footer class="w-full bg-[--color-card] border-t border-[#2a4a4a]">
   <div class="max-w-7xl mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-      
       <!-- Left Section: Social Scroll -->
       <div class="flex justify-center md:justify-start">
         <SocialScroll />
@@ -17,9 +18,9 @@ const t = useTranslations(currentLang);
 
       <!-- Middle Section: Logo and Name -->
       <div class="flex flex-col items-center justify-center gap-3">
-        <img 
-          src="/logoNav.webp" 
-          alt="Logic & Lines Logo" 
+        <img
+          src="/logoNav.webp"
+          alt="Logic & Lines Logo"
           class="w-12 h-12 object-contain"
         />
         <span class="text-white font-bold text-xl">Logic & Lines</span>
@@ -27,40 +28,38 @@ const t = useTranslations(currentLang);
 
       <!-- Right Section: Navigation Links -->
       <nav class="flex flex-col gap-4 items-center lg:items-end lg:pr-12">
-        <a 
-          href="#hero"
+        <a
+          href={baseUrl}
           class="text-gray-400 hover:text-[#F59E0B] transition-colors duration-300 text-lg font-medium"
         >
-          {currentLang === 'es' ? 'Inicio' : 'Home'}
+          {currentLang === "es" ? "Inicio" : "Home"}
         </a>
-        <a 
-          href="#services"
+        <a
+          href={`${baseUrl}#services`}
           class="text-gray-400 hover:text-[#F59E0B] transition-colors duration-300 text-lg font-medium"
         >
-          {currentLang === 'es' ? 'Servicios' : 'Services'}
+          {currentLang === "es" ? "Servicios" : "Services"}
         </a>
-        <a 
-          href="#contact"
+        <a
+          href={currentLang === 'en' ? "/contact" : "/es/contact"}
           class="text-gray-400 hover:text-[#F59E0B] transition-colors duration-300 text-lg font-medium"
         >
-          {currentLang === 'es' ? 'Contacto' : 'Contact'}
+          {currentLang === "es" ? "Contacto" : "Contact"}
         </a>
-        <a 
+        <a
           href="#testimonials"
           class="text-gray-400 hover:text-[#F59E0B] transition-colors duration-300 text-lg font-medium"
         >
-          {currentLang === 'es' ? 'Opiniones' : 'Testimonials'}
+          {currentLang === "es" ? "Opiniones" : "Testimonials"}
         </a>
       </nav>
-
     </div>
 
     <!-- Bottom Copyright -->
-    
   </div>
 </footer>
 
-  <!-- <div class="bg-cyan-700">
+<!-- <div class="bg-cyan-700">
     <ul class="h-18 flex items-center justify-center space-x-8 py-0">
       <li class="nav-item">
         <a

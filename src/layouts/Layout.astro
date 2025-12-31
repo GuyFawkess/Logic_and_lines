@@ -83,6 +83,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://thaimass
     <Footer currentLang={currentLang} />
     <StructuredData currentLang={currentLang} />
     <script src="/scroll-animate.js" defer></script>
+    <!-- Added: persistent hero initializer to re-run on astro:page-load -->
+    <script src="/hero-init.js" defer></script>
   </body>
 </html>
 

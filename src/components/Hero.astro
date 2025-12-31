@@ -22,19 +22,30 @@ const {
 ---
 
 <section class="relative w-full min-h-screen overflow-hidden bg-(--color-bg)">
-  <!-- Left Side -->
-  <div id="left-side" class="side-panel left-panel">
-    <div class="content-wrapper">
-      <h2 class="hero-title">
-        {leftTitle}
-        <span class="fancy-text left-fancy">{leftFancyWord}</span>
-      </h2>
+<!-- Left Side -->
+<div id="left-side" class="side-panel left-panel">
+  <div class="content-wrapper">
+    <div class="mb-10 inline-flex items-center gap-2 px-5 py-2.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-sm md:text-base font-semibold text-white shadow-lg">
+      <span class="text-lg">✨</span>
+      <span class="whitespace-nowrap">Automatización Inteligente para tu Negocio</span>
     </div>
+    <h2 class="hero-title">
+      {leftTitle}
+      <span class="fancy-text left-fancy">{leftFancyWord}</span>
+    </h2>
   </div>
+</div>
 
   <!-- Right Side -->
   <div id="right-side" class="side-panel right-panel">
     <div class="content-wrapper">
+      <!-- AQUI ES EL TAG DEL HERO -->
+      <div class="mb-10 bg-white/10 inline-flex items-center gap-2 px-5 py-2.5 backdrop-blur-md border border-white/20 rounded-full text-sm md:text-base font-semibold text-(--color-bg) shadow-lg">
+        <span class="text-lg">✨</span>
+        <span class="whitespace-nowrap">Automatización Inteligente para tu Negocio</span>
+      </div>
+      <!-- HASTA AQUI -->
+
       <h2 class="hero-title">
         {rightTitle}
         <span class="fancy-text right-fancy">{rightFancyWord}</span>
@@ -216,84 +227,3 @@ const {
     }
   }
 </style>
-
-<script>
-  const leftSide = document.getElementById("left-side");
-  const dragHandle = document.getElementById("drag-handle");
-  let isDragging = false;
-  
-  const handleMove = (clientX: number) => {
-    const percentage = (clientX / window.innerWidth) * 100;
-    const clampedPercentage = Math.max(0, Math.min(100, percentage));
-    
-    if (leftSide) {
-      leftSide.style.width = `${clampedPercentage}%`;
-    }
-    
-    if (dragHandle && window.innerWidth <= 768) {
-      dragHandle.style.left = `${clampedPercentage}%`;
-    }
-  };
-
-  // Mouse events for desktop
-  document.addEventListener('mousemove', (e) => {
-    if (window.innerWidth > 768) {
-      handleMove(e.clientX);
-    }
-  });
-
-  // Touch events for mobile
-  document.addEventListener('touchmove', (e) => {
-    if (isDragging && e.touches.length > 0) {
-      e.preventDefault();
-      handleMove(e.touches[0].clientX);
-    }
-  }, { passive: false });
-
-  // Drag handle events
-  if (dragHandle) {
-    dragHandle.addEventListener('touchstart', (e) => {
-      isDragging = true;
-      dragHandle.style.opacity = '1';
-    });
-
-    dragHandle.addEventListener('touchend', () => {
-      isDragging = false;
-    });
-
-    // Also allow mouse dragging on mobile breakpoint
-    dragHandle.addEventListener('mousedown', (e) => {
-      if (window.innerWidth <= 768) {
-        isDragging = true;
-        e.preventDefault();
-      }
-    });
-
-    document.addEventListener('mouseup', () => {
-      isDragging = false;
-    });
-
-    document.addEventListener('mousemove', (e) => {
-      if (isDragging && window.innerWidth <= 768) {
-        handleMove(e.clientX);
-      }
-    });
-  }
-
-  // Fade out drag handle after a few seconds on mobile
-  let fadeTimeout: number;
-  const setupFadeOut = () => {
-    if (dragHandle && window.innerWidth <= 768) {
-      clearTimeout(fadeTimeout);
-      dragHandle.style.opacity = '1';
-      fadeTimeout = setTimeout(() => {
-        if (!isDragging) {
-          dragHandle.style.opacity = '0.4';
-        }
-      }, 3000);
-    }
-  };
-
-  document.addEventListener('touchstart', setupFadeOut);
-  window.addEventListener('load', setupFadeOut);
-</script>
