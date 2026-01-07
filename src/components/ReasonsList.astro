@@ -23,12 +23,9 @@ const iconMap: { [key: number]: string } = {
 ---
 
 <section id="reasons" class="w-full py-16 px-4 relative overflow-hidden">
-  <!-- Dots background -->
-  <div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 20px 20px;"></div>
-  
   <div class="max-w-7xl mx-auto relative z-10">
     <h2 class="text-4xl md:text-5xl font-bold mb-4 text-center text-white">
-      ¿Por qué elegir <span class="text-[#F59E0B]">Logic & Lines</span>?
+      ¿Por qué elegir <span class="text-(--color-primary)">Logic & Lines</span>?
     </h2>
     <p class="text-center text-gray-300 text-lg mb-16 max-w-3xl mx-auto">
       Combinamos experiencia técnica con un enfoque centrado en resultados empresariales
@@ -43,12 +40,13 @@ const iconMap: { [key: number]: string } = {
           const iconPath = iconMap[data.sortOrder] || iconMap[1];
           
           return (
-          <div class="benefit-card group relative bg-[#1a3a3a]/60 backdrop-blur-sm rounded-xl p-6 border border-[#2a4a4a] hover:border-[#F59E0B] transition-all duration-300 hover:shadow-xl hover:shadow-[#F59E0B]/20 hover:-translate-y-1">
+          <div class="benefit-card group relative bg-(--color-card)/60 backdrop-blur-sm rounded-xl p-6 border border-(--color-card-alt) hover:border-[#F59E0B] transition-all duration-300 hover:shadow-xl hover:shadow-[#F59E0B]/20 hover:-translate-y-1">
               <!-- Icon and Title Row -->
               <div class="flex items-start gap-4 mb-3">
-                <div class="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg bg-[#F59E0B]/10 group-hover:bg-[#F59E0B]/20 transition-colors duration-300">
+                <!-- add "icon-box" to target on touch -->
+                <div class="icon-box w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg bg-[#F59E0B]/10 group-hover:bg-[#F59E0B]/20 transition-colors duration-300">
                   <svg 
-                    class="w-6 h-6 text-[#F59E0B]" 
+                    class="w-6 h-6 text-(--color-primary)" 
                     fill="none" 
                     stroke="currentColor" 
                     stroke-width="2" 
@@ -61,13 +59,13 @@ const iconMap: { [key: number]: string } = {
                 </div>
                 
                 <!-- Title -->
-                <h3 class="text-xl font-bold text-white group-hover:text-[#F59E0B] transition-colors duration-300 pt-2">
+                <h3 class="text-xl font-bold text-(--color-bg) group-hover:text-(--color-primary) transition-colors duration-300 pt-2 group-hover:drop-shadow-[1px_1px_0_#000]" >
                   {title}
                 </h3>
               </div>
               
               <!-- Description -->
-              <p class="text-gray-400 text-sm leading-relaxed pl-16">
+              <p class="text-(--color-bg) text-sm leading-relaxed pl-16">
                 {description}
               </p>
             </div>
@@ -78,6 +76,24 @@ const iconMap: { [key: number]: string } = {
   </div>
 </section>
 
+<!-- simulate hover on touch devices -->
+<script is:inline>
+  // Add "touch-hover" on touchstart and remove on touch end/cancel/leave
+  const cards = document.querySelectorAll('.benefit-card');
+  cards.forEach((card) => {
+    const remove = () => card.classList.remove('touch-hover');
+
+    card.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'touch') {
+        card.classList.add('touch-hover');
+      }
+    });
+    card.addEventListener('pointerup', remove);
+    card.addEventListener('pointercancel', remove);
+    card.addEventListener('mouseleave', remove);
+  });
+</script>
+
 <style>
   #benefits {
     background: linear-gradient(135deg, #0f2f2f 0%, #1a4040 50%, #0f2f2f 100%);
@@ -87,7 +103,7 @@ const iconMap: { [key: number]: string } = {
     position: relative;
     /* justo aqui debajo los puntitos del background */
     background-image: radial-gradient(
-    rgba(255, 255, 255, 0.1) 1px, 
+    rgba(0, 0, 0, 0.3) 1px, 
     transparent 1px
   );
   background-position: 50% 50%;
@@ -110,5 +126,22 @@ const iconMap: { [key: number]: string } = {
   
   .benefit-card:hover::before {
     opacity: 1;
+  }
+
+  /* touch-hover: replicate hover visuals on touch devices */
+  .benefit-card.touch-hover {
+    border-color: #F59E0B;
+    box-shadow: 0 10px 25px rgba(245, 158, 11, 0.2);
+    transform: translateY(-0.25rem); /* hover:-translate-y-1 */
+  }
+  .benefit-card.touch-hover::before {
+    opacity: 1;
+  }
+  .group.touch-hover h3 {
+    color: var(--color-primary);
+    filter: drop-shadow(1px 1px 0 #000);
+  }
+  .group.touch-hover .icon-box {
+    background-color: rgba(245, 158, 11, 0.2);
   }
 </style>

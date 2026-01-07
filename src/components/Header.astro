@@ -8,64 +8,63 @@ const t = useTranslations(currentLang);
 // Create base URL for the current language
 const baseUrl = currentLang === 'en' ? '/' : '/es/';
 ---
-<header class="w-full max-h-22 top-0 left-0 right-0 z-50 "> <!-- changed: make header fixed and above hero -->
-    <!-- Desktop Navigation -->
-    <nav class="mx-auto w-full hidden md:block bg-transparent backdrop-blur-md"> <!-- changed: transparent + blur to avoid color seam -->
-        <div class="container mx-auto px-4">
-            <ul class="flex items-center justify-center space-x-8 py-0">
-                <!-- Updated hover text color to use --color-bg for contrast on primary background -->
-                <li class="btn btn-ghost text-(--color-text) hover:bg-(--color-primary) hover:text-(--color-bg) border-none text-lg"><a href={`${baseUrl}#benefits`}>{t.nav.about}</a></li>
-                <li class="btn btn-ghost text-(--color-text) hover:bg-(--color-primary) hover:text-(--color-bg) border-none text-lg"><a href={`${baseUrl}#services`}>{t.nav.services}</a></li>
-                <li class="flex items-center justify-center hover:scale-110 transition ease-in-out duration-150">
-                    <a href={baseUrl}>
-                        <img data-astro-prefetch src="/logoNav.webp" alt="Thai Massage Lanzarote Logo" class="h-24 w-24">
-                    </a>
-                </li>
-                <li class="btn btn-ghost text-(--color-text) hover:bg-(--color-primary) hover:text-(--color-bg) border-none text-lg"><a href={currentLang === 'en' ? "/contact" : "/es/contact"}>{t.nav.contact}</a></li>
-                <li class="btn btn-ghost text-(--color-text) hover:bg-(--color-primary) hover:text-(--color-bg) border-none text-lg"><a href={`${baseUrl}#opinion`}>{t.nav.location}</a></li>
-            </ul>
-            
-            <div class="absolute right-4 top-1/2 -translate-y-1/2">
-                <LanguageSwitcher currentLang={currentLang} />
-            </div>
-        </div>
-    </nav>
+<header class="relative w-full max-h-22 top-0 left-0 right-0 z-50">
+  <!-- Desktop Navigation -->
+  <nav class="mx-auto w-full hidden md:block bg-transparent backdrop-blur-md">
+    <!-- Reorganized: make container flex with left (logo), middle (nav), right (language switcher) -->
+    <div class="container mx-auto px-4 flex items-center justify-between">
+      <div class="flex items-center space-x-8">
+        <!-- Logo on the left -->
+        <a href={baseUrl} class="flex items-center hover:scale-105 transition ease-in-out duration-150 mx-10">
+          <img data-astro-prefetch src="/logoEntero.svg" alt="Logic and Line Logo" class="h-24 w-60">
+        </a>
+        <!-- Nav buttons follow the logo -->
+        <ul class="flex items-center space-x-8 py-0 mx-10">
+          <li class="btn btn-ghost text-(--color-text) hover:bg-(--color-primary) hover:text-(--color-bg) border-none text-lg"><a href={`${baseUrl}#benefits`}>{t.nav.about}</a></li>
+          <li class="btn btn-ghost text-(--color-text) hover:bg-(--color-primary) hover:text-(--color-bg) border-none text-lg"><a href={`${baseUrl}#services`}>{t.nav.services}</a></li>
+          <li class="btn btn-ghost text-(--color-text) hover:bg-(--color-primary) hover:text-(--color-bg) border-none text-lg"><a href={currentLang === 'en' ? "/contact" : "/es/contacto"}>{t.nav.contact}</a></li>
+          <li class="btn btn-ghost text-(--color-text) hover:bg-(--color-primary) hover:text-(--color-bg) border-none text-lg"><a href={`${baseUrl}#opinion`}>{t.nav.location}</a></li>
+        </ul>
+      </div>
+      <!-- Language switcher stays on the right -->
+      <div class="flex-shrink-0">
+        <LanguageSwitcher currentLang={currentLang} />
+      </div>
+    </div>
+  </nav>
 
-    <!-- Mobile Navigation with Dropdown -->
-    <!-- Updated background to use --color-bg from global.css -->
-    <nav class="w-full mx-auto md:hidden bg-transparent backdrop-blur-md"> <!-- changed: transparent + blur on mobile too -->
-        <div class="dropdown flex justify-center">
-            <div data-astro-prefetch tabindex="0" role="button" class="logo">
-                <img src="/logoNav.webp" alt="Thai Massage Lanzarote Logo" class="h-28 w-auto">
-            </div>
-            <!-- Updated dropdown panel background to use --color-card -->
-            <ul tabindex="0" class="dropdown-content menu bg-[var(--color-card)] rounded-box z-[100] w-52 p-2 shadow-md mt-22">
-                <li><a href={`${baseUrl}#about`} class="py-3 text-center justify-center">{t.nav.about}</a></li>
-                <li><a transition:name="services" href={`${baseUrl}#services`} class="py-3 text-center justify-center">{t.nav.services}</a></li>
-                <li><a href={currentLang === 'en' ? "/contact" : "/es/contacto"} class="py-3 text-center justify-center">{t.nav.contact}</a></li>
-                <li><a href={`${baseUrl}#location`} class="py-3 text-center justify-center">{t.nav.location}</a></li>
-                <li></li>
-                <div class="navbar-end mt-2 flex justify-center w-full my-2">
-                    <LanguageSwitcher currentLang={currentLang} />
-                </div>
-            </ul>
+  <!-- Mobile Navigation with Dropdown -->
+  <nav class="w-full mx-auto md:hidden bg-(--color-bg) shadow-md py-4">
+    <div class="dropdown flex justify-start mx-8">
+      <div data-astro-prefetch tabindex="0" role="button" class="logo">
+        <img src="/logoEntero.svg" alt="Thai Massage Lanzarote Logo" class="h-20 w-auto">
+      </div>
+      <!-- Enforce text color so DaisyUI doesn't override it -->
+      <ul tabindex="0" class="dropdown-content menu bg-(--color-bg-alt) text-(--color-text) rounded-box z-[100] w-52 p-2 shadow-md mt-22">
+        <li><a href={`${baseUrl}#about`} class="py-3 text-center justify-center">{t.nav.about}</a></li>
+        <li><a transition:name="services" href={`${baseUrl}#services`} class="py-3 text-center justify-center">{t.nav.services}</a></li>
+        <li><a href={currentLang === 'en' ? "/contact" : "/es/contacto"} class="py-3 text-center justify-center">{t.nav.contact}</a></li>
+        <li><a href={`${baseUrl}#location`} class="py-3 text-center justify-center">{t.nav.location}</a></li>
+        <li></li>
+        <div class="navbar-end mt-2 flex justify-center w-full my-2">
+          <LanguageSwitcher currentLang={currentLang} />
         </div>
-    </nav>
+      </ul>
+    </div>
+  </nav>
 </header>
 
 <style>
-    .menu li a {
-        /* Use theme text color from global.css */
-        color: var(--color-text);
-        font-weight: 500;
-        transition: color 0.3s ease;
-        display: flex;
-        justify-content: center;
-        text-align: center;
-    }
-    
-    .menu li a:hover {
-        /* Use theme primary color for hover */
-        color: var(--color-primary);
-    }
+  .menu li a {
+    color: var(--color-text);
+    font-weight: 500;
+    transition: color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .menu li a:hover {
+    color: var(--color-primary);
+  }
 </style>

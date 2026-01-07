@@ -31,8 +31,13 @@ const { img = 'https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5
   border-radius: 0.75rem;
   position: relative;
   overflow: hidden;
-  background: var(--color-card, #2a3f4f);
+  background: var(--color-card);
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+.custom-card:hover {
+  transform: scale(1.02);
+  transition: all 0.4s ease-in-out;
+  background: var(--color-card-alt);
 }
 
 .custom-card:hover:before {
@@ -44,7 +49,7 @@ const { img = 'https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5
   background: linear-gradient(
     45deg,
     transparent 5%,
-    rgb(255, 215, 137) 50%,
+    rgb(137, 24, 1) 50%,
     transparent 99%
   );
   border-radius: inherit;
@@ -64,7 +69,7 @@ const { img = 'https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5
 
 .card-inner {
   background-image: radial-gradient(
-    rgba(255, 255, 255, 0.1) 1px, 
+    rgba(0, 0, 0, 0.3) 1px, 
     transparent 1px
   );
   background-position: 50% 50%;
@@ -107,13 +112,13 @@ const { img = 'https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: inherit;
+  color: var(--color-text-dark);
 }
 
 .card-text {
   font-size: 0.875rem;
   line-height: 1.5;
-  color: inherit;
+  color: var(--color-text-dark);
   opacity: 0.9;
 }
 </style>

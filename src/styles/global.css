@@ -2,19 +2,22 @@
 @plugin "daisyui";
 
 :root {
-  /* FONDO PRINCIPAL O SECCIONES */
+  /* Fondos */
   --color-bg: #0F222D;
-  /* FONDOS DE TARJETAS O BLOQUES */
-  --color-card: #2C3E47;
-  /* COLOR PRINCIPAL / LLAMADAS A LA ACCIÓN */
-  --color-primary: #EBAA00;
-  /* COLOR DE TEXTO PRINCIPAL */
+  --color-bg-alt: #1C3A45;
+
+  /* Tarjetas / Superficies */
+  --color-card: #EBE8D0;
+  --color-card-alt: #E2E7D9;
+
+  /* Marca / CTA (recomendado para AIMA) */
+  --color-primary: #E6A100;
+
+  /* Texto */
   --color-text: #EBE7D9;
-  /* COLOR DE DETALLES O ACCENT */
-  --color-accent: #5FB3A2;
-  /* COLOR DE ERRORES */
-  --color-error: #D96C6C;
+  --color-text-dark: #0F222D; /* Para textos en tarjetas */
 }
+
 
 
 
