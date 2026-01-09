@@ -14,7 +14,6 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
 >
   <!-- Desktop Navigation -->
   <nav class="mx-auto w-full hidden md:block bg-(--color-bg)">
-    <!-- Reorganized: make container flex with left (logo), middle (nav), right (language switcher) -->
     <div class="container mx-auto px-4 flex items-center justify-between py-2">
       <div class="flex items-center space-x-8">
         <!-- Logo on the left -->
@@ -30,25 +29,26 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
           />
         </a>
         <!-- Nav buttons follow the logo -->
-        <ul class="flex items-center space-x-8 py-0 mx-10">
+        <ul class="flex items-center space-x-10 py-0 mx-10">
           <li
-            class="btn btn-ghost text-(--color-text) hover:bg-(--color-primary) hover:text-(--color-bg) border-none text-lg"
+            class="text-(--color-text) hover:text-(--color-primary) border-none text-lg font-semibold"
           >
             <a href={`${baseUrl}#benefits`}>{t.nav.about}</a>
           </li>
           <li
-            class="btn btn-ghost text-(--color-text) hover:bg-(--color-primary) hover:text-(--color-bg) border-none text-lg"
+            class="text-(--color-text) hover:text-(--color-primary) border-none text-lg font-semibold"
           >
             <a href={`${baseUrl}#services`}>{t.nav.services}</a>
           </li>
           <li
-            class="btn btn-ghost text-(--color-text) hover:bg-(--color-primary) hover:text-(--color-bg) border-none text-lg"
+            class="text-(--color-text) hover:text-(--color-primary) border-none text-lg font-semibold"
           >
             <a href={currentLang === "en" ? "/contact" : "/es/contacto"}
-              >{t.nav.contact}</a>
+              >{t.nav.contact}</a
+            >
           </li>
           <li
-            class="btn btn-ghost text-(--color-text) hover:bg-(--color-primary) hover:text-(--color-bg) border-none text-lg"
+            class="text-(--color-text) hover:text-(--color-primary) border-none text-lg font-semibold"
           >
             <a href={`${baseUrl}#opinion`}>{t.nav.location}</a>
           </li>
@@ -61,51 +61,68 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
     </div>
   </nav>
 
-  <!-- Mobile Navigation with Dropdown -->
+  <!-- Mobile Navigation with Burger Menu -->
   <nav class="w-full mx-auto md:hidden bg-(--color-bg) shadow-md py-4">
-    <div class="dropdown flex justify-start mx-8">
-      <div data-astro-prefetch tabindex="0" role="button" class="logo">
+    <div class="flex items-center justify-between px-8">
+      <!-- Logo on the Left -->
+      <a href={baseUrl} class="logo">
         <img
           src="/logoEntero.svg"
           alt="Thai Massage Lanzarote Logo"
           class="h-16 w-auto"
         />
-      </div>
-      <!-- Enforce text color so DaisyUI doesn't override it -->
-      <ul
-        tabindex="0"
-        class="dropdown-content menu bg-(--color-bg-alt) text-(--color-text) rounded-box z-[100] w-52 p-2 shadow-md mt-22"
-      >
-        <li>
-          <a href={`${baseUrl}#about`} class="py-3 text-center justify-center"
-            >{t.nav.about}</a>
-        </li>
-        <li>
-          <a
-            transition:name="services"
-            href={`${baseUrl}#services`}
-            class="py-3 text-center justify-center">{t.nav.services}</a>
-        </li>
-        <li>
-          <a
-            href={currentLang === "en" ? "/contact" : "/es/contacto"}
-            class="py-3 text-center justify-center">{t.nav.contact}</a>
-        </li>
-        <li>
-          <a
-            href={`${baseUrl}#location`}
-            class="py-3 text-center justify-center">{t.nav.location}</a>
-        </li>
-        <li></li>
-        <div class="navbar-end mt-2 flex justify-center w-full my-2">
-          <LanguageSwitcher currentLang={currentLang} />
+      </a>
+
+      <!-- Burger Menu Dropdown on the Right -->
+      <div class="dropdown dropdown-end">
+        <div
+          id="burger-button"
+          tabindex="0"
+          role="button"
+          class="btn btn-ghost btn-circle h-12 w-12 flex justify-center items-center"
+        >
+          <div id="burger-icon"></div>
         </div>
-      </ul>
+        <ul
+          tabindex="0"
+          class="dropdown-content menu bg-(--color-bg-alt) text-(--color-text) rounded-box z-[100] w-52 p-2 shadow-md mt-4"
+        >
+          <li>
+            <a href={`${baseUrl}#about`} class="py-3 text-center justify-center"
+              >{t.nav.about}</a
+            >
+          </li>
+          <li>
+            <a
+              transition:name="services"
+              href={`${baseUrl}#services`}
+              class="py-3 text-center justify-center">{t.nav.services}</a
+            >
+          </li>
+          <li>
+            <a
+              href={currentLang === "en" ? "/contact" : "/es/contacto"}
+              class="py-3 text-center justify-center">{t.nav.contact}</a
+            >
+          </li>
+          <li>
+            <a
+              href={`${baseUrl}#location`}
+              class="py-3 text-center justify-center">{t.nav.location}</a
+            >
+          </li>
+          <li></li>
+          <div class="navbar-end mt-2 flex justify-center w-full my-2">
+            <LanguageSwitcher currentLang={currentLang} />
+          </div>
+        </ul>
+      </div>
     </div>
   </nav>
 </header>
 
 <style>
+  /* Existing styles */
   .menu li a {
     color: var(--color-text);
     font-weight: 500;
@@ -118,4 +135,86 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
   .menu li a:hover {
     color: var(--color-primary);
   }
+
+  /* Burger Menu Animation */
+  #burger-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    /* Dimensions handled by btn-circle but ensures centering */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Trigger animation when dropdown is active (focus logic)
+     This ensures the icon always matches the menu state */
+  .dropdown:focus-within #burger-button #burger-icon {
+    background-color: transparent;
+  }
+
+  .dropdown:focus-within #burger-button #burger-icon:before {
+    top: 0px;
+    transform: rotate(-45deg);
+  }
+
+  .dropdown:focus-within #burger-button #burger-icon:after {
+    bottom: 0px;
+    transform: rotate(45deg);
+  }
+
+  #burger-icon {
+    background-color: var(--color-text);
+    border-radius: 50px;
+    height: 3px;
+    width: 30px;
+    position: relative;
+    transition: all 0.25s;
+  }
+
+  #burger-icon:before,
+  #burger-icon:after {
+    background-color: var(--color-text);
+    border-radius: 50px;
+    content: "";
+    height: 3px;
+    left: 0px;
+    position: absolute;
+    transition: all 0.25s;
+    width: 30px;
+  }
+
+  #burger-icon:before {
+    top: -10px;
+  }
+
+  #burger-icon:after {
+    bottom: -10px;
+  }
 </style>
+
+<script>
+  // Simple script to handle "click again to close" behavior for focus-based dropdowns
+  function setupBurgerMenu() {
+    const button = document.getElementById("burger-button");
+    if (!button) return;
+
+    // Prevent attaching multiple listeners
+    if (button.dataset.bound === "true") return;
+    button.dataset.bound = "true";
+
+    button.addEventListener("mousedown", (e) => {
+      // If the button already has focus, this click should close it (blur)
+      if (document.activeElement === button) {
+        button.blur();
+        e.preventDefault(); // Prevent immediate refocus
+      }
+    });
+  }
+
+  // Run on initial load
+  setupBurgerMenu();
+
+  // Re-run after page transitions
+  document.addEventListener("astro:page-load", setupBurgerMenu);
+</script>

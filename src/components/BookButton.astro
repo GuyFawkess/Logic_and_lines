@@ -22,7 +22,9 @@ const t = useTranslations(currentLang);
 
   // Bind the effect to all buttons, avoid double-binding, and keep per-button intervals
   function setupScrambleEffect() {
-    const buttons = document.querySelectorAll(".scramble-button");
+    const buttons = document.querySelectorAll(
+      ".scramble-button",
+    ) as NodeListOf<HTMLElement>;
     if (!buttons.length) return;
 
     buttons.forEach((button) => {
@@ -34,7 +36,7 @@ const t = useTranslations(currentLang);
 
       button.addEventListener("mouseover", (event) => {
         let iteration = 0;
-        const target = event.currentTarget;
+        const target = event.currentTarget as HTMLElement;
 
         // Lock width to prevent horizontal jitter
         const fixedWidth = target.getBoundingClientRect().width;
