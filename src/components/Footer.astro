@@ -8,107 +8,53 @@ const t = useTranslations(currentLang);
 const baseUrl = currentLang === "en" ? "/" : "/es/";
 ---
 
-<footer class="w-full bg-(--color-bg) border-t border-[#2a4a4a]">
+<footer class="w-full bg-(--color-bg) border-t border-(--color-bg-alt) pt-8 mt-52">
   <div class="max-w-7xl mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-      <!-- Left Section: Social Scroll -->
-      <div class="flex justify-center md:justify-start">
-        <SocialScroll />
-      </div>
-
-      <!-- Middle Section: Logo and Name -->
-      <div class="flex flex-col items-center justify-center gap-3">
+      <!-- Mobile: First - Logo and Name / Desktop: Middle -->
+      <a href={baseUrl} class="flex flex-col items-center justify-center gap-3 md:order-2 hover:scale-105 transition ease-in-out duration-150">
         <img
           src="/logoEntero.svg"
           alt="Logic & Lines Logo"
           class="w-auto h-20 object-contain"
         />
-      </div>
+      </a>
 
-      <!-- Right Section: Navigation Links -->
-      <nav class="flex flex-col gap-4 items-center lg:items-end lg:pr-12">
+      <!-- Mobile: Second - Navigation Links / Desktop: Left -->
+      <nav class="flex flex-col gap-4 items-start m-12 lg:ml-24 md:order-1 ">
         <a
           href={baseUrl}
-          class="text-gray-400 hover:text-[#F59E0B] transition-colors duration-300 text-lg font-medium"
+          class="text-gray-400 hover:text-[#F59E0B] duration-300 text-lg font-medium transition-all hover:-translate-y-1"
         >
           {currentLang === "es" ? "Inicio" : "Home"}
         </a>
         <a
           href={`${baseUrl}#services`}
-          class="text-gray-400 hover:text-[#F59E0B] transition-colors duration-300 text-lg font-medium"
+          class="text-gray-400 hover:text-[#F59E0B] transition-all hover:-translate-y-1 duration-300 text-lg font-medium"
         >
           {currentLang === "es" ? "Servicios" : "Services"}
         </a>
         <a
           href={currentLang === 'en' ? "/contact" : "/es/contact"}
-          class="text-gray-400 hover:text-[#F59E0B] transition-colors duration-300 text-lg font-medium"
+          class="text-gray-400 hover:text-[#F59E0B] transition-all hover:-translate-y-1 duration-300 text-lg font-medium"
         >
           {currentLang === "es" ? "Contacto" : "Contact"}
         </a>
         <a
           href="#testimonials"
-          class="text-gray-400 hover:text-[#F59E0B] transition-colors duration-300 text-lg font-medium"
+          class="text-gray-400 hover:text-[#F59E0B] transition-all hover:-translate-y-1 duration-300 text-lg font-medium"
         >
           {currentLang === "es" ? "Opiniones" : "Testimonials"}
         </a>
       </nav>
+
+      <!-- Mobile: Third - Social Scroll / Desktop: Right -->
+      <div class="flex justify-center md:justify-start md:order-3">
+        <SocialScroll />
+      </div>
+     
     </div>
 
     <!-- Bottom Copyright -->
   </div>
 </footer>
-
-<!-- <div class="bg-cyan-700">
-    <ul class="h-18 flex items-center justify-center space-x-8 py-0">
-      <li class="nav-item">
-        <a
-          href="https://www.instagram.com/malaithaimassagelanzarote?igsh=MTRoY3h1cGRiOWFpaQ=="
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Follow us on Instagram"
-        >
-          <Icon
-            name="instagram"
-            class="h-8 w-8 text-[var(--color-warm-sand)] transition duration-200 ease-in-out hover:scale-125 hover:text-[var(--color-terracotta)]"
-          />
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          href="https://www.facebook.com/malaithaimassagelanzarote"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Follow us on Facebook"
-        >
-          <Icon
-            name="facebook3"
-            class="h-8 w-8 text-[var(--color-warm-sand)] transition duration-200 ease-in-out hover:scale-125 hover:text-[var(--color-terracotta)]"
-          />
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          href="https://wa.me/34628125302"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Contact us on WhatsApp"
-        >
-          <Icon name="whatsapp" class="h-8 w-8 text-[var(--color-warm-sand)] transition duration-200 ease-in-out hover:scale-125 hover:text-[var(--color-terracotta)]" />
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          href="mailto:malaithai89@gmail.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Send us an email"
-        >
-          <Icon name="gmail2" class="h-8 w-8 text-[var(--color-warm-sand)] transition duration-200 ease-in-out hover:scale-125 hover:text-[var(--color-terracotta)]" />
-        </a>
-      </li>
-    </ul>
-    <p class="footer sm:footer-horizontal footer-center text-base-content">
-      {t.footer.copyright.replace("{year}", new Date().getFullYear())}
-    </p>
-  </div> -->
-<!-- </footer> -->

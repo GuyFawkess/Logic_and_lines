@@ -2,47 +2,50 @@
 import { getCollection } from "astro:content";
 import { useTranslations } from "../i18n/utils";
 import SuccessCard from "./SuccessCard.astro";
+import BookButton from "../components/BookButton.astro";
 
-const { currentLang = 'en' } = Astro.props;
+const { currentLang = "en" } = Astro.props;
 const t = useTranslations(currentLang);
 
 const allBenefits = await getCollection("benefits");
 const benefits = allBenefits.sort(
   (a: { data: { sortOrder?: number } }, b: { data: { sortOrder?: number } }) =>
-    (a.data.sortOrder || 999) - (b.data.sortOrder || 999)
+    (a.data.sortOrder || 999) - (b.data.sortOrder || 999),
 );
 ---
 
-<section id="benefits" class="w-full py-10 px-4 my-10 bg-(--color-bg-alt) shadow-md">
+<section
+  id="benefits"
+  class="w-full py-10 px-4 my-10 bg-(--color-bg-alt) shadow-md"
+>
   <div class="max-w-6xl mx-auto">
     <h2
       transition:name="benefits"
       class="text-3xl font-semibold mb-8 text-center text-(--color-primary)"
     >
-    Optimiza, Acelera y Automatiza
+      Optimiza, Acelera y Automatiza
     </h2>
     <h4 class="mb-20 text-xl text-center">
-      Reduce los costes operativos y elimina tareas repetitivas con soluciones inteligentes que mejoran la eficiencia y la precisión en cada proceso.
+      Reduce los costes operativos y elimina tareas repetitivas con soluciones
+      inteligentes que mejoran la eficiencia y la precisión en cada proceso.
     </h4>
 
-    <div class="flex flex-wrap justify-center gap-8">
-     {
-  benefits.map((benefit: { data: any; slug: string }, index: number) => {
-    const { data, slug } = benefit;
-    const title = currentLang === 'es' && data.title_es ? data.title_es : data.title;
-    const description = currentLang === 'es' && data.description_es ? data.description_es : data.description;
-    const { img } = data;
-    
-      
-    return (
-      <SuccessCard
-        title={title}
-        text={description}
-        img={img} 
-      />
-    );
-  })
-}
+    <div class="flex flex-wrap justify-center gap-8 mb-18">
+      {
+        benefits.map((benefit: { data: any; slug: string }, index: number) => {
+          const { data, slug } = benefit;
+          const title =
+            currentLang === "es" && data.title_es ? data.title_es : data.title;
+          const description =
+            currentLang === "es" && data.description_es
+              ? data.description_es
+              : data.description;
+          const { img } = data;
+
+          return <SuccessCard title={title} text={description} img={img} />;
+        })
+      }
     </div>
+    <BookButton currentLang={currentLang} />
   </div>
 </section>

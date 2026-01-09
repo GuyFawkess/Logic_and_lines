@@ -1,21 +1,25 @@
 ---
 import { useTranslations } from "../i18n/utils";
 
-const { currentLang = 'en' } = Astro.props;
-const t = useTranslations(currentLang)
+const { currentLang = "en" } = Astro.props;
+const t = useTranslations(currentLang);
 ---
 
-<a href={currentLang === 'en' ? "/contact" : "/es/contact"} class="w-full flex justify-center items-center">
-    <button
+<a
+  href={currentLang === "en" ? "/contact" : "/es/contact"}
+  class="w-full flex justify-center items-center"
+>
+  <button
     data-value={t.buttons.book}
-    class="scramble-button my-8 btn btn-xl bg-(--color-primary) text-(--color-bg) border-2 border-transparent hover:border-(--color-accent)transition ease-in-out duration-300"
-    style="box-shadow: 0 2px 6px var(--color-primary);"
-  >{t.buttons.book}</button>
+    class="scramble-button whitespace-nowrap min-w-[220px] my-8 btn btn-xl bg-(--color-primary) text-(--color-bg) border-2 border-transparent hover:border-(--color-accent)transition ease-in-out duration-300 uppercase"
+    style="box-shadow: 0 0.5px 2px var(--color-primary);"
+    >{t.buttons.book}</button
+  >
 </a>
 
 <script>
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  
+
   // Bind the effect to all buttons, avoid double-binding, and keep per-button intervals
   function setupScrambleEffect() {
     const buttons = document.querySelectorAll(".scramble-button");
@@ -31,9 +35,12 @@ const t = useTranslations(currentLang)
       button.addEventListener("mouseover", (event) => {
         let iteration = 0;
         const target = event.currentTarget;
+
+        // Lock width to prevent horizontal jitter
         const fixedWidth = target.getBoundingClientRect().width;
         target.style.width = fixedWidth + "px";
-        target.style.fontFamily = "monospace";
+
+        // target.style.fontFamily = "monospace"; // Keep disabled to prevent vertical jump
 
         clearInterval(interval);
 
@@ -52,14 +59,16 @@ const t = useTranslations(currentLang)
           if (iteration >= value.length) {
             clearInterval(interval);
             target.innerText = value;
-            target.style.width = "";
-            target.style.fontFamily = "";
+            target.style.width = ""; // Release width lock
+            // target.style.fontFamily = "";
           }
 
           iteration += 1 / 3;
         }, 30);
       });
 
+      // Removed mouseleave listener to let animation finish
+      /*
       button.addEventListener("mouseleave", () => {
         clearInterval(interval);
         const value = button.dataset.value || button.textContent || "";
@@ -67,12 +76,13 @@ const t = useTranslations(currentLang)
         button.style.width = "";
         button.style.fontFamily = "";
       });
+      */
     });
   }
-  
+
   // Run on initial load
   setupScrambleEffect();
-  
+
   // Re-run after page transitions (if using Astro's view transitions)
   document.addEventListener("astro:page-load", setupScrambleEffect);
 </script><!-- ---

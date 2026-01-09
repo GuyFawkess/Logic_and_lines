@@ -94,10 +94,10 @@ const cards = [
     <!-- Vignette effects -->
 
     <div class="hidden dark:block">
-      <div class="pointer-events-none absolute -top-1 z-10 h-14 w-full bg-gradient-to-b from-(--color-bg) to-transparent" />
-      <div class="pointer-events-none absolute -bottom-1 z-10 h-20 w-full bg-gradient-to-t from-(--color-bg) to-transparent" />
-      <div class="pointer-events-none absolute -left-1 z-10 h-full w-20 bg-gradient-to-r from-(--color-bg) to-transparent" />
-      <!-- <div class="pointer-events-none absolute -right-1 z-10 h-full w-20 bg-gradient-to-l from-(--color-bg) to-transparent" /> -->
+      <div class="pointer-events-none absolute -top-1 z-10 h-14 w-full bg-linear-to-b from-(--color-bg) to-transparent" />
+      <div class="pointer-events-none absolute -bottom-1 z-10 h-20 w-full bg-linear-to-t from-(--color-bg) to-transparent" />
+      <div class="pointer-events-none absolute -left-1 z-10 h-full w-20 bg-linear-to-r from-(--color-bg) to-transparent" />
+      <div class="pointer-events-none absolute -right-1 z-10 h-full w-20 bg-linear-to-l from-(--color-bg) to-transparent" />
     </div>
 
     <!-- Put cards inside the grid container -->
@@ -126,10 +126,11 @@ const cards = [
 <style>
 @keyframes skew-scroll {
   0% {
-    transform: rotateX(20deg) rotateZ(-20deg) skewX(20deg) translateZ(0) translateY(0);
+    /* flipped rotateZ and skewX to tilt toward the right */
+    transform: rotateX(20deg) rotateZ(20deg) skewX(-20deg) translateZ(0) translateY(0);
   }
   100% {
-    transform: rotateX(20deg) rotateZ(-20deg) skewX(20deg) translateZ(0) translateY(-100%);
+    transform: rotateX(20deg) rotateZ(20deg) skewX(-20deg) translateZ(0) translateY(-100%);
   }
 }
 .animate-skew-scroll {

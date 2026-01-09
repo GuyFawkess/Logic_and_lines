@@ -12,8 +12,8 @@ export default {
         error: "#D96C6C",
       },
       fontFamily: {
-        'display': ['"Playfair Display"', 'serif'],
-        'sans': ['"Host Grotesk"', 'system-ui', 'sans-serif'],
+        'display': ['"Manrope"', 'sans-serif'],
+        'sans': ['"Inter"', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         xl: "1rem",

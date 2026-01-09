@@ -22,12 +22,12 @@ const iconMap: { [key: number]: string } = {
 };
 ---
 
-<section id="reasons" class="w-full py-16 px-4 relative overflow-hidden">
+<section id="reasons" class="w-full py-16 px-4 relative overflow-hidden mb-12">
   <div class="max-w-7xl mx-auto relative z-10">
     <h2 class="text-4xl md:text-5xl font-bold mb-4 text-center text-white">
-      ¿Por qué elegir <span class="text-(--color-primary)">Logic & Lines</span>?
+      ¿Por qué elegir <span class="text-(--color-primary)">Logic <span class="text-white">&</span> Lines</span>?
     </h2>
-    <p class="text-center text-gray-300 text-lg mb-16 max-w-3xl mx-auto">
+    <p class="text-center text-gray-300 text-lg mb-16 max-w-3xl mx-auto font-semibold">
       Combinamos experiencia técnica con un enfoque centrado en resultados empresariales
     </p>
 
@@ -44,9 +44,9 @@ const iconMap: { [key: number]: string } = {
               <!-- Icon and Title Row -->
               <div class="flex items-start gap-4 mb-3">
                 <!-- add "icon-box" to target on touch -->
-                <div class="icon-box w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg bg-[#F59E0B]/10 group-hover:bg-[#F59E0B]/20 transition-colors duration-300">
+                <div class="icon-box w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg bg-[#F59E0B]/10 group-hover:bg-[#F59E0B]/20 transition-colors duration-300 ">
                   <svg 
-                    class="w-6 h-6 text-(--color-primary)" 
+                    class="w-6 h-6 text-(--color-primary) group-hover:drop-shadow-[1px_1px_0_#000]" 
                     fill="none" 
                     stroke="currentColor" 
                     stroke-width="2" 
@@ -103,11 +103,11 @@ const iconMap: { [key: number]: string } = {
     position: relative;
     /* justo aqui debajo los puntitos del background */
     background-image: radial-gradient(
-    rgba(0, 0, 0, 0.3) 1px, 
-    transparent 1px
+    rgba(0, 0, 0, 0.3) 0.5px, 
+    transparent 0.5px
   );
   background-position: 50% 50%;
-  background-size: 0.9rem 0.8rem;
+  background-size: 0.7rem 0.6rem;
   }
   
   .benefit-card::before {
