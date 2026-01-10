@@ -11,7 +11,7 @@ const t = useTranslations(currentLang);
 >
   <button
     data-value={t.buttons.book}
-    class="scramble-button whitespace-nowrap min-w-[220px] my-8 btn btn-xl bg-(--color-primary) text-(--color-bg) border-2 border-transparent hover:border-(--color-accent)transition ease-in-out duration-300 uppercase font-semibold"
+    class="whitespace-nowrap min-w-[220px] my-8 btn btn-xl bg-(--color-primary) text-(--color-bg) hover:text-(--color-card) border-2 border-transparent hover:scale-105 hover:border-(--color-card) hover:bg-(--color-primary)/90 transition ease-in-out duration-300 uppercase font-semibold"
     style="box-shadow: 0 0.5px 2px var(--color-primary);"
     >{t.buttons.book}</button
   >
@@ -68,17 +68,6 @@ const t = useTranslations(currentLang);
           iteration += 1 / 3;
         }, 30);
       });
-
-      // Removed mouseleave listener to let animation finish
-      /*
-      button.addEventListener("mouseleave", () => {
-        clearInterval(interval);
-        const value = button.dataset.value || button.textContent || "";
-        button.innerText = value;
-        button.style.width = "";
-        button.style.fontFamily = "";
-      });
-      */
     });
   }
 

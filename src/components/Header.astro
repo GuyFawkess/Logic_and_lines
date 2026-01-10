@@ -33,24 +33,39 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
           <li
             class="text-(--color-text) hover:text-(--color-primary) border-none text-lg font-semibold"
           >
-            <a href={`${baseUrl}#benefits`}>{t.nav.about}</a>
+            <a
+              class="scramble-button inline-block whitespace-nowrap text-center"
+              data-value={t.nav.about}
+              href={`${baseUrl}#benefits`}>{t.nav.about}</a
+            >
           </li>
           <li
             class="text-(--color-text) hover:text-(--color-primary) border-none text-lg font-semibold"
           >
-            <a href={`${baseUrl}#services`}>{t.nav.services}</a>
+            <a
+              class="scramble-button inline-block whitespace-nowrap text-center"
+              data-value={t.nav.services}
+              href={`${baseUrl}#services`}>{t.nav.services}</a
+            >
           </li>
           <li
             class="text-(--color-text) hover:text-(--color-primary) border-none text-lg font-semibold"
           >
-            <a href={currentLang === "en" ? "/contact" : "/es/contacto"}
+            <a
+              class="scramble-button inline-block whitespace-nowrap text-center"
+              data-value={t.nav.contact}
+              href={currentLang === "en" ? "/contact" : "/es/contacto"}
               >{t.nav.contact}</a
             >
           </li>
           <li
             class="text-(--color-text) hover:text-(--color-primary) border-none text-lg font-semibold"
           >
-            <a href={`${baseUrl}#opinion`}>{t.nav.location}</a>
+            <a
+              class="scramble-button inline-block whitespace-nowrap text-center"
+              data-value={t.nav.location}
+              href={`${baseUrl}#opinion`}>{t.nav.location}</a
+            >
           </li>
         </ul>
       </div>
@@ -217,4 +232,64 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
 
   // Re-run after page transitions
   document.addEventListener("astro:page-load", setupBurgerMenu);
+</script>
+<script>
+  const letters = "abcdefghijklmnopqrstuvwxyz";
+
+  // Bind the effect to all buttons, avoid double-binding, and keep per-button intervals
+  function setupScrambleEffect() {
+    const buttons = document.querySelectorAll(
+      ".scramble-button",
+    ) as NodeListOf<HTMLElement>;
+    if (!buttons.length) return;
+
+    buttons.forEach((button) => {
+      // Prevent attaching duplicate listeners across page transitions
+      if (button.dataset.bound === "true") return;
+      button.dataset.bound = "true";
+
+      let interval = null;
+
+      button.addEventListener("mouseover", (event) => {
+        let iteration = 0;
+        const target = event.currentTarget as HTMLElement;
+
+        // Lock width to prevent horizontal jitter
+        const fixedWidth = target.getBoundingClientRect().width;
+        target.style.width = fixedWidth + "px";
+
+        // target.style.fontFamily = "monospace"; // Keep disabled to prevent vertical jump
+
+        clearInterval(interval);
+
+        interval = setInterval(() => {
+          const value = target.dataset.value || target.textContent || "";
+          target.innerText = target.innerText
+            .split("")
+            .map((letter, index) => {
+              if (index < iteration) {
+                return value[index] || "";
+              }
+              return letters[Math.floor(Math.random() * letters.length)];
+            })
+            .join("");
+
+          if (iteration >= value.length) {
+            clearInterval(interval);
+            target.innerText = value;
+            target.style.width = ""; // Release width lock
+            // target.style.fontFamily = "";
+          }
+
+          iteration += 1 / 3;
+        }, 30);
+      });
+    });
+  }
+
+  // Run on initial load
+  setupScrambleEffect();
+
+  // Re-run after page transitions (if using Astro's view transitions)
+  document.addEventListener("astro:page-load", setupScrambleEffect);
 </script>
