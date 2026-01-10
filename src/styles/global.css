@@ -15,9 +15,16 @@
 
   /* Texto */
   --color-text: #EBE7D9;
-  --color-text-dark: #0F222D; /* Para textos en tarjetas */
+  --color-text-dark: #0F222D;
+  /* Para textos en tarjetas */
 }
 
+/* Global Font Styles */
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+}
 
-
-
+h1,
+h2 {
+  font-family: 'Manrope', sans-serif;
+}

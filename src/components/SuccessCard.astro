@@ -1,6 +1,4 @@
 ---
-import { useTranslations } from "../i18n/utils";
-
 const {
   img = "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
   title = "Card Title",
@@ -8,120 +6,34 @@ const {
 } = Astro.props;
 ---
 
-<div class="custom-card">
-  <div class="card-inner">
-    <div class="image-container">
-      <img src={img} alt={title} class="card-image rounded-2xl" />
+<div
+  class="group w-80 min-h-[450px] relative overflow-hidden rounded-xl bg-(--color-card)/90 backdrop-blur-xl shadow-sm transition-all duration-400 ease-in-out hover:scale-[1.02] hover:bg-(--color-card-alt)/90 hover:shadow-[0_10px_30px_rgba(0,0,0,0.2)]"
+>
+  <!-- Border Glow Effect -->
+  <div
+    class="absolute inset-0 rounded-xl p-[3px] opacity-0 transition-opacity duration-400 pointer-events-none group-hover:opacity-100 z-20"
+    style="background: linear-gradient(45deg, transparent 5%, rgb(137, 24, 1) 50%, transparent 99%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude;"
+  >
+  </div>
+
+  <div class="relative z-10 h-full flex flex-col">
+    <div class="h-1/2 p-4 shrink-0 flex items-center justify-center">
+      <img
+        src={img}
+        alt={title}
+        class="w-full h-full object-contain block rounded-2xl"
+      />
     </div>
 
-    <div class="card-content">
-      <h2 class="card-title">{title}</h2>
-      <p class="card-text">
+    <div
+      class="h-1/2 pb-10 px-4 text-center flex flex-col items-center justify-between shrink-0"
+    >
+      <h2 class="text-2xl font-semibold mb-2 text-(--color-text-dark)">
+        {title}
+      </h2>
+      <p class="text-sm leading-6 text-(--color-text-dark) opacity-90">
         {text}
       </p>
     </div>
   </div>
 </div>
-
-<style>
-  .custom-card {
-    width: 20rem;
-    height: auto; /* w-96 */
-    min-height: 450px; /* CHANGED: altura fija */
-    border-radius: 0.75rem;
-    position: relative;
-    overflow: hidden;
-    background: var(--color-card);
-    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  }
-  .custom-card:hover {
-    transform: scale(1.02);
-    transition: all 0.4s ease-in-out;
-    background: var(--color-card-alt);
-  }
-
-  .custom-card:hover:before {
-    opacity: 1;
-  }
-
-  /* Efecto de brillo en el borde */
-  .custom-card:before {
-    background: linear-gradient(
-      45deg,
-      transparent 5%,
-      rgb(137, 24, 1) 50%,
-      transparent 99%
-    );
-    border-radius: inherit;
-    content: "";
-    inset: 0px;
-    opacity: 0;
-    position: absolute;
-    transition: opacity 400ms;
-    z-index: 2;
-    pointer-events: none;
-    padding: 3px;
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    mask-composite: exclude;
-  }
-
-  .card-inner {
-    /* background-image: radial-gradient(
-    rgba(0, 0, 0, 0.3) 1px, 
-    transparent 1px
-  );
-  background-position: 50% 50%;
-  background-size: 1.1rem 1.1rem; */
-    position: relative;
-    z-index: 1;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .image-container {
-    height: 50%; /* CHANGED: exactamente la mitad */
-    padding: 1rem; /* padding uniforme */
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .card-image {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* CHANGED: mantiene proporción de la imagen */
-    display: block;
-  }
-
-  .card-content {
-    height: 50%; /* CHANGED: la otra mitad */
-    padding: 0.8rem;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-shrink: 0;
-  }
-
-  .card-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: var(--color-text-dark);
-  }
-
-  .card-text {
-    font-size: 0.875rem;
-    line-height: 1.5;
-    color: var(--color-text-dark);
-    opacity: 0.9;
-  }
-</style>

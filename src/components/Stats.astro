@@ -3,32 +3,33 @@
 const stats = [
   {
     value: "85%",
-    label: "Reducción de tiempo"
+    label: "Reducción de tiempo",
   },
   {
-      value: "24/7",
-      label: "Disponibilidad"
-    },
-    {
-      value: "95%",
-      label: "Tasa de éxito"
-  }
+    value: "24/7",
+    label: "Disponibilidad",
+  },
+  {
+    value: "95%",
+    label: "Tasa de éxito",
+  },
 ];
 ---
+
 <!-- bg-gradient-to-b from-[#0a1f1f] to-[#0f2f2f] -->
-<section class="w-full py-12 px-4 bg-(--color-neutro) my-10 ">
+<section class="w-full py-12 px-4 bg-(--color-bg-alt) shadow-md">
   <div class="max-w-7xl mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 ">
-      {stats.map((stat) => (
-        <div class="text-center">
-          <div class="text-5xl md:text-6xl font-bold text-[#F59E0B] mb-3">
-            {stat.value}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+      {
+        stats.map((stat) => (
+          <div class="text-center">
+            <div class="text-5xl md:text-6xl font-bold text-[#F59E0B] mb-3">
+              {stat.value}
+            </div>
+            <div class="text-gray-400 text-lg">{stat.label}</div>
           </div>
-          <div class="text-gray-400 text-lg">
-            {stat.label}
-          </div>
-        </div>
-      ))}
+        ))
+      }
     </div>
   </div>
 </section>

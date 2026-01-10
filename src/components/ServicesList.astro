@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import { useTranslations } from "../i18n/utils";
+import BookButton from "./BookButton.astro";
 
 const { currentLang = "en" } = Astro.props;
 const t = useTranslations(currentLang);
@@ -8,21 +9,22 @@ const t = useTranslations(currentLang);
 const allServices = await getCollection("services");
 const services = allServices.sort(
   (a: { data: { sortOrder?: number } }, b: { data: { sortOrder?: number } }) =>
-    (a.data.sortOrder || 999) - (b.data.sortOrder || 999)
+    (a.data.sortOrder || 999) - (b.data.sortOrder || 999),
 );
 
 const soonSlugs = new Set(["smarthost", "digital-marketing"]);
 ---
-<section id="services" class="w-full py-16 px-4">
+
+<section id="services" class="w-full py-16 px-4 bg-(--color-bg-alt) shadow-md">
   <div class="max-w-6xl mx-auto">
     <h2
       transition:name="services"
-      class="text-3xl font-bold mb-12 text-center text-(--color-primary)"
+      class="text-5xl font-extrabold mb-18 text-center text-(--color-primary)"
     >
       {t.service.title}
     </h2>
 
-    <div class="flex flex-wrap justify-center gap-8">
+    <div class="flex flex-wrap justify-center gap-12 mb-18">
       {
         services.map((service: { data: any; slug: string }, index: number) => {
           const { data, slug } = service;
@@ -70,7 +72,7 @@ const soonSlugs = new Set(["smarthost", "digital-marketing"]);
 
               {/* Title - always visible at top */}
               <div class="absolute top-0 left-0 right-0 p-6 z-[35] pointer-events-none">
-                <h2 class="text-3xl font-bold text-(--color-primary) text-center text-shadow-md">
+                <h2 class="text-3xl font-bold text-(--color-text-dark)/70 text-center text-shadow-md">
                   {title}
                 </h2>
               </div>
@@ -98,7 +100,7 @@ const soonSlugs = new Set(["smarthost", "digital-marketing"]);
         })
       }
     </div>
-
+    <BookButton currentLang={currentLang} />
     <style>
       @keyframes pulseSlow {
         0%,
