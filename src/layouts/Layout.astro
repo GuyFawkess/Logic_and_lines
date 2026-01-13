@@ -17,7 +17,7 @@ const currentLang = getLanguageFromURL(Astro.url);
 const t = useTranslations(currentLang);
 
 // Create proper page title
-const siteTitle = "Malai Thai Massage Lanzarote";
+const siteTitle = "Logic & Lines";
 const fullTitle =
   title === "main" || title === "principal"
     ? siteTitle
@@ -42,7 +42,7 @@ const canonicalURL = new URL(
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/webp" href="/logoNav.webp" />
+    <link rel="icon" type="image/svg+xml" href="/logoSolo.svg" />
     <meta name="generator" content={Astro.generator} />
     <meta
       name="google-site-verification"

@@ -50,7 +50,13 @@ export default {
     opening: "Next opening soon!"
   },
   buttons: {
-    book: "Agenda una cita"
+    book: "Agendar Llamada Gratis"
+  },
+  booking: {
+    title: "Schedule your Free Consultation",
+    text: "Select the day and time that best suits you for our initial meeting. In this consultation we will analyze your business and propose the best strategy.",
+    button: "Schedule Free Consultation",
+    footer: "No commitment • 100% Free • 30 minutes"
   },
   footer: {
     copyright: "Copyright © {year} - All right reserved by Malai Thai Massage"

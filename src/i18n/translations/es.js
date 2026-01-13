@@ -52,6 +52,12 @@ export default {
   buttons: {
     book: "¡Reserva ahora!"
   },
+  booking: {
+    title: "Agenda tu Consulta Gratuita",
+    text: "Selecciona el día y hora que mejor te convenga para nuestra reunión inicial. En esta consulta analizaremos tu negocio y te propondremos la mejor estrategia.",
+    button: "Agendar Consulta Gratuita",
+    footer: "Sin compromiso • 100% Gratuito • 30 minutos"
+  },
   footer: {
     copyright: "Copyright © {year} - Todos los derechos reservados por Malai Thai Massage"
   }

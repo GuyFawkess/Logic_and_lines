@@ -3,15 +3,13 @@ import { useTranslations } from "../i18n/utils";
 
 const { currentLang = "en" } = Astro.props;
 const t = useTranslations(currentLang);
+const baseUrl = currentLang === "en" ? "/" : "/es/";
 ---
 
-<a
-  href={currentLang === "en" ? "/contact" : "/es/contact"}
-  class="w-full flex justify-center items-center"
->
+<a href={`${baseUrl}#booking`} class="w-full flex justify-center items-center">
   <button
     data-value={t.buttons.book}
-    class="whitespace-nowrap min-w-[220px] my-8 btn btn-xl bg-(--color-primary) text-(--color-bg) hover:text-(--color-card) border-2 border-transparent hover:scale-105 hover:border-(--color-card) hover:bg-(--color-primary)/90 transition ease-in-out duration-300 uppercase font-semibold"
+    class="whitespace-nowrap min-w-[220px] my-8 btn btn-xl bg-(--color-primary) text-(--color-bg) hover:text-(--color-card) border-2 border-transparent hover:bg-(--color-primary)/90 transition ease-in-out duration-300 font-semibold"
     style="box-shadow: 0 0.5px 2px var(--color-primary);"
     >{t.buttons.book}</button
   >

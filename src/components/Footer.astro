@@ -9,7 +9,7 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
 ---
 
 <footer
-  class="w-full bg-(--color-bg) border-t border-(--color-bg-alt) pt-8 mt-52 md:pl-16"
+  class="w-full bg-(--color-bg) border-t border-(--color-bg-alt) pt-8 mt-20 md:pl-16"
 >
   <div class="max-w-7xl mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
@@ -27,6 +27,7 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
 
       <!-- Mobile: Second - Navigation Links / Desktop: Left -->
       <nav class="flex flex-col gap-4 items-start m-12 lg:ml-24">
+        <h4 class="text-lg font-medium underline">Navegación</h4>
         <a
           href={baseUrl}
           class="text-gray-400 hover:text-[#F59E0B] duration-300 text-lg font-medium transition-all hover:-translate-y-1"
