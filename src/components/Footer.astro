@@ -14,16 +14,34 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
   <div class="max-w-7xl mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
       <!-- Mobile: First - Logo and Name / Desktop: Middle -->
-      <a
-        href={baseUrl}
-        class="flex flex-col items-center justify-center gap-3 hover:scale-105 transition ease-in-out duration-150"
+      <div
+        class="flex flex-col items-center justify-center gap-6 max-w-md mx-auto"
       >
-        <img
-          src="/logoEntero.svg"
-          alt="Logic & Lines Logo"
-          class="w-auto h-20 object-contain"
-        />
-      </a>
+        <a
+          href={baseUrl}
+          class="hover:scale-105 transition ease-in-out duration-150"
+        >
+          <img
+            src="/logoEntero.svg"
+            alt="Logic & Lines Logo"
+            class="w-auto h-20 object-contain"
+          />
+        </a>
+
+        <p
+          class="text-gray-300 text-center text-sm md:text-base leading-relaxed px-4"
+        >
+          Transformamos negocios con soluciones de inteligencia artificial y
+          automatización. Más eficiencia, menos errores, mejores resultados.
+        </p>
+
+        <a
+          href={currentLang === "en" ? "/contact" : "/es/contact"}
+          class="bg-[#F59E0B] hover:bg-[#D97706] text-black font-semibold px-6 py-3 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#F59E0B]/50"
+        >
+          {currentLang === "es" ? "Agendar Llamada" : "Schedule a Call"}
+        </a>
+      </div>
 
       <!-- Mobile: Second - Navigation Links / Desktop: Left -->
       <nav class="flex flex-col gap-4 items-start m-12 lg:ml-24">
