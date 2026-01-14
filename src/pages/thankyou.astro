@@ -1,0 +1,744 @@
+---
+import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
+import Footer from "../components/Footer.astro";
+
+const title = "Llamada Confirmada | Logic & Lines";
+const description =
+    "Tu llamada de evaluación está confirmada. Te esperamos para analizar cómo automatizar tu negocio.";
+---
+
+<!doctype html>
+<html lang="es" class="overflow-x-hidden">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/svg+xml" href="/logoSolo.svg" />
+
+        <title>{title}</title>
+        <meta name="title" content={title} />
+        <meta name="description" content={description} />
+        <meta name="robots" content="noindex, nofollow" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:title" content={title} />
+        <meta property="twitter:description" content={description} />
+
+        <ClientRouter />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+
+    <body
+        class="bg-(--color-bg) text-(--color-text) min-h-screen overflow-x-hidden"
+    >
+        <!-- Hero - Confirmación -->
+        <section
+            class="min-h-screen flex items-center justify-center py-12 px-4 md:px-6"
+            style="background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);"
+        >
+            <div class="max-w-4xl mx-auto text-center">
+                <!-- Logo -->
+                <div class="mb-8">
+                    <img
+                        src="/logoEntero.svg"
+                        alt="Logic & Lines"
+                        class="h-12 md:h-16 w-auto mx-auto"
+                    />
+                </div>
+
+                <!-- Check Icon -->
+                <div
+                    class="mb-8 inline-flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full bg-(--color-primary) shadow-[0_4px_20px_rgba(230,161,0,0.3)]"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-12 h-12 md:w-14 md:h-14 text-(--color-text-dark)"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+
+                <h1
+                    class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 text-(--color-text) leading-tight"
+                >
+                    ¡Tu llamada está confirmada!
+                </h1>
+
+                <p
+                    class="text-lg md:text-xl text-(--color-text) opacity-90 max-w-2xl mx-auto mb-8 leading-relaxed"
+                >
+                    En breve recibirás un email con todos los detalles de la
+                    llamada. Revisa tu bandeja de entrada (y spam, por si
+                    acaso).
+                </p>
+
+                <div
+                    class="inline-flex items-center gap-3 px-6 py-3 bg-(--color-bg-alt) rounded-lg border border-[rgba(235,231,217,0.2)]"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-5 h-5 text-(--color-primary)"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"
+                        ></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    <span class="text-(--color-text) font-medium"
+                        >La llamada ya está en tu calendario</span
+                    >
+                </div>
+            </div>
+        </section>
+
+        <!-- Qué va a pasar ahora -->
+        <section class="py-16 md:py-20 bg-(--color-bg)">
+            <div class="max-w-4xl mx-auto px-4 md:px-6">
+                <h2
+                    class="text-3xl md:text-4xl font-bold text-center mb-12 text-(--color-text)"
+                >
+                    ¿Qué va a pasar ahora?
+                </h2>
+
+                <div class="space-y-6">
+                    <div class="flex gap-6 items-start">
+                        <div
+                            class="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-(--color-primary) text-(--color-text-dark) flex items-center justify-center text-xl md:text-2xl font-bold"
+                        >
+                            1
+                        </div>
+                        <div class="flex-1 pt-2">
+                            <h3
+                                class="text-xl md:text-2xl font-semibold mb-2 text-(--color-text)"
+                            >
+                                Revisión previa de tu negocio
+                            </h3>
+                            <p
+                                class="text-(--color-text) opacity-85 leading-relaxed"
+                            >
+                                Antes de la llamada, revisaremos brevemente tu
+                                web y procesos públicos para entender tu
+                                contexto.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="h-8 w-0.5 ml-6 md:ml-7"
+                        style="background: linear-gradient(180deg, var(--color-primary) 0%, transparent 100%);"
+                    >
+                    </div>
+
+                    <div class="flex gap-6 items-start">
+                        <div
+                            class="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-(--color-primary) text-(--color-text-dark) flex items-center justify-center text-xl md:text-2xl font-bold"
+                        >
+                            2
+                        </div>
+                        <div class="flex-1 pt-2">
+                            <h3
+                                class="text-xl md:text-2xl font-semibold mb-2 text-(--color-text)"
+                            >
+                                Llamada de evaluación (30 min)
+                            </h3>
+                            <p
+                                class="text-(--color-text) opacity-85 leading-relaxed"
+                            >
+                                Conversamos sobre tu situación actual,
+                                identificamos cuellos de botella y oportunidades
+                                de mejora.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="h-8 w-0.5 ml-6 md:ml-7"
+                        style="background: linear-gradient(180deg, var(--color-primary) 0%, transparent 100%);"
+                    >
+                    </div>
+
+                    <div class="flex gap-6 items-start">
+                        <div
+                            class="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-(--color-primary) text-(--color-text-dark) flex items-center justify-center text-xl md:text-2xl font-bold"
+                        >
+                            3
+                        </div>
+                        <div class="flex-1 pt-2">
+                            <h3
+                                class="text-xl md:text-2xl font-semibold mb-2 text-(--color-text)"
+                            >
+                                Identificación de procesos clave
+                            </h3>
+                            <p
+                                class="text-(--color-text) opacity-85 leading-relaxed"
+                            >
+                                Detectamos qué procesos tienen mayor impacto si
+                                se automatizan (gestión de leads, seguimiento,
+                                reporting, etc.).
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="h-8 w-0.5 ml-6 md:ml-7"
+                        style="background: linear-gradient(180deg, var(--color-primary) 0%, transparent 100%);"
+                    >
+                    </div>
+
+                    <div class="flex gap-6 items-start">
+                        <div
+                            class="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-(--color-primary) text-(--color-text-dark) flex items-center justify-center text-xl md:text-2xl font-bold"
+                        >
+                            4
+                        </div>
+                        <div class="flex-1 pt-2">
+                            <h3
+                                class="text-xl md:text-2xl font-semibold mb-2 text-(--color-text)"
+                            >
+                                Definición del siguiente paso
+                            </h3>
+                            <p
+                                class="text-(--color-text) opacity-85 leading-relaxed"
+                            >
+                                Si tiene sentido trabajar juntos, te proponemos
+                                un Sprint de Automatización. Si no, te lo
+                                diremos con total transparencia.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cómo prepararse -->
+        <section
+            class="py-16 md:py-20"
+            style="background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);"
+        >
+            <div class="max-w-4xl mx-auto px-4 md:px-6">
+                <h2
+                    class="text-3xl md:text-4xl font-bold text-center mb-6 text-(--color-text)"
+                >
+                    Cómo prepararte para la llamada
+                </h2>
+                <p
+                    class="text-center text-(--color-text) opacity-75 mb-12 text-lg"
+                >
+                    No es un examen. Solo queremos aprovechar mejor el tiempo.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div
+                        class="bg-(--color-bg-alt) p-6 md:p-8 rounded-xl border border-[rgba(235,231,217,0.1)] hover:border-(--color-primary) transition-all duration-300"
+                    >
+                        <div class="text-4xl mb-4">📊</div>
+                        <h3
+                            class="text-xl font-semibold mb-3 text-(--color-text)"
+                        >
+                            Ten claro cómo entran tus leads
+                        </h3>
+                        <p
+                            class="text-(--color-text) opacity-85 leading-relaxed"
+                        >
+                            Formularios, llamadas, redes sociales, referidos...
+                            ¿Cómo llegan? ¿Qué pasa después?
+                        </p>
+                    </div>
+
+                    <div
+                        class="bg-(--color-bg-alt) p-6 md:p-8 rounded-xl border border-[rgba(235,231,217,0.1)] hover:border-(--color-primary) transition-all duration-300"
+                    >
+                        <div class="text-4xl mb-4">⚙️</div>
+                        <h3
+                            class="text-xl font-semibold mb-3 text-(--color-text)"
+                        >
+                            Identifica procesos manuales
+                        </h3>
+                        <p
+                            class="text-(--color-text) opacity-85 leading-relaxed"
+                        >
+                            ¿Qué tareas repetitivas hace tu equipo cada día?
+                            Copiar datos, enviar emails, actualizar hojas...
+                        </p>
+                    </div>
+
+                    <div
+                        class="bg-(--color-bg-alt) p-6 md:p-8 rounded-xl border border-[rgba(235,231,217,0.1)] hover:border-(--color-primary) transition-all duration-300"
+                    >
+                        <div class="text-4xl mb-4">💸</div>
+                        <h3
+                            class="text-xl font-semibold mb-3 text-(--color-text)"
+                        >
+                            Piensa dónde se pierde tiempo o dinero
+                        </h3>
+                        <p
+                            class="text-(--color-text) opacity-85 leading-relaxed"
+                        >
+                            Leads sin seguimiento, tareas que tardan horas,
+                            errores recurrentes... ¿Qué duele más?
+                        </p>
+                    </div>
+
+                    <div
+                        class="bg-(--color-bg-alt) p-6 md:p-8 rounded-xl border border-[rgba(235,231,217,0.1)] hover:border-(--color-primary) transition-all duration-300"
+                    >
+                        <div class="text-4xl mb-4">🎯</div>
+                        <h3
+                            class="text-xl font-semibold mb-3 text-(--color-text)"
+                        >
+                            Define tu objetivo principal
+                        </h3>
+                        <p
+                            class="text-(--color-text) opacity-85 leading-relaxed"
+                        >
+                            ¿Quieres convertir más leads? ¿Reducir errores?
+                            ¿Tener visibilidad del proceso? Prioriza uno.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Para quién sí / Para quién no -->
+        <section class="py-16 md:py-20 bg-(--color-bg)">
+            <div class="max-w-5xl mx-auto px-4 md:px-6">
+                <h2
+                    class="text-3xl md:text-4xl font-bold text-center mb-12 text-(--color-text)"
+                >
+                    Recordatorio: ¿Para quién es esta llamada?
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div
+                        class="bg-(--color-bg-alt) p-8 md:p-10 rounded-xl border-2 border-(--color-primary)"
+                    >
+                        <div class="flex items-center gap-3 mb-6">
+                            <div
+                                class="w-8 h-8 rounded-full bg-(--color-primary) flex items-center justify-center"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="w-5 h-5 text-(--color-text-dark)"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="3"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <polyline points="20 6 9 17 4 12"
+                                    ></polyline>
+                                </svg>
+                            </div>
+                            <h3
+                                class="text-2xl font-bold text-(--color-primary)"
+                            >
+                                Es ideal si...
+                            </h3>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3">
+                                <span class="text-(--color-primary) mt-1"
+                                    >•</span
+                                >
+                                <span
+                                    class="text-(--color-text) opacity-90 leading-relaxed"
+                                    >Tienes leads activos y proceso comercial en
+                                    marcha</span
+                                >
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-(--color-primary) mt-1"
+                                    >•</span
+                                >
+                                <span
+                                    class="text-(--color-text) opacity-90 leading-relaxed"
+                                    >Tu equipo hace tareas manuales repetitivas</span
+                                >
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-(--color-primary) mt-1"
+                                    >•</span
+                                >
+                                <span
+                                    class="text-(--color-text) opacity-90 leading-relaxed"
+                                    >Buscas resultados medibles, no solo
+                                    "software"</span
+                                >
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-(--color-primary) mt-1"
+                                    >•</span
+                                >
+                                <span
+                                    class="text-(--color-text) opacity-90 leading-relaxed"
+                                    >Estás dispuesto a invertir en mejora
+                                    operativa</span
+                                >
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div
+                        class="bg-(--color-bg-alt) p-8 md:p-10 rounded-xl border-2 border-[rgba(235,231,217,0.2)]"
+                    >
+                        <div class="flex items-center gap-3 mb-6">
+                            <div
+                                class="w-8 h-8 rounded-full bg-[rgba(235,231,217,0.2)] flex items-center justify-center"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="w-5 h-5 text-(--color-text)"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="3"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-(--color-text)">
+                                No es ideal si...
+                            </h3>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3">
+                                <span
+                                    class="text-(--color-text) opacity-50 mt-1"
+                                    >•</span
+                                >
+                                <span
+                                    class="text-(--color-text) opacity-90 leading-relaxed"
+                                    >Estás empezando desde cero (aún no tienes
+                                    procesos)</span
+                                >
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span
+                                    class="text-(--color-text) opacity-50 mt-1"
+                                    >•</span
+                                >
+                                <span
+                                    class="text-(--color-text) opacity-90 leading-relaxed"
+                                    >Buscas software barato o plantillas
+                                    genéricas</span
+                                >
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span
+                                    class="text-(--color-text) opacity-50 mt-1"
+                                    >•</span
+                                >
+                                <span
+                                    class="text-(--color-text) opacity-90 leading-relaxed"
+                                    >Quieres soluciones "mágicas" sin esfuerzo</span
+                                >
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span
+                                    class="text-(--color-text) opacity-50 mt-1"
+                                    >•</span
+                                >
+                                <span
+                                    class="text-(--color-text) opacity-90 leading-relaxed"
+                                    >No estás listo para implementar cambios</span
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Qué NO es esta llamada -->
+        <section
+            class="py-16 md:py-20"
+            style="background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);"
+        >
+            <div class="max-w-4xl mx-auto px-4 md:px-6">
+                <h2
+                    class="text-3xl md:text-4xl font-bold text-center mb-12 text-(--color-text)"
+                >
+                    Para que estemos alineados...
+                </h2>
+
+                <div
+                    class="bg-(--color-bg-alt) p-8 md:p-10 rounded-xl border border-[rgba(235,231,217,0.1)]"
+                >
+                    <h3 class="text-2xl font-bold mb-6 text-(--color-text)">
+                        Esta llamada NO es:
+                    </h3>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="w-6 h-6 text-(--color-primary) flex-shrink-0 mt-1"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="15" y1="9" x2="9" y2="15"></line>
+                                <line x1="9" y1="9" x2="15" y2="15"></line>
+                            </svg>
+                            <div>
+                                <h4
+                                    class="text-lg font-semibold text-(--color-text) mb-1"
+                                >
+                                    Una demo de software
+                                </h4>
+                                <p
+                                    class="text-(--color-text) opacity-85 leading-relaxed"
+                                >
+                                    No vamos a enseñarte n8n, Make o cualquier
+                                    herramienta. Hablamos de tu negocio, no de
+                                    tecnología.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="w-6 h-6 text-(--color-primary) flex-shrink-0 mt-1"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="15" y1="9" x2="9" y2="15"></line>
+                                <line x1="9" y1="9" x2="15" y2="15"></line>
+                            </svg>
+                            <div>
+                                <h4
+                                    class="text-lg font-semibold text-(--color-text) mb-1"
+                                >
+                                    Una llamada de ventas agresiva
+                                </h4>
+                                <p
+                                    class="text-(--color-text) opacity-85 leading-relaxed"
+                                >
+                                    Si no tiene sentido trabajar juntos, te lo
+                                    diremos directamente. No presionamos a
+                                    nadie.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="w-6 h-6 text-(--color-primary) flex-shrink-0 mt-1"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="15" y1="9" x2="9" y2="15"></line>
+                                <line x1="9" y1="9" x2="15" y2="15"></line>
+                            </svg>
+                            <div>
+                                <h4
+                                    class="text-lg font-semibold text-(--color-text) mb-1"
+                                >
+                                    Consultoría gratuita ilimitada
+                                </h4>
+                                <p
+                                    class="text-(--color-text) opacity-85 leading-relaxed"
+                                >
+                                    Es una evaluación inicial. Si queremos
+                                    profundizar, será dentro de un Sprint
+                                    pagado.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Prueba de confianza -->
+        <section class="py-16 md:py-20 bg-(--color-bg)">
+            <div class="max-w-5xl mx-auto px-4 md:px-6">
+                <h2
+                    class="text-3xl md:text-4xl font-bold text-center mb-12 text-(--color-text)"
+                >
+                    Cómo trabajamos
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div
+                        class="bg-(--color-bg-alt) p-6 md:p-8 rounded-xl text-center"
+                    >
+                        <div class="text-5xl mb-4">🎯</div>
+                        <h3
+                            class="text-lg font-semibold mb-3 text-(--color-text)"
+                        >
+                            Sistemas, no herramientas
+                        </h3>
+                        <p
+                            class="text-(--color-text) opacity-85 leading-relaxed text-sm"
+                        >
+                            No vendemos software. Diseñamos sistemas adaptados a
+                            cada negocio.
+                        </p>
+                    </div>
+
+                    <div
+                        class="bg-(--color-bg-alt) p-6 md:p-8 rounded-xl text-center"
+                    >
+                        <div class="text-5xl mb-4">⚡</div>
+                        <h3
+                            class="text-lg font-semibold mb-3 text-(--color-text)"
+                        >
+                            Resultados rápidos
+                        </h3>
+                        <p
+                            class="text-(--color-text) opacity-85 leading-relaxed text-sm"
+                        >
+                            Sprint de 7-14 días con una automatización real
+                            implementada.
+                        </p>
+                    </div>
+
+                    <div
+                        class="bg-(--color-bg-alt) p-6 md:p-8 rounded-xl text-center"
+                    >
+                        <div class="text-5xl mb-4">🔒</div>
+                        <h3
+                            class="text-lg font-semibold mb-3 text-(--color-text)"
+                        >
+                            Transparencia total
+                        </h3>
+                        <p
+                            class="text-(--color-text) opacity-85 leading-relaxed text-sm"
+                        >
+                            Sabes qué vamos a hacer, cuánto tarda y qué vas a
+                            recibir.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Micro-compromiso -->
+        <section
+            class="py-16 md:py-20"
+            style="background: linear-gradient(180deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);"
+        >
+            <div class="max-w-4xl mx-auto px-4 md:px-6 text-center">
+                <h2
+                    class="text-3xl md:text-4xl font-bold mb-6 text-(--color-text)"
+                >
+                    Mientras tanto...
+                </h2>
+                <p
+                    class="text-lg text-(--color-text) opacity-90 mb-10 max-w-2xl mx-auto leading-relaxed"
+                >
+                    Si quieres llegar más preparado a la llamada, aquí tienes
+                    algunas preguntas para reflexionar:
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                    <div
+                        class="bg-(--color-bg-alt) p-6 rounded-xl border border-[rgba(235,231,217,0.1)]"
+                    >
+                        <div class="text-3xl mb-3">💭</div>
+                        <h3
+                            class="text-lg font-semibold mb-2 text-(--color-text)"
+                        >
+                            ¿Cuántos leads pierdes al mes?
+                        </h3>
+                        <p
+                            class="text-(--color-text) opacity-75 text-sm leading-relaxed"
+                        >
+                            Por no hacer seguimiento o responder tarde.
+                        </p>
+                    </div>
+
+                    <div
+                        class="bg-(--color-bg-alt) p-6 rounded-xl border border-[rgba(235,231,217,0.1)]"
+                    >
+                        <div class="text-3xl mb-3">⏱️</div>
+                        <h3
+                            class="text-lg font-semibold mb-2 text-(--color-text)"
+                        >
+                            ¿Cuántas horas semanales se pierden?
+                        </h3>
+                        <p
+                            class="text-(--color-text) opacity-75 text-sm leading-relaxed"
+                        >
+                            En tareas manuales que podrían automatizarse.
+                        </p>
+                    </div>
+
+                    <div
+                        class="bg-(--color-bg-alt) p-6 rounded-xl border border-[rgba(235,231,217,0.1)]"
+                    >
+                        <div class="text-3xl mb-3">📈</div>
+                        <h3
+                            class="text-lg font-semibold mb-2 text-(--color-text)"
+                        >
+                            ¿Qué pasaría si automatizan eso?
+                        </h3>
+                        <p
+                            class="text-(--color-text) opacity-75 text-sm leading-relaxed"
+                        >
+                            Más conversiones, más tiempo, menos errores.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer simple -->
+        <Footer />
+        <!-- <footer
+            class="py-8 border-t border-[rgba(235,231,217,0.1)] bg-(--color-bg)"
+        >
+            <div class="max-w-4xl mx-auto px-4 md:px-6 text-center">
+                <img
+                    src="/logoEntero.svg"
+                    alt="Logic & Lines"
+                    class="h-10 w-auto mx-auto mb-4 opacity-60"
+                />
+                <p class="text-(--color-text) opacity-60 text-sm">
+                    © 2026 Logic & Lines. Automatización e IA para empresas B2B.
+                </p>
+            </div>
+        </footer> -->
+    </body>
+</html>

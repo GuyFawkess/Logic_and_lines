@@ -10,17 +10,17 @@ function initAnimations() {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const el = entry.target;
-          
+
           // Get custom duration from data attribute or use default
           const duration = el.dataset.duration || "1000";
-          
+
           // Clear any existing transition styles
           el.style.transition = "";
-          
+
           // Set the transition with the specific duration
           // Important: Set this BEFORE making any class changes
           el.style.transition = `all ${duration}ms ease-out`;
-          
+
           // Apply animation effect
           const animation = el.dataset.animate;
           switch (animation) {
@@ -48,7 +48,7 @@ function initAnimations() {
 
           // Stop observing once it's animated
           observer.unobserve(el);
-          
+
           // Optional: Remove the inline transition style after animation completes
           setTimeout(() => {
             el.style.transition = "";
@@ -64,10 +64,10 @@ function initAnimations() {
     // Reset to initial state based on animation type
     const animation = el.dataset.animate;
     el.classList.add("opacity-0");
-    
+
     // Remove any lingering transition styles
     el.style.transition = "";
-    
+
     switch (animation) {
       case "fade-up":
         el.classList.add("translate-y-10");
@@ -86,9 +86,8 @@ function initAnimations() {
         el.classList.remove("scale-100", "opacity-100");
         break;
     }
-    
+
     // Observe the element again
     observer.observe(el);
   });
 }
-  

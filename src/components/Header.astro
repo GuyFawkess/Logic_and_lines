@@ -34,7 +34,7 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
             class="text-(--color-text) hover:text-(--color-primary) border-none text-lg font-semibold"
           >
             <a
-              class="scramble-button inline-block whitespace-nowrap text-center"
+              class="inline-block whitespace-nowrap text-center"
               data-value={t.nav.about}
               href={`${baseUrl}#benefits`}>{t.nav.about}</a
             >
@@ -43,7 +43,7 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
             class="text-(--color-text) hover:text-(--color-primary) border-none text-lg font-semibold"
           >
             <a
-              class="scramble-button inline-block whitespace-nowrap text-center"
+              class="inline-block whitespace-nowrap text-center"
               data-value={t.nav.services}
               href={`${baseUrl}#services`}>{t.nav.services}</a
             >
@@ -52,7 +52,7 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
             class="text-(--color-text) hover:text-(--color-primary) border-none text-lg font-semibold"
           >
             <a
-              class="scramble-button inline-block whitespace-nowrap text-center"
+              class="inline-block whitespace-nowrap text-center"
               data-value={t.nav.contact}
               href={currentLang === "en" ? "/contact" : "/es/contacto"}
               >{t.nav.contact}</a
@@ -62,10 +62,20 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
             class="text-(--color-text) hover:text-(--color-primary) border-none text-lg font-semibold"
           >
             <a
-              class="scramble-button inline-block whitespace-nowrap text-center"
+              class="inline-block whitespace-nowrap text-center"
               data-value={t.nav.location}
               href={`${baseUrl}#opinion`}>{t.nav.location}</a
             >
+          </li>
+          <li>
+            <a
+              href={`${baseUrl}#booking`}
+              class="scramble-button btn bg-(--color-primary) text-(--color-bg) hover:text-white hover:bg-(--color-primary)/90 border-none font-semibold px-6 whitespace-nowrap"
+              data-value={t.buttons.book}
+              style="box-shadow: 0 0.5px 2px var(--color-primary);"
+            >
+              {t.buttons.book}
+            </a>
           </li>
         </ul>
       </div>
@@ -102,6 +112,16 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
           tabindex="0"
           class="dropdown-content menu bg-(--color-bg-alt) text-(--color-text) rounded-box z-[100] w-52 p-2 shadow-md mt-4"
         >
+          <li>
+            <a
+              href={`${baseUrl}#booking`}
+              class="scramble-button btn bg-(--color-primary) text-(--color-bg) hover:text-(--color-bg) hover:bg-(--color-primary)/90 border-none font-semibold w-full mb-2 whitespace-nowrap"
+              data-value={t.buttons.book}
+              style="box-shadow: 0 0.5px 2px var(--color-primary);"
+            >
+              {t.buttons.book}
+            </a>
+          </li>
           <li>
             <a href={`${baseUrl}#about`} class="py-3 text-center justify-center"
               >{t.nav.about}</a
