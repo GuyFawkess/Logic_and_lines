@@ -10,28 +10,28 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
 ---
 
 <header
-  class="relative w-full h-auto top-0 left-0 right-0 z-50 bg-(--color-bg)"
+  class="w-full h-auto min-h-20 top-0 left-0 right-0 z-50 bg-(--color-bg) sticky flex items-center justify-center"
 >
   <!-- Desktop Navigation -->
   <nav class="mx-auto w-full hidden md:block bg-(--color-bg)">
     <div class="container mx-auto px-4 flex items-center justify-between py-2">
-      <div class="flex items-center space-x-8">
+      <div class="flex items-center space-x-">
         <!-- Logo on the left -->
         <a
           href={baseUrl}
-          class="flex items-center hover:scale-105 transition ease-in-out duration-150 mx-10"
+          class="flex items-center hover:scale-105 transition ease-in-out duration-150 ml-10"
         >
           <img
             data-astro-prefetch
             src="/logoEntero.svg"
             alt="Logic and Line Logo"
-            class="h-24 w-60"
+            class="h-auto w-52"
           />
         </a>
         <!-- Nav buttons follow the logo -->
-        <ul class="flex items-center space-x-10 py-0 mx-10">
+        <ul class="flex items-center space-x-8 py-0 mx-10">
           <li
-            class="text-(--color-text) hover:text-(--color-primary) border-none text-lg font-semibold"
+            class="text-(--color-text) hover:text-(--color-primary) border-none text-lg font-medium"
           >
             <a
               class="inline-block whitespace-nowrap text-center"
@@ -40,7 +40,7 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
             >
           </li>
           <li
-            class="text-(--color-text) hover:text-(--color-primary) border-none text-lg font-semibold"
+            class="text-(--color-text) hover:text-(--color-primary) border-none text-lg font-medium"
           >
             <a
               class="inline-block whitespace-nowrap text-center"
@@ -49,7 +49,7 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
             >
           </li>
           <li
-            class="text-(--color-text) hover:text-(--color-primary) border-none text-lg font-semibold"
+            class="text-(--color-text) hover:text-(--color-primary) border-none text-lg font-medium"
           >
             <a
               class="inline-block whitespace-nowrap text-center"
@@ -59,7 +59,7 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
             >
           </li>
           <li
-            class="text-(--color-text) hover:text-(--color-primary) border-none text-lg font-semibold"
+            class="text-(--color-text) hover:text-(--color-primary) border-none text-lg font-medium"
           >
             <a
               class="inline-block whitespace-nowrap text-center"
@@ -67,21 +67,19 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
               href={`${baseUrl}#opinion`}>{t.nav.location}</a
             >
           </li>
-          <li>
-            <a
-              href={`${baseUrl}#booking`}
-              class="scramble-button btn bg-(--color-primary) text-(--color-bg) hover:text-white hover:bg-(--color-primary)/90 border-none font-semibold px-6 whitespace-nowrap"
-              data-value={t.buttons.book}
-              style="box-shadow: 0 0.5px 2px var(--color-primary);"
-            >
-              {t.buttons.book}
-            </a>
-          </li>
         </ul>
       </div>
       <!-- Language switcher stays on the right -->
-      <div class="flex-shrink-0">
+      <div class="flex-shrink-0 flex items-center gap-4">
         <LanguageSwitcher currentLang={currentLang} />
+        <a
+          href={`${baseUrl}#booking`}
+          class="scramble-button btn bg-(--color-primary) text-(--color-bg) hover:text-white hover:bg-(--color-primary)/90 border-none font-semibold px-6 whitespace-nowrap h-auto py-2"
+          data-value={t.buttons.book}
+          style="box-shadow: 0 0.5px 2px var(--color-primary);"
+        >
+          {t.buttons.book}
+        </a>
       </div>
     </div>
   </nav>
@@ -94,7 +92,7 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
         <img
           src="/logoEntero.svg"
           alt="Thai Massage Lanzarote Logo"
-          class="h-16 w-auto"
+          class="h-auto w-54"
         />
       </a>
 
@@ -268,7 +266,7 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
       if (button.dataset.bound === "true") return;
       button.dataset.bound = "true";
 
-      let interval = null;
+      let interval: NodeJS.Timeout | null = null;
 
       button.addEventListener("mouseover", (event) => {
         let iteration = 0;
@@ -280,7 +278,7 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
 
         // target.style.fontFamily = "monospace"; // Keep disabled to prevent vertical jump
 
-        clearInterval(interval);
+        if (interval) clearInterval(interval);
 
         interval = setInterval(() => {
           const value = target.dataset.value || target.textContent || "";
@@ -295,7 +293,7 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
             .join("");
 
           if (iteration >= value.length) {
-            clearInterval(interval);
+            if (interval) clearInterval(interval);
             target.innerText = value;
             target.style.width = ""; // Release width lock
             // target.style.fontFamily = "";

@@ -4,14 +4,17 @@ const stats = [
   {
     value: "85%",
     label: "Reducción de tiempo",
+    subLabel: "en tareas repetitivas",
   },
   {
     value: "24/7",
     label: "Disponibilidad",
+    subLabel: "Automatización continua",
   },
   {
     value: "95%",
     label: "Tasa de éxito",
+    subLabel: "En implementaciones",
   },
 ];
 ---
@@ -19,6 +22,17 @@ const stats = [
 <!-- bg-gradient-to-b from-[#0a1f1f] to-[#0f2f2f] -->
 <section class="w-full py-12 px-4 bg-(--color-bg-alt) shadow-md">
   <div class="max-w-7xl mx-auto">
+    <!-- Section Header -->
+    <div class="text-center mb-12">
+      <h2 class="text-4xl md:text-5xl font-bold mb-4">
+        <span class="text-(--color-primary)">Resultados</span>
+        <span class="text-(--color-text-dark)">que hablan</span>
+      </h2>
+      <p class="text-(--color-text) text-lg md:text-xl max-w-2xl mx-auto">
+        Métricas reales de nuestros clientes que confían en nosotros
+      </p>
+    </div>
+
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
       {
         stats.map((stat) => (
@@ -26,7 +40,10 @@ const stats = [
             <div class="text-5xl md:text-6xl font-bold text-[#F59E0B] mb-3">
               {stat.value}
             </div>
-            <div class="text-gray-400 text-lg">{stat.label}</div>
+            <div class="text-(--color-text) text-xl font-bold mb-1">
+              {stat.label}
+            </div>
+            <div class="text-(--color-text-dark) text-lg">{stat.subLabel}</div>
           </div>
         ))
       }
@@ -37,5 +54,5 @@ const stats = [
 <style>
   section {
     border-bottom: 1px solid rgba(42, 74, 74, 0.3);
-  }
+    }
 </style> -->

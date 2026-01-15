@@ -40,13 +40,13 @@ const iconMap: { [key: number]: string } = {
           const iconPath = iconMap[data.sortOrder] || iconMap[1];
           
           return (
-          <div class="benefit-card group relative bg-(--color-card)/80 backdrop-blur-sm rounded-xl p-6 border border-(--color-card-alt) hover:border-[#F59E0B] transition-all duration-300 hover:shadow-xl hover:shadow-[#F59E0B]/20 hover:-translate-y-1">
+          <div class="benefit-card group relative bg-transparent hover:bg-(--color-bg-alt) rounded-xl p-6 border border-[#F59E0B]/30 md:border-transparent hover:border-[#F59E0B] transition-all duration-300 hover:shadow-xl hover:shadow-[#F59E0B]/10">
               <!-- Icon and Title Row -->
               <div class="flex items-start gap-4 mb-3">
                 <!-- add "icon-box" to target on touch -->
-                <div class="icon-box w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg bg-[#F59E0B]/10 group-hover:bg-[#F59E0B]/20 transition-colors duration-300 ">
+                <div class="icon-box w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-full bg-(--color-bg-alt) border border-[#F59E0B]/30 group-hover:border-[#F59E0B] group-hover:bg-[#F59E0B]/10 transition-colors duration-300">
                   <svg 
-                    class="w-6 h-6 text-(--color-primary) group-hover:drop-shadow-[1px_1px_0_#000]" 
+                    class="w-6 h-6 text-[#F59E0B]" 
                     fill="none" 
                     stroke="currentColor" 
                     stroke-width="2" 
@@ -59,13 +59,13 @@ const iconMap: { [key: number]: string } = {
                 </div>
                 
                 <!-- Title -->
-                <h3 class="text-xl font-bold text-(--color-bg) hover:text-(--color-primary) transition-colors duration-300 pt-2" >
+                <h3 class="text-xl font-bold text-white group-hover:text-[#F59E0B] transition-colors duration-300 pt-2" >
                   {title}
                 </h3>
               </div>
               
               <!-- Description -->
-              <p class="text-(--color-bg) text-sm leading-relaxed pl-16">
+              <p class="text-(--color-text-dark) text-sm leading-relaxed pl-16">
                 {description}
               </p>
             </div>
@@ -96,52 +96,24 @@ const iconMap: { [key: number]: string } = {
 
 <style>
   #benefits {
-    background: linear-gradient(135deg, #0f2f2f 0%, #1a4040 50%, #0f2f2f 100%);
+    background-color: var(--color-bg);
   }
   
   .benefit-card {
     position: relative;
-    /* justo aqui debajo los puntitos del background */
-    background-image: radial-gradient(
-    rgba(0, 0, 0, 0.3) 0.5px, 
-    transparent 0.5px
-  );
-  background-position: 50% 50%;
-  background-size: 0.7rem 0.6rem;
   }
   
-  .benefit-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 0.75rem;
-    padding: 1px;
-    background: linear-gradient(135deg, transparent, rgba(245, 158, 11, 0.2), transparent);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  
-  .benefit-card:hover::before {
-    opacity: 1;
-  }
-
   /* touch-hover: replicate hover visuals on touch devices */
   .benefit-card.touch-hover {
     border-color: #F59E0B;
-    box-shadow: 0 10px 25px rgba(245, 158, 11, 0.2);
-    transform: translateY(-0.25rem); /* hover:-translate-y-1 */
-  }
-  .benefit-card.touch-hover::before {
-    opacity: 1;
+    background-color: var(--color-bg-alt);
+    box-shadow: 0 10px 25px rgba(245, 158, 11, 0.1);
   }
   .group.touch-hover h3 {
-    color: var(--color-primary);
-    filter: drop-shadow(1px 1px 0 #000);
+    color: #F59E0B;
   }
   .group.touch-hover .icon-box {
-    background-color: rgba(245, 158, 11, 0.2);
+    border-color: #F59E0B;
+    background-color: rgba(245, 158, 11, 0.1);
   }
 </style>

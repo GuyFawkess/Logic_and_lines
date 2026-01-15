@@ -1,6 +1,6 @@
 ---
 import { useTranslations } from "../i18n/utils";
-import SocialScroll from "./SocialScroll.astro";
+import { Icon } from "astro-icon/components";
 
 const { currentLang } = Astro.props;
 const t = useTranslations(currentLang);
@@ -9,13 +9,13 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
 ---
 
 <footer
-  class="w-full bg-(--color-bg) border-t border-(--color-bg-alt) pt-8 mt-20"
+  class="w-full bg-(--color-bg) border-t border-(--color-bg-alt) pt-8 md:mt-16"
 >
   <div class="max-w-7xl mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
       <!-- Mobile: First - Logo and Name / Desktop: Middle -->
       <div
-        class="flex flex-col items-center justify-center gap-8 max-w-md mx-auto"
+        class="flex flex-col items-start justify-center gap-8 max-w-md ml-12"
       >
         <a
           href={baseUrl}
@@ -29,7 +29,7 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
         </a>
 
         <p
-          class="text-gray-300 text-center text-sm md:text-sm leading-relaxed px-4"
+          class="text-gray-300 text-left text-sm md:text-sm leading-relaxed px-0"
         >
           Transformamos negocios con soluciones de inteligencia artificial y
           automatización. Más eficiencia, menos errores, mejores resultados.
@@ -44,8 +44,8 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
       </div>
 
       <!-- Mobile: Second - Navigation Links / Desktop: Left -->
-      <nav class="flex flex-col gap-4 items-start m-12 lg:ml-24">
-        <h4 class="text-lg font-medium underline">Navegación</h4>
+      <nav class="flex flex-col gap-4 items-start ml-12 lg:ml-24">
+        <h4 class="text-lg font-semibold underline">Navegación</h4>
         <a
           href={baseUrl}
           class="text-gray-400 hover:text-[#F59E0B] duration-300 text-lg font-medium transition-all hover:-translate-y-1"
@@ -73,8 +73,61 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
       </nav>
 
       <!-- Mobile: Third - Social Scroll / Desktop: Right -->
-      <div class="flex justify-center md:justify-start md:order-3">
-        <SocialScroll />
+      <div class="flex flex-col gap-6 ml-12 items-start md:order-3 mb-10">
+        <h4 class="text-lg font-semibold underline">Conecta</h4>
+
+        <div class="flex flex-wrap gap-4">
+          <a
+            href="#"
+            aria-label="LinkedIn"
+            class="p-2 border border-gray-600 rounded-lg hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors group"
+          >
+            <Icon
+              name="linkedin"
+              class="w-5 h-5 text-gray-400 group-hover:text-[#F59E0B] transition-colors"
+            />
+          </a>
+          <a
+            href="#"
+            aria-label="Instagram"
+            class="p-2 border border-gray-600 rounded-lg hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors group"
+          >
+            <Icon
+              name="instagram"
+              class="w-5 h-5 text-gray-400 group-hover:text-[#F59E0B] transition-colors"
+            />
+          </a>
+          <a
+            href="#"
+            aria-label="Facebook"
+            class="p-2 border border-gray-600 rounded-lg hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors group"
+          >
+            <Icon
+              name="facebook3"
+              class="w-5 h-5 text-gray-400 group-hover:text-[#F59E0B] transition-colors"
+            />
+          </a>
+          <a
+            href="mailto:hola@logiclines.com"
+            aria-label="Email"
+            class="p-2 border border-gray-600 rounded-lg hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors group"
+          >
+            <Icon
+              name="gmail2"
+              class="w-5 h-5 text-gray-400 group-hover:text-[#F59E0B] transition-colors"
+            />
+          </a>
+          <a
+            href="https://wa.me/34600000000"
+            aria-label="WhatsApp"
+            class="p-2 border border-gray-600 rounded-lg hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors group"
+          >
+            <Icon
+              name="whatsapp"
+              class="w-5 h-5 text-gray-400 group-hover:text-[#F59E0B] transition-colors"
+            />
+          </a>
+        </div>
       </div>
     </div>
 

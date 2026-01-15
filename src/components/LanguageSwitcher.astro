@@ -1,20 +1,56 @@
 ---
-import { languages } from '../i18n/config';
-import { getAlternateURLs } from '../i18n/utils';
+import { languages } from "../i18n/config";
+import { getAlternateURLs } from "../i18n/utils";
 
-const { currentLang } = Astro.props;
+const { currentLang } = Astro.props as { currentLang: keyof typeof languages };
 const currentPath = Astro.url.pathname;
 const alternateURLs = getAlternateURLs(currentPath, currentLang);
 ---
 
-<div class="language-switcher">
-  {Object.entries(languages).map(([lang, label]) => (
-    <a 
-      href={alternateURLs[lang as keyof typeof alternateURLs]}
-      class={`p-1 mx-1 rounded text-(--color-primary) hover:bg-(--color-primary) hover:text-(--color-bg) ${currentLang === lang ? 'font-bold p-2 bg-(--color-bg)' : 'text-white'} ${currentLang === lang? 'hover:text-(--color-bg)' : 'hover:text-(--color-text)'}`}
-      aria-label={`Switch to ${label}`}
+<div class="relative inline-block text-left dropdown group">
+  <button
+    type="button"
+    class="inline-flex justify-center items-center w-full rounded-full border border-(--color-text)/30 shadow-sm px-4 py-2 bg-transparent text-sm font-medium text-(--color-text) hover:bg-(--color-text)/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-(--color-primary) transition-colors duration-200"
+    aria-expanded="true"
+    aria-haspopup="true"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      class="w-5 h-5 mr-2"
     >
-      {lang.toUpperCase()}
-    </a>
-  ))}
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S12 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S12 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m-15.686 0A8.959 8.959 0 013 12c0-.778.099-1.533.284-2.253m0 0A11.959 11.959 0 0112 10.5c7.085 0 12.796 6.337 12.796 12.796 0 .668-.066 1.324-.191 1.961"
+      ></path>
+    </svg>
+    {languages[currentLang].toUpperCase()}
+  </button>
+
+  <div
+    class="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-(--color-bg-alt) ring-1 ring-black ring-opacity-5 focus:outline-none opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
+  >
+    <div
+      class="py-1"
+      role="menu"
+      aria-orientation="vertical"
+      aria-labelledby="options-menu"
+    >
+      {
+        Object.entries(languages).map(([lang, label]) => (
+          <a
+            href={alternateURLs[lang as keyof typeof alternateURLs]}
+            class={`block px-4 py-2 text-sm text-(--color-text) hover:bg-(--color-primary) hover:text-black ${currentLang === lang ? "font-bold bg-white/5" : ""}`}
+            role="menuitem"
+          >
+            {label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
 </div>

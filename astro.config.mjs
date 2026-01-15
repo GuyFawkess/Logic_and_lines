@@ -1,4 +1,5 @@
 // @ts-check
+// Force reload 2
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import icon from 'astro-icon';

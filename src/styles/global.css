@@ -3,22 +3,41 @@
 
 :root {
   /* Fondos */
-  --color-bg: #0F222D;
+  --color-bg: #0D1A1F;
   --color-bg-alt: #16262E;
   /* --color-bg-alt: #1C3A45; */
 
   /* Tarjetas / Superficies */
-  --color-card: #EBE8D0;
+  --color-card: #16262E;
   --color-card-alt: #E2E7D9;
 
   /* Marca / CTA (recomendado para AIMA) */
   --color-primary: #E6A100;
 
   /* Texto */
-  --color-text: #EBE7D9;
-  --color-text-dark: #0F222D;
+  --color-text: #EBE5D9;
+  --color-text-dark: #B3AA9A;
   /* Para textos en tarjetas */
 }
+
+/* :root {
+  Fondos
+  --color-bg: #0F222D;
+  --color-bg-alt: #16262E;
+  --color-bg-alt: #1C3A45;
+
+  Tarjetas / Superficies
+  --color-card: #EBE8D0;
+  --color-card-alt: #E2E7D9;
+
+  Marca / CTA (recomendado para AIMA)
+  --color-primary: #E6A100;
+
+  Texto
+  --color-text: #EBE7D9;
+  --color-text-dark: #0F222D;
+  Para textos en tarjetas
+} */
 
 /* Global Font Styles */
 body {
