@@ -4,6 +4,8 @@ const services = defineCollection({
   schema: z.object({
     title: z.string(),
     title_es: z.string().optional(), // Spanish title
+    specification: z.string().optional(),
+    specification_es: z.string().optional(),
     img: z.string(),
     description: z.string(),
     description_es: z.string().optional(), // Spanish description

@@ -14,7 +14,10 @@ const services = allServices.sort(
 );
 ---
 
-<section id="services" class="w-full py-16 px-4 bg-(--color-bg-alt) shadow-md">
+<section
+  id="services"
+  class="w-full pt-16 pb-40 px-4 bg-(--color-bg-alt) shadow-md relative"
+>
   <div class="">
     <h2
       transition:name="services"
@@ -28,7 +31,9 @@ const services = allServices.sort(
       Automatización e inteligencia artificial diseñadas para impulsar tu
       negocio.
     </p>
-    <div class="flex flex-wrap justify-center gap-8 mb-18">
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-18 max-w-[1200px] mx-auto"
+    >
       {
         services.map((service: { data: any; slug: string }, index: number) => {
           const { data, slug } = service;
@@ -38,6 +43,10 @@ const services = allServices.sort(
             currentLang === "es" && data.description_es
               ? data.description_es
               : data.description;
+          const specification =
+            currentLang === "es" && data.specification_es
+              ? data.specification_es
+              : data.specification;
           const { img } = data;
 
           const serviceUrl =
@@ -47,6 +56,7 @@ const services = allServices.sort(
             <ServiceCard
               title={title}
               description={description}
+              specification={specification}
               img={img}
               link={serviceUrl}
               index={index}
@@ -153,4 +163,12 @@ const services = allServices.sort(
       }
     </style>
   </div>
+  <svg
+    class="absolute bottom-0 left-0 w-full h-16 md:h-24 text-(--color-bg) z-10 pointer-events-none"
+    viewBox="0 0 1200 120"
+    preserveAspectRatio="none"
+    fill="currentColor"
+  >
+    <path d="M0,0 L540,0 L600,80 L660,0 L1200,0 L1200,120 L0,120 Z"></path>
+  </svg>
 </section>
