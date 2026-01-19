@@ -1,21 +1,21 @@
 ---
 import { useTranslations } from "../i18n/utils";
 
-const { currentLang = "en" } = Astro.props;
+const { currentLang = "en", text } = Astro.props;
 const t = useTranslations(currentLang);
 const baseUrl = currentLang === "en" ? "/" : "/es/";
+const displayText = text || t.buttons.book;
 ---
 
 <a href={`${baseUrl}#booking`} class="w-full flex justify-center items-center">
   <button
-    data-value={t.buttons.book}
+    data-value={displayText}
     class="whitespace-nowrap min-w-[220px] my-8 btn btn-xl bg-(--color-primary) text-(--color-bg) hover:text-(--color-card) border-2 border-transparent hover:bg-(--color-primary)/90 transition ease-in-out duration-300 font-semibold"
-    style="box-shadow: 0 0.5px 2px var(--color-primary);"
-    >{t.buttons.book}</button
+    style="box-shadow: 0 0.5px 2px var(--color-primary);">{displayText}</button
   >
 </a>
 
-<script>
+<!-- <script>
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
   // Bind the effect to all buttons, avoid double-binding, and keep per-button intervals
@@ -74,7 +74,8 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
 
   // Re-run after page transitions (if using Astro's view transitions)
   document.addEventListener("astro:page-load", setupScrambleEffect);
-</script><!-- ---
+</script> -->
+<!-- ---
 import { useTranslations } from "../i18n/utils";
 
 const { currentLang = 'en' } = Astro.props;

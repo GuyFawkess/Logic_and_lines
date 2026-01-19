@@ -1,12 +1,20 @@
 ---
-const { title, description, img, link, index, slug, specification } =
-    Astro.props;
+const {
+    title,
+    description,
+    img,
+    link,
+    index,
+    slug,
+    specification,
+    className = "",
+} = Astro.props;
 ---
 
 <article
     data-duration="700"
     data-animate="zoom-in"
-    class="opacity-0 service-card group relative overflow-hidden rounded-2xl w-full h-[500px] shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition-all duration-500 ease-out hover:shadow-[0_20px_40px_rgba(255,170,0,0.2)]"
+    class={`opacity-0 service-card group relative overflow-hidden rounded-2xl w-full h-[500px] shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition-all duration-500 ease-out hover:shadow-[0_20px_40px_rgba(255,170,0,0.2)] ${className}`}
 >
     <div class="absolute inset-0 bg-(--color-bg) rounded-2xl">
         <!-- <div

@@ -18,8 +18,11 @@ export default {
       borderRadius: {
         xl: "1rem",
         "2xl": "1.25rem",
+        "4xl": "2rem",
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 }

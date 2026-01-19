@@ -32,7 +32,7 @@ const services = allServices.sort(
       negocio.
     </p>
     <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-18 max-w-[1200px] mx-auto"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-18 max-w-[1200px] mx-auto"
     >
       {
         services.map((service: { data: any; slug: string }, index: number) => {
@@ -52,6 +52,25 @@ const services = allServices.sort(
           const serviceUrl =
             currentLang === "es" ? `/es/service/${slug}` : `/service/${slug}`;
 
+          // Calculate grid spans
+          const total = services.length;
+          const isLast = index === total - 1;
+          const isSecondToLast = index === total - 2;
+
+          let mdClass = "md:col-span-1";
+          if (total % 2 !== 0 && isLast) {
+            mdClass = "md:col-span-2";
+          }
+
+          let lgClass = "lg:col-span-2";
+          if (total % 3 === 1 && isLast) {
+            lgClass = "lg:col-span-6";
+          } else if (total % 3 === 2 && (isLast || isSecondToLast)) {
+            lgClass = "lg:col-span-3";
+          }
+
+          const cardClassName = `${mdClass} ${lgClass}`;
+
           return (
             <ServiceCard
               title={title}
@@ -61,6 +80,7 @@ const services = allServices.sort(
               link={serviceUrl}
               index={index}
               slug={slug}
+              className={cardClassName}
             />
           );
         })
