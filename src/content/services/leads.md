@@ -14,7 +14,7 @@ hero:
   cta: "Agendar llamada de evaluación"
 
 problem:
-  statement: "La mayoría de empresas no pierde leads por falta de tráfico, sino por sistemas mal diseñados."
+  statement: "La mayoría de empresas no pierde <span style='color: var(--color-primary)'>leads</span> por falta de <span style='color: var(--color-primary)'>tráfico</span>, sino por <span style='color: var(--color-primary)'>sistemas</span> mal <span style='color: var(--color-primary)'>diseñados</span>."
   points:
     - "Leads que tardan horas en recibir respuesta"
     - "Seguimientos manuales e inconsistentes"
@@ -22,11 +22,11 @@ problem:
     - "Información dispersa entre herramientas"
 
 solution:
-  title: "La solución: Sales Line™"
-  description: "LeadFlow™ es un sistema completo, no una automatización aislada.\n\nDiseñamos un flujo que captura, clasifica y responde automáticamente, asegurando que ninguna oportunidad real se pierda por error humano o lentitud."
+  title: "La solución: <span style='color: var(--color-primary)'>Sales Line</span>"
+  description: "Sales Line es un sistema completo, no una automatización aislada.\n\nDiseñamos un flujo que captura, clasifica y responde automáticamente, asegurando que ninguna oportunidad real se pierda por error humano o lentitud."
 
 automation:
-  title: "Qué incluye el sistema"
+  title: "Qué incluye el <span style='color: var(--color-primary)'>sistema</span>"
   items:
     - "Formularios inteligentes"
     - "Integración con CRM"
@@ -36,7 +36,7 @@ automation:
     - "Alertas y prioridades"
 
 benefits:
-  title: "Resultados esperados"
+  title: "<span style='color: var(--color-primary)'>Resultados</span> esperados"
   items:
     - "Respuesta inmediata 24/7 a todo lead"
     - "Mayor tasa de conversión a venta"
@@ -44,23 +44,15 @@ benefits:
     - "Visibilidad total del pipeline en tiempo real"
 
 use_cases:
-  title: "Casos de uso típicos"
+  title: "Casos de uso <span style='color: var(--color-primary)'>típicos</span>"
   items:
     - "Empresas B2B con formularios web"
     - "Servicios profesionales"
     - "Agencias de marketing"
     - "Negocios con ciclos de venta largos"
 
-methodology:
-  title: "Cómo lo implementamos"
-  steps:
-    - "Análisis del proceso actual"
-    - "Diseño lógico del flujo"
-    - "Implementación técnica"
-    - "Pruebas y Optimización"
-
 final_cta:
-  text: "¿Tiene sentido automatizar tu captación de leads?"
+  text: "¿Tiene sentido <span style='color: var(--color-primary)'>automatizar</span> tu <span style='color: var(--color-primary)'>captación</span> de leads?"
   button_text: "Agendar llamada"
 ---
 

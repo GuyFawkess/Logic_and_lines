@@ -1,13 +1,12 @@
 export default {
   nav: {
-    about: "Beneficios",
+    benefits: "Benefits",
     services: "Services",
-    contact: "Contact",
-    location: "Location"
+    process: "Our process",
+    reason: "Reasons"
   },
   hero: {
-    welcome: "Welcome!",
-    slogan: "Where tension melts and serenity begins"
+
   },
   about: {
     title: "Benefits",

@@ -35,8 +35,8 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
           >
             <a
               class="inline-block whitespace-nowrap text-center"
-              data-value={t.nav.about}
-              href={`${baseUrl}#benefits`}>{t.nav.about}</a
+              data-value={t.nav.benefits}
+              href={`${baseUrl}#benefits`}>{t.nav.benefits}</a
             >
           </li>
           <li
@@ -53,9 +53,8 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
           >
             <a
               class="inline-block whitespace-nowrap text-center"
-              data-value={t.nav.contact}
-              href={currentLang === "en" ? "/contact" : "/es/contacto"}
-              >{t.nav.contact}</a
+              data-value={t.nav.process}
+              href={`${baseUrl}#process`}>{t.nav.process}</a
             >
           </li>
           <li
@@ -63,8 +62,8 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
           >
             <a
               class="inline-block whitespace-nowrap text-center"
-              data-value={t.nav.location}
-              href={`${baseUrl}#opinion`}>{t.nav.location}</a
+              data-value={t.nav.reason}
+              href={`${baseUrl}#reasons`}>{t.nav.reason}</a
             >
           </li>
         </ul>
@@ -121,8 +120,9 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
             </a>
           </li>
           <li>
-            <a href={`${baseUrl}#about`} class="py-3 text-center justify-center"
-              >{t.nav.about}</a
+            <a
+              href={`${baseUrl}#benefits`}
+              class="py-3 text-center justify-center">{t.nav.benefits}</a
             >
           </li>
           <li>
@@ -134,14 +134,14 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
           </li>
           <li>
             <a
-              href={currentLang === "en" ? "/contact" : "/es/contacto"}
-              class="py-3 text-center justify-center">{t.nav.contact}</a
+              href={`${baseUrl}#process`}
+              class="py-3 text-center justify-center">{t.nav.process}</a
             >
           </li>
           <li>
             <a
-              href={`${baseUrl}#location`}
-              class="py-3 text-center justify-center">{t.nav.location}</a
+              href={`${baseUrl}#reasons`}
+              class="py-3 text-center justify-center">{t.nav.reason}</a
             >
           </li>
           <li></li>
