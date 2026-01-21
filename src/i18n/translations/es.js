@@ -1,53 +1,24 @@
 export default {
   nav: {
-    about: "Sobre nosotros",
+    benefits: "Beneficios",
     services: "Servicios",
-    contact: "Contacto",
-    location: "Ubicación"
+    process: "Proceso",
+    reason: "Razones"
   },
   hero: {
     welcome: "¡Bienvenido!",
-    slogan: "Donde la tensión se desvanece y comienza la serenidad"
-  },
-  about: {
-    title: "Sobre nosotros",
-    subtitle: "Experimenta el Arte del Masaje Tailandés Tradicional",
-    intro: "En Malai Thai Massage Lanzarote, te ofrecemos el auténtico arte del masaje tailandés tradicional, fundado por expertos tailandeses nativos como el primer spa de masajes de propiedad tailandesa en Lanzarote.",
-    mission: "Nuestra misión es proporcionarte una experiencia profundamente relajante y rejuvenecedora en un ambiente sereno, lujoso y acogedor.",
-    services: "Nuestros servicios incluyen:",
-    servicesList: [
-      "Masaje Tailandés Tradicional",
-      "Masaje Tailandés con Aceite",
-      "Masaje con Aromaterapia",
-      "Masaje de Pies",
-      "Masaje de Cuello-Hombros-Espalda"
-    ],
-    benefits: "Todos diseñados para aliviar la tensión, estimular la circulación sanguínea y restaurar el equilibrio tanto del cuerpo como de la mente.",
-    closing: "Experimenta la verdadera esencia de la curación tailandesa y deja que cuidemos de tu bienestar con la experiencia de las auténticas raíces de la tradición tailandesa aquí en Lanzarote."
-  },
-  service: {
-    title: "Nuestros servicios",
-    button: "Más info"
-  },
-  prices: {
-    title: "Nuestros Precios",
-  },
-  contact: {
-    title: "Contáctame",
-    info: "Información",
-    reachMe: "Dónde encontrarme",
-    thankYou: "Gracias por tu interés en Malai Thai Massage.",
-    preparation: "Nuestra tienda está actualmente en preparativos finales, incluyendo papeleo y diseño interior, mientras nos preparamos para la gran apertura.",
-    offering: "Mientras tanto, estoy ofreciendo un número limitado de sesiones de masaje tailandés relajantes y profesionales cada día, disponibles desde mi casa.",
-    bookSession: "Si deseas reservar una sesión o saber más, no dudes en contactarme a través de cualquiera de mis opciones de contacto.",
-    lookForward: "¡Espero darte la bienvenida pronto!"
+    slogan: "Donde la tensión se desvanece y comienza la serenidad",
+    leftTitle: "Automatiza tu",
+    leftFancy: "éxito",
+    rightTitle: "Multiplica tu",
+    rightFancy: "impacto"
   },
   location: {
-    title: "Dónde encontrarnos",
-    address: "Centro Comercial Puerto Calero, Lanzarote",
-    hours: "Horario de apertura:",
-    schedule: "Lunes – Domingo: 10:00 – 22:00",
-    opening: "¡Próxima apertura!"
+    title: "¿Qué opinan de nosotros?",
+    address: "Contratar sus servicios de automatización con inteligencia artificial ha sido una de las mejores decisiones para mi negocio. Antes perdía mucho tiempo en tareas repetitivas y procesos manuales, pero gracias a sus soluciones todo es ahora más rápido, eficiente y organizado.",
+    hours: "Lo que más valoro es su capacidad para entender exactamente las necesidades de mi empresa y transformarlas en automatizaciones prácticas y fáciles de usar. Además, el acompañamiento y la atención al detalle han sido excelentes en todo momento.",
+    schedule: "Hoy puedo centrarme en hacer crecer mi negocio mientras la inteligencia artificial se encarga del trabajo operativo. Sin duda, un servicio altamente profesional y totalmente recomendable.",
+    opening: "Next opening soon!"
   },
   buttons: {
     book: "¡Reserva ahora!"

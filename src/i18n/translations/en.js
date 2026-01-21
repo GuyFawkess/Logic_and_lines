@@ -6,7 +6,10 @@ export default {
     reason: "Reasons"
   },
   hero: {
-
+    leftTitle: "Automate your",
+    leftFancy: "success",
+    rightTitle: "Multiply your",
+    rightFancy: "impact"
   },
   about: {
     title: "Benefits",

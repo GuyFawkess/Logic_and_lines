@@ -2,7 +2,7 @@
 import BookButton from "../components/BookButton.astro";
 import { useTranslations } from "../i18n/utils";
 
-const { currentLang = "en" } = Astro.props;
+const { currentLang = "es" } = Astro.props;
 const t = useTranslations(currentLang);
 
 interface Props {
@@ -14,11 +14,16 @@ interface Props {
 }
 
 const {
-  leftTitle = "Automatiza tu",
-  leftFancyWord = "éxito",
-  rightTitle = "Multiplica tu",
-  rightFancyWord = "impacto",
+  leftTitle: propLeftTitle,
+  leftFancyWord: propLeftFancy,
+  rightTitle: propRightTitle,
+  rightFancyWord: propRightFancy,
 } = Astro.props;
+
+const leftTitle = propLeftTitle || t.hero.leftTitle;
+const leftFancyWord = propLeftFancy || t.hero.leftFancy;
+const rightTitle = propRightTitle || t.hero.rightTitle;
+const rightFancyWord = propRightFancy || t.hero.rightFancy;
 ---
 
 <section
@@ -31,6 +36,11 @@ const {
         {leftTitle}
         <span class="fancy-text left-fancy">{leftFancyWord}</span>
       </h2>
+      <BookButton
+        currentLang={currentLang}
+        class="md:hidden"
+        buttonClass="!bg-[var(--color-primary)] !text-[var(--color-bg)] hover:!text-[var(--color-card)]"
+      />
     </div>
   </div>
 
@@ -41,6 +51,11 @@ const {
         {rightTitle}
         <span class="fancy-text right-fancy">{rightFancyWord}</span>
       </h2>
+      <BookButton
+        currentLang={currentLang}
+        class="md:hidden"
+        buttonClass="!bg-[var(--color-bg)] !text-[var(--color-primary)] hover:!bg-[var(--color-bg)]/90 hover:!text-[var(--color-primary)]/80"
+      />
     </div>
   </div>
 
