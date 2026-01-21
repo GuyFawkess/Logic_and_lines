@@ -5,7 +5,7 @@ import { Icon } from "astro-icon/components";
 const { currentLang } = Astro.props;
 const t = useTranslations(currentLang);
 
-const baseUrl = currentLang === "en" ? "/" : "/es/";
+const baseUrl = currentLang === "en" ? "/en/" : "/";
 ---
 
 <footer
@@ -59,7 +59,7 @@ const baseUrl = currentLang === "en" ? "/" : "/es/";
           {currentLang === "es" ? "Servicios" : "Services"}
         </a>
         <a
-          href={currentLang === "en" ? "/contact" : "/es/contact"}
+          href={currentLang === "en" ? "/en/contact" : "/contact"}
           class="text-gray-400 hover:text-[#F59E0B] transition-all hover:-translate-y-1 duration-300 text-lg font-medium"
         >
           {currentLang === "es" ? "Contacto" : "Contact"}

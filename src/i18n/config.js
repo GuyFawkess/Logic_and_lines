@@ -3,7 +3,7 @@ export const languages = {
   es: 'Español'
 };
 
-export const defaultLanguage = 'en';
+export const defaultLanguage = 'es';
 
 export const nonLocalizedPaths = [
   '/assets',

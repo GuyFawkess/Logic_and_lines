@@ -1,29 +1,29 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import { useTranslations } from "../i18n/utils";
+import Layout from "../../layouts/Layout.astro";
+import { useTranslations } from "../../i18n/utils";
 
-const currentLang = "es";
+const currentLang = "en";
 const t = useTranslations(currentLang);
 ---
 
 <Layout
-  title="Página No Encontrada"
-  description="Lo sentimos, la página que estás buscando no existe. Vuelve a la página principal de Malai Thai Massage Lanzarote."
+  title="Page Not Found"
+  description="Sorry, the page you are looking for does not exist. Return to Malai Thai Massage Lanzarote homepage."
 >
   <div
     class="flex flex-col items-center justify-center min-h-[80dvh] px-4 text-center"
   >
     <h1 class="text-4xl font-bold text-(--color-terracotta) mb-4">
-      404 - Página No Encontrada
+      404 - Page Not Found
     </h1>
     <p class="text-xl mb-8">
-      Lo sentimos, la página que estás buscando no existe.
+      Sorry, the page you are looking for does not exist.
     </p>
     <a
       href="/"
       class="btn bg-(--color-terracotta) text-white hover:bg-(--color-atention) transition-colors"
     >
-      Volver a la Página Principal
+      Return to Homepage
     </a>
   </div>
 </Layout>

@@ -19,7 +19,7 @@ export default defineConfig({
     icon(),
     sitemap({
       i18n: {
-        defaultLocale: 'en',
+        defaultLocale: 'es',
         locales: {
           en: 'en',
           es: 'es'
@@ -29,7 +29,7 @@ export default defineConfig({
   ],
   // Add i18n routing
   i18n: {
-    defaultLocale: 'en',
+    defaultLocale: 'es',
     locales: ['en', 'es'],
     routing: {
       prefixDefaultLocale: false

@@ -43,9 +43,9 @@ export function getAlternateURLs(currentPath, currentLang) {
     if (currentPath.includes('/service/')) {
       slug = currentPath.split('/service/')[1];
     }
-    
+
     Object.keys(languages).forEach(lang => {
-      if (lang === 'en') {
+      if (lang === defaultLanguage) {
         urls[lang] = `/service/${slug}`;
       } else {
         urls[lang] = `/${lang}/service/${slug}`;
@@ -56,12 +56,12 @@ export function getAlternateURLs(currentPath, currentLang) {
   }
 
   // Special handling for contact pages
-  if (currentPath === '/contact' || currentPath === '/es/contact') {
+  if (currentPath === '/contact' || currentPath === '/en/contact') {
     Object.keys(languages).forEach(lang => {
-      if (lang === 'es') {
-        urls[lang] = `/${lang}/contact`;
+      if (lang === defaultLanguage) {
+        urls[lang] = `/contact`;
       } else {
-        urls[lang] = '/contact';
+        urls[lang] = `/${lang}/contact`;
       }
     });
 
