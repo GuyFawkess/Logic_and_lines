@@ -27,13 +27,13 @@ const fullTitle =
 const metaDescription =
   description ||
   (currentLang === "en"
-    ? "Experience authentic Thai massage in Lanzarote. Professional Thai therapists offering traditional techniques for relaxation and wellness."
-    : "Experimenta auténtico masaje tailandés en Lanzarote. Terapeutas tailandeses profesionales que ofrecen técnicas tradicionales para relajación y bienestar.");
+    ? "Logic & Lines: Marketing & AI Automation Agency. We transform businesses through advanced digital strategies and intelligent automation."
+    : "Logic & Lines: Agencia de Marketing y Automatización con IA. Transformamos negocios mediante estrategias digitales avanzadas y automatización inteligente.");
 
 // Canonical URL
 const canonicalURL = new URL(
   Astro.url.pathname,
-  Astro.site || "https://thaimassagelanzarote.com",
+  Astro.site || "https://logicandlines.com",
 );
 ---
 
@@ -55,7 +55,7 @@ const canonicalURL = new URL(
     <meta name="description" content={metaDescription} />
     <meta
       name="keywords"
-      content="thai massage, massage, massage lanzarote, lanzarote, massage therapy, relaxation, wellness, spa, thai oil massage, foot massage"
+      content="marketing agency, AI automation, business automation, digital marketing, artificial intelligence, agencias de marketing, automatización de negocios, inteligencia artificial, consultoría IA, Logic & Lines, crecimiento de negocios, ganar más clientes, estrategias de crecimiento empresarial, captación de clientes, escalar ventas con IA, generación de leads, optimización de ingresos, growth marketing, automatización de ventas, transformación digital"
     />
     <link rel="canonical" href={canonicalURL} />
 
@@ -66,10 +66,7 @@ const canonicalURL = new URL(
     <meta property="og:description" content={metaDescription} />
     <meta
       property="og:image"
-      content={new URL(
-        ogImage,
-        Astro.site || "https://thaimassagelanzarote.com",
-      )}
+      content={new URL(ogImage, Astro.site || "https://logicandlines.com")}
     />
 
     <!-- Twitter -->
@@ -79,10 +76,7 @@ const canonicalURL = new URL(
     <meta property="twitter:description" content={metaDescription} />
     <meta
       property="twitter:image"
-      content={new URL(
-        ogImage,
-        Astro.site || "https://thaimassagelanzarote.com",
-      )}
+      content={new URL(ogImage, Astro.site || "https://logicandlines.com")}
     />
 
     <ClientRouter />
@@ -97,7 +91,7 @@ const canonicalURL = new URL(
         <link
           rel="alternate"
           hreflang="es"
-          href={`https://thaimassagelanzarote.com${Astro.url.pathname.replace(/^\/(en\/)?/, "/es/")}`}
+          href={`https://logicandlines.com${Astro.url.pathname.replace(/^\/(en\/)?/, "/es/")}`}
         />
       )
     }
@@ -106,14 +100,14 @@ const canonicalURL = new URL(
         <link
           rel="alternate"
           hreflang="en"
-          href={`https://thaimassagelanzarote.com${Astro.url.pathname.replace(/^\/(es\/)?/, "/")}`}
+          href={`https://logicandlines.com${Astro.url.pathname.replace(/^\/(es\/)?/, "/")}`}
         />
       )
     }
     <link
       rel="alternate"
       hreflang="x-default"
-      href={`https://thaimassagelanzarote.com${Astro.url.pathname.replace(/^\/(en|es)\//, "/")}`}
+      href={`https://logicandlines.com${Astro.url.pathname.replace(/^\/(en|es)\//, "/")}`}
     />
 
     <!-- Add this in the head section -->

@@ -7,7 +7,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://www.malaithaimassagelanzarote.com/',
+  site: 'https://logicandlines.com/',
   prefetch: true,
   server: {
     allowedHosts: ['slimy-rooms-hammer.loca.lt']

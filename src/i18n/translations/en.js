@@ -51,6 +51,6 @@ export default {
     footer: "No commitment • 100% Free • 30 minutes"
   },
   footer: {
-    copyright: "Copyright © {year} - All right reserved by Malai Thai Massage"
+    copyright: "Copyright © {year} - All right reserved by Logic & Lines"
   }
 };
