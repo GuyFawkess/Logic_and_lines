@@ -11,19 +11,9 @@ export default {
     rightTitle: "Multiply your",
     rightFancy: "impact"
   },
-  about: {
+  benefits: {
     title: "Benefits",
     subtitle: "Revolucionamos tu negocio con inteligencia artificial",
-    intro: "At Malai Thai Massage Lanzarote, we bring you the authentic art of traditional Thai massage, founded by native Thai experts as the first Thai-owned massage spa in Lanzarote.",
-    mission: "Our mission is to provide you with a deeply relaxing and rejuvenating experience in a serene, luxurious, and welcoming atmosphere.",
-    services: "Our services include:",
-    servicesList: [
-      "Traditional Thai Massage",
-      "Thai Oil Massage",
-      "Aromatherapy Massage",
-      "Foot Massage",
-      "Neck-Shoulder-Back Massage"
-    ],
     benefits: "All designed to relieve tension, stimulate blood circulation, and restore balance to both body and mind.",
     closing: "Experience the true essence of Thai healing and let us take care of your well-being with expertise from the very roots of Thai tradition here in Lanzarote."
   },

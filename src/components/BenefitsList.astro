@@ -3,8 +3,8 @@ import { getCollection } from "astro:content";
 import { useTranslations } from "../i18n/utils";
 import SuccessCard from "./SuccessCard.astro";
 import BookButton from "../components/BookButton.astro";
-
-const { currentLang = "en" } = Astro.props;
+import Test from "./Test.astro";
+const { currentLang = "es" } = Astro.props;
 const t = useTranslations(currentLang);
 
 const allBenefits = await getCollection("benefits");
@@ -31,16 +31,15 @@ const benefits = allBenefits.sort(
       Reduce los costes operativos y elimina tareas repetitivas con soluciones
       inteligentes que mejoran la eficiencia y la precisión en cada proceso.
     </h4>
-
     <div class="flex flex-wrap justify-center gap-8 mb-18">
       {
         benefits.map((benefit: { data: any; slug: string }, index: number) => {
           const { data, slug } = benefit;
           const title =
-            currentLang === "es" && data.title_es ? data.title_es : data.title;
+            currentLang === "en" && data.title_en ? data.title_en : data.title;
           const description =
-            currentLang === "es" && data.description_es
-              ? data.description_es
+            currentLang === "en" && data.description_en
+              ? data.description_en
               : data.description;
           const { img } = data;
 

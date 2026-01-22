@@ -1,0 +1,68 @@
+<div class="gauge-container">
+    <svg width="320" height="170" viewBox="0 0 320 170">
+        <!-- Segment 1 -->
+        <path class="seg s1" d="M30 140 A130 130 0 0 1 85 50"></path>
+        <!-- Segment 2 -->
+        <path class="seg s2" d="M85 50 A130 130 0 0 1 160 30"></path>
+        <!-- Segment 3 -->
+        <path class="seg s3" d="M160 30 A130 130 0 0 1 235 50"></path>
+        <!-- Segment 4 -->
+        <path class="seg s4" d="M235 50 A130 130 0 0 1 290 140"></path>
+    </svg>
+</div>
+<style>
+    .gauge-container {
+        background: #0d1a1f;
+        padding: 24px;
+        border-radius: 20px;
+        width: fit-content;
+    }
+
+    /* Base segment state (hover OUT) */
+    .seg {
+        fill: none;
+        stroke: #16262e;
+        stroke-width: 18;
+        stroke-linecap: round;
+        opacity: 0.25;
+        transition:
+            stroke 0.25s ease,
+            opacity 0.35s ease,
+            filter 0.25s ease;
+    }
+
+    /* Reverse order delays (hover OUT) */
+    .s1 {
+        transition-delay: 180ms;
+    }
+    .s2 {
+        transition-delay: 120ms;
+    }
+    .s3 {
+        transition-delay: 60ms;
+    }
+    .s4 {
+        transition-delay: 0ms;
+    }
+
+    /* Hover IN */
+    .gauge-container:hover .seg {
+        stroke: #e5a525;
+        opacity: 1;
+        filter: drop-shadow(0 0 8px rgba(229, 165, 37, 0.6));
+    }
+
+    /* Forward order delays (hover IN) */
+    .gauge-container:hover .s1 {
+        transition-delay: 0ms;
+    }
+    .gauge-container:hover .s2 {
+        transition-delay: 60ms;
+    }
+    .gauge-container:hover .s3 {
+        transition-delay: 120ms;
+    }
+    .gauge-container:hover .s4 {
+        transition-delay: 180ms;
+    }
+</style>

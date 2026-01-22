@@ -44,31 +44,41 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
       </div>
 
       <!-- Mobile: Second - Navigation Links / Desktop: Left -->
-      <nav class="flex flex-col gap-4 items-start ml-12 lg:ml-24">
+      <nav class="flex flex-col gap-2 items-start ml-12 lg:ml-24">
         <h4 class="text-lg font-semibold underline">Navegación</h4>
         <a
           href={baseUrl}
           class="text-gray-400 hover:text-[#F59E0B] duration-300 text-lg font-medium transition-all hover:-translate-y-1"
         >
-          {currentLang === "es" ? "Inicio" : "Home"}
+          {currentLang === "en" ? "Home" : "Inicio"}
         </a>
         <a
+          href={`${baseUrl}#benefits`}
+          data-value={t.nav.benefits}
+          class="text-gray-400 hover:text-[#F59E0B] transition-all hover:-translate-y-1 duration-300 text-lg font-medium"
+        >
+          {t.nav.benefits}
+        </a>
+        <a
+          data-value={t.nav.services}
           href={`${baseUrl}#services`}
           class="text-gray-400 hover:text-[#F59E0B] transition-all hover:-translate-y-1 duration-300 text-lg font-medium"
         >
-          {currentLang === "es" ? "Servicios" : "Services"}
+          {t.nav.services}
         </a>
         <a
-          href={currentLang === "en" ? "/en/contact" : "/contact"}
+          data-value={t.nav.process}
+          href={`${baseUrl}#process`}
           class="text-gray-400 hover:text-[#F59E0B] transition-all hover:-translate-y-1 duration-300 text-lg font-medium"
         >
-          {currentLang === "es" ? "Contacto" : "Contact"}
+          {t.nav.process}
         </a>
         <a
-          href="#testimonials"
+          data-value={t.nav.reason}
+          href={`${baseUrl}#reasons`}
           class="text-gray-400 hover:text-[#F59E0B] transition-all hover:-translate-y-1 duration-300 text-lg font-medium"
         >
-          {currentLang === "es" ? "Opiniones" : "Testimonials"}
+          {t.nav.reason}
         </a>
       </nav>
 

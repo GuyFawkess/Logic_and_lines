@@ -7,33 +7,53 @@ const {
 ---
 
 <div
-  class="group w-80 min-h-[450px] relative overflow-hidden rounded-xl bg-(--color-card)/90 backdrop-blur-xl shadow-sm transition-all duration-400 ease-in-out hover:scale-[1.02] hover:bg-(--color-card-alt)/90 hover:shadow-[0_10px_30px_rgba(0,0,0,0.2)]"
+  class="group w-full max-w-[360px] min-h-[420px] relative overflow-hidden rounded-2xl transition-all duration-500 ease-in-out hover:scale-[1.02]"
 >
-  <!-- Border Glow Effect -->
+  <!-- Animated Border Glow -->
   <div
-    class="absolute inset-0 rounded-xl p-[3px] opacity-0 transition-opacity duration-400 pointer-events-none group-hover:opacity-100 z-20"
-    style="background: linear-gradient(45deg, transparent 5%, rgb(137, 24, 1) 50%, transparent 99%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude;"
+    class="absolute inset-0 rounded-2xl p-[2px] opacity-60 group-hover:opacity-100 transition-opacity duration-500"
+    style="background: linear-gradient(135deg, rgba(229, 165, 37, 0.4) 0%, rgba(240, 184, 58, 0.6) 50%, rgba(229, 165, 37, 0.4) 100%);"
+  >
+    <div
+      class="w-full h-full rounded-2xl bg-gradient-to-br from-[#0D1A1F] via-[#16262E] to-[#1C3A45]"
+    >
+    </div>
+  </div>
+
+  <!-- Starry Background Pattern -->
+  <div
+    class="absolute inset-0 opacity-30 pointer-events-none z-0"
+    style="background-image: radial-gradient(circle at 20% 30%, rgba(229, 165, 37, 0.08) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(240, 184, 58, 0.05) 0%, transparent 50%), radial-gradient(1px 1px at 10% 20%, rgba(254, 247, 234, 0.3), transparent), radial-gradient(1px 1px at 30% 60%, rgba(254, 247, 234, 0.3), transparent), radial-gradient(1px 1px at 70% 40%, rgba(254, 247, 234, 0.3), transparent), radial-gradient(1px 1px at 90% 80%, rgba(254, 247, 234, 0.3), transparent), radial-gradient(1px 1px at 50% 90%, rgba(254, 247, 234, 0.3), transparent), radial-gradient(1px 1px at 25% 75%, rgba(254, 247, 234, 0.3), transparent); background-size: 100% 100%, 100% 100%, 200px 200px, 250px 250px, 180px 180px, 220px 220px, 190px 190px, 210px 210px;"
   >
   </div>
 
-  <div class="relative z-10 h-full flex flex-col">
-    <div class="h-1/2 p-4 shrink-0 flex items-center justify-center">
-      <img
-        src={img}
-        alt={title}
-        class="w-full h-full object-contain block rounded-2xl"
-      />
+  <!-- Content Container -->
+  <div class="relative z-10 h-full flex flex-col p-6">
+    <!-- Image/Icon Container -->
+    <div class="flex-shrink-0 flex items-center justify-center mb-6 mt-2">
+      <div class="relative w-full max-w-[200px] h-[130px]">
+        <img
+          src={img}
+          alt={title}
+          class="w-full h-full object-contain drop-shadow-[0_0_20px_rgba(229,165,37,0.3)]"
+        />
+      </div>
     </div>
 
-    <div
-      class="h-1/2 pb-10 px-4 text-center flex flex-col items-center justify-between shrink-0"
-    >
-      <h2 class="text-2xl font-semibold mb-2 text-(--color-text-dark)">
+    <!-- Text Content -->
+    <div class="flex-grow flex flex-col justify-start text-left">
+      <h2 class="text-2xl font-bold mb-3 text-(--color-text) leading-tight">
         {title}
       </h2>
-      <p class="text-sm leading-6 text-(--color-text-dark) opacity-90">
+      <p class="text-sm leading-relaxed text-(--color-text-dark)">
         {text}
       </p>
     </div>
+  </div>
+
+  <!-- Bottom Glow Effect -->
+  <div
+    class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-(--color-primary)/10 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+  >
   </div>
 </div>

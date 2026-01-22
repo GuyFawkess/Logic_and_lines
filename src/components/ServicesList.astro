@@ -38,14 +38,14 @@ const services = allServices.sort(
         services.map((service: { data: any; slug: string }, index: number) => {
           const { data, slug } = service;
           const title =
-            currentLang === "es" && data.title_es ? data.title_es : data.title;
+            currentLang === "en" && data.title_en ? data.title_en : data.title;
           const description =
-            currentLang === "es" && data.description_es
-              ? data.description_es
+            currentLang === "en" && data.description_en
+              ? data.description_en
               : data.description;
           const specification =
-            currentLang === "es" && data.specification_es
-              ? data.specification_es
+            currentLang === "en" && data.specification_en
+              ? data.specification_en
               : data.specification;
           const { img } = data;
 
