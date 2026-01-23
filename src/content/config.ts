@@ -14,43 +14,60 @@ const services = defineCollection({
     // New Structured Data
     hero: z.object({
       subtitle: z.string().optional(), // "Automatización de procesos internos"
+      subtitle_en: z.string().optional(),
       phrase: z.string().optional(), // "Elimina tareas manuales..."
+      phrase_en: z.string().optional(),
       cta: z.string().optional(), // "Agendar llamada de evaluación"
+      cta_en: z.string().optional(),
     }).optional(),
 
     problem: z.object({
       statement: z.string().optional(), // "Muchas empresas funcionan..."
+      statement_en: z.string().optional(),
       points: z.array(z.string()).optional(), // List of problems
+      points_en: z.array(z.string()).optional(),
     }).optional(),
 
     solution: z.object({
       title: z.string().optional(),
+      title_en: z.string().optional(),
       description: z.string().optional(), // "Flow Line convierte..."
+      description_en: z.string().optional(),
     }).optional(),
 
     automation: z.object({
       title: z.string().optional(),
+      title_en: z.string().optional(),
       items: z.array(z.string()).optional(), // Grid items
+      items_en: z.array(z.string()).optional(),
     }).optional(),
 
     benefits: z.object({
       title: z.string().optional(),
+      title_en: z.string().optional(),
       items: z.array(z.string()).optional(), // Checkmark items
+      items_en: z.array(z.string()).optional(),
     }).optional(),
 
     use_cases: z.object({
       title: z.string().optional(),
+      title_en: z.string().optional(),
       items: z.array(z.string()).optional(), // Cards
+      items_en: z.array(z.string()).optional(),
     }).optional(),
 
     methodology: z.object({
       title: z.string().optional(),
+      title_en: z.string().optional(),
       steps: z.array(z.string()).optional(), // Timeline steps
+      steps_en: z.array(z.string()).optional(),
     }).optional(),
 
     final_cta: z.object({
       text: z.string().optional(),
+      text_en: z.string().optional(),
       button_text: z.string().optional(),
+      button_text_en: z.string().optional(),
     }).optional(),
 
     // Legacy/Optional fields

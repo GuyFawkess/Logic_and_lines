@@ -17,21 +17,73 @@ const { Content } = await render(service);
 const { data, slug } = service;
 
 // Fallback for services not yet updated to new schema
-const title = data.title;
+const title = data.title_en || data.title;
 const img = data.img;
 
-const hero = data.hero || {
-  subtitle: data.specification || "",
-  phrase: data.description || "",
-  cta: "Agendar llamada",
+const heroData = data.hero || {};
+const hero = {
+  subtitle:
+    heroData.subtitle_en ||
+    heroData.subtitle ||
+    data.specification_en ||
+    data.specification ||
+    "",
+  phrase:
+    heroData.phrase_en ||
+    heroData.phrase ||
+    data.description_en ||
+    data.description ||
+    "",
+  cta: heroData.cta_en || "Schedule evaluation call",
 };
 
-const problem = data.problem;
-const solution = data.solution;
-const automation = data.automation;
-const benefits = data.benefits;
-const use_cases = data.use_cases;
-const final_cta = data.final_cta;
+const problemData = data.problem;
+const problem = problemData
+  ? {
+      statement: problemData.statement_en || problemData.statement,
+      points: problemData.points_en || problemData.points,
+    }
+  : null;
+
+const solutionData = data.solution;
+const solution = solutionData
+  ? {
+      title: solutionData.title_en || solutionData.title,
+      description: solutionData.description_en || solutionData.description,
+    }
+  : null;
+
+const automationData = data.automation;
+const automation = automationData
+  ? {
+      title: automationData.title_en || automationData.title,
+      items: automationData.items_en || automationData.items,
+    }
+  : null;
+
+const benefitsData = data.benefits;
+const benefits = benefitsData
+  ? {
+      title: benefitsData.title_en || benefitsData.title,
+      items: benefitsData.items_en || benefitsData.items,
+    }
+  : null;
+
+const useCasesData = data.use_cases;
+const use_cases = useCasesData
+  ? {
+      title: useCasesData.title_en || useCasesData.title,
+      items: useCasesData.items_en || useCasesData.items,
+    }
+  : null;
+
+const finalCtaData = data.final_cta;
+const final_cta = finalCtaData
+  ? {
+      text: finalCtaData.text_en || finalCtaData.text,
+      button_text: finalCtaData.button_text_en || finalCtaData.button_text,
+    }
+  : null;
 
 const isLegacy = !problem; // If no problem section, render legacy content mode
 ---

@@ -6,8 +6,6 @@ export default {
     reason: "Razones"
   },
   hero: {
-    welcome: "¡Bienvenido!",
-    slogan: "Donde la tensión se desvanece y comienza la serenidad",
     leftTitle: "Automatiza tu",
     leftFancy: "éxito",
     rightTitle: "Multiplica tu",

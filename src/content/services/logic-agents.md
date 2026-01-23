@@ -17,8 +17,8 @@ hero:
   cta_en: "Schedule evaluation call"
 
 problem:
-  statement: "La IA genérica no entiende tu negocio. ChatGPT es útil, pero no conoce tus datos, tus reglas ni tus procesos."
-  statement_en: "Generic AI doesn't understand your business. ChatGPT is useful, but it doesn't know your data, your rules, or your processes."
+  statement: "La <span style='color: var(--color-primary)'>IA</span> genérica no entiende tu <span style='color: var(--color-primary)'>negocio</span>. ChatGPT es útil, pero no conoce tus <span style='color: var(--color-primary)'>datos</span>, tus reglas ni tus <span style='color: var(--color-primary)'>procesos</span>."
+  statement_en: "Generic <span style='color: var(--color-primary)'>AI</span> doesn't understand your <span style='color: var(--color-primary)'>business</span>. ChatGPT is useful, but it doesn't know your <span style='color: var(--color-primary)'>data</span>, your rules, or your <span style='color: var(--color-primary)'>processes</span>."
   points:
     - "Respuestas imprecisas o alucinaciones"
     - "Falta de contexto sobre tu empresa"
@@ -31,14 +31,14 @@ problem:
     - "Isolated systems that don't execute actions"
 
 solution:
-  title: "La solución: Logic Agents™"
-  title_en: "The solution: Logic Agents™"
+  title: "La solución: <span style='color: var(--color-primary)'>Logic Agents™</span>"
+  title_en: "The solution: <span style='color: var(--color-primary)'>Logic Agents™</span>"
   description: "Logic Agents™ son sistemas de IA personalizados, entrenados específicamente con tus datos (RAG) y reglas de negocio.\n\nFuncionan dentro de tus procesos reales, consultando tu documentación y ejecutando tareas."
   description_en: "Logic Agents™ are custom AI systems, specifically trained with your data (RAG) and business rules.\n\nThey work within your real processes, consulting your documentation and executing tasks."
 
 automation:
-  title: "Qué pueden hacer"
-  title_en: "What they can do"
+  title: "Qué pueden <span style='color: var(--color-primary)'>hacer</span>"
+  title_en: "What they can <span style='color: var(--color-primary)'>do</span>"
   items:
     - "Consultar documentación interna instantáneamente"
     - "Analizar reportes y extraer datos clave"
@@ -53,8 +53,8 @@ automation:
     - "Interact in natural language with employees"
 
 benefits:
-  title: "Tecnologías y Beneficios"
-  title_en: "Technologies and Benefits"
+  title: "Tecnologías y <span style='color: var(--color-primary)'>Beneficios</span>"
+  title_en: "Technologies and <span style='color: var(--color-primary)'>Benefits</span>"
   items:
     - "Embeddings y Búsqueda Vectorial (RAG)"
     - "Modelos avanzados (GPT-4, Claude 3)"
@@ -67,8 +67,8 @@ benefits:
     - "Autonomous decisions under supervision"
 
 use_cases:
-  title: "Casos de uso"
-  title_en: "Use cases"
+  title: "Casos de uso <span style='color: var(--color-primary)'>típicos</span>"
+  title_en: "<span style='color: var(--color-primary)'>Typical</span> use cases"
   items:
     - "Asistentes de Atención al Cliente"
     - "Agentes de Operaciones y Logística"
@@ -81,8 +81,8 @@ use_cases:
     - "Internal Knowledge Management"
 
 final_cta:
-  text: "¿Tiene sentido un agente IA en tu negocio?"
-  text_en: "Does an AI agent make sense for your business?"
+  text: "¿Tiene <span style='color: var(--color-primary)'>sentido</span> un agente IA en tu <span style='color: var(--color-primary)'>negocio</span>?"
+  text_en: "Does an AI agent <span style='color: var(--color-primary)'>make</span> sense for your <span style='color: var(--color-primary)'>business</span>?"
   button_text: "Agendar llamada"
   button_text_en: "Schedule call"
 ---

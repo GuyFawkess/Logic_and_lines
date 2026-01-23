@@ -6,7 +6,7 @@ specification_en: "Internal Process Automation"
 img: "/workflows/workflow.png"
 description: "Convertimos tareas manuales y repetitivas en flujos automáticos que conectan todas tus herramientas."
 description_en: "We turn manual and repetitive tasks into automatic flows that connect all your tools."
-sortOrder: 2
+sortOrder: 3
 
 hero:
   subtitle: "Automatización de procesos internos"
@@ -17,8 +17,8 @@ hero:
   cta_en: "Schedule evaluation call"
 
 problem:
-  statement: "Muchas empresas funcionan gracias al esfuerzo humano, no gracias a sistemas."
-  statement_en: "Many companies run on human effort, not on systems."
+  statement: "Muchas <span style='color: var(--color-primary)'>empresas</span> funcionan gracias al <span style='color: var(--color-primary)'>esfuerzo</span> humano, no gracias a <span style='color: var(--color-primary)'>sistemas</span>."
+  statement_en: "Many <span style='color: var(--color-primary)'>companies</span> run on human <span style='color: var(--color-primary)'>effort</span>, not on <span style='color: var(--color-primary)'>systems</span>."
   points:
     - "Trabajo manual repetitivo"
     - "Errores humanos"
@@ -31,14 +31,14 @@ problem:
     - "Dependency on key people"
 
 solution:
-  title: "La solución: Flow Line"
-  title_en: "The solution: Flow Line"
+  title: "La solución: <span style='color: var(--color-primary)'>Flow Line</span>"
+  title_en: "The solution: <span style='color: var(--color-primary)'>Flow Line</span>"
   description: "Flow Line convierte procesos internos en sistemas automáticos bien definidos.\n\nNo se trata solo de automatizar, sino de ordenar la operación."
   description_en: "Flow Line turns internal processes into well-defined automatic systems.\n\nIt's not just about automating, but about organizing the operation."
 
 automation:
-  title: "Qué automatizamos"
-  title_en: "What we automate"
+  title: "Qué <span style='color: var(--color-primary)'>automatizamos</span>"
+  title_en: "What we <span style='color: var(--color-primary)'>automate</span>"
   items:
     - "Emails repetitivos"
     - "Gestión de documentos"
@@ -53,8 +53,8 @@ automation:
     - "Administrative processes"
 
 benefits:
-  title: "Qué obtienes"
-  title_en: "What you get"
+  title: "Qué <span style='color: var(--color-primary)'>obtienes</span>"
+  title_en: "What you <span style='color: var(--color-primary)'>get</span>"
   items:
     - "Procesos claros y documentados"
     - "Menos errores"
@@ -67,8 +67,8 @@ benefits:
     - "Frictionless scalability"
 
 use_cases:
-  title: "Casos de uso"
-  title_en: "Use cases"
+  title: "Casos de uso <span style='color: var(--color-primary)'>típicos</span>"
+  title_en: "<span style='color: var(--color-primary)'>Typical</span> use cases"
   items:
     - "Equipos administrativos"
     - "Operaciones internas"
@@ -95,8 +95,8 @@ methodology:
     - "Testing and adjustments"
 
 final_cta:
-  text: "¿Qué procesos te están frenando hoy?"
-  text_en: "What processes are holding you back today?"
+  text: "¿Qué <span style='color: var(--color-primary)'>procesos</span> te están frenando <span style='color: var(--color-primary)'>hoy</span>?"
+  text_en: "What <span style='color: var(--color-primary)'>processes</span> are holding you back <span style='color: var(--color-primary)'>today</span>?"
   button_text: "Agendar llamada de evaluación"
   button_text_en: "Schedule evaluation call"
 ---
