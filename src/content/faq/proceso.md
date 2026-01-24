@@ -1,6 +1,7 @@
 ---
 title: "Proceso de Trabajo"
 title_en: "Work Process"
+sortOrder: 2
 faqs:
   - question: "¿Cómo funciona el proceso de trabajo con Logic & Lines?"
     question_en: "How does the work process with Logic & Lines work?"

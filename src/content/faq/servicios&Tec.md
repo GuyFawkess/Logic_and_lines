@@ -1,18 +1,17 @@
 ---
 title: "Servicios y Tecnología"
 title_en: "Services & Technology"
+sortOrder: 1
 faqs:
   - question: "¿Cuál es la diferencia entre automatización e IA?"
     question_en: "What is the difference between automation and AI?"
     answer: |
       Automatización (Flow Line):
-
       - Reglas claras
       - Procesos repetitivos
       - Flujos predecibles
 
       IA (AI Line):
-
       - Comprensión de contexto
       - Análisis de información
       - Asistencia en decisiones
@@ -21,13 +20,11 @@ faqs:
       Primero orden, luego inteligencia.
     answer_en: |
       Automation (Flow Line):
-
       - Clear rules
       - Repetitive processes
       - Predictable flows
 
       AI (AI Line):
-
       - Context understanding
       - Information analysis
       - Decision assistance
@@ -39,17 +36,13 @@ faqs:
     question_en: "Do you work with small companies or only large ones?"
     answer: |
       Trabajamos con empresas de todos los tamaños, especialmente:
-
       - PYMEs
       - Negocios en crecimiento
-
       Son las que más impacto obtienen al pasar de esfuerzo humano a sistemas bien diseñados.
     answer_en: |
       We work with companies of all sizes, especially:
-
       - SMEs
       - Growing businesses
-
       These are the ones that get the most impact when moving from human effort to well-designed systems.
 
   - question: "¿Trabajáis en remoto o presencial?"
@@ -68,25 +61,17 @@ faqs:
   - question: "¿Sois agnósticos en herramientas?"
     question_en: "Are you tool-agnostic?"
     answer: |
-      Sí.
-
-      Usamos la tecnología que mejor encaje con el problema:
-
-      - n8n / Make
+      Sí. Usamos la tecnología que mejor encaje con el problema:
+      - n8n
       - OpenAI, Claude, Gemini
       - CRMs, bases de datos y sistemas existentes
-
       La herramienta no manda.
       La lógica sí.
     answer_en: |
-      Yes.
-
-      We use the technology that best fits the problem:
-
-      - n8n / Make
+      Yes. We use the technology that best fits the problem:
+      - n8n
       - OpenAI, Claude, Gemini
       - CRMs, databases, and existing systems
-
       The tool does not rule.
       Logic does.
 
@@ -95,25 +80,19 @@ faqs:
     answer: |
       Muy sencillo:
       agenda la llamada de evaluación.
-
       En esa llamada:
-
       - Entendemos tu situación
       - Te decimos si podemos ayudarte
       - Te explicamos el siguiente paso lógico
-
       Si encaja, avanzamos.
       Si no, lo dejamos ahí.
     answer_en: |
       Very simple:
       schedule the evaluation call.
-
       In that call:
-
       - We understand your situation
       - We tell you if we can help you
       - We explain the next logical step
-
       If it fits, we move forward.
       If not, we leave it there.
 ---

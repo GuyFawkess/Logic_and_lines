@@ -12,26 +12,35 @@ export default {
     rightFancy: "impact"
   },
   benefits: {
-    title: "Benefits",
-    subtitle: "Revolucionamos tu negocio con inteligencia artificial",
-    benefits: "All designed to relieve tension, stimulate blood circulation, and restore balance to both body and mind.",
-    closing: "Experience the true essence of Thai healing and let us take care of your well-being with expertise from the very roots of Thai tradition here in Lanzarote."
+    title: '<span class="text-primary">Optimize,</span> Accelerate and <span class="text-primary">Automate</span>',
+    subtitle: "Reduce operating costs and eliminate repetitive tasks with intelligent solutions that improve efficiency and accuracy in every process."
   },
-  service: {
-    title: "Servicioss",
-    button: "More info"
+  services: {
+    title: 'Our <span class="text-primary">Services</span>',
+    subtitle: "Automation and artificial intelligence designed to boost your business."
+  },
+  process: {
+    title: 'Our <span class="text-primary">Clear</span> Process',
+    subtitle: "Proven methodology that guarantees results. Each step is designed to maximize the success of your digital transformation."
+  },
+  reasons: {
+    title: 'Why choose <span class="text-primary">Logic <span class="text-white">&</span> Lines</span>?',
+    subtitle: "We combine technical expertise with a focus on business results"
   },
   prices: {
     title: "Our Prices",
+  },
+  faq: {
+    title: 'Frequently Asked <span class="text-primary">Questions</span>'
   },
   contact: {
     title: "Contact me",
     info: "Info",
     reachMe: "Where to reach me",
-    thankYou: "Thank you for your interest in Malai Thai Massage.",
-    preparation: "Our shop is currently undergoing final preparations, including paperwork and interior design, as we get ready for the grand opening.",
-    offering: "In the meantime, I'm offering a limited number of relaxing and professional Thai massage sessions each day, available from my home.",
-    bookSession: "If you'd like to book a session or learn more, feel free to contact me via any of my contact options.",
+    thankYou: "Thank you for your interest in Logic & Lines.",
+    preparation: "Our shop is currently undergoing final preparations.",
+    offering: "In the meantime, I'm offering our consulting services.",
+    bookSession: "If you'd like to book a session or learn more, feel free to contact me.",
     lookForward: "I look forward to welcoming you soon!"
   },
   location: {
@@ -42,10 +51,10 @@ export default {
     opening: "Next opening soon!"
   },
   buttons: {
-    book: "Agendar Llamada Gratis"
+    book: "Schedule Free Call"
   },
   booking: {
-    title: "Schedule your Free Consultation",
+    title: 'Schedule your <span class="text-primary">Free</span> Consultation',
     text: "Select the day and time that best suits you for our initial meeting. In this consultation we will analyze your business and propose the best strategy.",
     button: "Schedule Free Consultation",
     footer: "No commitment • 100% Free • 30 minutes"

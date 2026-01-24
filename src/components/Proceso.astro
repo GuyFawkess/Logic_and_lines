@@ -1,5 +1,7 @@
 ---
 const { currentLang = "en" } = Astro.props;
+import { useTranslations } from "../i18n/utils";
+const t = useTranslations(currentLang);
 import BookButton from "./BookButton.astro";
 const steps = [
   {
@@ -68,10 +70,7 @@ const steps = [
   }
 ];
 
-const sectionTitle = currentLang === 'es' ? "Nuestro Proceso Claro" : "Our Clear Process";
-const sectionSubtitle = currentLang === 'es' 
-  ? "Metodología probada que garantiza resultados. Cada paso está diseñado para maximizar el éxito de tu transformación digital."
-  : "Proven methodology that guarantees results. Each step is designed to maximize the success of your digital transformation.";
+
 ---
 
 <section id="process" class="py-10 pb-18 px-4 w-full relative overflow-hidden bg-(--color-bg)">
@@ -84,20 +83,17 @@ const sectionSubtitle = currentLang === 'es'
   <div class="max-w-11/12 mx-auto relative z-10">
     <!-- Header -->
     <div class="text-center mb-16 w-full mx-auto">
-      <h2 class="text-5xl font-extrabold mb-6 text-(--color-text)">
-        {currentLang === 'es' ? (
-          <>Nuestro <span class="text-(--color-primary)">Proceso</span> Claro</>
-        ) : (
-          <>Our <span class="text-(--color-primary)">Clear</span> Process</>
-        )}
-      </h2>
+      <h2 class="text-5xl font-extrabold mb-6 text-(--color-text)" set:html={t.process.title} />
       <p class="text-gray-300 text-xl max-w-6xl leading-relaxed">
-        {sectionSubtitle}
+        {t.process.subtitle}
       </p>
     </div>
 
     <!-- Steps Grid -->
-    <div class="mb-18  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+    <div 
+     data-duration="700"
+     data-animate="fade-left"
+     class="mb-18  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
       <!-- Decoration Line for Desktop -->
       <div class="hidden lg:block absolute top-12 left-[12%] right-[12%] h-0.5 bg-(--color-primary)/40 -z-10"></div>
 

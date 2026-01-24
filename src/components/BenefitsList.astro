@@ -20,18 +20,20 @@ const benefits = allBenefits.sort(
 >
   <div class="max-w-6xl mx-auto">
     <h2
+      data-duration="700"
+      data-animate="fade-down"
       transition:name="benefits"
       class="text-5xl font-extrabold mb-8 text-center text-white"
-    >
-      <span class="text-(--color-primary)">Optimiza,</span> Acelera y <span
-        class="text-(--color-primary)">Automatiza</span
-      >
-    </h2>
+      set:html={t.benefits.title}
+    />
     <h4 class="mb-20 text-xl text-center">
-      Reduce los costes operativos y elimina tareas repetitivas con soluciones
-      inteligentes que mejoran la eficiencia y la precisión en cada proceso.
+      {t.benefits.subtitle}
     </h4>
-    <div class="flex flex-wrap justify-center gap-8 mb-18">
+    <div
+      data-duration="700"
+      data-animate="fade-left"
+      class="flex flex-wrap justify-center gap-8 mb-18"
+    >
       {
         benefits.map((benefit: { data: any; slug: string }, index: number) => {
           const { data, slug } = benefit;

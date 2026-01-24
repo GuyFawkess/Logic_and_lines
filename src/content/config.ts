@@ -115,4 +115,20 @@ const benefits = defineCollection({
   }),
 });
 
-export const collections = { services, benefits };
+const faq = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    title_en: z.string().optional(),
+    sortOrder: z.number().default(999),
+    faqs: z.array(
+      z.object({
+        question: z.string(),
+        question_en: z.string().optional(),
+        answer: z.string(),
+        answer_en: z.string().optional(),
+      })
+    ),
+  }),
+});
+
+export const collections = { services, benefits, faq };

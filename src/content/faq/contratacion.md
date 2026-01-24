@@ -1,6 +1,7 @@
 ---
 title: "Contratación e Inversión"
 title_en: "Hiring and Investment"
+sortOrder: 4
 faqs:
   - question: "¿Cómo empiezo a trabajar con vosotros?"
     question_en: "How do I start working with you?"

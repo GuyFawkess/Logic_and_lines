@@ -1,0 +1,144 @@
+---
+import { getCollection } from "astro:content";
+import { useTranslations } from "../i18n/utils";
+
+const { currentLang = "es" } = Astro.props;
+const t = useTranslations(currentLang);
+const allFaqCategories = await getCollection("faq");
+const faqCategories = allFaqCategories.sort(
+    (a, b) => (a.data.sortOrder || 999) - (b.data.sortOrder || 999),
+);
+---
+
+<section class="max-w-7xl mx-auto px-4 py-10">
+    <h2
+        class="text-4xl md:text-5xl font-bold mb-12 text-center font-display"
+        set:html={t.faq.title}
+    />
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
+        {
+            faqCategories.map((category) => {
+                const catTitle =
+                    currentLang === "en" && category.data.title_en
+                        ? category.data.title_en
+                        : category.data.title;
+
+                return (
+                    <article class="bg-card rounded-2xl p-6 border border-white/5 shadow-sm h-fit">
+                        <h3 class="text-xl font-display font-medium text-primary mb-6">
+                            {catTitle}
+                        </h3>
+                        <div class="flex flex-col gap-2">
+                            {category.data.faqs.map((faq, index) => {
+                                const question =
+                                    currentLang === "en" && faq.question_en
+                                        ? faq.question_en
+                                        : faq.question;
+                                const answer =
+                                    currentLang === "en" && faq.answer_en
+                                        ? faq.answer_en
+                                        : faq.answer;
+
+                                return (
+                                    <div class="accordion-item border-b border-white/5 last:border-0">
+                                        <button
+                                            class="accordion-header w-full flex justify-between items-start py-4 text-left text-text hover:text-primary aria-expanded:text-primary transition-colors group gap-4"
+                                            aria-expanded="false"
+                                            aria-controls={`faq-${category.id}-${index}`}
+                                        >
+                                            <span class="font-sans font-medium text-lg leading-relaxed">
+                                                {question}
+                                            </span>
+                                            <span class="shrink-0 mt-1">
+                                                <svg
+                                                    class="w-6 h-6 transform transition-transform duration-300 text-text/50 group-hover:text-primary"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M19 9l-7 7-7-7"
+                                                    />
+                                                </svg>
+                                            </span>
+                                        </button>
+                                        <div
+                                            id={`faq-${category.id}-${index}`}
+                                            class="accordion-content overflow-hidden max-h-0 transition-all duration-300 ease-in-out"
+                                        >
+                                            <div class="pb-4 text-text/80 text-base leading-relaxed whitespace-pre-line font-sans">
+                                                {answer}
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </article>
+                );
+            })
+        }
+    </div>
+</section>
+
+<script>
+    function initAccordion() {
+        document.querySelectorAll("article").forEach((card) => {
+            const headers = card.querySelectorAll(".accordion-header");
+
+            headers.forEach((header) => {
+                const newHeader = header.cloneNode(true);
+                if (header.parentNode) {
+                    header.parentNode.replaceChild(newHeader, header);
+                }
+
+                newHeader.addEventListener("click", (e) => {
+                    const button = e.currentTarget as HTMLElement;
+                    const item = button.closest(".accordion-item");
+                    const content = item?.querySelector(
+                        ".accordion-content",
+                    ) as HTMLElement;
+                    const isOpen =
+                        button.getAttribute("aria-expanded") === "true";
+
+                    // Close all others in this category (card)
+                    card.querySelectorAll(".accordion-header").forEach((h) => {
+                        if (h !== button) {
+                            h.setAttribute("aria-expanded", "false");
+                            const hContent = h
+                                .closest(".accordion-item")
+                                ?.querySelector(
+                                    ".accordion-content",
+                                ) as HTMLElement;
+                            if (hContent) hContent.style.maxHeight = "0px";
+                            h.querySelector("svg")?.classList.remove(
+                                "rotate-180",
+                            );
+                        }
+                    });
+
+                    // Toggle current
+                    if (!isOpen) {
+                        button.setAttribute("aria-expanded", "true");
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        button
+                            .querySelector("svg")
+                            ?.classList.add("rotate-180");
+                    } else {
+                        button.setAttribute("aria-expanded", "false");
+                        content.style.maxHeight = "0px";
+                        button
+                            .querySelector("svg")
+                            ?.classList.remove("rotate-180");
+                    }
+                });
+            });
+        });
+    }
+
+    initAccordion();
+    document.addEventListener("astro:page-load", initAccordion);
+</script>

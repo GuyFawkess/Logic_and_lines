@@ -24,14 +24,15 @@ const iconMap: { [key: number]: string } = {
 
 <section id="reasons" class="w-full pt-16 pb-40 px-4 bg-(--color-bg-alt) relative">
   <div class="max-w-11/12 mx-auto relative z-10">
-    <h2 class="text-5xl font-extrabold mb-8 text-center text-white">
-      ¿Por qué elegir <span class="text-(--color-primary)">Logic <span class="text-white">&</span> Lines</span>?
-    </h2>
+    <h2 class="text-5xl font-extrabold mb-8 text-center text-white" set:html={t.reasons.title} />
     <p class="text-center text-gray-300 text-xl mb-24 max-w-6xl mx-auto">
-      Combinamos experiencia técnica con un enfoque centrado en resultados empresariales
+      {t.reasons.subtitle}
     </p>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+    <div 
+      data-duration="700"
+      data-animate="fade-right"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
       {
         reasons.map((reason, index) => {
           const { data } = reason;

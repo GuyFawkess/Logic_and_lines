@@ -1,6 +1,7 @@
 ---
 title: "Implementación y Soporte"
 title_en: "Implementation and Support"
+sortOrder: 3
 faqs:
   - question: "¿Qué pasa después de la implementación?"
     question_en: "What happens after implementation?"
