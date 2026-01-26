@@ -3,7 +3,7 @@ title: "Logic Agents"
 title_en: "Logic Agents"
 specification: "Agentes IA Personalizados"
 specification_en: "Custom AI Agents"
-img: "/RAG/RAG.png"
+img: "/logic-agent/logic-agent.webp"
 description: "Diseñamos agentes de IA entrenados con tu información interna capaces de analizar datos y ejecutar acciones."
 description_en: "We design AI agents trained with your internal information capable of analyzing data and executing actions."
 sortOrder: 4

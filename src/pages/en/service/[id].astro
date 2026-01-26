@@ -121,7 +121,9 @@ const isLegacy = !problem; // If no problem section, render legacy content mode
         <div
           class="relative h-full flex items-center justify-center animate-fade-in"
         >
-          <div class="relative w-full aspect-square max-w-[500px]">
+          <div
+            class="relative w-full aspect-square max-w-[400px] flex items-center justify-center"
+          >
             <div
               class="absolute inset-0 bg-linear-to-tr from-(--color-primary)/20 to-transparent rounded-full blur-3xl animate-pulse-slow"
             >
@@ -130,7 +132,7 @@ const isLegacy = !problem; // If no problem section, render legacy content mode
               transition:name={`img-${slug}`}
               src={img}
               alt={title}
-              class="relative z-10 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-700"
+              class="relative z-10 max-w-full max-h-full drop-shadow-2xl hover:scale-105 transition-transform duration-700 rounded-3xl"
             />
           </div>
         </div>
