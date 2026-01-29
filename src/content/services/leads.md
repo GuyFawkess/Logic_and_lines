@@ -3,7 +3,7 @@ title: "Sales Line"
 title_en: "Sales Line"
 specification: "Captación y Gestión Inteligente de Leads"
 specification_en: "Smart Lead Capture and Management"
-img: "/sales-line/service-leads.webp"
+img: "/sales-line/funnels-provisional.webp"
 description: "Diseñamos sistemas que captan, priorizan y hacen seguimiento automático de leads para que ninguna oportunidad se pierda."
 description_en: "We design systems that capture, prioritize, and automatically follow up on leads so no opportunity is lost."
 sortOrder: 2

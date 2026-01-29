@@ -3,7 +3,7 @@ title: "Flow Line"
 title_en: "Flow Line"
 specification: "Automatización de Procesos Internos"
 specification_en: "Internal Process Automation"
-img: "/flow-line/flow-line.webp"
+img: "/flow-line/flow-line-2.webp"
 description: "Convertimos tareas manuales y repetitivas en flujos automáticos que conectan todas tus herramientas."
 description_en: "We turn manual and repetitive tasks into automatic flows that connect all your tools."
 sortOrder: 3

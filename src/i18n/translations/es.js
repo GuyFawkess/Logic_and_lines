@@ -21,7 +21,34 @@ export default {
   },
   process: {
     title: 'Nuestro <span class="text-primary">Proceso</span> Claro',
-    subtitle: "Metodología probada que garantiza resultados. Cada paso está diseñado para maximizar el éxito de tu transformación digital."
+    subtitle: "Metodología probada que garantiza resultados. Cada paso está diseñado para maximizar el éxito de tu transformación digital.",
+    steps: [
+      {
+        step: "01",
+        title: "System Discovery",
+        description: "Entendemos cómo funciona tu negocio antes de automatizarlo.",
+        items: ["Análisis de procesos actuales", "Identificación de tareas repetitivas", "Detección de cuellos de botella", "Identificación de pérdidas de tiempo y eficiencia"]
+      },
+      {
+        step: "02",
+        title: "Logical Design",
+        description: "Diseñamos la lógica del sistema, no solo los flujos.",
+        items: ["Diagramas de procesos", "Reglas y decisiones", "Escenarios y excepciones", "Arquitectura del sistema"]
+      },
+      {
+        step: "03",
+        title: "Intelligent Implementation",
+        description: "Convertimos el diseño en automatizaciones reales con IA.",
+        items: ["Flujos automatizados", "Integraciones entre herramientas", "IA entrenada según el negocio", "Sistemas funcionales y estables"]
+      },
+      {
+        step: "04",
+        title: "Optimization & Evolution",
+        description: "El sistema no se mantiene. Evoluciona.",
+        items: ["Pruebas en entorno real", "Ajuste de lógica y automatizaciones", "Optimización continua", "Preparación para escalar"]
+      }
+    ],
+    quote: "“Cada paso está diseñado para reducir fricción, eliminar trabajo manual y construir sistemas escalables desde el primer día.”"
   },
   reasons: {
     title: '¿Por qué elegir <span class="text-primary">Logic <span class="text-white">&</span> Lines</span>?',
@@ -29,6 +56,27 @@ export default {
   },
   prices: {
     title: "Nuestros Precios",
+  },
+  stats: {
+    title: '<span class="text-primary">Resultados</span> <span class="text-(--color-text-dark)">que hablan</span>',
+    subtitle: "Métricas reales de nuestros clientes que confían en nosotros",
+    items: [
+      {
+        value: "85%",
+        label: "Reducción de tiempo",
+        subLabel: "en tareas repetitivas"
+      },
+      {
+        value: "24/7",
+        label: "Disponibilidad",
+        subLabel: "Automatización continua"
+      },
+      {
+        value: "95%",
+        label: "Tasa de éxito",
+        subLabel: "En implementaciones"
+      }
+    ]
   },
   faq: {
     title: 'Preguntas <span class="text-primary">Frecuentes</span>'
@@ -51,7 +99,7 @@ export default {
     opening: "Próxima apertura pronto!"
   },
   buttons: {
-    book: "¡Reserva ahora!"
+    book: "Agendar llamada"
   },
   booking: {
     title: 'Agenda tu Consulta <span class="text-primary">Gratuita</span>',
@@ -61,5 +109,8 @@ export default {
   },
   footer: {
     copyright: "Copyright © {year} - Todos los derechos reservados por Logic & Lines"
+  },
+  privacy: {
+    link: "Política de Privacidad"
   }
 };

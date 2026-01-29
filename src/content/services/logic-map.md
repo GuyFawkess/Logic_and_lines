@@ -3,7 +3,7 @@ title: "Logic Map"
 title_en: "Logic Map"
 specification: "Diagnóstico y Diseño del Sistema"
 specification_en: "System Diagnosis & Design"
-img: "/logic-map/logic-map.webp"
+img: "/logic-map/logic-map-2.webp"
 description: "Analizamos cómo funciona realmente tu empresa y diseñamos un roadmap claro de automatización antes de construir cualquier sistema."
 description_en: "We analyze how your company really works and design a clear automation roadmap before building any system."
 sortOrder: 1

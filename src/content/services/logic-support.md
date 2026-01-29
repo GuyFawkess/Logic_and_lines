@@ -3,7 +3,7 @@ title: "Logic Support"
 title_en: "Logic Support"
 specification: "Atención al Cliente con IA"
 specification_en: "AI-Powered Customer Support"
-img: "/logic-support/logic-support.webp"
+img: "/logic-support/logic-support-2.webp"
 description: "Implementamos sistemas de atención al cliente con IA que responden, clasifican y resuelven solicitudes 24/7."
 description_en: "We implement AI-powered customer support systems that respond, classify, and resolve requests 24/7."
 sortOrder: 5

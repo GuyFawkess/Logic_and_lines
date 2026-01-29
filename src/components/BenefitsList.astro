@@ -4,6 +4,9 @@ import { useTranslations } from "../i18n/utils";
 import SuccessCard from "./SuccessCard.astro";
 import BookButton from "../components/BookButton.astro";
 import Test from "./Test.astro";
+import SpeedGauge from "./SpeedGauge.astro";
+import ErrorValidation from "./ErrorValidation.astro";
+import ManualReduction from "./ManualReduction.astro";
 const { currentLang = "es" } = Astro.props;
 const t = useTranslations(currentLang);
 
@@ -45,7 +48,21 @@ const benefits = allBenefits.sort(
               : data.description;
           const { img } = data;
 
-          return <SuccessCard title={title} text={description} img={img} />;
+          const isSpeedCard =
+            title.includes("Velocidad") || title.includes("Speed");
+          const isErrorCard =
+            title.includes("Errores") ||
+            title.includes("Errors") ||
+            title.includes("Mistakes");
+          const isManualCard = title.includes("Manual");
+
+          return (
+            <SuccessCard title={title} text={description} img={img}>
+              {isSpeedCard && <SpeedGauge slot="graphic" />}
+              {isErrorCard && <ErrorValidation slot="graphic" />}
+              {isManualCard && <ManualReduction slot="graphic" />}
+            </SuccessCard>
+          );
         })
       }
     </div>

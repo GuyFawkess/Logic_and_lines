@@ -1,0 +1,250 @@
+---
+
+---
+
+<div class="animation-container">
+    <svg viewBox="0 0 300 180" preserveAspectRatio="xMidYMid meet">
+        <!-- Item 1: Error (top left) -->
+        <g class="validation-item">
+            <circle class="item-circle" cx="60" cy="50" r="18"></circle>
+            <line class="item-x" x1="53" y1="43" x2="67" y2="57"></line>
+            <line class="item-x" x1="67" y1="43" x2="53" y2="57"></line>
+        </g>
+
+        <!-- Item 2: Success (top center) - Centered Tick -->
+        <g class="validation-item">
+            <circle class="item-circle-success" cx="150" cy="50" r="18"
+            ></circle>
+            <polyline class="item-checkmark" points="143,50 148,55 158,45"
+            ></polyline>
+        </g>
+
+        <!-- Item 3: Error (top right) -->
+        <g class="validation-item">
+            <circle class="item-circle" cx="240" cy="50" r="18"></circle>
+            <line class="item-x" x1="233" y1="43" x2="247" y2="57"></line>
+            <line class="item-x" x1="247" y1="43" x2="233" y2="57"></line>
+        </g>
+
+        <!-- Item 4: Success (bottom left) - Centered Tick -->
+        <g class="validation-item">
+            <circle class="item-circle-success" cx="105" cy="130" r="18"
+            ></circle>
+            <polyline class="item-checkmark" points="98,130 103,135 113,125"
+            ></polyline>
+        </g>
+
+        <!-- Item 5: Success (bottom right) - Centered Tick -->
+        <g class="validation-item">
+            <circle class="item-circle-success" cx="195" cy="130" r="18"
+            ></circle>
+            <polyline class="item-checkmark" points="188,130 193,135 203,125"
+            ></polyline>
+        </g>
+    </svg>
+</div>
+
+<style>
+    .animation-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    svg {
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(0 0 20px rgba(244, 168, 37, 0.1));
+        transition: filter 0.3s ease;
+    }
+
+    :global(.group:hover) svg {
+        filter: drop-shadow(0 0 30px rgba(244, 168, 37, 0.2));
+    }
+
+    .validation-item {
+        opacity: 0;
+    }
+
+    .item-circle {
+        fill: none;
+        stroke: rgba(244, 168, 37, 0.3);
+        stroke-width: 2;
+    }
+
+    .item-circle-success {
+        fill: none;
+        stroke: #f4a825;
+        stroke-width: 2;
+        filter: drop-shadow(0 0 8px rgba(244, 168, 37, 0.4));
+    }
+
+    .item-checkmark {
+        fill: none;
+        stroke: #f4a825;
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        filter: drop-shadow(0 0 6px rgba(244, 168, 37, 0.3));
+    }
+
+    .item-x {
+        fill: none;
+        stroke: rgba(220, 100, 100, 0.6);
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    /* Animaciones */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @keyframes drawCheckmark {
+        from {
+            stroke-dasharray: 30;
+            stroke-dashoffset: 30;
+        }
+
+        to {
+            stroke-dasharray: 30;
+            stroke-dashoffset: 0;
+        }
+    }
+
+    @keyframes drawX {
+        from {
+            stroke-dasharray: 40;
+            stroke-dashoffset: 40;
+        }
+
+        to {
+            stroke-dasharray: 40;
+            stroke-dashoffset: 0;
+        }
+    }
+
+    @keyframes fadeInHover {
+        from {
+            opacity: 0;
+            transform: scale(0.7);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+    }
+
+    @keyframes drawCheckmarkHover {
+        from {
+            stroke-dasharray: 30;
+            stroke-dashoffset: 30;
+        }
+
+        to {
+            stroke-dasharray: 30;
+            stroke-dashoffset: 0;
+        }
+    }
+
+    .validation-item {
+        animation: fadeIn 0.6s ease-out forwards;
+    }
+
+    .validation-item:nth-child(1) {
+        animation-delay: 0.2s;
+    }
+
+    .validation-item:nth-child(2) {
+        animation-delay: 0.6s;
+    }
+
+    .validation-item:nth-child(3) {
+        animation-delay: 1s;
+    }
+
+    .validation-item:nth-child(4) {
+        animation-delay: 1.4s;
+    }
+
+    .validation-item:nth-child(5) {
+        animation-delay: 1.8s;
+    }
+
+    .item-checkmark {
+        animation: drawCheckmark 0.6s ease-out forwards;
+    }
+
+    .validation-item:nth-child(1) .item-checkmark {
+        animation-delay: 0.4s;
+    }
+
+    .validation-item:nth-child(2) .item-checkmark {
+        animation-delay: 0.8s;
+    }
+
+    .validation-item:nth-child(3) .item-checkmark {
+        animation-delay: 1.2s;
+    }
+
+    .validation-item:nth-child(4) .item-checkmark {
+        animation-delay: 1.6s;
+    }
+
+    .validation-item:nth-child(5) .item-checkmark {
+        animation-delay: 2s;
+    }
+
+    .item-x {
+        animation: drawX 0.6s ease-out forwards;
+    }
+
+    .validation-item:nth-child(3) .item-x {
+        animation-delay: 1.4s;
+    }
+
+    /* Hover effects */
+    :global(.group:hover) .validation-item {
+        animation: fadeInHover 0.4s ease-out forwards;
+    }
+
+    :global(.group:hover) .validation-item:nth-child(1) {
+        animation-delay: 0s;
+    }
+
+    :global(.group:hover) .validation-item:nth-child(2) {
+        animation-delay: 0.1s;
+    }
+
+    :global(.group:hover) .validation-item:nth-child(3) {
+        animation-delay: 0.2s;
+    }
+
+    :global(.group:hover) .validation-item:nth-child(4) {
+        animation-delay: 0.3s;
+    }
+
+    :global(.group:hover) .validation-item:nth-child(5) {
+        animation-delay: 0.4s;
+    }
+
+    :global(.group:hover) .item-checkmark {
+        animation: drawCheckmarkHover 0.5s ease-out infinite;
+    }
+
+    :global(.group:hover) .item-circle-success {
+        filter: drop-shadow(0 0 16px rgba(244, 168, 37, 0.6));
+    }
+</style>

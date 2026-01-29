@@ -1,22 +1,8 @@
 ---
 // Stats.astro
-const stats = [
-  {
-    value: "85%",
-    label: "Reducción de tiempo",
-    subLabel: "en tareas repetitivas",
-  },
-  {
-    value: "24/7",
-    label: "Disponibilidad",
-    subLabel: "Automatización continua",
-  },
-  {
-    value: "95%",
-    label: "Tasa de éxito",
-    subLabel: "En implementaciones",
-  },
-];
+const { currentLang = "es" } = Astro.props;
+import { useTranslations } from "../i18n/utils";
+const t = useTranslations(currentLang);
 ---
 
 <!-- bg-gradient-to-b from-[#0a1f1f] to-[#0f2f2f] -->
@@ -24,12 +10,12 @@ const stats = [
   <div class="max-w-7xl mx-auto px-4 mb-8 mt-16">
     <!-- Section Header -->
     <div class="text-center mb-12">
-      <h2 class="text-4xl md:text-5xl font-bold mb-4">
-        <span class="text-(--color-primary)">Resultados</span>
-        <span class="text-(--color-text-dark)">que hablan</span>
-      </h2>
+      <h2
+        class="text-4xl md:text-5xl font-bold mb-4"
+        set:html={t.stats.title}
+      />
       <p class="text-(--color-text) text-lg md:text-xl max-w-2xl mx-auto">
-        Métricas reales de nuestros clientes que confían en nosotros
+        {t.stats.subtitle}
       </p>
     </div>
 
@@ -39,7 +25,7 @@ const stats = [
       class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12"
     >
       {
-        stats.map((stat) => (
+        t.stats.items.map((stat) => (
           <div class="text-center">
             <div class="text-5xl md:text-6xl font-bold text-[#F59E0B] mb-3">
               {stat.value}

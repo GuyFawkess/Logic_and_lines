@@ -33,7 +33,7 @@ const {
 
     <div class="relative z-10 h-full flex flex-col">
         <!-- Image Container - No padding -->
-        <div class="shrink-0 h-[220px] overflow-hidden rounded-t-2xl">
+        <div class="shrink-0 h-[240px] overflow-hidden rounded-t-xl">
             <img
                 transition:name={`img-${slug}`}
                 src={img}
@@ -42,7 +42,7 @@ const {
                 height="200"
                 loading={index > 2 ? "lazy" : "eager"}
                 decoding={index > 2 ? "async" : "auto"}
-                class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                class="w-full h-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
             />
         </div>
 

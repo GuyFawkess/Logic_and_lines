@@ -17,65 +17,91 @@ const faqCategories = allFaqCategories.sort(
     />
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
         {
-            faqCategories.map((category) => {
+            faqCategories.map((category, catIndex) => {
                 const catTitle =
                     currentLang === "en" && category.data.title_en
                         ? category.data.title_en
                         : category.data.title;
 
                 return (
-                    <article class="bg-card rounded-2xl p-6 border border-white/5 shadow-sm h-fit">
-                        <h3 class="text-xl font-display font-medium text-primary mb-6">
-                            {catTitle}
-                        </h3>
-                        <div class="flex flex-col gap-2">
-                            {category.data.faqs.map((faq, index) => {
-                                const question =
-                                    currentLang === "en" && faq.question_en
-                                        ? faq.question_en
-                                        : faq.question;
-                                const answer =
-                                    currentLang === "en" && faq.answer_en
-                                        ? faq.answer_en
-                                        : faq.answer;
+                    <article class="bg-card rounded-2xl border border-white/5 shadow-sm h-fit overflow-hidden">
+                        <button
+                            class="category-header w-full p-6 flex justify-between items-center text-left group transition-colors hover:bg-white/5"
+                            aria-expanded="false"
+                            aria-controls={`cat-${catIndex}`}
+                        >
+                            <h3 class="text-xl font-display font-medium text-primary">
+                                {catTitle}
+                            </h3>
+                            <span class="shrink-0 transition-transform duration-300">
+                                <svg
+                                    class="w-6 h-6 text-primary"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M19 9l-7 7-7-7"
+                                    />
+                                </svg>
+                            </span>
+                        </button>
+                        <div
+                            id={`cat-${catIndex}`}
+                            class="category-content overflow-hidden max-h-0 transition-all duration-500 ease-in-out"
+                        >
+                            <div class="flex flex-col gap-2 px-6 pb-6">
+                                {category.data.faqs.map((faq, index) => {
+                                    const question =
+                                        currentLang === "en" && faq.question_en
+                                            ? faq.question_en
+                                            : faq.question;
+                                    const answer =
+                                        currentLang === "en" && faq.answer_en
+                                            ? faq.answer_en
+                                            : faq.answer;
 
-                                return (
-                                    <div class="accordion-item border-b border-white/5 last:border-0">
-                                        <button
-                                            class="accordion-header w-full flex justify-between items-start py-4 text-left text-text hover:text-primary aria-expanded:text-primary transition-colors group gap-4"
-                                            aria-expanded="false"
-                                            aria-controls={`faq-${category.id}-${index}`}
-                                        >
-                                            <span class="font-sans font-medium text-lg leading-relaxed">
-                                                {question}
-                                            </span>
-                                            <span class="shrink-0 mt-1">
-                                                <svg
-                                                    class="w-6 h-6 transform transition-transform duration-300 text-text/50 group-hover:text-primary"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M19 9l-7 7-7-7"
-                                                    />
-                                                </svg>
-                                            </span>
-                                        </button>
-                                        <div
-                                            id={`faq-${category.id}-${index}`}
-                                            class="accordion-content overflow-hidden max-h-0 transition-all duration-300 ease-in-out"
-                                        >
-                                            <div class="pb-4 text-text/80 text-base leading-relaxed whitespace-pre-line font-sans">
-                                                {answer}
+                                    return (
+                                        <div class="accordion-item border-b border-white/5 last:border-0">
+                                            <button
+                                                class="accordion-header w-full flex justify-between items-start py-4 text-left text-text hover:text-primary aria-expanded:text-primary transition-colors group gap-4"
+                                                aria-expanded="false"
+                                                aria-controls={`faq-${category.id}-${index}`}
+                                            >
+                                                <span class="font-sans font-medium text-lg leading-relaxed">
+                                                    {question}
+                                                </span>
+                                                <span class="shrink-0 mt-1">
+                                                    <svg
+                                                        class="w-6 h-6 transform transition-transform duration-300 text-text/50 group-hover:text-primary"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke="currentColor"
+                                                    >
+                                                        <path
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M19 9l-7 7-7-7"
+                                                        />
+                                                    </svg>
+                                                </span>
+                                            </button>
+                                            <div
+                                                id={`faq-${category.id}-${index}`}
+                                                class="accordion-content overflow-hidden max-h-0 transition-all duration-300 ease-in-out"
+                                            >
+                                                <div class="pb-4 text-text/80 text-base leading-relaxed whitespace-pre-line font-sans">
+                                                    {answer}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                );
-                            })}
+                                    );
+                                })}
+                            </div>
                         </div>
                     </article>
                 );
@@ -86,16 +112,16 @@ const faqCategories = allFaqCategories.sort(
 
 <script>
     function initAccordion() {
-        document.querySelectorAll("article").forEach((card) => {
-            const headers = card.querySelectorAll(".accordion-header");
-
-            headers.forEach((header) => {
+        // Handle inner FAQ accordions
+        const setupInnerAccordions = () => {
+            document.querySelectorAll(".accordion-header").forEach((header) => {
                 const newHeader = header.cloneNode(true);
                 if (header.parentNode) {
                     header.parentNode.replaceChild(newHeader, header);
                 }
 
                 newHeader.addEventListener("click", (e) => {
+                    e.stopPropagation(); // Prevent bubbling to category
                     const button = e.currentTarget as HTMLElement;
                     const item = button.closest(".accordion-item");
                     const content = item?.querySelector(
@@ -104,23 +130,80 @@ const faqCategories = allFaqCategories.sort(
                     const isOpen =
                         button.getAttribute("aria-expanded") === "true";
 
-                    // Close all others in this category (card)
-                    card.querySelectorAll(".accordion-header").forEach((h) => {
-                        if (h !== button) {
-                            h.setAttribute("aria-expanded", "false");
-                            const hContent = h
-                                .closest(".accordion-item")
-                                ?.querySelector(
-                                    ".accordion-content",
-                                ) as HTMLElement;
-                            if (hContent) hContent.style.maxHeight = "0px";
-                            h.querySelector("svg")?.classList.remove(
-                                "rotate-180",
-                            );
-                        }
-                    });
+                    // Close all others in this specific category group
+                    const categoryContent = button.closest(".category-content");
+                    if (categoryContent) {
+                        categoryContent
+                            .querySelectorAll(".accordion-header")
+                            .forEach((h) => {
+                                if (h !== button) {
+                                    h.setAttribute("aria-expanded", "false");
+                                    const hContent = h
+                                        .closest(".accordion-item")
+                                        ?.querySelector(
+                                            ".accordion-content",
+                                        ) as HTMLElement;
+                                    if (hContent)
+                                        hContent.style.maxHeight = "0px";
+                                    h.querySelector("svg")?.classList.remove(
+                                        "rotate-180",
+                                    );
+                                }
+                            });
+                    }
 
                     // Toggle current
+                    if (!isOpen) {
+                        button.setAttribute("aria-expanded", "true");
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        button
+                            .querySelector("svg")
+                            ?.classList.add("rotate-180");
+
+                        // Recalculate parent category height
+                        updateParentHeight(button);
+                    } else {
+                        button.setAttribute("aria-expanded", "false");
+                        content.style.maxHeight = "0px";
+                        button
+                            .querySelector("svg")
+                            ?.classList.remove("rotate-180");
+                    }
+                });
+            });
+        };
+
+        // Handle Category accordions
+        const setupCategoryAccordions = () => {
+            document.querySelectorAll(".category-header").forEach((header) => {
+                // Clone to remove previous listeners
+                const newHeader = header.cloneNode(true);
+                if (header.parentNode) {
+                    header.parentNode.replaceChild(newHeader, header);
+                }
+
+                newHeader.addEventListener("click", (e) => {
+                    const button = e.currentTarget as HTMLElement;
+                    const article = button.closest("article");
+                    const content = article?.querySelector(
+                        ".category-content",
+                    ) as HTMLElement;
+                    const isOpen =
+                        button.getAttribute("aria-expanded") === "true";
+
+                    // Close all other categories (Optional: depending on preference, but usually better for layout)
+                    /* 
+                     // Uncomment this block if you want only one category open at a time
+                     document.querySelectorAll(".category-header").forEach(h => {
+                         if (h !== button && h.getAttribute("aria-expanded") === "true") {
+                             h.setAttribute("aria-expanded", "false");
+                             const hContent = h.closest("article")?.querySelector(".category-content") as HTMLElement;
+                             if(hContent) hContent.style.maxHeight = "0px";
+                             h.querySelector("svg")?.classList.remove("rotate-180");
+                         }
+                     });
+                     */
+
                     if (!isOpen) {
                         button.setAttribute("aria-expanded", "true");
                         content.style.maxHeight = content.scrollHeight + "px";
@@ -136,7 +219,31 @@ const faqCategories = allFaqCategories.sort(
                     }
                 });
             });
-        });
+        };
+
+        // Helper to update parent height when child expands
+        function updateParentHeight(childButton: HTMLElement) {
+            const categoryContent = childButton.closest(
+                ".category-content",
+            ) as HTMLElement;
+            if (categoryContent) {
+                // We set it to 'none' momentarily to get full height, or just add a massive buffer,
+                // but setting to scrollHeight is safer if we can recalculate.
+                // Since transitions interfere with scrollHeight reading during transition,
+                // simpler is to just set max-height to a large value or recalculate after a small delay.
+                // However, for nested flexible height, usually unsetting max-height or setting it large is easiest.
+                // Let's just create a dynamic adjustment.
+
+                // Better approach: When opening a child, add its height to the parent's max-height
+                // But doing this perfectly with transitions is tricky.
+                // Simple fix: Set parent max-height to a very large number when open.
+                categoryContent.style.maxHeight =
+                    categoryContent.scrollHeight + 500 + "px"; // Add buffer
+            }
+        }
+
+        setupInnerAccordions();
+        setupCategoryAccordions();
     }
 
     initAccordion();

@@ -1,0 +1,163 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+const currentDate = new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+});
+---
+
+<Layout title="Privacy Policy">
+    <main
+        class="max-w-4xl mx-auto px-6 pt-40 pb-20 md:pt-48 md:pb-32 text-gray-300"
+    >
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+            Privacy <span class="text-primary">Policy</span>
+        </h1>
+        <p class="mb-12 text-sm text-gray-500">Last updated: {currentDate}</p>
+
+        <div class="space-y-8 leading-relaxed">
+            <p>
+                At Logic & Lines, accessible from https://logicandlines.com, one
+                of our main priorities is the privacy of our visitors. This
+                Privacy Policy document contains types of information that is
+                collected and recorded by Logic & Lines and how we use it.
+            </p>
+
+            <section>
+                <h2 class="text-2xl font-semibold text-white mb-4">
+                    1. Information We Collect
+                </h2>
+                <p class="mb-4">
+                    We may collect personal information in various ways,
+                    including, but not limited to:
+                </p>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>
+                        <strong class="text-white">Contact Data:</strong> Name, email
+                        address, phone number.
+                    </li>
+                    <li>
+                        <strong class="text-white">Navigation Data:</strong> IP address,
+                        browser type, time spent on the site, and pages visited (via
+                        cookies).
+                    </li>
+                    <li>
+                        <strong class="text-white">Form Data:</strong> Any information
+                        you voluntarily provide when filling out a contact or subscription
+                        form.
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="text-2xl font-semibold text-white mb-4">
+                    2. How We Use Your Information
+                </h2>
+                <p class="mb-4">We use the information we collect to:</p>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>Operate and maintain our website.</li>
+                    <li>Improve, personalize, and expand our website.</li>
+                    <li>Understand and analyze how you use our site.</li>
+                    <li>Develop new products, services, and features.</li>
+                    <li>
+                        Communicate with you (support, updates, or marketing
+                        purposes if you have authorized it).
+                    </li>
+                    <li>Prevent fraud.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="text-2xl font-semibold text-white mb-4">
+                    3. Cookies and Web Beacons
+                </h2>
+                <p class="mb-4">
+                    Like any other website, Logic & Lines uses "cookies". These
+                    are used to store information including visitors'
+                    preferences, and the pages on the website that the visitor
+                    accessed or visited. The information is used to optimize the
+                    users' experience.
+                </p>
+                <p>
+                    Additionally, we use tracking technologies such as <strong
+                        class="text-white">Meta Pixel (Facebook)</strong
+                    > and <strong class="text-white">Google Analytics</strong> to
+                    analyze traffic and improve our advertising campaigns.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl font-semibold text-white mb-4">
+                    4. Third Parties and External Links
+                </h2>
+                <p>
+                    Our Privacy Policy does not apply to other advertisers or
+                    websites. Thus, we are advising you to consult the
+                    respective Privacy Policies of these third-party ad servers
+                    for more detailed information.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl font-semibold text-white mb-4">
+                    5. Data Protection Rights (GDPR / ARCO Rights)
+                </h2>
+                <p class="mb-4">
+                    We want to ensure you are fully aware of all of your data
+                    protection rights. Every user is entitled to the following:
+                </p>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>
+                        <strong class="text-white">Access:</strong> Request copies
+                        of your personal data.
+                    </li>
+                    <li>
+                        <strong class="text-white">Rectification:</strong> Request
+                        that we correct any information you believe is inaccurate.
+                    </li>
+                    <li>
+                        <strong class="text-white">Erasure:</strong> Request that
+                        we erase your personal data, under certain conditions.
+                    </li>
+                    <li>
+                        <strong class="text-white">Objection:</strong> Object to processing
+                        of your personal data.
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="text-2xl font-semibold text-white mb-4">
+                    6. Consent
+                </h2>
+                <p>
+                    By using our website, you hereby consent to our Privacy
+                    Policy and agree to its terms.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl font-semibold text-white mb-4">
+                    7. Contact
+                </h2>
+                <p class="mb-4">
+                    If you have additional questions or require more information
+                    about our Privacy Policy, do not hesitate to contact us
+                    through:
+                </p>
+                <ul class="list-none space-y-2">
+                    <li>
+                        <strong class="text-white">Email:</strong>
+                        <a
+                            href="mailto:logicandlinestudios@gmail.com"
+                            class="text-[--color-primary] hover:underline"
+                            >logicandlinestudios@gmail.com</a
+                        >
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </main>
+</Layout>

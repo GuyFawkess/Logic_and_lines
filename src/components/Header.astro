@@ -69,7 +69,7 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
         </ul>
       </div>
       <!-- Language switcher stays on the right -->
-      <div class="flex-shrink-0 flex items-center gap-4">
+      <div class="shrink-0 flex items-center gap-4">
         <LanguageSwitcher currentLang={currentLang} />
         <a
           href={`${baseUrl}#booking`}
@@ -107,7 +107,7 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
         </div>
         <ul
           tabindex="0"
-          class="dropdown-content menu bg-(--color-bg-alt) text-(--color-text) rounded-box z-[100] w-52 p-2 shadow-md mt-4"
+          class="dropdown-content menu bg-(--color-bg-alt) text-(--color-text) rounded-box z-100 w-52 p-2 shadow-md mt-4"
         >
           <li>
             <a
