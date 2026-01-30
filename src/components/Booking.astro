@@ -35,9 +35,11 @@ const t = useTranslations(currentLang);
                     {t.booking.text}
                 </p>
 
-                <a
-                    href={currentLang === "en" ? "/contact" : "/es/contact"}
-                    class="group md:group-hover:text-(--color-primary) group-hover:drop-shadow-[1px_1px_0_#000] relative inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold text-(--color-bg) transition-all duration-300 bg-(--color-primary) rounded-xl hover:bg-(--color-primary) hover:text-(--color-text) hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:ring-offset-2 focus:ring-offset-(--color-bg)"
+                <button
+                    data-cal-link="logic-and-lines-knzt9s/1ª-llamada-de-evaluacion"
+                    data-cal-namespace="1ª-llamada-de-evaluacion"
+                    data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true","theme":"dark"}'
+                    class="group md:group-hover:text-(--color-primary) group-hover:drop-shadow-[1px_1px_0_#000] relative inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold text-(--color-bg) transition-all duration-300 bg-(--color-primary) rounded-xl hover:bg-(--color-primary) hover:text-(--color-text) hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:ring-offset-2 focus:ring-offset-(--color-bg) cursor-pointer"
                     style="box-shadow: 0 0.5px 2px var(--color-primary);"
                 >
                     <Icon
@@ -47,7 +49,57 @@ const t = useTranslations(currentLang);
                     <span class="group-hover:drop-shadow-[1px_1px_0_#000]"
                         >{t.booking.button}</span
                     >
-                </a>
+                </button>
+
+                <!-- Cal element-click embed code begins -->
+                <script type="text/javascript">
+                    (function (C, A, L) {
+                        let p = function (a, ar) {
+                            a.q.push(ar);
+                        };
+                        let d = C.document;
+                        C.Cal =
+                            C.Cal ||
+                            function () {
+                                let cal = C.Cal;
+                                let ar = arguments;
+                                if (!cal.loaded) {
+                                    cal.ns = {};
+                                    cal.q = cal.q || [];
+                                    d.head.appendChild(
+                                        d.createElement("script"),
+                                    ).src = A;
+                                    cal.loaded = true;
+                                }
+                                if (ar[0] === L) {
+                                    const api = function () {
+                                        p(api, arguments);
+                                    };
+                                    const namespace = ar[1];
+                                    api.q = api.q || [];
+                                    if (typeof namespace === "string") {
+                                        cal.ns[namespace] =
+                                            cal.ns[namespace] || api;
+                                        p(cal.ns[namespace], ar);
+                                        p(cal, ["initNamespace", namespace]);
+                                    } else p(cal, ar);
+                                    return;
+                                }
+                                p(cal, ar);
+                            };
+                    })(window, "https://app.cal.com/embed/embed.js", "init");
+                    Cal("init", "1ª-llamada-de-evaluacion", {
+                        origin: "https://app.cal.com",
+                    });
+
+                    Cal.ns["1ª-llamada-de-evaluacion"]("ui", {
+                        theme: "dark",
+                        cssVarsPerTheme: { light: { "cal-brand": "#0D1A1F" } },
+                        hideEventTypeDetails: false,
+                        layout: "month_view",
+                    });
+                </script>
+                <!-- Cal element-click embed code ends -->
 
                 <p class="mt-6 text-sm text-(--color-text)/60">
                     {t.booking.footer}

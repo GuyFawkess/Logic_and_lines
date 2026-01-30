@@ -40,7 +40,7 @@ const rightFancyWord = propRightFancy || t.hero.rightFancy;
         currentLang={currentLang}
         class="md:hidden"
         buttonClass="!bg-[var(--color-primary)] !text-[var(--color-bg)] hover:!text-[var(--color-card)]"
-        text="¡Llama ahora!"
+        text={t.buttons.book}
       />
     </div>
   </div>
@@ -56,7 +56,7 @@ const rightFancyWord = propRightFancy || t.hero.rightFancy;
         currentLang={currentLang}
         class="md:hidden"
         buttonClass="!bg-[var(--color-bg)] !text-[var(--color-primary)] hover:!bg-[var(--color-bg)]/90 hover:!text-[var(--color-primary)]/80"
-        text="¡Llama ahora!"
+        text={t.buttons.book}
       />
     </div>
   </div>
@@ -106,6 +106,12 @@ const rightFancyWord = propRightFancy || t.hero.rightFancy;
 <style>
   /* Fonts loaded in Layout.astro */
 
+  /* Define default variable state */
+  section {
+    --drag-x: 60;
+    container-type: inline-size;
+  }
+
   .side-panel {
     display: grid;
     height: 100vh;
@@ -146,13 +152,16 @@ const rightFancyWord = propRightFancy || t.hero.rightFancy;
 
   .left-panel {
     background-color: var(--color-bg, rgb(3, 7, 18));
-    width: 60%;
+    width: 100%;
     z-index: 2;
+    /* Use clip-path instead of width for performance */
+    clip-path: inset(0 calc(100% - (var(--drag-x) * 1%)) 0 0);
+    will-change: clip-path;
   }
 
   @media (min-width: 769px) {
     .left-panel {
-      transition: width 0.1s ease-out;
+      transition: none;
     }
   }
 
@@ -182,8 +191,9 @@ const rightFancyWord = propRightFancy || t.hero.rightFancy;
   .drag-handle {
     position: absolute;
     top: 50%;
-    left: 60%;
-    transform: translate(-50%, -50%);
+    left: 0;
+    /* Move using transform based on container width percentage */
+    transform: translate3d(calc(var(--drag-x) * 1cqw), -50%, 0) translateX(-50%);
     z-index: 10;
     display: none;
     flex-direction: column;
@@ -196,16 +206,10 @@ const rightFancyWord = propRightFancy || t.hero.rightFancy;
     cursor: grab;
     user-select: none;
     touch-action: none;
-    opacity: 0.3s ease;
+    /* Only animate opacity, move is instant tracked via variable */
+    transition: opacity 0.3s ease;
     backdrop-filter: blur(4px);
-  }
-
-  @media (min-width: 769px) {
-    .drag-handle {
-      transition:
-        left 0.1s ease-out,
-        opacity 0.3s ease;
-    }
+    will-change: transform;
   }
 
   .drag-handle:active {

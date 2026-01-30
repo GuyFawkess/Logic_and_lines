@@ -99,7 +99,7 @@ export default {
     opening: "Next opening soon!"
   },
   buttons: {
-    book: "Schedule Free Call"
+    book: "Schedule Consultation"
   },
   booking: {
     title: 'Schedule your <span class="text-primary">Free</span> Consultation',

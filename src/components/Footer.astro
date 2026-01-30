@@ -88,7 +88,7 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
           <a
             href="#"
             aria-label="LinkedIn"
-            class="p-2 border border-gray-600 rounded-lg hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors group"
+            class="p-2 border border-gray-600 rounded-lg hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors group hidden"
           >
             <Icon
               name="linkedin"
@@ -98,7 +98,7 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
           <a
             href="#"
             aria-label="Instagram"
-            class="p-2 border border-gray-600 rounded-lg hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors group"
+            class="p-2 border border-gray-600 rounded-lg hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors group hidden"
           >
             <Icon
               name="instagram"
@@ -108,7 +108,7 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
           <a
             href="#"
             aria-label="Facebook"
-            class="p-2 border border-gray-600 rounded-lg hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors group"
+            class="p-2 border border-gray-600 rounded-lg hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors group hidden"
           >
             <Icon
               name="facebook3"
@@ -116,7 +116,7 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
             />
           </a>
           <a
-            href="mailto:hola@logiclines.com"
+            href="mailto:logicandlinestudios@gmail.com"
             aria-label="Email"
             class="p-2 border border-gray-600 rounded-lg hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors group"
           >
@@ -144,14 +144,14 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
       class="w-full border-t mt-6 border-gray-600 py-2 text-center text-gray-400 flex flex-col md:flex-row justify-center items-center px-4"
     >
       <p>
-        &copy; {new Date().getFullYear()} Made with 💛 by Logic & Lines. All rights
-        reserved.
+        &copy; {new Date().getFullYear()} All rights reserved. Made with 💛 by Logic
+        & Lines.
       </p>
       <a
         href={currentLang === "en"
           ? "/en/privacy-policy"
           : "/politica-de-privacidad"}
-        class="text-sm ml-24 hover:text-[#F59E0B] transition-colors mt-2 md:mt-0"
+        class="text-sm md:ml-24 hover:text-[#F59E0B] transition-colors mt-2 md:mt-0"
       >
         {t.privacy.link}
       </a>

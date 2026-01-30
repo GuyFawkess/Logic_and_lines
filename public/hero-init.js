@@ -16,12 +16,11 @@
     const percentage = (clientX / window.innerWidth) * 100;
     const clamped = Math.max(0, Math.min(100, percentage));
 
-    if (leftSide) {
-      leftSide.style.width = `${clamped}%`;
-    }
-
-    if (dragHandle && window.innerWidth <= 768) {
-      dragHandle.style.left = `${clamped}%`;
+    // Update CSS variable on the parent section for hardware accelerated animation
+    if (leftSide && leftSide.parentElement) {
+      // Use requestAnimationFrame for smoother updates if needed, but variables are usually fast.
+      // Direct setProperty is fine.
+      leftSide.parentElement.style.setProperty('--drag-x', clamped);
     }
   };
 

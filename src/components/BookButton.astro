@@ -8,7 +8,7 @@ const {
   buttonClass = "",
 } = Astro.props;
 const t = useTranslations(currentLang);
-const baseUrl = currentLang === "en" ? "/" : "/es/";
+const baseUrl = currentLang === "en" ? "/" : "/en/";
 const displayText = text || t.buttons.book;
 ---
 

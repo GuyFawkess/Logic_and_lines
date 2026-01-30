@@ -59,7 +59,7 @@ export default {
   },
   stats: {
     title: '<span class="text-primary">Resultados</span> <span class="text-(--color-text-dark)">que hablan</span>',
-    subtitle: "Métricas reales de nuestros clientes que confían en nosotros",
+    subtitle: "Métricas reales que demuestran la confianza de nuestros clientes",
     items: [
       {
         value: "85%",
@@ -99,7 +99,7 @@ export default {
     opening: "Próxima apertura pronto!"
   },
   buttons: {
-    book: "Agendar llamada"
+    book: "Agendar consulta"
   },
   booking: {
     title: 'Agenda tu Consulta <span class="text-primary">Gratuita</span>',
