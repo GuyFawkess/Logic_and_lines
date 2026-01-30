@@ -269,3 +269,48 @@ const rightFancyWord = propRightFancy || t.hero.rightFancy;
     }
   }
 </style>
+
+<script>
+  const hero = document.querySelector("section");
+  const handle = document.getElementById("drag-handle");
+  let isDragging = false;
+
+  const updatePosition = (clientX) => {
+    const rect = hero.getBoundingClientRect();
+    // Calculamos el porcentaje de 0 a 100 respecto al ancho del contenedor
+    let x = ((clientX - rect.left) / rect.width) * 100;
+
+    // Restringimos para que no se salga de los bordes
+    x = Math.max(0, Math.min(100, x));
+
+    hero.style.setProperty("--drag-x", x.toString());
+  };
+
+  // --- Lógica para Desktop (Mouse) ---
+  window.addEventListener("mousemove", (e) => {
+    // Si es desktop, podemos hacer que siga al ratón siempre o solo al arrastrar
+    // Aquí lo activamos solo si NO es mobile (puedes ajustar esto)
+    if (window.innerWidth > 768) {
+      updatePosition(e.clientX);
+    } else if (isDragging) {
+      updatePosition(e.clientX);
+    }
+  });
+
+  // --- Lógica para Mobile (Touch) ---
+  handle?.addEventListener("touchstart", () => (isDragging = true));
+  window.addEventListener("touchend", () => (isDragging = false));
+  window.addEventListener(
+    "touchmove",
+    (e) => {
+      if (isDragging || window.innerWidth <= 768) {
+        // Usamos el primer dedo que toca la pantalla
+        updatePosition(e.touches[0].clientX);
+      }
+    },
+    { passive: true },
+  );
+
+  // Inicializar al 50% para que empiece centrado si prefieres
+  hero.style.setProperty("--drag-x", "50");
+</script>
