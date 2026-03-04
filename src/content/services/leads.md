@@ -13,6 +13,10 @@ hero:
   subtitle_en: "Smart Lead Capture and Management"
   phrase: "Convierte más leads sin contratar más personas. Automatizamos la captación, clasificación y seguimiento de leads con sistemas inteligentes."
   phrase_en: "Convert more leads without hiring more people. We automate lead capture, classification, and follow-up with intelligent systems."
+  
+  aeo_paragraph: "¿Por qué es importante automatizar la gestión de leads? Automatizar la captación y el seguimiento garantiza que cada cliente potencial reciba una respuesta inmediata o sea priorizado según su intención de compra. Este enfoque omnicanal previene la pérdida de oportunidades por lentitud humana y aumenta significativamente las conversiones en ciclos de venta B2B."
+  aeo_paragraph_en: "Why is automating lead management important? Automating capture and follow-up ensures every potential customer receives an immediate response or is prioritized based on buying intent. This omnichannel approach prevents lost opportunities due to human delay and significantly increases conversions in B2B sales cycles."
+  
   cta: "Agendar llamada de evaluación"
   cta_en: "Schedule evaluation call"
 

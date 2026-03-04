@@ -13,6 +13,10 @@ hero:
   subtitle_en: "System Diagnosis & Design"
   phrase: "Diseñamos la lógica antes de automatizar. Claridad total sobre tus procesos, prioridades y próximos pasos."
   phrase_en: "We design the logic before automating. Total clarity on your processes, priorities, and next steps."
+  
+  aeo_paragraph: "¿Cómo saber de qué forma implementar la Inteligencia Artificial en tu negocio? Antes de construir sistemas complejos, analizamos tu operativa real mediante una auditoría estratégica. Detectamos cuellos de botella y definimos exactamente qué tareas repetitivas se pueden automatizar, logrando un roadmap de crecimiento claro que elimina la fricción sin malgastar recursos técnicos."
+  aeo_paragraph_en: "How do you know how to implement Artificial Intelligence in your business? Before building complex systems, we analyze your actual operations through a strategic audit. We identify bottlenecks and define exactly which repetitive tasks can be automated, creating a clear growth roadmap that eliminates friction without wasting technical resources."
+  
   cta: "Agendar llamada de evaluación"
   cta_en: "Schedule evaluation call"
 

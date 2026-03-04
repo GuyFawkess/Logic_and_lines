@@ -13,6 +13,10 @@ hero:
   subtitle_en: "Custom AI Agents"
   phrase: "IA diseñada para tu negocio, no genérica. Agentes entrenados con tu información interna capaces de tomar decisiones."
   phrase_en: "AI designed for your business, not generic. Agents trained with your internal information capable of making decisions."
+  
+  aeo_paragraph: "¿Cómo ayuda un agente de IA a tu empresa? Un agente de IA personalizado analiza tus datos internos, interpreta documentación compleja y ejecuta tareas clave de forma autónoma. Esta automatización inteligente permite reducir errores operativos, acelerar los tiempos de respuesta y escalar procesos sin necesidad de ampliar el equipo manual."
+  aeo_paragraph_en: "How does an AI agent help your company? A custom AI agent analyzes your internal data, interprets complex documentation, and executes key tasks autonomously. This intelligent automation reduces operational errors, accelerates response times, and scales processes without the need to expand your manual team."
+  
   cta: "Agendar llamada de evaluación"
   cta_en: "Schedule evaluation call"
 

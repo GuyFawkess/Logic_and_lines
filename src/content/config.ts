@@ -17,6 +17,8 @@ const services = defineCollection({
       subtitle_en: z.string().optional(),
       phrase: z.string().optional(), // "Elimina tareas manuales..."
       phrase_en: z.string().optional(),
+      aeo_paragraph: z.string().optional(), // AEO specific text
+      aeo_paragraph_en: z.string().optional(),
       cta: z.string().optional(), // "Agendar llamada de evaluación"
       cta_en: z.string().optional(),
     }).optional(),

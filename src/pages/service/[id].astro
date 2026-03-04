@@ -23,6 +23,7 @@ const img = data.img;
 const hero = data.hero || {
   subtitle: data.specification || "",
   phrase: data.description || "",
+  aeo_paragraph: "",
   cta: "Agendar llamada",
 };
 
@@ -35,6 +36,32 @@ const methodology = data.methodology;
 const final_cta = data.final_cta;
 
 const isLegacy = !problem; // If no problem section, render legacy content mode
+
+// Generate Service schema
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: title,
+  description: hero.phrase,
+  provider: {
+    "@type": "ProfessionalService",
+    name: "Logic & Lines",
+  },
+  areaServed: "Worldwide",
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Core Services",
+    itemListElement: [
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: title,
+        },
+      },
+    ],
+  },
+};
 ---
 
 <Layout title={title}>
@@ -58,6 +85,21 @@ const isLegacy = !problem; // If no problem section, render legacy content mode
           <p class="text-xl text-(--color-text) max-w-lg leading-relaxed">
             {hero.phrase}
           </p>
+
+          <!-- {
+            hero.aeo_paragraph && (
+              <div class="mt-6 p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm relative group overflow-hidden">
+                {/* 
+                  AEO Note: This paragraph directly answers a long-tail search query to capture Google AI Overviews and Perplexity.
+                  You can modify or disable it from the service Markdown files (src/content/services/*.md).
+               */}
+                <div class="absolute inset-0 bg-gradient-to-r from-(--color-primary)/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+                <p class="text-sm font-medium text-(--color-text)/90 leading-relaxed font-sans relative z-10 italic">
+                  {hero.aeo_paragraph}
+                </p>
+              </div>
+            )
+          } -->
           <div class="pt-6">
             <a
               href="/#booking"
@@ -342,6 +384,8 @@ const isLegacy = !problem; // If no problem section, render legacy content mode
       </>
     )
   }
+
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
 </Layout>
 
 <style>

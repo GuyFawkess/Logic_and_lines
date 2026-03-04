@@ -52,7 +52,7 @@ export default {
   },
   reasons: {
     title: 'Why choose <span class="text-primary">Logic <span class="text-white">&</span> Lines</span>?',
-    subtitle: "We combine technical expertise with a focus on business results"
+    subtitle: "We combine technical expertise with a focus on business results."
   },
   prices: {
     title: "Our Prices",

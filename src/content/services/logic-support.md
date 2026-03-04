@@ -9,7 +9,7 @@ description_en: "We implement AI-powered customer support systems that respond, 
 sortOrder: 5
 
 hero:
-  subtitle: "Atención al Cliente con IA"
+  subtitle: "Atención al cliente con IA"
   subtitle_en: "AI-Powered Customer Support"
   phrase: "Atención al cliente 24/7 sin saturar a tu equipo. Sistemas inteligentes que responden, clasifican y gestionan solicitudes."
   phrase_en: "24/7 customer support without overwhelming your team. Intelligent systems that respond, classify, and manage requests."

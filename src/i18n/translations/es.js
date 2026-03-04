@@ -52,7 +52,7 @@ export default {
   },
   reasons: {
     title: '¿Por qué elegir <span class="text-primary">Logic <span class="text-white">&</span> Lines</span>?',
-    subtitle: "Combinamos experiencia técnica con un enfoque centrado en resultados empresariales"
+    subtitle: "Combinamos experiencia técnica con un enfoque centrado en resultados empresariales."
   },
   prices: {
     title: "Nuestros Precios",
@@ -64,7 +64,7 @@ export default {
       {
         value: "85%",
         label: "Reducción de tiempo",
-        subLabel: "en tareas repetitivas"
+        subLabel: "En tareas repetitivas"
       },
       {
         value: "24/7",

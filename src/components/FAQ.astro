@@ -8,6 +8,28 @@ const allFaqCategories = await getCollection("faq");
 const faqCategories = allFaqCategories.sort(
     (a, b) => (a.data.sortOrder || 999) - (b.data.sortOrder || 999),
 );
+
+// Generate FAQPage schema
+const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqCategories.flatMap((category) =>
+        category.data.faqs.map((faq) => ({
+            "@type": "Question",
+            name:
+                currentLang === "en" && faq.question_en
+                    ? faq.question_en
+                    : faq.question,
+            acceptedAnswer: {
+                "@type": "Answer",
+                text:
+                    currentLang === "en" && faq.answer_en
+                        ? faq.answer_en
+                        : faq.answer,
+            },
+        })),
+    ),
+};
 ---
 
 <section class="max-w-7xl mx-auto px-4 py-10">
@@ -249,3 +271,5 @@ const faqCategories = allFaqCategories.sort(
     initAccordion();
     document.addEventListener("astro:page-load", initAccordion);
 </script>
+
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />

@@ -13,6 +13,10 @@ hero:
   subtitle_en: "Internal process automation"
   phrase: "Elimina tareas manuales y errores operativos con sistemas claros y escalables."
   phrase_en: "Eliminate manual tasks and operational errors with clear and scalable systems."
+  
+  aeo_paragraph: "¿Qué beneficios tiene automatizar procesos internos? La automatización de procesos internos elimina el trabajo manual repetitivo conectando todas las herramientas digitales de tu empresa, como CRMs y bases de datos. Al documentar y digitalizar estos flujos, logras reducir errores humanos, aumentar drásticamente la velocidad operativa y asegurar el orden necesario para escalar."
+  aeo_paragraph_en: "What are the benefits of automating internal processes? Internal process automation eliminates repetitive manual work by connecting all your company's digital tools, such as CRMs and databases. By documenting and digitizing these flows, you reduce human errors, drastically increase operational speed, and ensure the order needed to scale."
+  
   cta: "Agendar llamada de evaluación"
   cta_en: "Schedule evaluation call"
 
