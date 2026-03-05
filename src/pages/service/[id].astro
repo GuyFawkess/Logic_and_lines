@@ -78,11 +78,11 @@ const serviceSchema = {
             {title}
           </h1>
           <p
-            class="text-xl md:text-2xl text-(--color-primary) font-medium mb-10"
+            class="text-xl md:text-2xl text-(--color-primary) font-medium mb-6"
           >
             {hero.subtitle}
           </p>
-          <p class="text-xl text-(--color-text) max-w-lg leading-relaxed">
+          <p class="text-xl text-(--color-text) max-w-lg leading-relaxed mb-6">
             {hero.phrase}
           </p>
 
@@ -100,7 +100,7 @@ const serviceSchema = {
               </div>
             )
           } -->
-          <div class="pt-6">
+          <div>
             <a
               href="/#booking"
               class="inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-xl text-(--color-bg) bg-(--color-primary) hover:bg-(--color-primary-hover) transition-all duration-300 shadow-[0_0_20px_rgba(235,170,0,0.3)] hover:shadow-[0_0_30px_rgba(235,170,0,0.5)] transform hover:-translate-y-1"
@@ -160,7 +160,7 @@ const serviceSchema = {
                   <h2
                     data-duration="700"
                     data-animate="fade-right"
-                    class="ml-18 text-4xl md:text-5xl font-display text-(--color-text-dark) mb-8 leading-tight"
+                    class="lg:ml-18 md:ml-8 text-4xl md:text-5xl font-display text-(--color-text-dark) mb-8 leading-tight"
                     set:html={problem.statement}
                   />
                 </div>
@@ -371,7 +371,7 @@ const serviceSchema = {
 
         {/* FINAL CTA SECTION */}
         {final_cta && (
-          <section class="mt-8 py-32 bg-(--color-bg-alt) w-full h-full">
+          <section class="py-16 md:py-24 bg-(--color-bg-alt) w-full h-full">
             <div class="container mx-auto px-6 max-w-4xl text-center relative">
               <h2
                 class="text-5xl md:text-6xl font-semibold text-(--color-text) mb-8 leading-tight"

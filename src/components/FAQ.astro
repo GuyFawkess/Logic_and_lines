@@ -32,7 +32,7 @@ const faqSchema = {
 };
 ---
 
-<section class="max-w-7xl mx-auto px-4 py-10">
+<section class="max-w-7xl mx-auto px-4 section-padding-sm">
     <h2
         class="text-4xl md:text-5xl font-bold mb-12 text-center font-display"
         set:html={t.faq.title}
@@ -52,12 +52,12 @@ const faqSchema = {
                             aria-expanded="false"
                             aria-controls={`cat-${catIndex}`}
                         >
-                            <h3 class="text-xl font-display font-medium text-primary">
+                            <h3 class="text-xl font-display font-medium text-(--color-text) group-hover:text-(--color-primary) group-aria-expanded:text-(--color-primary) transition-colors duration-300">
                                 {catTitle}
                             </h3>
                             <span class="shrink-0 transition-transform duration-300">
                                 <svg
-                                    class="w-6 h-6 text-primary"
+                                    class="w-6 h-6 text-(--color-primary)"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -89,7 +89,7 @@ const faqSchema = {
                                     return (
                                         <div class="accordion-item border-b border-white/5 last:border-0">
                                             <button
-                                                class="accordion-header w-full flex justify-between items-start py-4 text-left text-text hover:text-primary aria-expanded:text-primary transition-colors group gap-4"
+                                                class="accordion-header w-full flex justify-between items-start py-4 text-left text-(--color-text) hover:text-(--color-primary) aria-expanded:text-(--color-primary) transition-colors group gap-4"
                                                 aria-expanded="false"
                                                 aria-controls={`faq-${category.id}-${index}`}
                                             >
@@ -98,7 +98,7 @@ const faqSchema = {
                                                 </span>
                                                 <span class="shrink-0 mt-1">
                                                     <svg
-                                                        class="w-6 h-6 transform transition-transform duration-300 text-text/50 group-hover:text-primary"
+                                                        class="w-6 h-6 transform transition-transform duration-300 text-(--color-primary)"
                                                         fill="none"
                                                         viewBox="0 0 24 24"
                                                         stroke="currentColor"

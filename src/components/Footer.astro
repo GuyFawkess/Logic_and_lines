@@ -8,7 +8,7 @@ const t = useTranslations(currentLang);
 const baseUrl = currentLang === "en" ? "/en/" : "/";
 ---
 
-<footer class="w-full bg-(--color-bg) border-t border-(--color-bg-alt) pt-8">
+<footer class="w-full bg-(--color-bg) border-t border-(--color-bg-alt) pt-12">
   <div class="max-w-7xl mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
       <!-- Mobile: First - Logo and Name / Desktop: Middle -->
@@ -35,10 +35,11 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
 
         <a
           href={`${baseUrl}#booking`}
-          class="bg-(--color-primary) text-black font-semibold px-6 py-3 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#F59E0B]/50"
+          class="inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-xl text-(--color-bg) bg-(--color-primary) hover:bg-(--color-primary-hover) transition-all duration-300 shadow-[0_0_20px_rgba(235,170,0,0.3)] hover:shadow-[0_0_30px_rgba(235,170,0,0.5)] transform hover:-translate-y-1 hover:text-(--color-text-light)"
         >
           {currentLang === "es" ? "Agendar Llamada" : "Schedule a Call"}
         </a>
+        <p class="text-sm text-muted mt-2 text-center">Sin compromiso · Respuesta en 24h</p>
       </div>
 
       <!-- Mobile: Second - Navigation Links / Desktop: Left -->

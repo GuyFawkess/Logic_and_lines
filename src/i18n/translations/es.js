@@ -25,25 +25,25 @@ export default {
     steps: [
       {
         step: "01",
-        title: "System Discovery",
+        title: "Descubrimiento del Sistema",
         description: "Entendemos cómo funciona tu negocio antes de automatizarlo.",
         items: ["Análisis de procesos actuales", "Identificación de tareas repetitivas", "Detección de cuellos de botella", "Identificación de pérdidas de tiempo y eficiencia"]
       },
       {
         step: "02",
-        title: "Logical Design",
+        title: "Diseño Lógico",
         description: "Diseñamos la lógica del sistema, no solo los flujos.",
         items: ["Diagramas de procesos", "Reglas y decisiones", "Escenarios y excepciones", "Arquitectura del sistema"]
       },
       {
         step: "03",
-        title: "Intelligent Implementation",
+        title: "Implementación Inteligente",
         description: "Convertimos el diseño en automatizaciones reales con IA.",
         items: ["Flujos automatizados", "Integraciones entre herramientas", "IA entrenada según el negocio", "Sistemas funcionales y estables"]
       },
       {
         step: "04",
-        title: "Optimization & Evolution",
+        title: "Optimización y Evolución",
         description: "El sistema no se mantiene. Evoluciona.",
         items: ["Pruebas en entorno real", "Ajuste de lógica y automatizaciones", "Optimización continua", "Preparación para escalar"]
       }

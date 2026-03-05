@@ -48,3 +48,46 @@ h1,
 h2 {
   font-family: 'Manrope', sans-serif;
 }
+
+/* Fix for header scroll offset */
+[id] {
+  scroll-margin-top: 80px;
+}
+
+/* Improve smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Consistent spacing system */
+.section-padding {
+  padding-top: 6rem; /* 96px */
+  padding-bottom: 6rem; /* 96px */
+}
+
+.section-padding-sm {
+  padding-top: 4rem; /* 64px */
+  padding-bottom: 4rem; /* 64px */
+}
+
+.section-margin-bottom {
+  margin-bottom: 6rem; /* 96px */
+}
+
+.section-margin-bottom-sm {
+  margin-bottom: 4rem; /* 64px */
+}
+
+/* Consistent button styles */
+.cta-button {
+  padding: 1rem 2rem !important;
+  font-size: 1rem !important;
+  border-radius: 0.625rem !important;
+  font-weight: 600 !important;
+}
+
+/* Consistent body text */
+.body-text {
+  font-size: 1.125rem !important; /* 18px / text-lg */
+  line-height: 1.75 !important;
+}
