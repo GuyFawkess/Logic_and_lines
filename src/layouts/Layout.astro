@@ -12,7 +12,7 @@ interface Props {
   ogImage?: string;
 }
 
-const { title, description, ogImage = "/logoNav.png" } = Astro.props;
+const { title, description, ogImage = "/logoEnteroOG.png" } = Astro.props;
 const currentLang = getLanguageFromURL(Astro.url);
 const t = useTranslations(currentLang);
 
@@ -42,7 +42,7 @@ const canonicalURL = new URL(
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/logoSolo.svg" />
+    <link rel="icon" type="image/svg+xml" href="/logoSolo.svg?v=2" />
     <meta name="generator" content={Astro.generator} />
     <meta
       name="google-site-verification"
