@@ -1,10 +1,9 @@
 FROM node:22-alpine AS build
 WORKDIR /app
 COPY package*.json ./
-COPY pnpm-lock.yaml* ./
-RUN corepack enable && pnpm install
+RUN npm install
 COPY . .
-RUN pnpm run build
+RUN npm run build
 
 FROM node:22-alpine
 WORKDIR /app
