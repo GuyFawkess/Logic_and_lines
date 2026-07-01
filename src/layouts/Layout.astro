@@ -116,6 +116,82 @@ const canonicalURL = new URL(
     <link rel="preload" href="/heroSinTexto.webp" as="image" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1020858274006031');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1020858274006031&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+
+    <!-- Meta Conversions API: utilidad para eventos con deduplicación -->
+    <script is:inline>
+      window.META_PIXEL_ID = '1020858274006031';
+
+      function generateEventId() {
+        return 'evt_' + Date.now() + '_' + Math.random().toString(36).substring(2, 11);
+      }
+
+      function getFbc() {
+        const match = document.cookie.match(/_fbc=([^;]+)/);
+        return match ? match[1] : null;
+      }
+
+      function getFbp() {
+        const match = document.cookie.match(/_fbp=([^;]+)/);
+        return match ? match[1] : null;
+      }
+
+      async function sendToConversionsAPI(eventName, customData, userData) {
+        const eventId = generateEventId();
+        const payload = {
+          event_name: eventName,
+          event_time: Math.floor(Date.now() / 1000),
+          action_source: 'website',
+          event_id: eventId,
+          user_data: {
+            client_user_agent: navigator.userAgent,
+            fbc: getFbc(),
+            fbp: getFbp(),
+            ...userData
+          },
+          custom_data: customData || {}
+        };
+
+        try {
+          await fetch('/api/meta-conversions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        } catch (err) {
+          console.warn('[Meta CAPI] Error sending event:', err);
+        }
+
+        return eventId;
+      }
+
+      function trackMetaEvent(eventName, customData, userData) {
+        if (typeof fbq === 'undefined') return;
+
+        const eventId = generateEventId();
+
+        fbq('track', eventName, customData, { eventID: eventId });
+
+        sendToConversionsAPI(eventName, customData, userData);
+      }
+    </script>
   </head>
   <body>
     <Header currentLang={currentLang} />

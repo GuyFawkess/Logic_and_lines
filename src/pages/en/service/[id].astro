@@ -4,6 +4,8 @@ import Layout from "../../../layouts/Layout.astro";
 import BookButton from "../../../components/BookButton.astro";
 import { Icon } from "astro-icon/components";
 
+export const prerender = true;
+
 export async function getStaticPaths() {
   const services = await getCollection("services");
   return services.map((service) => ({
@@ -393,6 +395,17 @@ const isLegacy = !problem; // If no problem section, render legacy content mode
       </>
     )
   }
+  <script is:inline>
+    document.addEventListener('astro:page-load', () => {
+      if (typeof trackMetaEvent === 'function') {
+        trackMetaEvent('ViewContent', {
+          content_name: document.title,
+          content_category: 'service',
+          content_type: 'product'
+        });
+      }
+    });
+  </script>
 </Layout>
 
 <style>

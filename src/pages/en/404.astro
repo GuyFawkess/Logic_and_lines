@@ -2,6 +2,8 @@
 import Layout from "../../layouts/Layout.astro";
 import { useTranslations } from "../../i18n/utils";
 
+export const prerender = true;
+
 const currentLang = "en";
 const t = useTranslations(currentLang);
 ---

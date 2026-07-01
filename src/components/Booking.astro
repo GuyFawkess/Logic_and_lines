@@ -101,6 +101,23 @@ const t = useTranslations(currentLang);
                 </script>
                 <!-- Cal element-click embed code ends -->
 
+                <!-- Meta Pixel: Track Schedule event on Cal.com button click -->
+                <script is:inline>
+                    document.addEventListener('astro:page-load', () => {
+                        const calButton = document.querySelector('[data-cal-link]');
+                        if (calButton) {
+                            calButton.addEventListener('click', () => {
+                                if (typeof trackMetaEvent === 'function') {
+                                    trackMetaEvent('Schedule', {
+                                        content_name: 'cal_booking',
+                                        content_category: 'scheduling'
+                                    });
+                                }
+                            });
+                        }
+                    });
+                </script>
+
                 <p class="mt-6 text-sm text-(--color-text)/60">
                     {t.booking.footer}
                 </p>

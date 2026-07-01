@@ -159,3 +159,27 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
     </div>
   </div>
 </footer>
+
+<script is:inline>
+  document.addEventListener('astro:page-load', () => {
+    if (typeof trackMetaEvent !== 'function') return;
+
+    document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
+      link.addEventListener('click', () => {
+        trackMetaEvent('Contact', {
+          content_name: 'email',
+          contact_type: 'email'
+        });
+      });
+    });
+
+    document.querySelectorAll('a[href^="https://wa.me/"]').forEach(link => {
+      link.addEventListener('click', () => {
+        trackMetaEvent('Contact', {
+          content_name: 'whatsapp',
+          contact_type: 'whatsapp'
+        });
+      });
+    });
+  });
+</script>

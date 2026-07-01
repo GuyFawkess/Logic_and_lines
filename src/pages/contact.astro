@@ -3,6 +3,8 @@ import Layout from "../layouts/Layout.astro";
 import { Icon } from "astro-icon/components";
 import { useTranslations } from "../i18n/utils";
 
+export const prerender = true;
+
 const currentLang = "es";
 const t = useTranslations(currentLang);
 ---
@@ -115,3 +117,34 @@ const t = useTranslations(currentLang);
     </div>
   </main>
 </Layout>
+
+<script is:inline>
+  document.addEventListener('astro:page-load', () => {
+    if (typeof trackMetaEvent === 'function') {
+      trackMetaEvent('Lead', {
+        content_name: 'contact_page',
+        content_category: 'lead'
+      });
+    }
+
+    if (typeof trackMetaEvent !== 'function') return;
+
+    document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
+      link.addEventListener('click', () => {
+        trackMetaEvent('Contact', {
+          content_name: 'email',
+          contact_type: 'email'
+        });
+      });
+    });
+
+    document.querySelectorAll('a[href^="https://wa.me/"]').forEach(link => {
+      link.addEventListener('click', () => {
+        trackMetaEvent('Contact', {
+          content_name: 'whatsapp',
+          contact_type: 'whatsapp'
+        });
+      });
+    });
+  });
+</script>
