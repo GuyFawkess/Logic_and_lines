@@ -1,0 +1,87 @@
+---
+const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID;
+---
+
+{pixelId && (
+  <>
+    <!-- Meta Pixel base -->
+    <script is:inline define:vars={{ pixelId }}>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', pixelId);
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src={`https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1`}
+    /></noscript>
+
+    <!-- Meta Conversions API helpers: deduplicación con event_id compartido -->
+    <script is:inline>
+      if (window.__metaPixelInitialized) return;
+      window.__metaPixelInitialized = true;
+
+      window.generateMetaEventId = function () {
+        if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+          return 'evt_' + crypto.randomUUID();
+        }
+        return 'evt_' + Date.now() + '_' + Math.random().toString(36).slice(2, 11);
+      };
+
+      window.getMetaFbcCookie = function () {
+        var match = document.cookie.match(/_fbc=([^;]+)/);
+        return match ? match[1] : null;
+      };
+
+      window.getMetaFbpCookie = function () {
+        var match = document.cookie.match(/_fbp=([^;]+)/);
+        return match ? match[1] : null;
+      };
+
+      window.sendToMetaCAPI = async function (eventName, eventId, customData, userData) {
+        var payload = {
+          event_name: eventName,
+          event_time: Math.floor(Date.now() / 1000),
+          action_source: 'website',
+          event_id: eventId,
+          user_data: Object.assign({}, userData || {}, {
+            client_user_agent: navigator.userAgent,
+            fbc: window.getMetaFbcCookie(),
+            fbp: window.getMetaFbpCookie()
+          }),
+          custom_data: customData || {}
+        };
+
+        try {
+          await fetch('/api/track', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        } catch (err) {
+          console.warn('[Meta CAPI] Error sending event:', err);
+        }
+      };
+
+      window.trackMetaEvent = function (eventName, customData, userData) {
+        if (typeof fbq === 'undefined') return;
+        var eventId = window.generateMetaEventId();
+        fbq('track', eventName, customData || {}, { eventID: eventId });
+        window.sendToMetaCAPI(eventName, eventId, customData, userData);
+      };
+
+      function trackMetaPageView() {
+        if (typeof fbq === 'undefined') return;
+        var eventId = window.generateMetaEventId();
+        fbq('track', 'PageView', {}, { eventID: eventId });
+        window.sendToMetaCAPI('PageView', eventId, {}, {});
+      }
+
+      document.addEventListener('astro:page-load', trackMetaPageView);
+    </script>
+  </>
+)}

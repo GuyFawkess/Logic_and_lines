@@ -2,6 +2,7 @@
 import "../../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import Footer from "../../components/Footer.astro";
+import MetaPixel from "../../components/MetaPixel.astro";
 
 export const prerender = true;
 
@@ -38,6 +39,7 @@ const description =
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
             rel="stylesheet"
         />
+        <MetaPixel />
     </head>
     <body>
         <!-- Hero Section -->
@@ -448,6 +450,28 @@ const description =
                 </p>
             </div>
         </footer>
+
+        <script is:inline>
+            document.addEventListener('astro:page-load', () => {
+                if (typeof trackMetaEvent === 'function') {
+                    trackMetaEvent('Lead', {
+                        content_name: 'landing_lead',
+                        content_category: 'lead'
+                    });
+                }
+
+                document.querySelectorAll('a[href*="calendly.com"]').forEach(function (link) {
+                    link.addEventListener('click', function () {
+                        if (typeof trackMetaEvent === 'function') {
+                            trackMetaEvent('Schedule', {
+                                content_name: 'calendly_booking',
+                                content_category: 'scheduling'
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
     </body>
 </html>
 
