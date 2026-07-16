@@ -3,6 +3,10 @@ import "../../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import Footer from "../../components/Footer.astro";
 import MetaPixel from "../../components/MetaPixel.astro";
+import GoogleTagManager from "../../components/layout/GoogleTagManager.astro";
+import GoogleTagManagerBody from "../../components/layout/GoogleTagManagerBody.astro";
+
+const gtmId = import.meta.env.GTM_ID;
 
 export const prerender = true;
 
@@ -40,8 +44,10 @@ const description =
             rel="stylesheet"
         />
         <MetaPixel />
+        {gtmId && <GoogleTagManager id={gtmId} />}
     </head>
     <body>
+        {gtmId && <GoogleTagManagerBody id={gtmId} />}
         <!-- Hero Section -->
         <section class="hero-section">
             <div class="container">
@@ -455,6 +461,18 @@ const description =
         </footer>
 
         <script is:inline>
+            document.addEventListener('click', function (e) {
+                var el = e.target.closest('[data-gtm-event]');
+                if (!el) return;
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                    event: el.dataset.gtmEvent,
+                    gtm_location: el.dataset.gtmLocation || '',
+                    gtm_label: el.dataset.gtmLabel || '',
+                    url: el.href || '',
+                });
+            });
+
             document.addEventListener('astro:page-load', () => {
                 if (typeof trackMetaEvent === 'function') {
                     trackMetaEvent('Lead', {
