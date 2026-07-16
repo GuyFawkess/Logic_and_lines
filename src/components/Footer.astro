@@ -36,6 +36,9 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
         <a
           href={`${baseUrl}#booking`}
           class="inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-xl text-(--color-bg) bg-(--color-primary) hover:bg-(--color-primary-hover) transition-all duration-300 shadow-[0_0_20px_rgba(235,170,0,0.3)] hover:shadow-[0_0_30px_rgba(235,170,0,0.5)] transform hover:-translate-y-1 hover:text-(--color-text-light)"
+          data-gtm-event="cta_click"
+          data-gtm-location="footer"
+          data-gtm-label="schedule_call"
         >
           {currentLang === "es" ? "Agendar Llamada" : "Schedule a Call"}
         </a>
@@ -120,6 +123,9 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
             href="mailto:logicandlinestudios@gmail.com"
             aria-label="Email"
             class="p-2 border border-gray-600 rounded-lg hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors group"
+            data-gtm-event="contact_click"
+            data-gtm-location="footer"
+            data-gtm-label="email"
           >
             <Icon
               name="gmail2"
@@ -130,6 +136,9 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
             href="https://wa.me/34600000000"
             aria-label="WhatsApp"
             class="p-2 border border-gray-600 rounded-lg hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors group"
+            data-gtm-event="contact_click"
+            data-gtm-location="footer"
+            data-gtm-label="whatsapp"
           >
             <Icon
               name="whatsapp"

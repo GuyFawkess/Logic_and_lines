@@ -75,6 +75,9 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
           href={`${baseUrl}#booking`}
           class="scramble-button btn bg-(--color-primary) text-(--color-bg) hover:text-white hover:bg-(--color-primary)/90 border-none font-medium px-6 whitespace-nowrap h-auto py-2"
           data-value={t.buttons.book}
+          data-gtm-event="cta_click"
+          data-gtm-location="header_desktop"
+          data-gtm-label="schedule_call"
           style="box-shadow: 0 0.5px 2px var(--color-primary);"
         >
           {t.buttons.book}
@@ -114,6 +117,9 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
               href={`${baseUrl}#booking`}
               class="scramble-button btn bg-(--color-primary) text-(--color-bg) hover:text-(--color-bg) hover:bg-(--color-primary)/90 border-none font-medium w-full mb-2 whitespace-nowrap"
               data-value={t.buttons.book}
+              data-gtm-event="cta_click"
+              data-gtm-location="header_mobile"
+              data-gtm-label="schedule_call"
               style="box-shadow: 0 0.5px 2px var(--color-primary);"
             >
               {t.buttons.book}

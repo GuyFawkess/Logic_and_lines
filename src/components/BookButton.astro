@@ -6,6 +6,7 @@ const {
   text,
   class: className = "",
   buttonClass = "",
+  gtmLocation = "book_button",
 } = Astro.props;
 const t = useTranslations(currentLang);
 const baseUrl = currentLang === "en" ? "/" : "/en/";
@@ -15,6 +16,9 @@ const displayText = text || t.buttons.book;
 <a
   href={`${baseUrl}#booking`}
   class={`w-full flex justify-center items-center ${className}`}
+  data-gtm-event="cta_click"
+  data-gtm-location={gtmLocation}
+  data-gtm-label="schedule_call"
 >
   <button
     data-value={displayText}

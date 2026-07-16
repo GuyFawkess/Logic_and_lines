@@ -6,6 +6,10 @@ import Footer from "../components/Footer.astro";
 import { getLanguageFromURL, useTranslations } from "../i18n/utils";
 import StructuredData from "../components/StructuredData.astro";
 import MetaPixel from "../components/MetaPixel.astro";
+import GoogleTagManager from "../components/layout/GoogleTagManager.astro";
+import GoogleTagManagerBody from "../components/layout/GoogleTagManagerBody.astro";
+
+const gtmId = import.meta.env.GTM_ID;
 
 interface Props {
   title: string;
@@ -118,9 +122,11 @@ const canonicalURL = new URL(
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
+    {gtmId && <GoogleTagManager id={gtmId} />}
     <MetaPixel />
   </head>
   <body>
+    {gtmId && <GoogleTagManagerBody id={gtmId} />}
     <Header currentLang={currentLang} />
     <slot />
     <Footer currentLang={currentLang} />
@@ -128,6 +134,19 @@ const canonicalURL = new URL(
     <script src="/scroll-animate.js" defer></script>
     <!-- Added: persistent hero initializer to re-run on astro:page-load -->
     <script src="/hero-init.js" defer></script>
+    <script is:inline>
+      document.addEventListener('click', function (e) {
+        var el = e.target.closest('[data-gtm-event]');
+        if (!el) return;
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: el.dataset.gtmEvent,
+          gtm_location: el.dataset.gtmLocation || '',
+          gtm_label: el.dataset.gtmLabel || '',
+          url: el.href || '',
+        });
+      });
+    </script>
   </body>
 </html>
 

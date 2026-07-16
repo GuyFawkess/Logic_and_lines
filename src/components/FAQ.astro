@@ -51,6 +51,9 @@ const faqSchema = {
                             class="category-header w-full p-6 flex justify-between items-center text-left group transition-colors hover:bg-white/5"
                             aria-expanded="false"
                             aria-controls={`cat-${catIndex}`}
+                            data-gtm-event="faq_expand"
+                            data-gtm-location="faq_section"
+                            data-gtm-label={catTitle}
                         >
                             <h3 class="text-xl font-display font-medium text-(--color-text) group-hover:text-(--color-primary) group-aria-expanded:text-(--color-primary) transition-colors duration-300">
                                 {catTitle}
@@ -92,6 +95,9 @@ const faqSchema = {
                                                 class="accordion-header w-full flex justify-between items-start py-4 text-left text-(--color-text) hover:text-(--color-primary) aria-expanded:text-(--color-primary) transition-colors group gap-4"
                                                 aria-expanded="false"
                                                 aria-controls={`faq-${category.id}-${index}`}
+                                                data-gtm-event="faq_question_expand"
+                                                data-gtm-location="faq_section"
+                                                data-gtm-label={question}
                                             >
                                                 <span class="font-sans font-medium text-lg leading-relaxed">
                                                     {question}

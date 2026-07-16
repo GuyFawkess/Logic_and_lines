@@ -22,6 +22,9 @@ const alternateURLs = getAlternateURLs(currentPath, currentLang);
               ? "bg-(--color-primary) text-(--color-bg)"
               : "text-(--color-text) hover:bg-(--color-text)/10"
           }`}
+          data-gtm-event="language_switch"
+          data-gtm-location="header"
+          data-gtm-label={lang}
         >
           {label.short.toUpperCase()}
         </a>
@@ -69,6 +72,9 @@ const alternateURLs = getAlternateURLs(currentPath, currentLang);
             href={alternateURLs[lang as keyof typeof alternateURLs]}
             class={`block px-4 py-2 text-sm text-(--color-text) hover:bg-(--color-primary) hover:text-black ${currentLang === lang ? "font-bold bg-white/5" : ""}`}
             role="menuitem"
+            data-gtm-event="language_switch"
+            data-gtm-location="header_dropdown"
+            data-gtm-label={lang}
           >
             {label.full}
           </a>
