@@ -3,36 +3,29 @@ interface Props { id: string; }
 const { id } = Astro.props;
 ---
 <!-- Google Tag Manager -->
-<script is:inline define:vars={{ id }}>
-  (function (w, d, s, l, i) {
-    w[l] = w[l] || [];
-    w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-    var f = d.getElementsByTagName(s)[0],
-      j = d.createElement(s),
-      dl = l != 'dataLayer' ? '&l=' + l : '';
-    j.async = true;
-    j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-    f.parentNode.insertBefore(j, f);
-  })(window, document, 'script', 'dataLayer', id);
-
-  function pushGtmPageview() {
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: 'pageview',
-      page: {
-        path: window.location.pathname,
-        title: document.title,
-        locale: document.documentElement.lang || '',
-      },
-    });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', pushGtmPageview);
-  } else {
-    pushGtmPageview();
-  }
-
-  document.addEventListener('astro:page-load', pushGtmPageview);
-</script>
+<script set:html={`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${id}');`}></script>
 <!-- End Google Tag Manager -->
+
+<script is:inline>
+  (function () {
+    function pushGtmPageview() {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'pageview',
+        page: {
+          path: window.location.pathname,
+          title: document.title,
+          locale: document.documentElement.lang || '',
+        },
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', pushGtmPageview);
+    } else {
+      pushGtmPageview();
+    }
+
+    document.addEventListener('astro:page-load', pushGtmPageview);
+  })();
+</script>
