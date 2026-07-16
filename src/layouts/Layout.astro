@@ -122,11 +122,11 @@ const canonicalURL = new URL(
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    {gtmId && <GoogleTagManager id={gtmId} />}
+    <GoogleTagManager />
     <MetaPixel />
   </head>
   <body>
-    {gtmId && <GoogleTagManagerBody id={gtmId} />}
+    <GoogleTagManagerBody />
     <Header currentLang={currentLang} />
     <slot />
     <Footer currentLang={currentLang} />

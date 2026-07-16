@@ -1,7 +1,9 @@
 ---
-interface Props { id: string; }
-const { id } = Astro.props;
+interface Props { id?: string; }
+const envId = import.meta.env.GTM_ID;
+const fallbackId = "GTM-N74NC72R";
+const id = envId || fallbackId;
 ---
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${id}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<noscript is:inline set:html={`<iframe src="https://www.googletagmanager.com/ns.html?id=${id}" height="0" width="0" style="display:none;visibility:hidden"></iframe>`}></noscript>
 <!-- End Google Tag Manager (noscript) -->
