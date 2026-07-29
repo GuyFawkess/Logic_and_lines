@@ -7,9 +7,29 @@ export const prerender = true;
 
 const currentLang = "es";
 const t = useTranslations(currentLang);
+
+const pageTitle = t.seo.contactTitle;
+const pageDescription = t.seo.contactDescription;
+const fullTitle = `${pageTitle} | Logic & Lines`;
+const canonicalURL = "https://logicandlines.com/contact";
+
+const contactSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: fullTitle,
+  url: canonicalURL,
+  description: pageDescription,
+  mainEntity: {
+    "@type": "Organization",
+    name: "Logic & Lines",
+    email: "logicandlinestudios@gmail.com",
+    url: "https://logicandlines.com",
+    sameAs: ["https://www.instagram.com/logic_and_lines/?hl=en"],
+  },
+};
 ---
 
-<Layout title="contacto">
+<Layout title={pageTitle} description={pageDescription}>
   <main class="w-full mb-20 py-10 px-4 text-center">
     <div class="max-w-6xl mx-auto">
       <h1 class="text-3xl font-bold mb-8 text-(--color-terracotta)">
@@ -65,11 +85,14 @@ const t = useTranslations(currentLang);
             </li>
             <li class="flex items-center">
               <a
-                href=""
+                href="https://www.instagram.com/logic_and_lines/?hl=en"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex items-center gap-3 group hidden"
-                aria-label="Siguenos en Instagram"
+                class="flex items-center gap-3 group"
+                aria-label="Síguenos en Instagram"
+                data-gtm-event="social_click"
+                data-gtm-location="contact_page"
+                data-gtm-label="instagram"
               >
                 <span class="inline-block">
                   <Icon
@@ -80,13 +103,11 @@ const t = useTranslations(currentLang);
                 <span>Instagram</span>
               </a>
             </li>
+            <!-- TODO: añadir URL de Facebook cuando esté disponible -->
             <li class="flex items-center">
-              <a
-                href=""
-                target="_blank"
-                rel="noopener noreferrer"
+              <span
                 class="flex items-center gap-3 group hidden"
-                aria-label="Siguenos en Facebook"
+                aria-label="Síguenos en Facebook"
               >
                 <span class="inline-block">
                   <Icon
@@ -95,11 +116,11 @@ const t = useTranslations(currentLang);
                   />
                 </span>
                 <span>Facebook</span>
-              </a>
+              </span>
             </li>
             <li class="flex items-center">
               <a
-                href="mailto:malaithai89@gmail.com"
+                href="mailto:logicandlinestudios@gmail.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="flex items-center gap-3 group"
@@ -122,6 +143,7 @@ const t = useTranslations(currentLang);
       </div>
     </div>
   </main>
+  <script type="application/ld+json" set:html={JSON.stringify(contactSchema)} />
 </Layout>
 
 <script is:inline>
@@ -141,6 +163,11 @@ const t = useTranslations(currentLang);
           content_name: 'email',
           contact_type: 'email'
         });
+        // Fallback: copiar email al portapapeles para navegadores sin cliente de email
+        const email = link.getAttribute('href').replace('mailto:', '');
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(email).catch(() => {});
+        }
       });
     });
 

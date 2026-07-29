@@ -1,0 +1,5743 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "astro.config.mjs",
+      "file_type": "code",
+      "source_file": "astro.config.mjs",
+      "source_location": "L1",
+      "id": "astro_config_mjs",
+      "community": 19,
+      "norm_label": "astro.config.mjs"
+    },
+    {
+      "label": "package.json",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L1",
+      "id": "package_json",
+      "community": 3,
+      "norm_label": "package.json"
+    },
+    {
+      "label": "name",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "id": "logic_and_lines_package_name",
+      "community": 3,
+      "norm_label": "name"
+    },
+    {
+      "label": "type",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "id": "logic_and_lines_package_type",
+      "community": 3,
+      "norm_label": "type"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "id": "logic_and_lines_package_version",
+      "community": 3,
+      "norm_label": "version"
+    },
+    {
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "id": "logic_and_lines_package_scripts",
+      "community": 3,
+      "norm_label": "scripts"
+    },
+    {
+      "label": "dev",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "id": "logic_and_lines_package_scripts_dev",
+      "community": 3,
+      "norm_label": "dev"
+    },
+    {
+      "label": "build",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "id": "logic_and_lines_package_scripts_build",
+      "community": 3,
+      "norm_label": "build"
+    },
+    {
+      "label": "preview",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "id": "logic_and_lines_package_scripts_preview",
+      "community": 3,
+      "norm_label": "preview"
+    },
+    {
+      "label": "astro",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L9",
+      "id": "logic_and_lines_package_scripts_astro",
+      "community": 3,
+      "norm_label": "astro"
+    },
+    {
+      "label": "dependencies",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "id": "logic_and_lines_package_dependencies",
+      "community": 3,
+      "norm_label": "dependencies"
+    },
+    {
+      "label": "@astrojs/node",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "id": "logic_and_lines_package_dependencies_astrojs_node",
+      "community": 3,
+      "norm_label": "@astrojs/node"
+    },
+    {
+      "label": "@astrojs/sitemap",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L13",
+      "id": "logic_and_lines_package_dependencies_astrojs_sitemap",
+      "community": 3,
+      "norm_label": "@astrojs/sitemap"
+    },
+    {
+      "label": "@tailwindcss/vite",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "id": "logic_and_lines_package_dependencies_tailwindcss_vite",
+      "community": 3,
+      "norm_label": "@tailwindcss/vite"
+    },
+    {
+      "label": "astro",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "id": "logic_and_lines_package_dependencies_astro",
+      "community": 3,
+      "norm_label": "astro"
+    },
+    {
+      "label": "astro-icon",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "id": "logic_and_lines_package_dependencies_astro_icon",
+      "community": 3,
+      "norm_label": "astro-icon"
+    },
+    {
+      "label": "tailwindcss",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "id": "logic_and_lines_package_dependencies_tailwindcss",
+      "community": 3,
+      "norm_label": "tailwindcss"
+    },
+    {
+      "label": "devDependencies",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "id": "logic_and_lines_package_devdependencies",
+      "community": 3,
+      "norm_label": "devdependencies"
+    },
+    {
+      "label": "@tailwindcss/typography",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "id": "logic_and_lines_package_devdependencies_tailwindcss_typography",
+      "community": 3,
+      "norm_label": "@tailwindcss/typography"
+    },
+    {
+      "label": "daisyui",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "id": "logic_and_lines_package_devdependencies_daisyui",
+      "community": 3,
+      "norm_label": "daisyui"
+    },
+    {
+      "label": "tailwind.config.js",
+      "file_type": "code",
+      "source_file": "tailwind.config.js",
+      "source_location": "L1",
+      "id": "tailwind_config_js",
+      "community": 20,
+      "norm_label": "tailwind.config.js"
+    },
+    {
+      "label": "tailwind.config.mjs",
+      "file_type": "code",
+      "source_file": "tailwind.config.mjs",
+      "source_location": "L1",
+      "id": "tailwind_config_mjs",
+      "community": 21,
+      "norm_label": "tailwind.config.mjs"
+    },
+    {
+      "label": "tsconfig.json",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L1",
+      "id": "tsconfig_json",
+      "community": 11,
+      "norm_label": "tsconfig.json"
+    },
+    {
+      "label": "extends",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L2",
+      "id": "logic_and_lines_tsconfig_extends",
+      "community": 11,
+      "norm_label": "extends"
+    },
+    {
+      "label": "include",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L3",
+      "id": "logic_and_lines_tsconfig_include",
+      "community": 11,
+      "norm_label": "include"
+    },
+    {
+      "label": "exclude",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L4",
+      "id": "logic_and_lines_tsconfig_exclude",
+      "community": 11,
+      "norm_label": "exclude"
+    },
+    {
+      "label": "extensions.json",
+      "file_type": "code",
+      "source_file": ".vscode/extensions.json",
+      "source_location": "L1",
+      "id": "vscode_extensions_json",
+      "community": 12,
+      "norm_label": "extensions.json"
+    },
+    {
+      "label": "recommendations",
+      "file_type": "code",
+      "source_file": ".vscode/extensions.json",
+      "source_location": "L2",
+      "id": "vscode_extensions_recommendations",
+      "community": 12,
+      "norm_label": "recommendations"
+    },
+    {
+      "label": "unwantedRecommendations",
+      "file_type": "code",
+      "source_file": ".vscode/extensions.json",
+      "source_location": "L3",
+      "id": "vscode_extensions_unwantedrecommendations",
+      "community": 12,
+      "norm_label": "unwantedrecommendations"
+    },
+    {
+      "label": "launch.json",
+      "file_type": "code",
+      "source_file": ".vscode/launch.json",
+      "source_location": "L1",
+      "id": "vscode_launch_json",
+      "community": 13,
+      "norm_label": "launch.json"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": ".vscode/launch.json",
+      "source_location": "L2",
+      "id": "vscode_launch_version",
+      "community": 13,
+      "norm_label": "version"
+    },
+    {
+      "label": "configurations",
+      "file_type": "code",
+      "source_file": ".vscode/launch.json",
+      "source_location": "L3",
+      "id": "vscode_launch_configurations",
+      "community": 13,
+      "norm_label": "configurations"
+    },
+    {
+      "label": "hero-init.js",
+      "file_type": "code",
+      "source_file": "public/hero-init.js",
+      "source_location": "L1",
+      "id": "public_hero_init_js",
+      "community": 9,
+      "norm_label": "hero-init.js"
+    },
+    {
+      "label": "refreshRefs()",
+      "file_type": "code",
+      "source_file": "public/hero-init.js",
+      "source_location": "L10",
+      "id": "public_hero_init_refreshrefs",
+      "community": 9,
+      "norm_label": "refreshrefs()"
+    },
+    {
+      "label": "handleMove()",
+      "file_type": "code",
+      "source_file": "public/hero-init.js",
+      "source_location": "L15",
+      "id": "public_hero_init_handlemove",
+      "community": 9,
+      "norm_label": "handlemove()"
+    },
+    {
+      "label": "bindDragHandle()",
+      "file_type": "code",
+      "source_file": "public/hero-init.js",
+      "source_location": "L27",
+      "id": "public_hero_init_binddraghandle",
+      "community": 9,
+      "norm_label": "binddraghandle()"
+    },
+    {
+      "label": "setupFadeOut()",
+      "file_type": "code",
+      "source_file": "public/hero-init.js",
+      "source_location": "L47",
+      "id": "public_hero_init_setupfadeout",
+      "community": 9,
+      "norm_label": "setupfadeout()"
+    },
+    {
+      "label": "attachGlobalListenersOnce()",
+      "file_type": "code",
+      "source_file": "public/hero-init.js",
+      "source_location": "L59",
+      "id": "public_hero_init_attachgloballistenersonce",
+      "community": 9,
+      "norm_label": "attachgloballistenersonce()"
+    },
+    {
+      "label": "initHero()",
+      "file_type": "code",
+      "source_file": "public/hero-init.js",
+      "source_location": "L98",
+      "id": "public_hero_init_inithero",
+      "community": 9,
+      "norm_label": "inithero()"
+    },
+    {
+      "label": "scroll-animate.js",
+      "file_type": "code",
+      "source_file": "public/scroll-animate.js",
+      "source_location": "L1",
+      "id": "public_scroll_animate_js",
+      "community": 14,
+      "norm_label": "scroll-animate.js"
+    },
+    {
+      "label": "initAnimations()",
+      "file_type": "code",
+      "source_file": "public/scroll-animate.js",
+      "source_location": "L7",
+      "id": "public_scroll_animate_initanimations",
+      "community": 14,
+      "norm_label": "initanimations()"
+    },
+    {
+      "label": "About.astro",
+      "file_type": "code",
+      "source_file": "src/components/About.astro",
+      "source_location": "L1",
+      "id": "src_components_about_astro",
+      "community": 6,
+      "norm_label": "about.astro"
+    },
+    {
+      "label": "t",
+      "file_type": "code",
+      "source_file": "src/components/About.astro",
+      "source_location": "L6",
+      "id": "components_about_t",
+      "community": 6,
+      "norm_label": "t"
+    },
+    {
+      "label": "../../i18n/utils",
+      "file_type": "code",
+      "source_file": "src/i18n/utils",
+      "confidence": "EXTRACTED",
+      "id": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_utils",
+      "community": 0,
+      "norm_label": "../../i18n/utils"
+    },
+    {
+      "label": "SuccessCard.astro",
+      "file_type": "code",
+      "source_file": "src/components/SuccessCard.astro",
+      "confidence": "EXTRACTED",
+      "source_location": "L1",
+      "id": "src_components_successcard_astro",
+      "community": 6,
+      "norm_label": "successcard.astro"
+    },
+    {
+      "label": "../../components/BenefitsList.astro",
+      "file_type": "code",
+      "source_file": "src/components/BenefitsList.astro",
+      "source_location": "L1",
+      "confidence": "EXTRACTED",
+      "id": "src_components_benefitslist_astro",
+      "community": 6,
+      "norm_label": "../../components/benefitslist.astro"
+    },
+    {
+      "label": "t",
+      "file_type": "code",
+      "source_file": "src/components/BenefitsList.astro",
+      "source_location": "L11",
+      "id": "components_benefitslist_t",
+      "community": 6,
+      "norm_label": "t"
+    },
+    {
+      "label": "benefits",
+      "file_type": "code",
+      "source_file": "src/components/BenefitsList.astro",
+      "source_location": "L14",
+      "id": "components_benefitslist_benefits",
+      "community": 6,
+      "norm_label": "benefits"
+    },
+    {
+      "label": "isManualCard",
+      "file_type": "code",
+      "source_file": "src/components/BenefitsList.astro",
+      "source_location": "L57",
+      "id": "components_benefitslist_ismanualcard",
+      "community": 6,
+      "norm_label": "ismanualcard"
+    },
+    {
+      "label": "astro:content",
+      "file_type": "code",
+      "source_file": "astro:content",
+      "confidence": "EXTRACTED",
+      "id": "astro_content",
+      "community": 5,
+      "norm_label": "astro:content"
+    },
+    {
+      "label": "../../components/BookButton.astro",
+      "file_type": "code",
+      "source_file": "src/components/BookButton.astro",
+      "confidence": "EXTRACTED",
+      "source_location": "L1",
+      "id": "src_components_bookbutton_astro",
+      "community": 0,
+      "norm_label": "../../components/bookbutton.astro"
+    },
+    {
+      "label": "Test.astro",
+      "file_type": "code",
+      "source_file": "src/components/Test.astro",
+      "confidence": "EXTRACTED",
+      "source_location": "L1",
+      "id": "src_components_test_astro",
+      "community": 6,
+      "norm_label": "test.astro"
+    },
+    {
+      "label": "SpeedGauge.astro",
+      "file_type": "code",
+      "source_file": "src/components/SpeedGauge.astro",
+      "confidence": "EXTRACTED",
+      "source_location": "L1",
+      "id": "src_components_speedgauge_astro",
+      "community": 6,
+      "norm_label": "speedgauge.astro"
+    },
+    {
+      "label": "ErrorValidation.astro",
+      "file_type": "code",
+      "source_file": "src/components/ErrorValidation.astro",
+      "confidence": "EXTRACTED",
+      "source_location": "L1",
+      "id": "src_components_errorvalidation_astro",
+      "community": 6,
+      "norm_label": "errorvalidation.astro"
+    },
+    {
+      "label": "ManualReduction.astro",
+      "file_type": "code",
+      "source_file": "src/components/ManualReduction.astro",
+      "confidence": "EXTRACTED",
+      "source_location": "L1",
+      "id": "src_components_manualreduction_astro",
+      "community": 6,
+      "norm_label": "manualreduction.astro"
+    },
+    {
+      "label": "t",
+      "file_type": "code",
+      "source_file": "src/components/BookButton.astro",
+      "source_location": "L11",
+      "id": "components_bookbutton_t",
+      "community": 0,
+      "norm_label": "t"
+    },
+    {
+      "label": "../../components/Booking.astro",
+      "file_type": "code",
+      "source_file": "src/components/Booking.astro",
+      "source_location": "L1",
+      "confidence": "EXTRACTED",
+      "id": "src_components_booking_astro",
+      "community": 0,
+      "norm_label": "../../components/booking.astro"
+    },
+    {
+      "label": "t",
+      "file_type": "code",
+      "source_file": "src/components/Booking.astro",
+      "source_location": "L6",
+      "id": "components_booking_t",
+      "community": 0,
+      "norm_label": "t"
+    },
+    {
+      "label": "astro-icon/components",
+      "file_type": "code",
+      "source_file": "astro-icon/components",
+      "confidence": "EXTRACTED",
+      "id": "components",
+      "community": 5,
+      "norm_label": "astro-icon/components"
+    },
+    {
+      "label": "../../components/FAQ.astro",
+      "file_type": "code",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L1",
+      "confidence": "EXTRACTED",
+      "id": "src_components_faq_astro",
+      "community": 39,
+      "norm_label": "../../components/faq.astro"
+    },
+    {
+      "label": "t",
+      "file_type": "code",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L6",
+      "id": "components_faq_t",
+      "community": 39,
+      "norm_label": "t"
+    },
+    {
+      "label": "faqCategories",
+      "file_type": "code",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L8",
+      "id": "components_faq_faqcategories",
+      "community": 39,
+      "norm_label": "faqcategories"
+    },
+    {
+      "label": "faqSchema",
+      "file_type": "code",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L13",
+      "id": "components_faq_faqschema",
+      "community": 39,
+      "norm_label": "faqschema"
+    },
+    {
+      "label": "setupInnerAccordions()",
+      "file_type": "code",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L144",
+      "id": "components_faq_setupinneraccordions",
+      "community": 39,
+      "norm_label": "setupinneraccordions()"
+    },
+    {
+      "label": "setupCategoryAccordions()",
+      "file_type": "code",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L205",
+      "id": "components_faq_setupcategoryaccordions",
+      "community": 39,
+      "norm_label": "setupcategoryaccordions()"
+    },
+    {
+      "label": "updateParentHeight()",
+      "file_type": "code",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L253",
+      "id": "components_faq_updateparentheight",
+      "community": 39,
+      "norm_label": "updateparentheight()"
+    },
+    {
+      "label": "../../components/Footer.astro",
+      "file_type": "code",
+      "source_file": "src/components/Footer.astro",
+      "source_location": "L1",
+      "confidence": "EXTRACTED",
+      "id": "src_components_footer_astro",
+      "community": 2,
+      "norm_label": "../../components/footer.astro"
+    },
+    {
+      "label": "t",
+      "file_type": "code",
+      "source_file": "src/components/Footer.astro",
+      "source_location": "L6",
+      "id": "components_footer_t",
+      "community": 2,
+      "norm_label": "t"
+    },
+    {
+      "label": "../components/Header.astro",
+      "file_type": "code",
+      "source_file": "src/components/Header.astro",
+      "source_location": "L1",
+      "confidence": "EXTRACTED",
+      "id": "src_components_header_astro",
+      "community": 2,
+      "norm_label": "../components/header.astro"
+    },
+    {
+      "label": "t",
+      "file_type": "code",
+      "source_file": "src/components/Header.astro",
+      "source_location": "L6",
+      "id": "components_header_t",
+      "community": 2,
+      "norm_label": "t"
+    },
+    {
+      "label": "LanguageSwitcher.astro",
+      "file_type": "code",
+      "source_file": "src/components/LanguageSwitcher.astro",
+      "confidence": "EXTRACTED",
+      "source_location": "L1",
+      "id": "src_components_languageswitcher_astro",
+      "community": 2,
+      "norm_label": "languageswitcher.astro"
+    },
+    {
+      "label": "../../components/Hero.astro",
+      "file_type": "code",
+      "source_file": "src/components/Hero.astro",
+      "source_location": "L1",
+      "confidence": "EXTRACTED",
+      "id": "src_components_hero_astro",
+      "community": 0,
+      "norm_label": "../../components/hero.astro"
+    },
+    {
+      "label": "t",
+      "file_type": "code",
+      "source_file": "src/components/Hero.astro",
+      "source_location": "L6",
+      "id": "components_hero_t",
+      "community": 0,
+      "norm_label": "t"
+    },
+    {
+      "label": "updatePosition()",
+      "file_type": "code",
+      "source_file": "src/components/Hero.astro",
+      "source_location": "L364",
+      "id": "components_hero_updateposition",
+      "community": 0,
+      "norm_label": "updateposition()"
+    },
+    {
+      "label": "{ currentLang }",
+      "file_type": "code",
+      "source_file": "src/components/LanguageSwitcher.astro",
+      "source_location": "L5",
+      "id": "components_languageswitcher_currentlang",
+      "community": 2,
+      "norm_label": "{ currentlang }"
+    },
+    {
+      "label": "alternateURLs",
+      "file_type": "code",
+      "source_file": "src/components/LanguageSwitcher.astro",
+      "source_location": "L7",
+      "id": "components_languageswitcher_alternateurls",
+      "community": 2,
+      "norm_label": "alternateurls"
+    },
+    {
+      "label": "../i18n/config",
+      "file_type": "code",
+      "source_file": "src/i18n/config",
+      "confidence": "EXTRACTED",
+      "id": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_config",
+      "community": 2,
+      "norm_label": "../i18n/config"
+    },
+    {
+      "label": "../../components/MetaPixel.astro",
+      "file_type": "code",
+      "source_file": "src/components/MetaPixel.astro",
+      "source_location": "L1",
+      "confidence": "EXTRACTED",
+      "id": "src_components_metapixel_astro",
+      "community": 2,
+      "norm_label": "../../components/metapixel.astro"
+    },
+    {
+      "label": "ModelViewer.astro",
+      "file_type": "code",
+      "source_file": "src/components/ModelViewer.astro",
+      "source_location": "L1",
+      "id": "src_components_modelviewer_astro",
+      "community": 22,
+      "norm_label": "modelviewer.astro"
+    },
+    {
+      "label": "Opinion.astro",
+      "file_type": "code",
+      "source_file": "src/components/Opinion.astro",
+      "source_location": "L1",
+      "id": "src_components_opinion_astro",
+      "community": 0,
+      "norm_label": "opinion.astro"
+    },
+    {
+      "label": "t",
+      "file_type": "code",
+      "source_file": "src/components/Opinion.astro",
+      "source_location": "L5",
+      "id": "components_opinion_t",
+      "community": 0,
+      "norm_label": "t"
+    },
+    {
+      "label": "PriceList.astro",
+      "file_type": "code",
+      "source_file": "src/components/PriceList.astro",
+      "source_location": "L1",
+      "id": "src_components_pricelist_astro",
+      "community": 0,
+      "norm_label": "pricelist.astro"
+    },
+    {
+      "label": "t",
+      "file_type": "code",
+      "source_file": "src/components/PriceList.astro",
+      "source_location": "L14",
+      "id": "components_pricelist_t",
+      "community": 0,
+      "norm_label": "t"
+    },
+    {
+      "label": "../../components/Proceso.astro",
+      "file_type": "code",
+      "source_file": "src/components/Proceso.astro",
+      "source_location": "L1",
+      "confidence": "EXTRACTED",
+      "id": "src_components_proceso_astro",
+      "community": 0,
+      "norm_label": "../../components/proceso.astro"
+    },
+    {
+      "label": "t",
+      "file_type": "code",
+      "source_file": "src/components/Proceso.astro",
+      "source_location": "L4",
+      "id": "components_proceso_t",
+      "community": 0,
+      "norm_label": "t"
+    },
+    {
+      "label": "stepsIcons",
+      "file_type": "code",
+      "source_file": "src/components/Proceso.astro",
+      "source_location": "L6",
+      "id": "components_proceso_stepsicons",
+      "community": 0,
+      "norm_label": "stepsicons"
+    },
+    {
+      "label": "../../components/ReasonsList.astro",
+      "file_type": "code",
+      "source_file": "src/components/ReasonsList.astro",
+      "source_location": "L1",
+      "confidence": "EXTRACTED",
+      "id": "src_components_reasonslist_astro",
+      "community": 0,
+      "norm_label": "../../components/reasonslist.astro"
+    },
+    {
+      "label": "t",
+      "file_type": "code",
+      "source_file": "src/components/ReasonsList.astro",
+      "source_location": "L6",
+      "id": "components_reasonslist_t",
+      "community": 0,
+      "norm_label": "t"
+    },
+    {
+      "label": "reasons",
+      "file_type": "code",
+      "source_file": "src/components/ReasonsList.astro",
+      "source_location": "L9",
+      "id": "components_reasonslist_reasons",
+      "community": 0,
+      "norm_label": "reasons"
+    },
+    {
+      "label": "{ [key: number]: string }",
+      "file_type": "code",
+      "source_file": "src/components/ReasonsList.astro",
+      "source_location": "L15",
+      "id": "components_reasonslist_key_number_string",
+      "community": 0,
+      "norm_label": "{ [key: number]: string }"
+    },
+    {
+      "label": "./ServiceCard.astro",
+      "file_type": "code",
+      "source_file": "src/components/ServiceCard.astro",
+      "source_location": "L1",
+      "confidence": "EXTRACTED",
+      "id": "src_components_servicecard_astro",
+      "community": 0,
+      "norm_label": "./servicecard.astro"
+    },
+    {
+      "label": "../../components/ServicesList.astro",
+      "file_type": "code",
+      "source_file": "src/components/ServicesList.astro",
+      "source_location": "L1",
+      "confidence": "EXTRACTED",
+      "id": "src_components_serviceslist_astro",
+      "community": 0,
+      "norm_label": "../../components/serviceslist.astro"
+    },
+    {
+      "label": "t",
+      "file_type": "code",
+      "source_file": "src/components/ServicesList.astro",
+      "source_location": "L8",
+      "id": "components_serviceslist_t",
+      "community": 0,
+      "norm_label": "t"
+    },
+    {
+      "label": "services",
+      "file_type": "code",
+      "source_file": "src/components/ServicesList.astro",
+      "source_location": "L11",
+      "id": "components_serviceslist_services",
+      "community": 0,
+      "norm_label": "services"
+    },
+    {
+      "label": "SocialScroll.astro",
+      "file_type": "code",
+      "source_file": "src/components/SocialScroll.astro",
+      "source_location": "L1",
+      "id": "src_components_socialscroll_astro",
+      "community": 5,
+      "norm_label": "socialscroll.astro"
+    },
+    {
+      "label": "cards",
+      "file_type": "code",
+      "source_file": "src/components/SocialScroll.astro",
+      "source_location": "L5",
+      "id": "components_socialscroll_cards",
+      "community": 5,
+      "norm_label": "cards"
+    },
+    {
+      "label": "astro:assets",
+      "file_type": "code",
+      "source_file": "astro:assets",
+      "confidence": "EXTRACTED",
+      "id": "astro_assets",
+      "community": 5,
+      "norm_label": "astro:assets"
+    },
+    {
+      "label": "../../components/Stats.astro",
+      "file_type": "code",
+      "source_file": "src/components/Stats.astro",
+      "source_location": "L1",
+      "confidence": "EXTRACTED",
+      "id": "src_components_stats_astro",
+      "community": 0,
+      "norm_label": "../../components/stats.astro"
+    },
+    {
+      "label": "t",
+      "file_type": "code",
+      "source_file": "src/components/Stats.astro",
+      "source_location": "L5",
+      "id": "components_stats_t",
+      "community": 0,
+      "norm_label": "t"
+    },
+    {
+      "label": "../components/StructuredData.astro",
+      "file_type": "code",
+      "source_file": "src/components/StructuredData.astro",
+      "source_location": "L1",
+      "confidence": "EXTRACTED",
+      "id": "src_components_structureddata_astro",
+      "community": 2,
+      "norm_label": "../components/structureddata.astro"
+    },
+    {
+      "label": "businessData",
+      "file_type": "code",
+      "source_file": "src/components/StructuredData.astro",
+      "source_location": "L4",
+      "id": "components_structureddata_businessdata",
+      "community": 2,
+      "norm_label": "businessdata"
+    },
+    {
+      "label": "../../components/layout/GoogleTagManager.astro",
+      "file_type": "code",
+      "source_file": "src/components/layout/GoogleTagManager.astro",
+      "source_location": "L1",
+      "confidence": "EXTRACTED",
+      "id": "src_components_layout_googletagmanager_astro",
+      "community": 2,
+      "norm_label": "../../components/layout/googletagmanager.astro"
+    },
+    {
+      "label": "../../components/layout/GoogleTagManagerBody.astro",
+      "file_type": "code",
+      "source_file": "src/components/layout/GoogleTagManagerBody.astro",
+      "source_location": "L1",
+      "confidence": "EXTRACTED",
+      "id": "src_components_layout_googletagmanagerbody_astro",
+      "community": 2,
+      "norm_label": "../../components/layout/googletagmanagerbody.astro"
+    },
+    {
+      "label": "config.ts",
+      "file_type": "code",
+      "source_file": "src/content/config.ts",
+      "source_location": "L1",
+      "id": "src_content_config_ts",
+      "community": 5,
+      "norm_label": "config.ts"
+    },
+    {
+      "label": "services",
+      "file_type": "code",
+      "source_file": "src/content/config.ts",
+      "source_location": "L3",
+      "id": "content_config_services",
+      "community": 5,
+      "norm_label": "services"
+    },
+    {
+      "label": "reasons",
+      "file_type": "code",
+      "source_file": "src/content/config.ts",
+      "source_location": "L88",
+      "id": "content_config_reasons",
+      "community": 5,
+      "norm_label": "reasons"
+    },
+    {
+      "label": "benefits",
+      "file_type": "code",
+      "source_file": "src/content/config.ts",
+      "source_location": "L100",
+      "id": "content_config_benefits",
+      "community": 5,
+      "norm_label": "benefits"
+    },
+    {
+      "label": "faq",
+      "file_type": "code",
+      "source_file": "src/content/config.ts",
+      "source_location": "L120",
+      "id": "content_config_faq",
+      "community": 5,
+      "norm_label": "faq"
+    },
+    {
+      "label": "collections",
+      "file_type": "code",
+      "source_file": "src/content/config.ts",
+      "source_location": "L136",
+      "id": "content_config_collections",
+      "community": 5,
+      "norm_label": "collections"
+    },
+    {
+      "label": "config.js",
+      "file_type": "code",
+      "source_file": "src/i18n/config.js",
+      "source_location": "L1",
+      "id": "src_i18n_config_js",
+      "community": 38,
+      "norm_label": "config.js"
+    },
+    {
+      "label": "languages",
+      "file_type": "code",
+      "source_file": "src/i18n/config.js",
+      "source_location": "L1",
+      "id": "i18n_config_languages",
+      "community": 38,
+      "norm_label": "languages"
+    },
+    {
+      "label": "nonLocalizedPaths",
+      "file_type": "code",
+      "source_file": "src/i18n/config.js",
+      "source_location": "L8",
+      "id": "i18n_config_nonlocalizedpaths",
+      "community": 38,
+      "norm_label": "nonlocalizedpaths"
+    },
+    {
+      "label": "utils.js",
+      "file_type": "code",
+      "source_file": "src/i18n/utils.js",
+      "source_location": "L1",
+      "id": "src_i18n_utils_js",
+      "community": 38,
+      "norm_label": "utils.js"
+    },
+    {
+      "label": "translations",
+      "file_type": "code",
+      "source_file": "src/i18n/utils.js",
+      "source_location": "L8",
+      "id": "i18n_utils_translations",
+      "community": 38,
+      "norm_label": "translations"
+    },
+    {
+      "label": "getLanguageFromURL()",
+      "file_type": "code",
+      "source_file": "src/i18n/utils.js",
+      "source_location": "L11",
+      "id": "i18n_utils_getlanguagefromurl",
+      "community": 38,
+      "norm_label": "getlanguagefromurl()"
+    },
+    {
+      "label": "useTranslations()",
+      "file_type": "code",
+      "source_file": "src/i18n/utils.js",
+      "source_location": "L20",
+      "id": "i18n_utils_usetranslations",
+      "community": 38,
+      "norm_label": "usetranslations()"
+    },
+    {
+      "label": "getLocalizedURL()",
+      "file_type": "code",
+      "source_file": "src/i18n/utils.js",
+      "source_location": "L25",
+      "id": "i18n_utils_getlocalizedurl",
+      "community": 38,
+      "norm_label": "getlocalizedurl()"
+    },
+    {
+      "label": "getAlternateURLs()",
+      "file_type": "code",
+      "source_file": "src/i18n/utils.js",
+      "source_location": "L38",
+      "id": "i18n_utils_getalternateurls",
+      "community": 2,
+      "norm_label": "getalternateurls()"
+    },
+    {
+      "label": "en.js",
+      "file_type": "code",
+      "source_file": "src/i18n/translations/en.js",
+      "source_location": "L1",
+      "id": "src_i18n_translations_en_js",
+      "community": 38,
+      "norm_label": "en.js"
+    },
+    {
+      "label": "es.js",
+      "file_type": "code",
+      "source_file": "src/i18n/translations/es.js",
+      "source_location": "L1",
+      "id": "src_i18n_translations_es_js",
+      "community": 38,
+      "norm_label": "es.js"
+    },
+    {
+      "label": "../../layouts/Layout.astro",
+      "file_type": "code",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L1",
+      "confidence": "EXTRACTED",
+      "id": "src_layouts_layout_astro",
+      "community": 2,
+      "norm_label": "../../layouts/layout.astro"
+    },
+    {
+      "label": "currentLang",
+      "file_type": "code",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L22",
+      "id": "layouts_layout_currentlang",
+      "community": 2,
+      "norm_label": "currentlang"
+    },
+    {
+      "label": "t",
+      "file_type": "code",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L23",
+      "id": "layouts_layout_t",
+      "community": 2,
+      "norm_label": "t"
+    },
+    {
+      "label": "alternateURLs",
+      "file_type": "code",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L24",
+      "id": "layouts_layout_alternateurls",
+      "community": 2,
+      "norm_label": "alternateurls"
+    },
+    {
+      "label": "canonicalURL",
+      "file_type": "code",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L41",
+      "id": "layouts_layout_canonicalurl",
+      "community": 2,
+      "norm_label": "canonicalurl"
+    },
+    {
+      "label": "../../styles/global.css",
+      "file_type": "code",
+      "source_file": "src/styles/global.css",
+      "confidence": "EXTRACTED",
+      "id": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_styles_global_css",
+      "community": 2,
+      "norm_label": "../../styles/global.css"
+    },
+    {
+      "label": "astro:transitions",
+      "file_type": "code",
+      "source_file": "astro:transitions",
+      "confidence": "EXTRACTED",
+      "id": "astro_transitions",
+      "community": 2,
+      "norm_label": "astro:transitions"
+    },
+    {
+      "label": "404.astro",
+      "file_type": "code",
+      "source_file": "src/pages/404.astro",
+      "source_location": "L1",
+      "id": "src_pages_404_astro",
+      "community": 38,
+      "norm_label": "404.astro"
+    },
+    {
+      "label": "t",
+      "file_type": "code",
+      "source_file": "src/pages/404.astro",
+      "source_location": "L8",
+      "id": "pages_404_t",
+      "community": 38,
+      "norm_label": "t"
+    },
+    {
+      "label": "contact.astro",
+      "file_type": "code",
+      "source_file": "src/pages/contact.astro",
+      "source_location": "L1",
+      "id": "src_pages_contact_astro",
+      "community": 38,
+      "norm_label": "contact.astro"
+    },
+    {
+      "label": "t",
+      "file_type": "code",
+      "source_file": "src/pages/contact.astro",
+      "source_location": "L9",
+      "id": "pages_contact_t",
+      "community": 38,
+      "norm_label": "t"
+    },
+    {
+      "label": "contactSchema",
+      "file_type": "code",
+      "source_file": "src/pages/contact.astro",
+      "source_location": "L16",
+      "id": "pages_contact_contactschema",
+      "community": 38,
+      "norm_label": "contactschema"
+    },
+    {
+      "label": "email",
+      "file_type": "code",
+      "source_file": "src/pages/contact.astro",
+      "source_location": "L167",
+      "id": "pages_contact_email",
+      "community": 38,
+      "norm_label": "email"
+    },
+    {
+      "label": "index.astro",
+      "file_type": "code",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L1",
+      "id": "src_pages_index_astro",
+      "community": 0,
+      "norm_label": "index.astro"
+    },
+    {
+      "label": "websiteSchema",
+      "file_type": "code",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L18",
+      "id": "pages_index_websiteschema",
+      "community": 0,
+      "norm_label": "websiteschema"
+    },
+    {
+      "label": "organizationSchema",
+      "file_type": "code",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L31",
+      "id": "pages_index_organizationschema",
+      "community": 0,
+      "norm_label": "organizationschema"
+    },
+    {
+      "label": "politica-de-privacidad.astro",
+      "file_type": "code",
+      "source_file": "src/pages/politica-de-privacidad.astro",
+      "source_location": "L1",
+      "id": "src_pages_politica_de_privacidad_astro",
+      "community": 2,
+      "norm_label": "politica-de-privacidad.astro"
+    },
+    {
+      "label": "currentDate",
+      "file_type": "code",
+      "source_file": "src/pages/politica-de-privacidad.astro",
+      "source_location": "L6",
+      "id": "pages_politica_de_privacidad_currentdate",
+      "community": 2,
+      "norm_label": "currentdate"
+    },
+    {
+      "label": "thankyou.astro",
+      "file_type": "code",
+      "source_file": "src/pages/thankyou.astro",
+      "source_location": "L1",
+      "id": "src_pages_thankyou_astro",
+      "community": 2,
+      "norm_label": "thankyou.astro"
+    },
+    {
+      "label": "track.ts",
+      "file_type": "code",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L1",
+      "id": "src_pages_api_track_ts",
+      "community": 7,
+      "norm_label": "track.ts"
+    },
+    {
+      "label": "sha256()",
+      "file_type": "code",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L8",
+      "id": "api_track_sha256",
+      "community": 7,
+      "norm_label": "sha256()"
+    },
+    {
+      "label": "hashField()",
+      "file_type": "code",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L12",
+      "id": "api_track_hashfield",
+      "community": 7,
+      "norm_label": "hashfield()"
+    },
+    {
+      "label": "HASHABLE_FIELDS",
+      "file_type": "code",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L17",
+      "id": "api_track_hashable_fields",
+      "community": 7,
+      "norm_label": "hashable_fields"
+    },
+    {
+      "label": "PASSTHROUGH_FIELDS",
+      "file_type": "code",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L18",
+      "id": "api_track_passthrough_fields",
+      "community": 7,
+      "norm_label": "passthrough_fields"
+    },
+    {
+      "label": "rateLimitMap",
+      "file_type": "code",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L29",
+      "id": "api_track_ratelimitmap",
+      "community": 7,
+      "norm_label": "ratelimitmap"
+    },
+    {
+      "label": "isRateLimited()",
+      "file_type": "code",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L34",
+      "id": "api_track_isratelimited",
+      "community": 7,
+      "norm_label": "isratelimited()"
+    },
+    {
+      "label": "cleanupExpiredRateLimitEntries()",
+      "file_type": "code",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L47",
+      "id": "api_track_cleanupexpiredratelimitentries",
+      "community": 7,
+      "norm_label": "cleanupexpiredratelimitentries()"
+    },
+    {
+      "label": "ALLOWED_EVENTS",
+      "file_type": "code",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L54",
+      "id": "api_track_allowed_events",
+      "community": 7,
+      "norm_label": "allowed_events"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L66",
+      "id": "api_track_post",
+      "community": 7,
+      "norm_label": "post()"
+    },
+    {
+      "label": "404.astro",
+      "file_type": "code",
+      "source_file": "src/pages/en/404.astro",
+      "source_location": "L1",
+      "id": "src_pages_en_404_astro",
+      "community": 38,
+      "norm_label": "404.astro"
+    },
+    {
+      "label": "t",
+      "file_type": "code",
+      "source_file": "src/pages/en/404.astro",
+      "source_location": "L8",
+      "id": "en_404_t",
+      "community": 38,
+      "norm_label": "t"
+    },
+    {
+      "label": "contact.astro",
+      "file_type": "code",
+      "source_file": "src/pages/en/contact.astro",
+      "source_location": "L1",
+      "id": "src_pages_en_contact_astro",
+      "community": 38,
+      "norm_label": "contact.astro"
+    },
+    {
+      "label": "t",
+      "file_type": "code",
+      "source_file": "src/pages/en/contact.astro",
+      "source_location": "L9",
+      "id": "en_contact_t",
+      "community": 38,
+      "norm_label": "t"
+    },
+    {
+      "label": "contactSchema",
+      "file_type": "code",
+      "source_file": "src/pages/en/contact.astro",
+      "source_location": "L16",
+      "id": "en_contact_contactschema",
+      "community": 38,
+      "norm_label": "contactschema"
+    },
+    {
+      "label": "email",
+      "file_type": "code",
+      "source_file": "src/pages/en/contact.astro",
+      "source_location": "L167",
+      "id": "en_contact_email",
+      "community": 38,
+      "norm_label": "email"
+    },
+    {
+      "label": "index.astro",
+      "file_type": "code",
+      "source_file": "src/pages/en/index.astro",
+      "source_location": "L1",
+      "id": "src_pages_en_index_astro",
+      "community": 0,
+      "norm_label": "index.astro"
+    },
+    {
+      "label": "websiteSchema",
+      "file_type": "code",
+      "source_file": "src/pages/en/index.astro",
+      "source_location": "L18",
+      "id": "en_index_websiteschema",
+      "community": 0,
+      "norm_label": "websiteschema"
+    },
+    {
+      "label": "organizationSchema",
+      "file_type": "code",
+      "source_file": "src/pages/en/index.astro",
+      "source_location": "L31",
+      "id": "en_index_organizationschema",
+      "community": 0,
+      "norm_label": "organizationschema"
+    },
+    {
+      "label": "landing-lead.astro",
+      "file_type": "code",
+      "source_file": "src/pages/en/landing-lead.astro",
+      "source_location": "L1",
+      "id": "src_pages_en_landing_lead_astro",
+      "community": 2,
+      "norm_label": "landing-lead.astro"
+    },
+    {
+      "label": "privacy-policy.astro",
+      "file_type": "code",
+      "source_file": "src/pages/en/privacy-policy.astro",
+      "source_location": "L1",
+      "id": "src_pages_en_privacy_policy_astro",
+      "community": 2,
+      "norm_label": "privacy-policy.astro"
+    },
+    {
+      "label": "currentDate",
+      "file_type": "code",
+      "source_file": "src/pages/en/privacy-policy.astro",
+      "source_location": "L6",
+      "id": "en_privacy_policy_currentdate",
+      "community": 2,
+      "norm_label": "currentdate"
+    },
+    {
+      "label": "[id].astro",
+      "file_type": "code",
+      "source_file": "src/pages/en/service/[id].astro",
+      "source_location": "L1",
+      "id": "src_pages_en_service_id_astro",
+      "community": 5,
+      "norm_label": "[id].astro"
+    },
+    {
+      "label": "getStaticPaths()",
+      "file_type": "code",
+      "source_file": "src/pages/service/[id].astro",
+      "source_location": "L9",
+      "id": "service_id_getstaticpaths",
+      "community": 5,
+      "norm_label": "getstaticpaths()"
+    },
+    {
+      "label": "hero",
+      "file_type": "code",
+      "source_file": "src/pages/en/service/[id].astro",
+      "source_location": "L26",
+      "id": "service_id_hero",
+      "community": 5,
+      "norm_label": "hero"
+    },
+    {
+      "label": "serviceSchema",
+      "file_type": "code",
+      "source_file": "src/pages/service/[id].astro",
+      "source_location": "L43",
+      "id": "service_id_serviceschema",
+      "community": 5,
+      "norm_label": "serviceschema"
+    },
+    {
+      "label": "[id].astro",
+      "file_type": "code",
+      "source_file": "src/pages/service/[id].astro",
+      "source_location": "L1",
+      "id": "src_pages_service_id_astro",
+      "community": 5,
+      "norm_label": "[id].astro"
+    },
+    {
+      "label": "HANDOFF.md",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L1",
+      "id": "handoff_md",
+      "community": 10,
+      "norm_label": "handoff.md"
+    },
+    {
+      "label": "HANDOFF \u2014 Logic & Lines Web",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L1",
+      "id": "logic_and_lines_handoff_handoff_logic_lines_web",
+      "community": 10,
+      "norm_label": "handoff \u2014 logic & lines web"
+    },
+    {
+      "label": "1. Resumen de la sesion",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L3",
+      "id": "logic_and_lines_handoff_1_resumen_de_la_sesion",
+      "community": 10,
+      "norm_label": "1. resumen de la sesion"
+    },
+    {
+      "label": "2. Stack",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L13",
+      "id": "logic_and_lines_handoff_2_stack",
+      "community": 10,
+      "norm_label": "2. stack"
+    },
+    {
+      "label": "3. Hecho en esta sesion (bloque 1 + ajustes)",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L24",
+      "id": "logic_and_lines_handoff_3_hecho_en_esta_sesion_bloque_1_ajustes",
+      "community": 10,
+      "norm_label": "3. hecho en esta sesion (bloque 1 + ajustes)"
+    },
+    {
+      "label": "Graphify",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L26",
+      "id": "logic_and_lines_handoff_graphify",
+      "community": 10,
+      "norm_label": "graphify"
+    },
+    {
+      "label": "FAQ en navbar",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L31",
+      "id": "logic_and_lines_handoff_faq_en_navbar",
+      "community": 10,
+      "norm_label": "faq en navbar"
+    },
+    {
+      "label": "Unificacion estetica de CTAs de agendar llamada",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L36",
+      "id": "logic_and_lines_handoff_unificacion_estetica_de_ctas_de_agendar_llamada",
+      "community": 10,
+      "norm_label": "unificacion estetica de ctas de agendar llamada"
+    },
+    {
+      "label": "Hero",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L40",
+      "id": "logic_and_lines_handoff_hero",
+      "community": 10,
+      "norm_label": "hero"
+    },
+    {
+      "label": "Evento `generated_lead`",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L47",
+      "id": "logic_and_lines_handoff_evento_generated_lead",
+      "community": 10,
+      "norm_label": "evento `generated_lead`"
+    },
+    {
+      "label": "Correccion de `baseUrl` invertido en BookButton.astro",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L51",
+      "id": "logic_and_lines_handoff_correccion_de_baseurl_invertido_en_bookbutton_astro",
+      "community": 10,
+      "norm_label": "correccion de `baseurl` invertido en bookbutton.astro"
+    },
+    {
+      "label": "Limpieza",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L55",
+      "id": "logic_and_lines_handoff_limpieza",
+      "community": 10,
+      "norm_label": "limpieza"
+    },
+    {
+      "label": "Header CTA desktop",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L59",
+      "id": "logic_and_lines_handoff_header_cta_desktop",
+      "community": 10,
+      "norm_label": "header cta desktop"
+    },
+    {
+      "label": "4. Decision importante",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L64",
+      "id": "logic_and_lines_handoff_4_decision_importante",
+      "community": 10,
+      "norm_label": "4. decision importante"
+    },
+    {
+      "label": "5. Lo que queda por hacer (proxima sesion)",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L74",
+      "id": "logic_and_lines_handoff_5_lo_que_queda_por_hacer_proxima_sesion",
+      "community": 10,
+      "norm_label": "5. lo que queda por hacer (proxima sesion)"
+    },
+    {
+      "label": "Bloque 3 \u2014 Email CTA fix",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L76",
+      "id": "logic_and_lines_handoff_bloque_3_email_cta_fix",
+      "community": 10,
+      "norm_label": "bloque 3 \u2014 email cta fix"
+    },
+    {
+      "label": "Bloque 4 \u2014 SEO tecnico",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L82",
+      "id": "logic_and_lines_handoff_bloque_4_seo_tecnico",
+      "community": 10,
+      "norm_label": "bloque 4 \u2014 seo tecnico"
+    },
+    {
+      "label": "Bloque 5 \u2014 CMP / banner cookies",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L88",
+      "id": "logic_and_lines_handoff_bloque_5_cmp_banner_cookies",
+      "community": 10,
+      "norm_label": "bloque 5 \u2014 cmp / banner cookies"
+    },
+    {
+      "label": "General",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L95",
+      "id": "logic_and_lines_handoff_general",
+      "community": 10,
+      "norm_label": "general"
+    },
+    {
+      "label": "6. Notas / advertencias",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L100",
+      "id": "logic_and_lines_handoff_6_notas_advertencias",
+      "community": 10,
+      "norm_label": "6. notas / advertencias"
+    },
+    {
+      "label": "7. Archivos clave tocados en esta sesion",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L108",
+      "id": "logic_and_lines_handoff_7_archivos_clave_tocados_en_esta_sesion",
+      "community": 10,
+      "norm_label": "7. archivos clave tocados en esta sesion"
+    },
+    {
+      "label": "code:block1 (src/components/Header.astro)",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L110",
+      "id": "logic_and_lines_handoff_codeblock_1",
+      "community": 10,
+      "norm_label": "code:block1 (src/components/header.astro)"
+    },
+    {
+      "label": "8. Proximo paso sugerido",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L129",
+      "id": "logic_and_lines_handoff_8_proximo_paso_sugerido",
+      "community": 10,
+      "norm_label": "8. proximo paso sugerido"
+    },
+    {
+      "label": "README.md",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L1",
+      "id": "readme_md",
+      "community": 8,
+      "norm_label": "readme.md"
+    },
+    {
+      "label": "Malaithai Massage Lanzarote Website",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L1",
+      "id": "logic_and_lines_readme_malaithai_massage_lanzarote_website",
+      "community": 8,
+      "norm_label": "malaithai massage lanzarote website"
+    },
+    {
+      "label": "Overview",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L7",
+      "id": "logic_and_lines_readme_overview",
+      "community": 8,
+      "norm_label": "overview"
+    },
+    {
+      "label": "Challenges",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L10",
+      "id": "logic_and_lines_readme_challenges",
+      "community": 8,
+      "norm_label": "challenges"
+    },
+    {
+      "label": "Features",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L19",
+      "id": "logic_and_lines_readme_features",
+      "community": 8,
+      "norm_label": "features"
+    },
+    {
+      "label": "Live Demo",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L26",
+      "id": "logic_and_lines_readme_live_demo",
+      "community": 8,
+      "norm_label": "live demo"
+    },
+    {
+      "label": "Getting Started",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L31",
+      "id": "logic_and_lines_readme_getting_started",
+      "community": 8,
+      "norm_label": "getting started"
+    },
+    {
+      "label": "2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "file_type": "document",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L1",
+      "id": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_md",
+      "community": 4,
+      "norm_label": "2026-07-01-logic-lines-meta-pixel-coolify-deploy.md"
+    },
+    {
+      "label": "Session 2026-07-01 \u2014 Meta Pixel + Conversions API + Coolify Deploy",
+      "file_type": "document",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L1",
+      "id": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_session_2026_07_01_meta_pixel_conversions_api_coolify_deploy",
+      "community": 4,
+      "norm_label": "session 2026-07-01 \u2014 meta pixel + conversions api + coolify deploy"
+    },
+    {
+      "label": "Phase 1 \u2014 Pixel & CAPI Implementation",
+      "file_type": "document",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L8",
+      "id": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_phase_1_pixel_capi_implementation",
+      "community": 4,
+      "norm_label": "phase 1 \u2014 pixel & capi implementation"
+    },
+    {
+      "label": "1.1 Audit (found nothing)",
+      "file_type": "document",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L10",
+      "id": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_1_1_audit_found_nothing",
+      "community": 4,
+      "norm_label": "1.1 audit (found nothing)"
+    },
+    {
+      "label": "1.2 Stack decisions",
+      "file_type": "document",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L15",
+      "id": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_1_2_stack_decisions",
+      "community": 4,
+      "norm_label": "1.2 stack decisions"
+    },
+    {
+      "label": "1.3 Files modified (17)",
+      "file_type": "document",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L20",
+      "id": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_1_3_files_modified_17",
+      "community": 4,
+      "norm_label": "1.3 files modified (17)"
+    },
+    {
+      "label": "1.4 Deduplication pattern",
+      "file_type": "document",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L44",
+      "id": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_1_4_deduplication_pattern",
+      "community": 4,
+      "norm_label": "1.4 deduplication pattern"
+    },
+    {
+      "label": "code:js (// Client side)",
+      "file_type": "document",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L46",
+      "id": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_codeblock_1",
+      "community": 4,
+      "norm_label": "code:js (// client side)"
+    },
+    {
+      "label": "1.5 Build verification",
+      "file_type": "document",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L62",
+      "id": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_1_5_build_verification",
+      "community": 4,
+      "norm_label": "1.5 build verification"
+    },
+    {
+      "label": "Phase 2 \u2014 Coolify Deploy (the painful part)",
+      "file_type": "document",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L68",
+      "id": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_phase_2_coolify_deploy_the_painful_part",
+      "community": 4,
+      "norm_label": "phase 2 \u2014 coolify deploy (the painful part)"
+    },
+    {
+      "label": "Problem 1: \"Static site\" was being deployed",
+      "file_type": "document",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L70",
+      "id": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_problem_1_static_site_was_being_deployed",
+      "community": 4,
+      "norm_label": "problem 1: \"static site\" was being deployed"
+    },
+    {
+      "label": "Problem 2: \"Dockerfile not found\"",
+      "file_type": "document",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L75",
+      "id": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_problem_2_dockerfile_not_found",
+      "community": 4,
+      "norm_label": "problem 2: \"dockerfile not found\""
+    },
+    {
+      "label": "Problem 3: pnpm \"Ignored build scripts\" error",
+      "file_type": "document",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L80",
+      "id": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_problem_3_pnpm_ignored_build_scripts_error",
+      "community": 4,
+      "norm_label": "problem 3: pnpm \"ignored build scripts\" error"
+    },
+    {
+      "label": "Problem 4: npm peer dependency conflict",
+      "file_type": "document",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L86",
+      "id": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_problem_4_npm_peer_dependency_conflict",
+      "community": 4,
+      "norm_label": "problem 4: npm peer dependency conflict"
+    },
+    {
+      "label": "Final Dockerfile (working)",
+      "file_type": "document",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L91",
+      "id": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_final_dockerfile_working",
+      "community": 4,
+      "norm_label": "final dockerfile (working)"
+    },
+    {
+      "label": "code:dockerfile (FROM node:22-alpine AS build)",
+      "file_type": "document",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L92",
+      "id": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_codeblock_2",
+      "community": 4,
+      "norm_label": "code:dockerfile (from node:22-alpine as build)"
+    },
+    {
+      "label": "Commits (chronological)",
+      "file_type": "document",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L113",
+      "id": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_commits_chronological",
+      "community": 4,
+      "norm_label": "commits (chronological)"
+    },
+    {
+      "label": "Verification steps (pending)",
+      "file_type": "document",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L122",
+      "id": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_verification_steps_pending",
+      "community": 4,
+      "norm_label": "verification steps (pending)"
+    },
+    {
+      "label": "Open issues",
+      "file_type": "document",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L131",
+      "id": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_open_issues",
+      "community": 4,
+      "norm_label": "open issues"
+    },
+    {
+      "label": "mayor-velocidad.md",
+      "file_type": "document",
+      "source_file": "src/content/benefits/mayor-velocidad.md",
+      "source_location": "L1",
+      "id": "src_content_benefits_mayor_velocidad_md",
+      "community": 23,
+      "norm_label": "mayor-velocidad.md"
+    },
+    {
+      "label": "menos-errores.md",
+      "file_type": "document",
+      "source_file": "src/content/benefits/menos-errores.md",
+      "source_location": "L1",
+      "id": "src_content_benefits_menos_errores_md",
+      "community": 24,
+      "norm_label": "menos-errores.md"
+    },
+    {
+      "label": "reduccion-trabajo.md",
+      "file_type": "document",
+      "source_file": "src/content/benefits/reduccion-trabajo.md",
+      "source_location": "L1",
+      "id": "src_content_benefits_reduccion_trabajo_md",
+      "community": 25,
+      "norm_label": "reduccion-trabajo.md"
+    },
+    {
+      "label": "contratacion.md",
+      "file_type": "document",
+      "source_file": "src/content/faq/contratacion.md",
+      "source_location": "L1",
+      "id": "src_content_faq_contratacion_md",
+      "community": 26,
+      "norm_label": "contratacion.md"
+    },
+    {
+      "label": "implementacion.md",
+      "file_type": "document",
+      "source_file": "src/content/faq/implementacion.md",
+      "source_location": "L1",
+      "id": "src_content_faq_implementacion_md",
+      "community": 27,
+      "norm_label": "implementacion.md"
+    },
+    {
+      "label": "proceso.md",
+      "file_type": "document",
+      "source_file": "src/content/faq/proceso.md",
+      "source_location": "L1",
+      "id": "src_content_faq_proceso_md",
+      "community": 28,
+      "norm_label": "proceso.md"
+    },
+    {
+      "label": "servicios&Tec.md",
+      "file_type": "document",
+      "source_file": "src/content/faq/servicios&Tec.md",
+      "source_location": "L1",
+      "id": "src_content_faq_servicios_tec_md",
+      "community": 29,
+      "norm_label": "servicios&tec.md"
+    },
+    {
+      "label": "ahorro-tiempo.md",
+      "file_type": "document",
+      "source_file": "src/content/reasons/ahorro-tiempo.md",
+      "source_location": "L1",
+      "id": "src_content_reasons_ahorro_tiempo_md",
+      "community": 30,
+      "norm_label": "ahorro-tiempo.md"
+    },
+    {
+      "label": "escalabilidad.md",
+      "file_type": "document",
+      "source_file": "src/content/reasons/escalabilidad.md",
+      "source_location": "L1",
+      "id": "src_content_reasons_escalabilidad_md",
+      "community": 31,
+      "norm_label": "escalabilidad.md"
+    },
+    {
+      "label": "precision-absoluta.md",
+      "file_type": "document",
+      "source_file": "src/content/reasons/precision-absoluta.md",
+      "source_location": "L1",
+      "id": "src_content_reasons_precision_absoluta_md",
+      "community": 32,
+      "norm_label": "precision-absoluta.md"
+    },
+    {
+      "label": "resultados-rapidos.md",
+      "file_type": "document",
+      "source_file": "src/content/reasons/resultados-rapidos.md",
+      "source_location": "L1",
+      "id": "src_content_reasons_resultados_rapidos_md",
+      "community": 33,
+      "norm_label": "resultados-rapidos.md"
+    },
+    {
+      "label": "seguridad-garantizada.md",
+      "file_type": "document",
+      "source_file": "src/content/reasons/seguridad-garantizada.md",
+      "source_location": "L1",
+      "id": "src_content_reasons_seguridad_garantizada_md",
+      "community": 34,
+      "norm_label": "seguridad-garantizada.md"
+    },
+    {
+      "label": "soporte-continuo.md",
+      "file_type": "document",
+      "source_file": "src/content/reasons/soporte-continuo.md",
+      "source_location": "L1",
+      "id": "src_content_reasons_soporte_continuo_md",
+      "community": 35,
+      "norm_label": "soporte-continuo.md"
+    },
+    {
+      "label": "flow-line.md",
+      "file_type": "document",
+      "source_file": "src/content/services/flow-line.md",
+      "source_location": "L1",
+      "id": "src_content_services_flow_line_md",
+      "community": 16,
+      "norm_label": "flow-line.md"
+    },
+    {
+      "label": "CIERRE GENERAL",
+      "file_type": "document",
+      "source_file": "src/content/services/flow-line.md",
+      "source_location": "L108",
+      "id": "services_flow_line_cierre_general",
+      "community": 16,
+      "norm_label": "cierre general"
+    },
+    {
+      "label": "leads.md",
+      "file_type": "document",
+      "source_file": "src/content/services/leads.md",
+      "source_location": "L1",
+      "id": "src_content_services_leads_md",
+      "community": 17,
+      "norm_label": "leads.md"
+    },
+    {
+      "label": "CIERRE GENERAL",
+      "file_type": "document",
+      "source_file": "src/content/services/leads.md",
+      "source_location": "L96",
+      "id": "services_leads_cierre_general",
+      "community": 17,
+      "norm_label": "cierre general"
+    },
+    {
+      "label": "logic-agents.md",
+      "file_type": "document",
+      "source_file": "src/content/services/logic-agents.md",
+      "source_location": "L1",
+      "id": "src_content_services_logic_agents_md",
+      "community": 18,
+      "norm_label": "logic-agents.md"
+    },
+    {
+      "label": "CIERRE GENERAL",
+      "file_type": "document",
+      "source_file": "src/content/services/logic-agents.md",
+      "source_location": "L94",
+      "id": "services_logic_agents_cierre_general",
+      "community": 18,
+      "norm_label": "cierre general"
+    },
+    {
+      "label": "logic-map.md",
+      "file_type": "document",
+      "source_file": "src/content/services/logic-map.md",
+      "source_location": "L1",
+      "id": "src_content_services_logic_map_md",
+      "community": 36,
+      "norm_label": "logic-map.md"
+    },
+    {
+      "label": "logic-support.md",
+      "file_type": "document",
+      "source_file": "src/content/services/logic-support.md",
+      "source_location": "L1",
+      "id": "src_content_services_logic_support_md",
+      "community": 15,
+      "norm_label": "logic-support.md"
+    },
+    {
+      "label": "CIERRE GENERAL",
+      "file_type": "document",
+      "source_file": "src/content/services/logic-support.md",
+      "source_location": "L90",
+      "id": "services_logic_support_cierre_general",
+      "community": 15,
+      "norm_label": "cierre general"
+    },
+    {
+      "label": "smarthost.md",
+      "file_type": "document",
+      "source_file": "src/content/services/smarthost.md",
+      "source_location": "L1",
+      "id": "src_content_services_smarthost_md",
+      "community": 37,
+      "norm_label": "smarthost.md"
+    },
+    {
+      "label": "coolify-astro-deploy.md",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L1",
+      "id": "vault_runbooks_coolify_astro_deploy_md",
+      "community": 1,
+      "norm_label": "coolify-astro-deploy.md"
+    },
+    {
+      "label": "Runbook \u2014 Deploy Astro 5.x to Coolify (Hostinger VPS)",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L1",
+      "id": "runbooks_coolify_astro_deploy_runbook_deploy_astro_5_x_to_coolify_hostinger_vps",
+      "community": 1,
+      "norm_label": "runbook \u2014 deploy astro 5.x to coolify (hostinger vps)"
+    },
+    {
+      "label": "Why this runbook exists",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L9",
+      "id": "runbooks_coolify_astro_deploy_why_this_runbook_exists",
+      "community": 1,
+      "norm_label": "why this runbook exists"
+    },
+    {
+      "label": "Step 1 \u2014 Project prerequisites",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L15",
+      "id": "runbooks_coolify_astro_deploy_step_1_project_prerequisites",
+      "community": 1,
+      "norm_label": "step 1 \u2014 project prerequisites"
+    },
+    {
+      "label": "code:bash (# astro.config.mjs)",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L17",
+      "id": "runbooks_coolify_astro_deploy_codeblock_1",
+      "community": 1,
+      "norm_label": "code:bash (# astro.config.mjs)"
+    },
+    {
+      "label": "code:astro (---)",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L30",
+      "id": "runbooks_coolify_astro_deploy_codeblock_2",
+      "community": 1,
+      "norm_label": "code:astro (---)"
+    },
+    {
+      "label": "Step 2 \u2014 Working Dockerfile (copy/paste)",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L38",
+      "id": "runbooks_coolify_astro_deploy_step_2_working_dockerfile_copy_paste",
+      "community": 1,
+      "norm_label": "step 2 \u2014 working dockerfile (copy/paste)"
+    },
+    {
+      "label": "code:dockerfile (FROM node:22-alpine AS build)",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L40",
+      "id": "runbooks_coolify_astro_deploy_codeblock_3",
+      "community": 1,
+      "norm_label": "code:dockerfile (from node:22-alpine as build)"
+    },
+    {
+      "label": "Step 3 \u2014 Coolify configuration",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L67",
+      "id": "runbooks_coolify_astro_deploy_step_3_coolify_configuration",
+      "community": 1,
+      "norm_label": "step 3 \u2014 coolify configuration"
+    },
+    {
+      "label": "Step 4 \u2014 DNS (Hostinger)",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L79",
+      "id": "runbooks_coolify_astro_deploy_step_4_dns_hostinger",
+      "community": 1,
+      "norm_label": "step 4 \u2014 dns (hostinger)"
+    },
+    {
+      "label": "Troubleshooting matrix",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L90",
+      "id": "runbooks_coolify_astro_deploy_troubleshooting_matrix",
+      "community": 1,
+      "norm_label": "troubleshooting matrix"
+    },
+    {
+      "label": "Symptom: \"If you see this page, nginx is successfully installed\"",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L92",
+      "id": "runbooks_coolify_astro_deploy_symptom_if_you_see_this_page_nginx_is_successfully_installed",
+      "community": 1,
+      "norm_label": "symptom: \"if you see this page, nginx is successfully installed\""
+    },
+    {
+      "label": "Symptom: \"open Dockerfile: no such file or directory\"",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L99",
+      "id": "runbooks_coolify_astro_deploy_symptom_open_dockerfile_no_such_file_or_directory",
+      "community": 1,
+      "norm_label": "symptom: \"open dockerfile: no such file or directory\""
+    },
+    {
+      "label": "Symptom: \"ERR_PNPM_IGNORED_BUILDS: esbuild, sharp\"",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L103",
+      "id": "runbooks_coolify_astro_deploy_symptom_err_pnpm_ignored_builds_esbuild_sharp",
+      "community": 1,
+      "norm_label": "symptom: \"err_pnpm_ignored_builds: esbuild, sharp\""
+    },
+    {
+      "label": "code:dockerfile (RUN npm install --legacy-peer-deps)",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L106",
+      "id": "runbooks_coolify_astro_deploy_codeblock_4",
+      "community": 1,
+      "norm_label": "code:dockerfile (run npm install --legacy-peer-deps)"
+    },
+    {
+      "label": "Symptom: \"ERESOLVE unable to resolve dependency tree\"",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L110",
+      "id": "runbooks_coolify_astro_deploy_symptom_eresolve_unable_to_resolve_dependency_tree",
+      "community": 1,
+      "norm_label": "symptom: \"eresolve unable to resolve dependency tree\""
+    },
+    {
+      "label": "Symptom: \"Build successful but page shows 502 Bad Gateway\"",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L114",
+      "id": "runbooks_coolify_astro_deploy_symptom_build_successful_but_page_shows_502_bad_gateway",
+      "community": 1,
+      "norm_label": "symptom: \"build successful but page shows 502 bad gateway\""
+    },
+    {
+      "label": "Symptom: \"Image not found ... Building new image\" loop",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L121",
+      "id": "runbooks_coolify_astro_deploy_symptom_image_not_found_building_new_image_loop",
+      "community": 1,
+      "norm_label": "symptom: \"image not found ... building new image\" loop"
+    },
+    {
+      "label": "Symptom: Deploy takes 5+ minutes",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L124",
+      "id": "runbooks_coolify_astro_deploy_symptom_deploy_takes_5_minutes",
+      "community": 1,
+      "norm_label": "symptom: deploy takes 5+ minutes"
+    },
+    {
+      "label": "Quick local test before pushing",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L129",
+      "id": "runbooks_coolify_astro_deploy_quick_local_test_before_pushing",
+      "community": 1,
+      "norm_label": "quick local test before pushing"
+    },
+    {
+      "label": "code:bash (# Build the image locally to catch errors before Coolify)",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L131",
+      "id": "runbooks_coolify_astro_deploy_codeblock_5",
+      "community": 1,
+      "norm_label": "code:bash (# build the image locally to catch errors before coolify)"
+    },
+    {
+      "label": "Environment variables \u2014 where to put them",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L143",
+      "id": "runbooks_coolify_astro_deploy_environment_variables_where_to_put_them",
+      "community": 1,
+      "norm_label": "environment variables \u2014 where to put them"
+    },
+    {
+      "label": "Architecture summary",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L154",
+      "id": "runbooks_coolify_astro_deploy_architecture_summary",
+      "community": 1,
+      "norm_label": "architecture summary"
+    },
+    {
+      "label": "code:block6 (Internet (HTTPS))",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L156",
+      "id": "runbooks_coolify_astro_deploy_codeblock_6",
+      "community": 1,
+      "norm_label": "code:block6 (internet (https))"
+    },
+    {
+      "label": "Related runbooks",
+      "file_type": "document",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L170",
+      "id": "runbooks_coolify_astro_deploy_related_runbooks",
+      "community": 1,
+      "norm_label": "related runbooks"
+    },
+    {
+      "label": "newHeader",
+      "file_type": "code",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L146",
+      "community": 39,
+      "norm_label": "newheader",
+      "id": "components_faq_newheader"
+    },
+    {
+      "label": "item",
+      "file_type": "code",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L154",
+      "community": 39,
+      "norm_label": "item",
+      "id": "components_faq_item"
+    },
+    {
+      "label": "content",
+      "file_type": "code",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L155",
+      "community": 39,
+      "norm_label": "content",
+      "id": "components_faq_content"
+    },
+    {
+      "label": "categoryContent",
+      "file_type": "code",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L162",
+      "community": 39,
+      "norm_label": "categorycontent",
+      "id": "components_faq_categorycontent"
+    },
+    {
+      "label": "hContent",
+      "file_type": "code",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L169",
+      "community": 39,
+      "norm_label": "hcontent",
+      "id": "components_faq_hcontent"
+    },
+    {
+      "label": "article",
+      "file_type": "code",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L215",
+      "community": 39,
+      "norm_label": "article",
+      "id": "components_faq_article"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "package_json",
+      "target": "logic_and_lines_package_name"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "package_json",
+      "target": "logic_and_lines_package_type"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "package_json",
+      "target": "logic_and_lines_package_version"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "package_json",
+      "target": "logic_and_lines_package_scripts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "package_json",
+      "target": "logic_and_lines_package_dependencies"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "package_json",
+      "target": "logic_and_lines_package_devdependencies"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "logic_and_lines_package_scripts",
+      "target": "logic_and_lines_package_scripts_dev"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "logic_and_lines_package_scripts",
+      "target": "logic_and_lines_package_scripts_build"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "logic_and_lines_package_scripts",
+      "target": "logic_and_lines_package_scripts_preview"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "logic_and_lines_package_scripts",
+      "target": "logic_and_lines_package_scripts_astro"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "logic_and_lines_package_dependencies",
+      "target": "logic_and_lines_package_dependencies_astrojs_node"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "logic_and_lines_package_dependencies",
+      "target": "logic_and_lines_package_dependencies_astrojs_sitemap"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "logic_and_lines_package_dependencies",
+      "target": "logic_and_lines_package_dependencies_tailwindcss_vite"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "logic_and_lines_package_dependencies",
+      "target": "logic_and_lines_package_dependencies_astro"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "logic_and_lines_package_dependencies",
+      "target": "logic_and_lines_package_dependencies_astro_icon"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "logic_and_lines_package_dependencies",
+      "target": "logic_and_lines_package_dependencies_tailwindcss"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "logic_and_lines_package_devdependencies",
+      "target": "logic_and_lines_package_devdependencies_tailwindcss_typography"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "logic_and_lines_package_devdependencies",
+      "target": "logic_and_lines_package_devdependencies_daisyui"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tsconfig_json",
+      "target": "logic_and_lines_tsconfig_extends"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tsconfig_json",
+      "target": "logic_and_lines_tsconfig_include"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tsconfig_json",
+      "target": "logic_and_lines_tsconfig_exclude"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".vscode/extensions.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "vscode_extensions_json",
+      "target": "vscode_extensions_recommendations"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".vscode/extensions.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "vscode_extensions_json",
+      "target": "vscode_extensions_unwantedrecommendations"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".vscode/launch.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "vscode_launch_json",
+      "target": "vscode_launch_version"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".vscode/launch.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "vscode_launch_json",
+      "target": "vscode_launch_configurations"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/hero-init.js",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_hero_init_js",
+      "target": "public_hero_init_refreshrefs"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/hero-init.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_hero_init_js",
+      "target": "public_hero_init_handlemove"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/hero-init.js",
+      "source_location": "L27",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_hero_init_js",
+      "target": "public_hero_init_binddraghandle"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/hero-init.js",
+      "source_location": "L47",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_hero_init_js",
+      "target": "public_hero_init_setupfadeout"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/hero-init.js",
+      "source_location": "L59",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_hero_init_js",
+      "target": "public_hero_init_attachgloballistenersonce"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/hero-init.js",
+      "source_location": "L98",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_hero_init_js",
+      "target": "public_hero_init_inithero"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "public/hero-init.js",
+      "source_location": "L99",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_hero_init_inithero",
+      "target": "public_hero_init_refreshrefs"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "public/hero-init.js",
+      "source_location": "L103",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_hero_init_inithero",
+      "target": "public_hero_init_binddraghandle"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "public/hero-init.js",
+      "source_location": "L104",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_hero_init_inithero",
+      "target": "public_hero_init_setupfadeout"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/scroll-animate.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_scroll_animate_js",
+      "target": "public_scroll_animate_initanimations"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/About.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_about_astro",
+      "target": "src_components_successcard_astro"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/About.astro",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_about_astro",
+      "target": "components_about_t"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/About.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_about_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_utils"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/BenefitsList.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_benefitslist_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_utils"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/BookButton.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_bookbutton_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_utils"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Booking.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_booking_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_utils"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FAQ.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_faq_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_utils"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Footer.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_footer_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_utils"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Header.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_header_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_utils"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Hero.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_hero_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_utils"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/LanguageSwitcher.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_languageswitcher_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_utils"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Opinion.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_opinion_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_utils"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PriceList.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_pricelist_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_utils"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Proceso.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_proceso_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_utils"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ReasonsList.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_reasonslist_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_utils"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ServicesList.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_serviceslist_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_utils"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Stats.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_stats_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_utils"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro",
+      "confidence_score": 1.0,
+      "source": "src_layouts_layout_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_utils"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/404.astro",
+      "confidence_score": 1.0,
+      "source": "src_pages_404_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_utils"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/contact.astro",
+      "confidence_score": 1.0,
+      "source": "src_pages_contact_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_utils"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/404.astro",
+      "confidence_score": 1.0,
+      "source": "src_pages_en_404_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_utils"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/contact.astro",
+      "source": "src_pages_en_contact_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_utils",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/BenefitsList.astro",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_benefitslist_astro",
+      "target": "src_components_successcard_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/BenefitsList.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_benefitslist_astro",
+      "target": "src_i18n_utils_js"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/BenefitsList.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_benefitslist_astro",
+      "target": "i18n_utils_usetranslations"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/BenefitsList.astro",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_benefitslist_astro",
+      "target": "src_components_bookbutton_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/BenefitsList.astro",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_benefitslist_astro",
+      "target": "src_components_test_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/BenefitsList.astro",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_benefitslist_astro",
+      "target": "src_components_speedgauge_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/BenefitsList.astro",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_benefitslist_astro",
+      "target": "src_components_errorvalidation_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/BenefitsList.astro",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_benefitslist_astro",
+      "target": "src_components_manualreduction_astro"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/BenefitsList.astro",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_benefitslist_astro",
+      "target": "components_benefitslist_t"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/BenefitsList.astro",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_benefitslist_astro",
+      "target": "components_benefitslist_benefits"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/BenefitsList.astro",
+      "source_location": "L57",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_benefitslist_astro",
+      "target": "components_benefitslist_ismanualcard"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/BenefitsList.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_benefitslist_astro",
+      "target": "astro_content"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_index_astro",
+      "target": "src_components_benefitslist_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/index.astro",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_index_astro",
+      "target": "src_components_benefitslist_astro"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FAQ.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_faq_astro",
+      "target": "astro_content"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ReasonsList.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_reasonslist_astro",
+      "target": "astro_content"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ServicesList.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_serviceslist_astro",
+      "target": "astro_content"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/config.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_content_config_ts",
+      "target": "astro_content"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/service/[id].astro",
+      "confidence_score": 1.0,
+      "source": "src_pages_en_service_id_astro",
+      "target": "astro_content"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/service/[id].astro",
+      "confidence_score": 1.0,
+      "source": "src_pages_service_id_astro",
+      "target": "astro_content"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/BookButton.astro",
+      "source_location": "L94",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_bookbutton_astro",
+      "target": "components_bookbutton_t"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Hero.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_hero_astro",
+      "target": "src_components_bookbutton_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Proceso.astro",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_proceso_astro",
+      "target": "src_components_bookbutton_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ServicesList.astro",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_serviceslist_astro",
+      "target": "src_components_bookbutton_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_index_astro",
+      "target": "src_components_bookbutton_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/index.astro",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_index_astro",
+      "target": "src_components_bookbutton_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/service/[id].astro",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_service_id_astro",
+      "target": "src_components_bookbutton_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/service/[id].astro",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_service_id_astro",
+      "target": "src_components_bookbutton_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Booking.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_booking_astro",
+      "target": "components"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Booking.astro",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_booking_astro",
+      "target": "components_booking_t"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_index_astro",
+      "target": "src_components_booking_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/index.astro",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_index_astro",
+      "target": "src_components_booking_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Footer.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_footer_astro",
+      "target": "components"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/SocialScroll.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_socialscroll_astro",
+      "target": "components"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/contact.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_contact_astro",
+      "target": "components"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/contact.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_contact_astro",
+      "target": "components"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/service/[id].astro",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_service_id_astro",
+      "target": "components"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/service/[id].astro",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_service_id_astro",
+      "target": "components"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_faq_astro",
+      "target": "src_i18n_utils_js"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_faq_astro",
+      "target": "i18n_utils_usetranslations"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_faq_astro",
+      "target": "components_faq_t"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_faq_astro",
+      "target": "components_faq_faqcategories"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_faq_astro",
+      "target": "components_faq_faqschema"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L144",
+      "weight": 1.0,
+      "source": "src_components_faq_astro",
+      "target": "components_faq_setupinneraccordions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L205",
+      "weight": 1.0,
+      "source": "src_components_faq_astro",
+      "target": "components_faq_setupcategoryaccordions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L253",
+      "weight": 1.0,
+      "source": "src_components_faq_astro",
+      "target": "components_faq_updateparentheight",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_index_astro",
+      "target": "src_components_faq_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/index.astro",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_index_astro",
+      "target": "src_components_faq_astro"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L208",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_faq_astro",
+      "target": "components_faq_newheader"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L154",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_faq_astro",
+      "target": "components_faq_item"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L216",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_faq_astro",
+      "target": "components_faq_content"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L162",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_faq_astro",
+      "target": "components_faq_categorycontent"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L169",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_faq_astro",
+      "target": "components_faq_hcontent"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FAQ.astro",
+      "source_location": "L215",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_faq_astro",
+      "target": "components_faq_article"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Footer.astro",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_footer_astro",
+      "target": "components_footer_t"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_layouts_layout_astro",
+      "target": "src_components_footer_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/thankyou.astro",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_thankyou_astro",
+      "target": "src_components_footer_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/landing-lead.astro",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_landing_lead_astro",
+      "target": "src_components_footer_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Header.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_header_astro",
+      "target": "src_components_languageswitcher_astro"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Header.astro",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_header_astro",
+      "target": "components_header_t"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_layouts_layout_astro",
+      "target": "src_components_header_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/LanguageSwitcher.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_languageswitcher_astro",
+      "target": "src_i18n_utils_js"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/LanguageSwitcher.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_languageswitcher_astro",
+      "target": "i18n_utils_getalternateurls"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/LanguageSwitcher.astro",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_languageswitcher_astro",
+      "target": "components_languageswitcher_currentlang"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/LanguageSwitcher.astro",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_languageswitcher_astro",
+      "target": "components_languageswitcher_alternateurls"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/LanguageSwitcher.astro",
+      "confidence_score": 1.0,
+      "source": "src_components_languageswitcher_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_config"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Hero.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_hero_astro",
+      "target": "src_i18n_utils_js"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Hero.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_hero_astro",
+      "target": "i18n_utils_usetranslations"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Hero.astro",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_hero_astro",
+      "target": "components_hero_t"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Hero.astro",
+      "source_location": "L308",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_hero_astro",
+      "target": "components_hero_updateposition"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.astro",
+      "confidence_score": 1.0,
+      "source": "src_pages_index_astro",
+      "target": "src_components_hero_astro"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/index.astro",
+      "confidence_score": 1.0,
+      "source": "src_pages_en_index_astro",
+      "target": "src_components_hero_astro"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro",
+      "source": "src_layouts_layout_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_i18n_config",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_layouts_layout_astro",
+      "target": "src_components_metapixel_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/thankyou.astro",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_thankyou_astro",
+      "target": "src_components_metapixel_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/landing-lead.astro",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_landing_lead_astro",
+      "target": "src_components_metapixel_astro"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Opinion.astro",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_opinion_astro",
+      "target": "components_opinion_t"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_index_astro",
+      "target": "src_components_opinion_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/index.astro",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_index_astro",
+      "target": "src_components_opinion_astro"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PriceList.astro",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_pricelist_astro",
+      "target": "components_pricelist_t"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Proceso.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_proceso_astro",
+      "target": "src_i18n_utils_js"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Proceso.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_proceso_astro",
+      "target": "i18n_utils_usetranslations"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Proceso.astro",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_proceso_astro",
+      "target": "components_proceso_t"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Proceso.astro",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_proceso_astro",
+      "target": "components_proceso_stepsicons"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_index_astro",
+      "target": "src_components_proceso_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/index.astro",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_index_astro",
+      "target": "src_components_proceso_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ReasonsList.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_reasonslist_astro",
+      "target": "src_i18n_utils_js"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ReasonsList.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_reasonslist_astro",
+      "target": "i18n_utils_usetranslations"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ReasonsList.astro",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_reasonslist_astro",
+      "target": "components_reasonslist_t"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ReasonsList.astro",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_reasonslist_astro",
+      "target": "components_reasonslist_reasons"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ReasonsList.astro",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_reasonslist_astro",
+      "target": "components_reasonslist_key_number_string"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_index_astro",
+      "target": "src_components_reasonslist_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/index.astro",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_index_astro",
+      "target": "src_components_reasonslist_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ServicesList.astro",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_serviceslist_astro",
+      "target": "src_components_servicecard_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ServicesList.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_serviceslist_astro",
+      "target": "src_i18n_utils_js"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ServicesList.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_serviceslist_astro",
+      "target": "i18n_utils_usetranslations"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ServicesList.astro",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_serviceslist_astro",
+      "target": "components_serviceslist_t"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ServicesList.astro",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_serviceslist_astro",
+      "target": "components_serviceslist_services"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_index_astro",
+      "target": "src_components_serviceslist_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/index.astro",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_index_astro",
+      "target": "src_components_serviceslist_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/SocialScroll.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_socialscroll_astro",
+      "target": "astro_assets"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/SocialScroll.astro",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_socialscroll_astro",
+      "target": "components_socialscroll_cards"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Stats.astro",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_stats_astro",
+      "target": "src_i18n_utils_js"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Stats.astro",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_stats_astro",
+      "target": "i18n_utils_usetranslations"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Stats.astro",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_stats_astro",
+      "target": "components_stats_t"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_index_astro",
+      "target": "src_components_stats_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/index.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_index_astro",
+      "target": "src_components_stats_astro"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/StructuredData.astro",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_structureddata_astro",
+      "target": "components_structureddata_businessdata"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_layouts_layout_astro",
+      "target": "src_components_structureddata_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_layouts_layout_astro",
+      "target": "src_components_layout_googletagmanager_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/thankyou.astro",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_thankyou_astro",
+      "target": "src_components_layout_googletagmanager_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/landing-lead.astro",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_landing_lead_astro",
+      "target": "src_components_layout_googletagmanager_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_layouts_layout_astro",
+      "target": "src_components_layout_googletagmanagerbody_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/thankyou.astro",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_thankyou_astro",
+      "target": "src_components_layout_googletagmanagerbody_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/landing-lead.astro",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_landing_lead_astro",
+      "target": "src_components_layout_googletagmanagerbody_astro"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/config.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_content_config_ts",
+      "target": "content_config_services"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/config.ts",
+      "source_location": "L88",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_content_config_ts",
+      "target": "content_config_reasons"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/config.ts",
+      "source_location": "L100",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_content_config_ts",
+      "target": "content_config_benefits"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/config.ts",
+      "source_location": "L120",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_content_config_ts",
+      "target": "content_config_faq"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/config.ts",
+      "source_location": "L136",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_content_config_ts",
+      "target": "content_config_collections"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/i18n/config.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_i18n_config_js",
+      "target": "i18n_config_languages"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/i18n/config.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_i18n_config_js",
+      "target": "i18n_config_nonlocalizedpaths"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/i18n/utils.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_i18n_utils_js",
+      "target": "src_i18n_config_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "src_layouts_layout_astro",
+      "target": "src_i18n_config_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/i18n/utils.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_i18n_utils_js",
+      "target": "i18n_config_languages"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/i18n/utils.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_i18n_utils_js",
+      "target": "src_i18n_translations_en_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/i18n/utils.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_i18n_utils_js",
+      "target": "src_i18n_translations_es_js"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/i18n/utils.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_i18n_utils_js",
+      "target": "i18n_utils_translations"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/i18n/utils.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_i18n_utils_js",
+      "target": "i18n_utils_getlanguagefromurl"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/i18n/utils.js",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_i18n_utils_js",
+      "target": "i18n_utils_usetranslations"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/i18n/utils.js",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_i18n_utils_js",
+      "target": "i18n_utils_getlocalizedurl"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/i18n/utils.js",
+      "source_location": "L38",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_i18n_utils_js",
+      "target": "i18n_utils_getalternateurls"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_layouts_layout_astro",
+      "target": "src_i18n_utils_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/404.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_404_astro",
+      "target": "src_i18n_utils_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/contact.astro",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_contact_astro",
+      "target": "src_i18n_utils_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/404.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_404_astro",
+      "target": "src_i18n_utils_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/contact.astro",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "src_pages_en_contact_astro",
+      "target": "src_i18n_utils_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_layouts_layout_astro",
+      "target": "i18n_utils_getlanguagefromurl"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_layouts_layout_astro",
+      "target": "i18n_utils_usetranslations"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/404.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_404_astro",
+      "target": "i18n_utils_usetranslations"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/contact.astro",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_contact_astro",
+      "target": "i18n_utils_usetranslations"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/404.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_404_astro",
+      "target": "i18n_utils_usetranslations"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/contact.astro",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "src_pages_en_contact_astro",
+      "target": "i18n_utils_usetranslations",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "src_layouts_layout_astro",
+      "target": "i18n_utils_getalternateurls",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_layouts_layout_astro",
+      "target": "astro_transitions"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L21",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_layouts_layout_astro",
+      "target": "layouts_layout_currentlang"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_layouts_layout_astro",
+      "target": "layouts_layout_t"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "src_layouts_layout_astro",
+      "target": "layouts_layout_alternateurls",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro",
+      "source_location": "L39",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_layouts_layout_astro",
+      "target": "layouts_layout_canonicalurl"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/layouts/Layout.astro",
+      "confidence_score": 1.0,
+      "source": "src_layouts_layout_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_styles_global_css"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/404.astro",
+      "confidence_score": 1.0,
+      "source": "src_pages_404_astro",
+      "target": "src_layouts_layout_astro"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/contact.astro",
+      "confidence_score": 1.0,
+      "source": "src_pages_contact_astro",
+      "target": "src_layouts_layout_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_index_astro",
+      "target": "src_layouts_layout_astro"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/politica-de-privacidad.astro",
+      "confidence_score": 1.0,
+      "source": "src_pages_politica_de_privacidad_astro",
+      "target": "src_layouts_layout_astro"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/404.astro",
+      "confidence_score": 1.0,
+      "source": "src_pages_en_404_astro",
+      "target": "src_layouts_layout_astro"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/contact.astro",
+      "confidence_score": 1.0,
+      "source": "src_pages_en_contact_astro",
+      "target": "src_layouts_layout_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/index.astro",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_index_astro",
+      "target": "src_layouts_layout_astro"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/privacy-policy.astro",
+      "confidence_score": 1.0,
+      "source": "src_pages_en_privacy_policy_astro",
+      "target": "src_layouts_layout_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/service/[id].astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_service_id_astro",
+      "target": "src_layouts_layout_astro"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/service/[id].astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_service_id_astro",
+      "target": "src_layouts_layout_astro"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/thankyou.astro",
+      "confidence_score": 1.0,
+      "source": "src_pages_thankyou_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_styles_global_css"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/landing-lead.astro",
+      "confidence_score": 1.0,
+      "source": "src_pages_en_landing_lead_astro",
+      "target": "c_users_usuario_desktop_logic_and_lines_logic_and_lines_src_styles_global_css"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/thankyou.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_thankyou_astro",
+      "target": "astro_transitions"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/landing-lead.astro",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_landing_lead_astro",
+      "target": "astro_transitions"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/404.astro",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_404_astro",
+      "target": "pages_404_t"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/contact.astro",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_contact_astro",
+      "target": "pages_contact_t"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/contact.astro",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "src_pages_contact_astro",
+      "target": "pages_contact_contactschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/contact.astro",
+      "source_location": "L167",
+      "weight": 1.0,
+      "source": "src_pages_contact_astro",
+      "target": "pages_contact_email",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "src_pages_index_astro",
+      "target": "pages_index_websiteschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "src_pages_index_astro",
+      "target": "pages_index_organizationschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/politica-de-privacidad.astro",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_politica_de_privacidad_astro",
+      "target": "pages_politica_de_privacidad_currentdate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_api_track_ts",
+      "target": "api_track_sha256"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_api_track_ts",
+      "target": "api_track_hashfield"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_api_track_ts",
+      "target": "api_track_hashable_fields"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_api_track_ts",
+      "target": "api_track_passthrough_fields"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L29",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_api_track_ts",
+      "target": "api_track_ratelimitmap"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L34",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_api_track_ts",
+      "target": "api_track_isratelimited"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L47",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_api_track_ts",
+      "target": "api_track_cleanupexpiredratelimitentries"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L54",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_api_track_ts",
+      "target": "api_track_allowed_events"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L66",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_api_track_ts",
+      "target": "api_track_post"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_track_hashfield",
+      "target": "api_track_sha256"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L123",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_track_post",
+      "target": "api_track_hashfield"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L73",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_track_post",
+      "target": "api_track_isratelimited"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/api/track.ts",
+      "source_location": "L71",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_track_post",
+      "target": "api_track_cleanupexpiredratelimitentries"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/404.astro",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_404_astro",
+      "target": "en_404_t"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/contact.astro",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "src_pages_en_contact_astro",
+      "target": "en_contact_t",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/contact.astro",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "src_pages_en_contact_astro",
+      "target": "en_contact_contactschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/contact.astro",
+      "source_location": "L167",
+      "weight": 1.0,
+      "source": "src_pages_en_contact_astro",
+      "target": "en_contact_email",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/index.astro",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "src_pages_en_index_astro",
+      "target": "en_index_websiteschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/index.astro",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "src_pages_en_index_astro",
+      "target": "en_index_organizationschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/privacy-policy.astro",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_privacy_policy_astro",
+      "target": "en_privacy_policy_currentdate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/service/[id].astro",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_service_id_astro",
+      "target": "service_id_getstaticpaths"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/service/[id].astro",
+      "source_location": "L26",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_en_service_id_astro",
+      "target": "service_id_hero"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/en/service/[id].astro",
+      "source_location": "L93",
+      "weight": 1.0,
+      "source": "src_pages_en_service_id_astro",
+      "target": "service_id_serviceschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/service/[id].astro",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_service_id_astro",
+      "target": "service_id_getstaticpaths"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/service/[id].astro",
+      "source_location": "L43",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_service_id_astro",
+      "target": "service_id_serviceschema"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "handoff_md",
+      "target": "logic_and_lines_handoff_handoff_logic_lines_web",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "logic_and_lines_handoff_handoff_logic_lines_web",
+      "target": "logic_and_lines_handoff_1_resumen_de_la_sesion",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "logic_and_lines_handoff_handoff_logic_lines_web",
+      "target": "logic_and_lines_handoff_2_stack",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "logic_and_lines_handoff_handoff_logic_lines_web",
+      "target": "logic_and_lines_handoff_3_hecho_en_esta_sesion_bloque_1_ajustes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L64",
+      "weight": 1.0,
+      "source": "logic_and_lines_handoff_handoff_logic_lines_web",
+      "target": "logic_and_lines_handoff_4_decision_importante",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L74",
+      "weight": 1.0,
+      "source": "logic_and_lines_handoff_handoff_logic_lines_web",
+      "target": "logic_and_lines_handoff_5_lo_que_queda_por_hacer_proxima_sesion",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L100",
+      "weight": 1.0,
+      "source": "logic_and_lines_handoff_handoff_logic_lines_web",
+      "target": "logic_and_lines_handoff_6_notas_advertencias",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L108",
+      "weight": 1.0,
+      "source": "logic_and_lines_handoff_handoff_logic_lines_web",
+      "target": "logic_and_lines_handoff_7_archivos_clave_tocados_en_esta_sesion",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L129",
+      "weight": 1.0,
+      "source": "logic_and_lines_handoff_handoff_logic_lines_web",
+      "target": "logic_and_lines_handoff_8_proximo_paso_sugerido",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "logic_and_lines_handoff_3_hecho_en_esta_sesion_bloque_1_ajustes",
+      "target": "logic_and_lines_handoff_graphify",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "logic_and_lines_handoff_3_hecho_en_esta_sesion_bloque_1_ajustes",
+      "target": "logic_and_lines_handoff_faq_en_navbar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L36",
+      "weight": 1.0,
+      "source": "logic_and_lines_handoff_3_hecho_en_esta_sesion_bloque_1_ajustes",
+      "target": "logic_and_lines_handoff_unificacion_estetica_de_ctas_de_agendar_llamada",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "logic_and_lines_handoff_3_hecho_en_esta_sesion_bloque_1_ajustes",
+      "target": "logic_and_lines_handoff_hero",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L47",
+      "weight": 1.0,
+      "source": "logic_and_lines_handoff_3_hecho_en_esta_sesion_bloque_1_ajustes",
+      "target": "logic_and_lines_handoff_evento_generated_lead",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L51",
+      "weight": 1.0,
+      "source": "logic_and_lines_handoff_3_hecho_en_esta_sesion_bloque_1_ajustes",
+      "target": "logic_and_lines_handoff_correccion_de_baseurl_invertido_en_bookbutton_astro",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L55",
+      "weight": 1.0,
+      "source": "logic_and_lines_handoff_3_hecho_en_esta_sesion_bloque_1_ajustes",
+      "target": "logic_and_lines_handoff_limpieza",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L59",
+      "weight": 1.0,
+      "source": "logic_and_lines_handoff_3_hecho_en_esta_sesion_bloque_1_ajustes",
+      "target": "logic_and_lines_handoff_header_cta_desktop",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L76",
+      "weight": 1.0,
+      "source": "logic_and_lines_handoff_5_lo_que_queda_por_hacer_proxima_sesion",
+      "target": "logic_and_lines_handoff_bloque_3_email_cta_fix",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L82",
+      "weight": 1.0,
+      "source": "logic_and_lines_handoff_5_lo_que_queda_por_hacer_proxima_sesion",
+      "target": "logic_and_lines_handoff_bloque_4_seo_tecnico",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L88",
+      "weight": 1.0,
+      "source": "logic_and_lines_handoff_5_lo_que_queda_por_hacer_proxima_sesion",
+      "target": "logic_and_lines_handoff_bloque_5_cmp_banner_cookies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L95",
+      "weight": 1.0,
+      "source": "logic_and_lines_handoff_5_lo_que_queda_por_hacer_proxima_sesion",
+      "target": "logic_and_lines_handoff_general",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "HANDOFF.md",
+      "source_location": "L110",
+      "weight": 1.0,
+      "source": "logic_and_lines_handoff_7_archivos_clave_tocados_en_esta_sesion",
+      "target": "logic_and_lines_handoff_codeblock_1",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "readme_md",
+      "target": "logic_and_lines_readme_malaithai_massage_lanzarote_website"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "logic_and_lines_readme_malaithai_massage_lanzarote_website",
+      "target": "logic_and_lines_readme_overview"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "logic_and_lines_readme_malaithai_massage_lanzarote_website",
+      "target": "logic_and_lines_readme_challenges"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L19",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "logic_and_lines_readme_malaithai_massage_lanzarote_website",
+      "target": "logic_and_lines_readme_features"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L26",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "logic_and_lines_readme_malaithai_massage_lanzarote_website",
+      "target": "logic_and_lines_readme_live_demo"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "logic_and_lines_readme_malaithai_massage_lanzarote_website",
+      "target": "logic_and_lines_readme_getting_started"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_md",
+      "target": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_session_2026_07_01_meta_pixel_conversions_api_coolify_deploy"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_session_2026_07_01_meta_pixel_conversions_api_coolify_deploy",
+      "target": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_phase_1_pixel_capi_implementation"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L68",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_session_2026_07_01_meta_pixel_conversions_api_coolify_deploy",
+      "target": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_phase_2_coolify_deploy_the_painful_part"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L113",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_session_2026_07_01_meta_pixel_conversions_api_coolify_deploy",
+      "target": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_commits_chronological"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L122",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_session_2026_07_01_meta_pixel_conversions_api_coolify_deploy",
+      "target": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_verification_steps_pending"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L131",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_session_2026_07_01_meta_pixel_conversions_api_coolify_deploy",
+      "target": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_open_issues"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_phase_1_pixel_capi_implementation",
+      "target": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_1_1_audit_found_nothing"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_phase_1_pixel_capi_implementation",
+      "target": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_1_2_stack_decisions"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_phase_1_pixel_capi_implementation",
+      "target": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_1_3_files_modified_17"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L44",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_phase_1_pixel_capi_implementation",
+      "target": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_1_4_deduplication_pattern"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L62",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_phase_1_pixel_capi_implementation",
+      "target": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_1_5_build_verification"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L46",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_1_4_deduplication_pattern",
+      "target": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_codeblock_1"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L70",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_phase_2_coolify_deploy_the_painful_part",
+      "target": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_problem_1_static_site_was_being_deployed"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L75",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_phase_2_coolify_deploy_the_painful_part",
+      "target": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_problem_2_dockerfile_not_found"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L80",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_phase_2_coolify_deploy_the_painful_part",
+      "target": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_problem_3_pnpm_ignored_build_scripts_error"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L86",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_phase_2_coolify_deploy_the_painful_part",
+      "target": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_problem_4_npm_peer_dependency_conflict"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L91",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_phase_2_coolify_deploy_the_painful_part",
+      "target": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_final_dockerfile_working"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sessions/2026-07-01-logic-lines-meta-pixel-coolify-deploy.md",
+      "source_location": "L92",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_final_dockerfile_working",
+      "target": "sessions_2026_07_01_logic_lines_meta_pixel_coolify_deploy_codeblock_2"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/services/flow-line.md",
+      "source_location": "L108",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_content_services_flow_line_md",
+      "target": "services_flow_line_cierre_general"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/services/leads.md",
+      "source_location": "L96",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_content_services_leads_md",
+      "target": "services_leads_cierre_general"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/services/logic-agents.md",
+      "source_location": "L94",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_content_services_logic_agents_md",
+      "target": "services_logic_agents_cierre_general"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/content/services/logic-support.md",
+      "source_location": "L90",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_content_services_logic_support_md",
+      "target": "services_logic_support_cierre_general"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "vault_runbooks_coolify_astro_deploy_md",
+      "target": "runbooks_coolify_astro_deploy_runbook_deploy_astro_5_x_to_coolify_hostinger_vps"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_runbook_deploy_astro_5_x_to_coolify_hostinger_vps",
+      "target": "runbooks_coolify_astro_deploy_why_this_runbook_exists"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_runbook_deploy_astro_5_x_to_coolify_hostinger_vps",
+      "target": "runbooks_coolify_astro_deploy_step_1_project_prerequisites"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L38",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_runbook_deploy_astro_5_x_to_coolify_hostinger_vps",
+      "target": "runbooks_coolify_astro_deploy_step_2_working_dockerfile_copy_paste"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L67",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_runbook_deploy_astro_5_x_to_coolify_hostinger_vps",
+      "target": "runbooks_coolify_astro_deploy_step_3_coolify_configuration"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L79",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_runbook_deploy_astro_5_x_to_coolify_hostinger_vps",
+      "target": "runbooks_coolify_astro_deploy_step_4_dns_hostinger"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L90",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_runbook_deploy_astro_5_x_to_coolify_hostinger_vps",
+      "target": "runbooks_coolify_astro_deploy_troubleshooting_matrix"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L129",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_runbook_deploy_astro_5_x_to_coolify_hostinger_vps",
+      "target": "runbooks_coolify_astro_deploy_quick_local_test_before_pushing"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L143",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_runbook_deploy_astro_5_x_to_coolify_hostinger_vps",
+      "target": "runbooks_coolify_astro_deploy_environment_variables_where_to_put_them"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L154",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_runbook_deploy_astro_5_x_to_coolify_hostinger_vps",
+      "target": "runbooks_coolify_astro_deploy_architecture_summary"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L170",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_runbook_deploy_astro_5_x_to_coolify_hostinger_vps",
+      "target": "runbooks_coolify_astro_deploy_related_runbooks"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_step_1_project_prerequisites",
+      "target": "runbooks_coolify_astro_deploy_codeblock_1"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L30",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_step_1_project_prerequisites",
+      "target": "runbooks_coolify_astro_deploy_codeblock_2"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L40",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_step_2_working_dockerfile_copy_paste",
+      "target": "runbooks_coolify_astro_deploy_codeblock_3"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L92",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_troubleshooting_matrix",
+      "target": "runbooks_coolify_astro_deploy_symptom_if_you_see_this_page_nginx_is_successfully_installed"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L99",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_troubleshooting_matrix",
+      "target": "runbooks_coolify_astro_deploy_symptom_open_dockerfile_no_such_file_or_directory"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L103",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_troubleshooting_matrix",
+      "target": "runbooks_coolify_astro_deploy_symptom_err_pnpm_ignored_builds_esbuild_sharp"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L110",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_troubleshooting_matrix",
+      "target": "runbooks_coolify_astro_deploy_symptom_eresolve_unable_to_resolve_dependency_tree"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L114",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_troubleshooting_matrix",
+      "target": "runbooks_coolify_astro_deploy_symptom_build_successful_but_page_shows_502_bad_gateway"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L121",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_troubleshooting_matrix",
+      "target": "runbooks_coolify_astro_deploy_symptom_image_not_found_building_new_image_loop"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L124",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_troubleshooting_matrix",
+      "target": "runbooks_coolify_astro_deploy_symptom_deploy_takes_5_minutes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L106",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_symptom_err_pnpm_ignored_builds_esbuild_sharp",
+      "target": "runbooks_coolify_astro_deploy_codeblock_4"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L131",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_quick_local_test_before_pushing",
+      "target": "runbooks_coolify_astro_deploy_codeblock_5"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vault/runbooks/coolify-astro-deploy.md",
+      "source_location": "L156",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "runbooks_coolify_astro_deploy_architecture_summary",
+      "target": "runbooks_coolify_astro_deploy_codeblock_6"
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "07d3062cae19409450028ef3e5ee43a28bbf4e57"
+}

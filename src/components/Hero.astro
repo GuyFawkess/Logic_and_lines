@@ -4,6 +4,7 @@ import { useTranslations } from "../i18n/utils";
 
 const { currentLang = "es" } = Astro.props;
 const t = useTranslations(currentLang);
+const baseUrl = currentLang === "en" ? "/en/" : "/";
 
 interface Props {
   leftTitle?: string;
@@ -52,10 +53,26 @@ const rightFancyWord = propRightFancy || t.hero.rightFancy;
 
       <BookButton
         currentLang={currentLang}
-        class="md:hidden"
-        buttonClass="!bg-[var(--color-primary)] !text-[var(--color-bg)] hover:!text-[var(--color-card)]"
         text={t.buttons.book}
       />
+
+      <!-- Scroll Arrow (left panel: gold on dark) -->
+      <div class="scroll-arrow-container absolute bottom-[15%] left-1/2 -translate-x-1/2 flex justify-center">
+        <svg
+          class="scroll-arrow w-8 h-8 text-(--color-primary)"
+          style="filter: drop-shadow(0 0 6px rgba(235, 170, 0, 0.4));"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="7 13 12 18 17 13"></polyline>
+          <polyline points="7 6 12 11 17 6"></polyline>
+        </svg>
+      </div>
     </div>
   </div>
 
@@ -68,10 +85,27 @@ const rightFancyWord = propRightFancy || t.hero.rightFancy;
       </h2>
       <BookButton
         currentLang={currentLang}
-        class="md:hidden"
         buttonClass="!bg-[var(--color-bg)] !text-[var(--color-primary)] hover:!bg-[var(--color-bg)]/90 hover:!text-[var(--color-primary)]/80"
         text={t.buttons.book}
       />
+
+      <!-- Scroll Arrow (right panel: dark on gold) -->
+      <div class="scroll-arrow-container absolute bottom-[15%] left-1/2 -translate-x-1/2 flex justify-center">
+        <svg
+          class="scroll-arrow w-8 h-8 text-(--color-bg)"
+          style="filter: none;"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="7 13 12 18 17 13"></polyline>
+          <polyline points="7 6 12 11 17 6"></polyline>
+        </svg>
+      </div>
     </div>
   </div>
 
@@ -115,6 +149,8 @@ const rightFancyWord = propRightFancy || t.hero.rightFancy;
     style="background: linear-gradient(to bottom, transparent 0%, transparent 20%, rgba(var(--color-bg-rgb, 3, 7, 18), 0.1) 40%, rgba(var(--color-bg-rgb, 3, 7, 18), 0.3) 60%, rgba(var(--color-bg-rgb, 3, 7, 18), 0.6) 80%, var(--color-bg, rgb(3, 7, 18)) 100%);"
   >
   </div> -->
+
+
 </section>
 
 <style>
@@ -266,10 +302,30 @@ const rightFancyWord = propRightFancy || t.hero.rightFancy;
     }
   }
 
+  /* Scroll Arrow Animation */
+  .scroll-arrow {
+    animation: scrollBounce 2s ease-in-out infinite;
+    opacity: 0.7;
+    filter: drop-shadow(0 0 6px rgba(235, 170, 0, 0.4));
+  }
+
+  @keyframes scrollBounce {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.5;
+    }
+    50% {
+      transform: translateY(8px);
+      opacity: 1;
+    }
+  }
+
   /* Responsive adjustments */
   @media (max-width: 768px) {
     .hero-title {
       font-size: clamp(2rem, 10vw, 4rem);
+      transform: translateY(-2rem);
     }
 
     .content-wrapper {

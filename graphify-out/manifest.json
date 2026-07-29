@@ -1,0 +1,592 @@
+{
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\astro.config.mjs": {
+    "mtime": 1782914232.1173837,
+    "ast_hash": "423001fdac1a4a2f77aa1a20b7d1b45b",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\package.json": {
+    "mtime": 1782914218.7603028,
+    "ast_hash": "ed197786d899b803bcfa5b5b1a38993c",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\tailwind.config.js": {
+    "mtime": 1766164332.751147,
+    "ast_hash": "bd874825feab59ca2bf1f783920461fe",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\tailwind.config.mjs": {
+    "mtime": 1768853805.9042764,
+    "ast_hash": "0cf20f6a12791ed8036896cf006e5b43",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\tsconfig.json": {
+    "mtime": 1765552508.8800974,
+    "ast_hash": "c00462f26cfa157b3b5e5eff01a34df2",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\.vscode\\extensions.json": {
+    "mtime": 1765552508.8292847,
+    "ast_hash": "e5a927efb2016222b8d8f64633c9a2f5",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\.vscode\\launch.json": {
+    "mtime": 1765552508.8297925,
+    "ast_hash": "d26641d94ca7dab52420c3253b85a263",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\hero-init.js": {
+    "mtime": 1769779698.7689638,
+    "ast_hash": "4d81c0a4ae31783f4f22018a0c39ef0c",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\scroll-animate.js": {
+    "mtime": 1768400765.1988623,
+    "ast_hash": "deea2fd3667d2e03f1f2b07918dd05be",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\About.astro": {
+    "mtime": 1766157056.7714186,
+    "ast_hash": "51e0fb92239a1de8281a2beec7328808",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\BenefitsList.astro": {
+    "mtime": 1772669063.9172385,
+    "ast_hash": "fbf5c79a522ccce3e8324dc99d08d4ee",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\BookButton.astro": {
+    "mtime": 1785340580.395581,
+    "ast_hash": "17ddbfd4e873bda83aead726b4fa53f6",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\Booking.astro": {
+    "mtime": 1785339388.1662872,
+    "ast_hash": "f8905b9964816d8665289bdb35f3e665",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\ErrorValidation.astro": {
+    "mtime": 1769695946.6557598,
+    "ast_hash": "cf010a9f6f486ae1e74ac598d236d32e",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\FAQ.astro": {
+    "mtime": 1785339306.8187027,
+    "ast_hash": "ef3fb363e4dc27458406dd6e655744af",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\Footer.astro": {
+    "mtime": 1784206864.454189,
+    "ast_hash": "2de49c1bd794fa44bb1ffafaaf96a1eb",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\Header.astro": {
+    "mtime": 1785342229.5729647,
+    "ast_hash": "cddef9eac7c8cf28e6ab2171bea8deda",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\Hero.astro": {
+    "mtime": 1785341301.4697893,
+    "ast_hash": "7cf7c6e410a5775fda382d011f2fd5e7",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\LanguageSwitcher.astro": {
+    "mtime": 1784206886.9580698,
+    "ast_hash": "68d8c4226aa2b56a7376e14f6051c2a2",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\ManualReduction.astro": {
+    "mtime": 1769695965.996728,
+    "ast_hash": "2edaada72a7adac87a2c534b420be4d8",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\MetaPixel.astro": {
+    "mtime": 1784714816.4912646,
+    "ast_hash": "b05a19e37d586476181340d23dbd99f8",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\ModelViewer.astro": {
+    "mtime": 1772566617.3156395,
+    "ast_hash": "1582407a8c91cac55aa4b157e2a945dd",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\Opinion.astro": {
+    "mtime": 1785342286.353265,
+    "ast_hash": "7bdd863f7740969d2b66046ad5494dc6",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\PriceList.astro": {
+    "mtime": 1765552508.8605528,
+    "ast_hash": "1a5b9d373b13b4cf20c2c650199278e9",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\Proceso.astro": {
+    "mtime": 1772669208.3736362,
+    "ast_hash": "0a030f2543b21119f7a73831775d2968",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\ReasonsList.astro": {
+    "mtime": 1772670077.9573605,
+    "ast_hash": "1daf9fb74303fe8e2b4063ccea74a044",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\ServiceCard.astro": {
+    "mtime": 1784206882.3901477,
+    "ast_hash": "61dd13698fe96694d9709d50aa601895",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\ServicesList.astro": {
+    "mtime": 1772670142.7464008,
+    "ast_hash": "01649afcb4e53c6e17949500a028ede7",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\SocialScroll.astro": {
+    "mtime": 1768521617.9481673,
+    "ast_hash": "94a93ff2e22fa495bd41b793477c5ea6",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\SpeedGauge.astro": {
+    "mtime": 1769695988.5423813,
+    "ast_hash": "355cfb82d2b534468cb6c411741ed42f",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\Stats.astro": {
+    "mtime": 1772668426.92204,
+    "ast_hash": "5032195ca7647975d1a3b9abeb132e16",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\StructuredData.astro": {
+    "mtime": 1772568858.46867,
+    "ast_hash": "20e20b64251c36c4a706dff57b6bef43",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\SuccessCard.astro": {
+    "mtime": 1769699546.3258123,
+    "ast_hash": "893047cf08bc4022952269175ac98a01",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\Test.astro": {
+    "mtime": 1769265689.2677414,
+    "ast_hash": "72751bd13283c475c92cf337acf07a8c",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\layout\\GoogleTagManager.astro": {
+    "mtime": 1784211042.493598,
+    "ast_hash": "5bf52aafaed59fef793f69573f4c98bc",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\components\\layout\\GoogleTagManagerBody.astro": {
+    "mtime": 1784211042.493598,
+    "ast_hash": "67cfe6caa19393c7e89fcec71f7412b5",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\content\\config.ts": {
+    "mtime": 1772566739.2666612,
+    "ast_hash": "b3ce9c71803f1cf2fc364f1fae53ec1c",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\i18n\\config.js": {
+    "mtime": 1769082743.6495018,
+    "ast_hash": "0a0932345ebf3c85b37be9c19658e28b",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\i18n\\utils.js": {
+    "mtime": 1785343089.5425515,
+    "ast_hash": "31a00c1651721c487c2286d5beb633df",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\i18n\\translations\\en.js": {
+    "mtime": 1785342442.818955,
+    "ast_hash": "aea5a76ab4f78ee0bde1977cd37c8ee3",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\i18n\\translations\\es.js": {
+    "mtime": 1785342441.6295023,
+    "ast_hash": "ce55f2ee831e97651e934d2f168ae4cd",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\layouts\\Layout.astro": {
+    "mtime": 1785343105.5645213,
+    "ast_hash": "7ab77edf3a1bd887a7577582fcc37c95",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\pages\\404.astro": {
+    "mtime": 1782913925.0408535,
+    "ast_hash": "5a6c334151c0121c2278e95027755f1d",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\pages\\contact.astro": {
+    "mtime": 1785342456.0638838,
+    "ast_hash": "b44b80ba974e17ee66665f1a511651d1",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\pages\\index.astro": {
+    "mtime": 1785343130.4246984,
+    "ast_hash": "c4f0bc7af0036d0df4a686148b1dad7e",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\pages\\politica-de-privacidad.astro": {
+    "mtime": 1785342274.8393807,
+    "ast_hash": "b63d3bc8a98faac4a1e56a76ed482b24",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\pages\\thankyou.astro": {
+    "mtime": 1785339434.2935147,
+    "ast_hash": "07db5575dc3c10ed805725052b03df04",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\pages\\api\\track.ts": {
+    "mtime": 1784715310.5747528,
+    "ast_hash": "87af4648d6bc11c2118f2cf78ce2db97",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\pages\\en\\404.astro": {
+    "mtime": 1782913931.9997513,
+    "ast_hash": "a4ecedb711edabd9cfe2f1eb08bad502",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\pages\\en\\contact.astro": {
+    "mtime": 1785342457.2706232,
+    "ast_hash": "554d4c0d8ddca51642609dc57336e736",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\pages\\en\\index.astro": {
+    "mtime": 1785343143.6027873,
+    "ast_hash": "1f10984acde57de6f6e70d44efbbac6b",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\pages\\en\\landing-lead.astro": {
+    "mtime": 1784714931.994529,
+    "ast_hash": "24f9d7213f7b064f99ad1fb1070bb722",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\pages\\en\\privacy-policy.astro": {
+    "mtime": 1785342275.853086,
+    "ast_hash": "7f908a75f8bd50cd66b2c1b85e7418f1",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\pages\\en\\service\\[id].astro": {
+    "mtime": 1785343117.1896944,
+    "ast_hash": "7cd00222f975b9d6bdab8673e95980be",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\pages\\service\\[id].astro": {
+    "mtime": 1785342280.6638196,
+    "ast_hash": "0fac91b3803fa030f711642e80b19f9f",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\README.md": {
+    "mtime": 1765552508.8297925,
+    "ast_hash": "32133b5b75ef8901b044e9f427deae1f",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\google1903bf771bc67e94.html": {
+    "mtime": 1773425889.8312974,
+    "ast_hash": "6ae1c56ef0c0f5f42dacbbe7dd30580f",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\robots.txt": {
+    "mtime": 1772566527.5430071,
+    "ast_hash": "1038e0e40fc1a55243b4db314a559df3",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\Sessions\\2026-07-01-logic-lines-meta-pixel-coolify-deploy.md": {
+    "mtime": 1782919270.2399807,
+    "ast_hash": "999f7aaa7beb1d21d84a90c0830930ad",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\content\\benefits\\mayor-velocidad.md": {
+    "mtime": 1769083216.1966045,
+    "ast_hash": "404792e7b5e4a8b465aa83d5d60f46d8",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\content\\benefits\\menos-errores.md": {
+    "mtime": 1769083226.6971087,
+    "ast_hash": "1d14d2c479cb88c42cfa58ea7b946c0a",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\content\\benefits\\reduccion-trabajo.md": {
+    "mtime": 1769083237.2144907,
+    "ast_hash": "50bad379ed27aff30ddee13acd798873",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\content\\faq\\contratacion.md": {
+    "mtime": 1769268781.854652,
+    "ast_hash": "d33f2e54e8550d0e6dd64fa73c4539f9",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\content\\faq\\implementacion.md": {
+    "mtime": 1769268799.3194213,
+    "ast_hash": "79f869bb1e4be2da11abbdbc57c255f2",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\content\\faq\\proceso.md": {
+    "mtime": 1769268795.889678,
+    "ast_hash": "0ed18bc3656c20df8083754f184ea5d4",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\content\\faq\\servicios&Tec.md": {
+    "mtime": 1769268776.7284603,
+    "ast_hash": "16491e30576ac5dd144a0aac82a437ab",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\content\\reasons\\ahorro-tiempo.md": {
+    "mtime": 1769088042.9737306,
+    "ast_hash": "b3956abcdc182ccb0fb642e016360a92",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\content\\reasons\\escalabilidad.md": {
+    "mtime": 1769088043.0906644,
+    "ast_hash": "db33b7436c2e4a15edf4c3a1e125c35e",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\content\\reasons\\precision-absoluta.md": {
+    "mtime": 1769088043.1278393,
+    "ast_hash": "90b20f09dfe6b8f99ddc18e299ac70ef",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\content\\reasons\\resultados-rapidos.md": {
+    "mtime": 1769088043.1574044,
+    "ast_hash": "11e428239dfbb1ddf3e506d348ffe1c7",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\content\\reasons\\seguridad-garantizada.md": {
+    "mtime": 1769088043.2991006,
+    "ast_hash": "35a7e61ff6ea935e49aeb3bb4e808185",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\content\\reasons\\soporte-continuo.md": {
+    "mtime": 1769088043.451625,
+    "ast_hash": "2ec48f58c17a6ba9c3a2f9f3caa178eb",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\content\\services\\flow-line.md": {
+    "mtime": 1772568842.249983,
+    "ast_hash": "bf33777e29b056ddcc7708fd88e4d88a",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\content\\services\\leads.md": {
+    "mtime": 1772568843.1812358,
+    "ast_hash": "a5355c9317659d749d3298e3d85175ab",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\content\\services\\logic-agents.md": {
+    "mtime": 1772568850.4450579,
+    "ast_hash": "30ec5611e9d5e156efb1bd13a36c2f64",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\content\\services\\logic-map.md": {
+    "mtime": 1772568836.7635283,
+    "ast_hash": "e9463a0d5026ad27c6a4ef37ce6a1e69",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\content\\services\\logic-support.md": {
+    "mtime": 1772672363.4751015,
+    "ast_hash": "aebcee8827ff768ffa500cf2dcaf0a8c",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\content\\services\\smarthost.md": {
+    "mtime": 1769691060.8258085,
+    "ast_hash": "179c83a91954d71a0db627dae86c7a10",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\vault\\runbooks\\coolify-astro-deploy.md": {
+    "mtime": 1782919293.5166302,
+    "ast_hash": "c969b18da19d906af8b5554ba333f3eb",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\aboutPic.webp": {
+    "mtime": 1765552508.8318248,
+    "ast_hash": "131dd86ba286bc5f452b9b4a58c78e31",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\favicon.svg": {
+    "mtime": 1765552508.8365428,
+    "ast_hash": "2e60239ba96db0b94a6fedcc58e5631d",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\logoEntero.svg": {
+    "mtime": 1769102616.9203544,
+    "ast_hash": "68bc9e3afc74cfd543c7e47babdfb1c7",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\logoEnteroOG.png": {
+    "mtime": 1775492692.751,
+    "ast_hash": "12cac2e792c6f80f1f81146b99e916d6",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\logoNav.png": {
+    "mtime": 1775489994.227,
+    "ast_hash": "e9a77f6a50d03066daf6b937739e9e72",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\logoNav.webp": {
+    "mtime": 1765552508.8401697,
+    "ast_hash": "40bcaebab97aacb363e6317fa9b846f0",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\logoNoSub.svg": {
+    "mtime": 1769102357.7867923,
+    "ast_hash": "c960e2dc07b17a44a81e49fa9e1bb031",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\logoSolo.svg": {
+    "mtime": 1767821863.713071,
+    "ast_hash": "56940af0bfe6c108b22fd8f496bf025d",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\opinion.png": {
+    "mtime": 1767107812.7490199,
+    "ast_hash": "639a3e6a2da27ca9c38f723545136bc5",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\flow-line\\flow-line-2.webp": {
+    "mtime": 1769690871.1664486,
+    "ast_hash": "ed4d5254ff044f55a27b54387d11c495",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\flow-line\\flow-line.webp": {
+    "mtime": 1769444595.5154617,
+    "ast_hash": "733333596e1c749c3202e53c45c3648d",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\flow-line\\workflow.png": {
+    "mtime": 1766494831.44534,
+    "ast_hash": "dc6f923aa8fc1c43915da24f0701eb3f",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\logic-agent\\logic-agent.webp": {
+    "mtime": 1769444509.837852,
+    "ast_hash": "17f045d920fc28b56b49ceee37cbb928",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\logic-agent\\logic-agents-2.webp": {
+    "mtime": 1769690871.844443,
+    "ast_hash": "6264d7134f49499ad938bce8ee6201ae",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\logic-agent\\RAG.png": {
+    "mtime": 1766494401.9480765,
+    "ast_hash": "2b4a364145e1d0768421e29a79fb4e9e",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\logic-map\\logic-map-2.webp": {
+    "mtime": 1769690873.5707946,
+    "ast_hash": "c5628fca14435299a9a4fcc4986816ec",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\logic-map\\logic-map.webp": {
+    "mtime": 1769444910.027793,
+    "ast_hash": "51590b3f6736dec0e6b5f45465a556ae",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\logic-support\\logic-support-2.webp": {
+    "mtime": 1769690869.7795348,
+    "ast_hash": "3a8354a42f5edae0dbcb5d6d967e81d9",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\logic-support\\logic-support-3.webp": {
+    "mtime": 1772672234.1696217,
+    "ast_hash": "52407339d43d6c5250c609803dd09934",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\logic-support\\logic-support.webp": {
+    "mtime": 1769445108.4637907,
+    "ast_hash": "d038f3a21593f04b35f0b04a914449d1",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\sales-line\\captacion-leads.png": {
+    "mtime": 1766493973.723516,
+    "ast_hash": "30e8231737a91e3716973da53240bff6",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\sales-line\\funnels-provisional.webp": {
+    "mtime": 1769690870.51331,
+    "ast_hash": "82d84994c1aada7e4dec7e21c6ea9484",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\sales-line\\service-knowledge.svg": {
+    "mtime": 1769444399.0568645,
+    "ast_hash": "cc16d0bb3f3077339a598441616fb849",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\sales-line\\service-leads.webp": {
+    "mtime": 1769444437.5516324,
+    "ast_hash": "249d33c41bfba7887f3fbb4b27044252",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\separadores\\separador-1.svg": {
+    "mtime": 1768582454.2320604,
+    "ast_hash": "06ecf6297e6a4a0cdf517bda8d60edf8",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\separadores\\wavesNegative.svg": {
+    "mtime": 1768582816.018943,
+    "ast_hash": "9fd605190a7613d59879633ee89f0e8e",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\smarthost\\smarthost-2.webp": {
+    "mtime": 1769690872.473117,
+    "ast_hash": "f6c89faa69acd98cf5e63b0436d27a90",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\public\\smarthost\\smarthost.png": {
+    "mtime": 1766497926.127072,
+    "ast_hash": "d27a00c4a17397ac0c8bdba3818d60e7",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\assets\\astro.svg": {
+    "mtime": 1765552508.854937,
+    "ast_hash": "52d6644f37c036af02fc51ed974a854f",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\assets\\background.svg": {
+    "mtime": 1765552508.854937,
+    "ast_hash": "27cb9c71fce88811e19cc29cf6386543",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\assets\\githubapi.png": {
+    "mtime": 1766164372.9864254,
+    "ast_hash": "379363343b6ba8b8fb4a7462f51eda3b",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\icons\\calendar.svg": {
+    "mtime": 1768519953.545181,
+    "ast_hash": "28ee7803f7147791fe9d0ee5f1dd6277",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\icons\\facebook3.svg": {
+    "mtime": 1765552508.8697824,
+    "ast_hash": "ae801937750f1f1cbf43072ce6312a21",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\icons\\gmail2.svg": {
+    "mtime": 1765552508.8697824,
+    "ast_hash": "0dd9f1d17ff81280bb801a58d0620a48",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\icons\\instagram.svg": {
+    "mtime": 1765552508.8697824,
+    "ast_hash": "0d85c904ede28cdf92ee7d7472717867",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\icons\\linkedin.svg": {
+    "mtime": 1768517879.727303,
+    "ast_hash": "e936ca9bfccebfe608348a09cdcfc83c",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\icons\\map-pin.svg": {
+    "mtime": 1768519955.5554636,
+    "ast_hash": "3330599664d1a31f7da1f6b3c53fde6c",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\src\\icons\\whatsapp.svg": {
+    "mtime": 1765552508.8697824,
+    "ast_hash": "ca89867c878be5a8eca6b0e9341a1f8b",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\Usuario\\Desktop\\Logic and Lines\\Logic_and_lines\\HANDOFF.md": {
+    "mtime": 1785343495.0809004,
+    "ast_hash": "00b7c311db13277db6a8ad3633070a34",
+    "semantic_hash": ""
+  }
+}

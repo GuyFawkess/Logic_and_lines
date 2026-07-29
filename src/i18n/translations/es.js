@@ -3,7 +3,8 @@ export default {
     benefits: "Beneficios",
     services: "Servicios",
     process: "Proceso",
-    reason: "Razones"
+    reason: "Razones",
+    faq: "FAQ"
   },
   hero: {
     leftTitle: "Automatiza tu",
@@ -80,6 +81,10 @@ export default {
   },
   faq: {
     title: 'Preguntas <span class="text-primary">Frecuentes</span>'
+  },
+  seo: {
+    contactTitle: "Contacto",
+    contactDescription: "Contacta con Logic & Lines para una consulta gratuita de automatización e IA para tu negocio."
   },
   contact: {
     title: "Contáctanos",

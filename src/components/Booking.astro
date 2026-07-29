@@ -42,16 +42,13 @@ const t = useTranslations(currentLang);
                     data-cal-link="logic-and-lines-knzt9s/1ª-llamada-de-evaluacion"
                     data-cal-namespace="1ª-llamada-de-evaluacion"
                     data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true","theme":"dark"}'
-                    class="group md:group-hover:text-(--color-primary) group-hover:drop-shadow-[1px_1px_0_#000] relative inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold text-(--color-bg) transition-all duration-300 bg-(--color-primary) rounded-xl hover:bg-(--color-primary) hover:text-(--color-text) hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:ring-offset-2 focus:ring-offset-(--color-bg) cursor-pointer"
-                    style="box-shadow: 0 0.5px 2px var(--color-primary);"
+                    class="relative inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium rounded-xl text-(--color-bg) bg-(--color-primary) hover:bg-(--color-primary-hover) transition-all duration-300 shadow-[0_0_20px_rgba(235,170,0,0.3)] hover:shadow-[0_0_30px_rgba(235,170,0,0.5)] transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:ring-offset-2 focus:ring-offset-(--color-bg) cursor-pointer"
                 >
                     <Icon
                         name="calendar"
-                        class="w-5 h-5 group-hover:drop-shadow-[1px_1px_0_#000]"
+                        class="w-5 h-5"
                     />
-                    <span class="group-hover:drop-shadow-[1px_1px_0_#000]"
-                        >{t.booking.button}</span
-                    >
+                    <span>{t.booking.button}</span>
                 </button>
 
                 <!-- Cal element-click embed code begins -->
@@ -100,6 +97,14 @@ const t = useTranslations(currentLang);
                         cssVarsPerTheme: { light: { "cal-brand": "#0D1A1F" } },
                         hideEventTypeDetails: false,
                         layout: "month_view",
+                    });
+
+                    Cal.ns["1ª-llamada-de-evaluacion"]("on", {
+                        action: "bookingSuccessful",
+                        callback: function () {
+                            window.dataLayer = window.dataLayer || [];
+                            window.dataLayer.push({ event: "generated_lead" });
+                        },
                     });
                 </script>
                 <!-- Cal element-click embed code ends -->

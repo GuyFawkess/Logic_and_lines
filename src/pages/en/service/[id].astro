@@ -88,9 +88,35 @@ const final_cta = finalCtaData
   : null;
 
 const isLegacy = !problem; // If no problem section, render legacy content mode
+
+// Generate Service schema
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: title,
+  description: hero.phrase,
+  provider: {
+    "@type": "ProfessionalService",
+    name: "Logic & Lines",
+  },
+  areaServed: "Worldwide",
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Core Services",
+    itemListElement: [
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: title,
+        },
+      },
+    ],
+  },
+};
 ---
 
-<Layout title={title}>
+<Layout title={title} description={hero.phrase}>
   {/* HERO SECTION */}
   <section
     class="relative min-h-[90vh] flex items-center justify-center pt-12 pb-38 overflow-hidden bg-(--color-bg) w-full"
@@ -395,6 +421,8 @@ const isLegacy = !problem; // If no problem section, render legacy content mode
       </>
     )
   }
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+
   <script is:inline>
     document.addEventListener('astro:page-load', () => {
       if (typeof trackMetaEvent === 'function') {

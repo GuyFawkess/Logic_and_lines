@@ -3,7 +3,8 @@ export default {
     benefits: "Benefits",
     services: "Services",
     process: "Our process",
-    reason: "Reasons"
+    reason: "Reasons",
+    faq: "FAQ"
   },
   hero: {
     leftTitle: "Automate your",
@@ -81,13 +82,17 @@ export default {
   faq: {
     title: 'Frequently Asked <span class="text-primary">Questions</span>'
   },
+  seo: {
+    contactTitle: "Contact",
+    contactDescription: "Get in touch with Logic & Lines for a free AI and automation consultation for your business."
+  },
   contact: {
     title: "Contact me",
     info: "Info",
     reachMe: "Where to reach me",
     thankYou: "Thank you for your interest in Logic & Lines.",
-    preparation: "Our shop is currently undergoing final preparations.",
-    offering: "In the meantime, I'm offering our consulting services.",
+    preparation: "Our website is currently undergoing final preparations.",
+    offering: "In the meantime, we offer our consulting services.",
     bookSession: "If you'd like to book a session or learn more, feel free to contact me.",
     lookForward: "I look forward to welcoming you soon!"
   },

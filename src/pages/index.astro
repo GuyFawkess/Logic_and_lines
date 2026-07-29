@@ -5,7 +5,6 @@ import BenefitsList from "../components/BenefitsList.astro";
 import Layout from "../layouts/Layout.astro";
 import ServicesList from "../components/ServicesList.astro";
 import ReasonsList from "../components/ReasonsList.astro";
-import Opinion from "../components/Opinion.astro";
 import BookButton from "../components/BookButton.astro";
 import Proceso from "../components/Proceso.astro";
 import Booking from "../components/Booking.astro";
@@ -13,15 +12,46 @@ import FAQ from "../components/FAQ.astro";
 
 export const prerender = true;
 
-// Add metadata for better SEO
 const currentLang = "es";
+
+// WebSite + Organization schemas para la home
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "url": "https://logicandlines.com/",
+  "name": "Logic & Lines",
+  "description": "Agencia de Marketing y Automatización con IA. Transformamos negocios mediante estrategias digitales avanzadas y automatización inteligente.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://logicandlines.com/?s={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+};
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Logic & Lines",
+  "url": "https://logicandlines.com/",
+  "logo": "https://logicandlines.com/logoEntero.svg",
+  "sameAs": [
+    "https://www.instagram.com/logic_and_lines/?hl=en"
+  ]
+};
 ---
 
 <Layout
-	title="main"
-	description="Logic and Lines - Empresa especializada en la automatización de procesos de negocio y creación de agentes de Inteligencia Artificial."
+	title="Agencia de Marketing y Automatización con IA"
+	description="Logic & Lines: Agencia de Marketing y Automatización con IA. Transformamos negocios mediante estrategias digitales avanzadas y automatización inteligente."
 	ogImage="/logoNoSub.svg"
 >
+	<!-- H1 visible solo para lectores de pantalla y SEO (el hero usa h2 por diseño) -->
+	<h1 class="sr-only">Logic & Lines — Automatización Inteligente para Empresas</h1>
+
+	<!-- Schemas JSON-LD exclusivos de la home -->
+	<script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+	<script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+
 	<Hero currentLang={currentLang} />
 	<Stats currentLang={currentLang} />
 	<BenefitsList currentLang={currentLang} />

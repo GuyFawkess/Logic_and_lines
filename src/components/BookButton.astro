@@ -9,139 +9,17 @@ const {
   gtmLocation = "book_button",
 } = Astro.props;
 const t = useTranslations(currentLang);
-const baseUrl = currentLang === "en" ? "/" : "/en/";
+const baseUrl = currentLang === "en" ? "/en/" : "/";
 const displayText = text || t.buttons.book;
 ---
 
 <a
   href={`${baseUrl}#booking`}
-  class={`w-full flex justify-center items-center ${className}`}
+  class={`flex items-center justify-center px-8 py-4 text-base font-medium rounded-xl text-(--color-bg) bg-(--color-primary) hover:bg-(--color-primary-hover) transition-all duration-300 shadow-[0_0_20px_rgba(235,170,0,0.3)] hover:shadow-[0_0_30px_rgba(235,170,0,0.5)] transform hover:-translate-y-1 whitespace-nowrap min-w-[220px] my-8 w-fit mx-auto ${className} ${buttonClass}`}
   data-gtm-event="cta_click"
   data-gtm-location={gtmLocation}
   data-gtm-label="schedule_call"
 >
-  <button
-    data-value={displayText}
-    class={`whitespace-nowrap min-w-[220px] my-8 btn btn-xl bg-(--color-primary) text-(--color-bg) hover:text-(--color-text) border-2 border-transparent hover:bg-(--color-primary)/90 transition ease-in-out duration-300 font-semibold ${buttonClass}`}
-    style="box-shadow: 0 0.5px 2px var(--color-primary);">{displayText}</button
-  >
+  {displayText}
 </a>
 
-<!-- <script>
-  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-  // Bind the effect to all buttons, avoid double-binding, and keep per-button intervals
-  function setupScrambleEffect() {
-    const buttons = document.querySelectorAll(
-      ".scramble-button",
-    ) as NodeListOf<HTMLElement>;
-    if (!buttons.length) return;
-
-    buttons.forEach((button) => {
-      // Prevent attaching duplicate listeners across page transitions
-      if (button.dataset.bound === "true") return;
-      button.dataset.bound = "true";
-
-      let interval = null;
-
-      button.addEventListener("mouseover", (event) => {
-        let iteration = 0;
-        const target = event.currentTarget as HTMLElement;
-
-        // Lock width to prevent horizontal jitter
-        const fixedWidth = target.getBoundingClientRect().width;
-        target.style.width = fixedWidth + "px";
-
-        // target.style.fontFamily = "monospace"; // Keep disabled to prevent vertical jump
-
-        clearInterval(interval);
-
-        interval = setInterval(() => {
-          const value = target.dataset.value || target.textContent || "";
-          target.innerText = target.innerText
-            .split("")
-            .map((letter, index) => {
-              if (index < iteration) {
-                return value[index] || "";
-              }
-              return letters[Math.floor(Math.random() * letters.length)];
-            })
-            .join("");
-
-          if (iteration >= value.length) {
-            clearInterval(interval);
-            target.innerText = value;
-            target.style.width = ""; // Release width lock
-            // target.style.fontFamily = "";
-          }
-
-          iteration += 1 / 3;
-        }, 30);
-      });
-    });
-  }
-
-  // Run on initial load
-  setupScrambleEffect();
-
-  // Re-run after page transitions (if using Astro's view transitions)
-  document.addEventListener("astro:page-load", setupScrambleEffect);
-</script> -->
-<!-- ---
-import { useTranslations } from "../i18n/utils";
-
-const { currentLang = 'en' } = Astro.props;
-const t = useTranslations(currentLang)
----
-
-<a href={currentLang === 'en' ? "/contact" : "/es/contact"} class="w-full flex justify-center items-center">
-    <button
-    data-value={t.buttons.book}
-    class="scramble-button my-8 btn btn-xl bg-(--color-accent) text-(--color-bg) border-2 border-transparent hover:bg-(--color-card) hover:text-(--color-terracotta) hover:border-(--color-accent)transition ease-in-out duration-300"
-    style="box-shadow: 0 4px 12px var(--color-accent);"
-  >{t.buttons.book}</button>
-</a>
-
-<script>
-  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  
-  function setupScrambleEffect() {
-    const button = document.querySelector(".scramble-button");
-    
-    if (!button) return;
-    
-    let interval = null;
-    
-    button.addEventListener("mouseover", (event) => {
-      let iteration = 0;
-      const target = event.target as HTMLElement;
-      
-      clearInterval(interval);
-      
-      interval = setInterval(() => {
-        target.innerText = target.innerText
-          .split("")
-          .map((letter, index) => {
-            if (index < iteration) {
-              return target.dataset.value[index];
-            }
-            
-            return letters[Math.floor(Math.random() * 26)];
-          })
-          .join("");
-        
-        if (iteration >= target.dataset.value.length) {
-          clearInterval(interval);
-        }
-        
-        iteration += 1 / 3;
-      }, 30);
-    });
-  }
-  
-  // Run on initial load
-  setupScrambleEffect();
-  
-  // Re-run after page transitions (if using Astro's view transitions)
-  document.addEventListener("astro:page-load", setupScrambleEffect);
-</script> -->

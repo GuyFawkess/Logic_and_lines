@@ -1,8 +1,10 @@
 ---
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
-import Footer from "../components/Footer.astro";
+import GoogleTagManager from "../components/layout/GoogleTagManager.astro";
+import GoogleTagManagerBody from "../components/layout/GoogleTagManagerBody.astro";
 import MetaPixel from "../components/MetaPixel.astro";
+import Footer from "../components/Footer.astro";
 
 export const prerender = true;
 
@@ -36,12 +38,14 @@ const description =
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
             rel="stylesheet"
         />
+        <GoogleTagManager />
         <MetaPixel />
     </head>
 
     <body
         class="bg-(--color-bg) text-(--color-text) min-h-screen overflow-x-hidden"
     >
+        <GoogleTagManagerBody />
         <!-- Hero - Confirmación -->
         <section
             class="min-h-screen flex items-center justify-center py-12 px-4 md:px-6"
@@ -740,6 +744,10 @@ const description =
                     });
                 }
             });
+        </script>
+        <script is:inline>
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ event: 'generated_lead' });
         </script>
     </body>
 </html>

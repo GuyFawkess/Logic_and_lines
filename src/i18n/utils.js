@@ -38,6 +38,22 @@ export function getLocalizedURL(path, lang) {
 export function getAlternateURLs(currentPath, currentLang) {
   const urls = {};
 
+  // Normalize path for comparison (strip trailing slash, except root /)
+  const cmpPath = currentPath.length > 1 ? currentPath.replace(/\/$/, '') : currentPath;
+
+  // Special path pairs for pages with different slugs per language
+  const specialPathPairs = [
+    { es: '/politica-de-privacidad', en: '/en/privacy-policy' }
+  ];
+
+  for (const pair of specialPathPairs) {
+    if (cmpPath === pair.es || cmpPath === pair.en) {
+      urls.es = pair.es;
+      urls.en = pair.en;
+      return urls;
+    }
+  }
+
   if (currentPath.includes('/service/')) {
     let slug = '';
     if (currentPath.includes('/service/')) {

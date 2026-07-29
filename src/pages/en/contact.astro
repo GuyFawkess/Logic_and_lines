@@ -1,48 +1,66 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { Icon } from "astro-icon/components";
+import { useTranslations } from "../../i18n/utils";
 
 export const prerender = true;
+
+const currentLang = "en";
+const t = useTranslations(currentLang);
+
+const pageTitle = t.seo.contactTitle;
+const pageDescription = t.seo.contactDescription;
+const fullTitle = `${pageTitle} | Logic & Lines`;
+const canonicalURL = "https://logicandlines.com/en/contact";
+
+const contactSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: fullTitle,
+  url: canonicalURL,
+  description: pageDescription,
+  mainEntity: {
+    "@type": "Organization",
+    name: "Logic & Lines",
+    email: "logicandlinestudios@gmail.com",
+    url: "https://logicandlines.com",
+    sameAs: ["https://www.instagram.com/logic_and_lines/?hl=en"],
+  },
+};
 ---
 
-<Layout title="contact">
+<Layout title={pageTitle} description={pageDescription}>
   <main class="w-full mb-20 py-10 px-4 text-center">
     <div class="max-w-6xl mx-auto">
       <h1 class="text-3xl font-bold mb-8 text-(--color-terracotta)">
-        Contact me
+        {t.contact.title}
       </h1>
       <div class="flex flex-col md:flex-row gap-10">
         <div class="md:block w-full md:w-1/2 h-full mx-auto text-left">
           <h2
             class="text-xl font-medium mb-4 text-(--color-atention) text-center"
           >
-            Info
+            {t.contact.info}
           </h2>
           <h3 class="mb-3 font-medium">
-            Thank you for your interest in Malai Thai Massage.
+            {t.contact.thankYou}
           </h3>
           <p class="mb-3">
-            Our shop is currently undergoing final preparations, including
-            paperwork and interior design, as we get ready for the grand
-            opening.
+            {t.contact.preparation}
           </p>
           <p class="mb-3">
-            In the meantime, I'm offering a limited number of relaxing and
-            professional Thai massage sessions each day, available from my home.
+            {t.contact.offering}
           </p>
           <p class="mb-3">
-            If you'd like to book a session or learn more, feel free to contact
-            me via any of my contact options<span class="hidden md:inline"
-              >.</span
-            ><span class="md:hidden"> below.</span>
+            {t.contact.bookSession}
           </p>
-          <p>I look forward to welcoming you soon!</p>
+          <p>{t.contact.lookForward}</p>
         </div>
         <div class="w-full md:w-1/2 text-left h-full">
           <h2
             class="text-xl font-medium mb-4 text-(--color-atention) text-center"
           >
-            Where to reach me
+            {t.contact.reachMe}
           </h2>
           <ul class="flex flex-col space-y-8 w-full ml-6 md:ml-16 lg:ml-20">
             <li class="flex items-center">
@@ -67,11 +85,11 @@ export const prerender = true;
             </li>
             <li class="flex items-center">
               <a
-                href="https://www.instagram.com/malaithaimassagelanzarote?igsh=MTRoY3h1cGRiOWFpaQ=="
+                href="https://www.instagram.com/logic_and_lines/?hl=en"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="flex items-center gap-3 group"
-                ria-label="Follow us on Instagram"
+                aria-label="Follow us on Instagram"
                 data-gtm-event="social_click"
                 data-gtm-location="contact_page_en"
                 data-gtm-label="instagram"
@@ -85,16 +103,11 @@ export const prerender = true;
                 <span>Instagram</span>
               </a>
             </li>
+            <!-- TODO: añadir URL de Facebook cuando esté disponible -->
             <li class="flex items-center">
-              <a
-                href="https://www.facebook.com/malaithaimassagelanzarote"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="flex items-center gap-3 group"
+              <span
+                class="flex items-center gap-3 group hidden"
                 aria-label="Follow us on Facebook"
-                data-gtm-event="social_click"
-                data-gtm-location="contact_page_en"
-                data-gtm-label="facebook"
               >
                 <span class="inline-block">
                   <Icon
@@ -103,11 +116,11 @@ export const prerender = true;
                   />
                 </span>
                 <span>Facebook</span>
-              </a>
+              </span>
             </li>
             <li class="flex items-center">
               <a
-                href="mailto:malaithai89@gmail.com"
+                href="mailto:logicandlinestudios@gmail.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="flex items-center gap-3 group"
@@ -130,6 +143,7 @@ export const prerender = true;
       </div>
     </div>
   </main>
+  <script type="application/ld+json" set:html={JSON.stringify(contactSchema)} />
 </Layout>
 
 <script is:inline>
@@ -149,6 +163,11 @@ export const prerender = true;
           content_name: 'email',
           contact_type: 'email'
         });
+        // Fallback: copiar email al portapapeles para navegadores sin cliente de email
+        const email = link.getAttribute('href').replace('mailto:', '');
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(email).catch(() => {});
+        }
       });
     });
 

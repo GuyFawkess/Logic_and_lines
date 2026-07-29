@@ -100,9 +100,12 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
             />
           </a>
           <a
-            href="#"
+            href="https://www.instagram.com/logic_and_lines/?hl=en"
             aria-label="Instagram"
-            class="p-2 border border-gray-600 rounded-lg hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors group hidden"
+            class="p-2 border border-gray-600 rounded-lg hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors group"
+            data-gtm-event="social_click"
+            data-gtm-location="footer"
+            data-gtm-label="instagram"
           >
             <Icon
               name="instagram"
@@ -187,6 +190,15 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
         trackMetaEvent('Contact', {
           content_name: 'whatsapp',
           contact_type: 'whatsapp'
+        });
+      });
+    });
+
+    document.querySelectorAll('a[href*="instagram.com"]').forEach(link => {
+      link.addEventListener('click', () => {
+        trackMetaEvent('Contact', {
+          content_name: 'instagram',
+          contact_type: 'instagram'
         });
       });
     });

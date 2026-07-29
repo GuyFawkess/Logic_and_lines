@@ -15,7 +15,7 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
   <!-- Desktop Navigation -->
   <nav class="mx-auto w-full hidden md:block bg-(--color-bg)">
     <div class="container mx-auto px-4 flex items-center justify-between py-2">
-      <div class="flex items-center space-x-">
+      <div class="flex items-center space-x-4">
         <!-- Logo on the left -->
         <a
           href={baseUrl}
@@ -24,7 +24,7 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
           <img
             data-astro-prefetch
             src="/logoNoSub.svg"
-            alt="Logic and Line Logo"
+            alt="Logic & Lines"
             class="h-auto w-52"
           />
         </a>
@@ -66,6 +66,15 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
               href={`${baseUrl}#reasons`}>{t.nav.reason}</a
             >
           </li>
+          <li
+            class="text-(--color-text) hover:text-(--color-primary) border-none text-lg font-normal"
+          >
+            <a
+              class="inline-block whitespace-nowrap text-center"
+              data-value={t.nav.faq}
+              href={`${baseUrl}#faq`}>{t.nav.faq}</a
+            >
+          </li>
         </ul>
       </div>
       <!-- Language switcher stays on the right -->
@@ -73,12 +82,10 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
         <LanguageSwitcher currentLang={currentLang} />
         <a
           href={`${baseUrl}#booking`}
-          class="scramble-button btn bg-(--color-primary) text-(--color-bg) hover:text-white hover:bg-(--color-primary)/90 border-none font-medium px-6 whitespace-nowrap h-auto py-2"
-          data-value={t.buttons.book}
+          class="inline-flex items-center justify-center px-7 py-2.5 text-sm font-medium rounded-xl text-(--color-bg) bg-(--color-primary) hover:bg-(--color-primary-hover) transition-all duration-300 shadow-[0_0_20px_rgba(235,170,0,0.3)] hover:shadow-[0_0_30px_rgba(235,170,0,0.5)] transform hover:-translate-y-1"
           data-gtm-event="cta_click"
           data-gtm-location="header_desktop"
           data-gtm-label="schedule_call"
-          style="box-shadow: 0 0.5px 2px var(--color-primary);"
         >
           {t.buttons.book}
         </a>
@@ -93,8 +100,8 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
       <a href={baseUrl} class="logo">
         <img
           src="/logoNoSub.svg"
-          alt="Logic and Lines Logo header"
-          class="h-auto w-54"
+          alt="Logic & Lines"
+          class="h-auto w-52"
         />
       </a>
 
@@ -115,12 +122,10 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
           <li>
             <a
               href={`${baseUrl}#booking`}
-              class="scramble-button btn bg-(--color-primary) text-(--color-bg) hover:text-(--color-bg) hover:bg-(--color-primary)/90 border-none font-medium w-full mb-2 whitespace-nowrap"
-              data-value={t.buttons.book}
+              class="inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-xl text-(--color-bg) bg-(--color-primary) hover:bg-(--color-primary-hover) transition-all duration-300 shadow-[0_0_20px_rgba(235,170,0,0.3)] hover:shadow-[0_0_30px_rgba(235,170,0,0.5)] transform hover:-translate-y-1 w-full mb-2"
               data-gtm-event="cta_click"
               data-gtm-location="header_mobile"
               data-gtm-label="schedule_call"
-              style="box-shadow: 0 0.5px 2px var(--color-primary);"
             >
               {t.buttons.book}
             </a>
@@ -150,7 +155,12 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
               class="py-3 text-center justify-center">{t.nav.reason}</a
             >
           </li>
-          <li></li>
+          <li>
+            <a
+              href={`${baseUrl}#faq`}
+              class="py-3 text-center justify-center">{t.nav.faq}</a
+            >
+          </li>
           <div class="navbar-end mt-2 flex justify-center w-full my-2">
             <LanguageSwitcher currentLang={currentLang} />
           </div>
@@ -257,63 +267,4 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
   // Re-run after page transitions
   document.addEventListener("astro:page-load", setupBurgerMenu);
 </script>
-<script>
-  const letters = "abcdefghijklmnopqrstuvwxyz";
 
-  // Bind the effect to all buttons, avoid double-binding, and keep per-button intervals
-  function setupScrambleEffect() {
-    const buttons = document.querySelectorAll(
-      ".scramble-button",
-    ) as NodeListOf<HTMLElement>;
-    if (!buttons.length) return;
-
-    buttons.forEach((button) => {
-      // Prevent attaching duplicate listeners across page transitions
-      if (button.dataset.bound === "true") return;
-      button.dataset.bound = "true";
-
-      let interval: NodeJS.Timeout | null = null;
-
-      button.addEventListener("mouseover", (event) => {
-        let iteration = 0;
-        const target = event.currentTarget as HTMLElement;
-
-        // Lock width to prevent horizontal jitter
-        const fixedWidth = target.getBoundingClientRect().width;
-        target.style.width = fixedWidth + "px";
-
-        // target.style.fontFamily = "monospace"; // Keep disabled to prevent vertical jump
-
-        if (interval) clearInterval(interval);
-
-        interval = setInterval(() => {
-          const value = target.dataset.value || target.textContent || "";
-          target.innerText = target.innerText
-            .split("")
-            .map((letter, index) => {
-              if (index < iteration) {
-                return value[index] || "";
-              }
-              return letters[Math.floor(Math.random() * letters.length)];
-            })
-            .join("");
-
-          if (iteration >= value.length) {
-            if (interval) clearInterval(interval);
-            target.innerText = value;
-            target.style.width = ""; // Release width lock
-            // target.style.fontFamily = "";
-          }
-
-          iteration += 1 / 3;
-        }, 30);
-      });
-    });
-  }
-
-  // Run on initial load
-  setupScrambleEffect();
-
-  // Re-run after page transitions (if using Astro's view transitions)
-  document.addEventListener("astro:page-load", setupScrambleEffect);
-</script>

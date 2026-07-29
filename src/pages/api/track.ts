@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 import { createHash } from 'crypto';
 
 const PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID;
-const ACCESS_TOKEN = import.meta.env.META_ACCESS_TOKEN;
+const ACCESS_TOKEN = import.meta.env.META_CAPI_TOKEN;
 const API_VERSION = 'v20.0';
 
 function sha256(value: string): string {
@@ -25,10 +25,62 @@ const PASSTHROUGH_FIELDS = [
   'lead_id',
 ];
 
+// Rate limiter in-memory: 100 requests/minuto por IP
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT_MAX = 100;
+const RATE_LIMIT_WINDOW_MS = 60_000;
+let rateLimitRequestCount = 0;
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+
+  if (!entry || now > entry.resetTime) {
+    rateLimitMap.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
+    return false;
+  }
+
+  entry.count++;
+  return entry.count > RATE_LIMIT_MAX;
+}
+
+function cleanupExpiredRateLimitEntries(now: number): void {
+  for (const [ip, entry] of rateLimitMap) {
+    if (now > entry.resetTime) rateLimitMap.delete(ip);
+  }
+}
+
+// Whitelist de eventos permitidos
+const ALLOWED_EVENTS = [
+  'PageView',
+  'Lead',
+  'Schedule',
+  'CompleteRegistration',
+  'Purchase',
+  'ViewContent',
+  'AddToCart',
+  'Contact',
+  'SubmitApplication',
+];
+
 export const POST: APIRoute = async ({ request, clientAddress }) => {
+  // Rate limiting por IP
+  if (clientAddress) {
+    rateLimitRequestCount++;
+    // Limpia entradas expiradas cada ~100 requests
+    if (rateLimitRequestCount % 100 === 0) cleanupExpiredRateLimitEntries(Date.now());
+
+    if (isRateLimited(clientAddress)) {
+      return new Response(
+        JSON.stringify({ error: 'Too many requests' }),
+        { status: 429, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+  }
+
   if (!PIXEL_ID || !ACCESS_TOKEN) {
     return new Response(
-      JSON.stringify({ error: 'Meta credentials not configured' }),
+      JSON.stringify({ error: 'Meta CAPI credentials not configured' }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
@@ -47,6 +99,13 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     if (!event_name || typeof event_name !== 'string') {
       return new Response(
         JSON.stringify({ error: 'event_name is required' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    if (!ALLOWED_EVENTS.includes(event_name)) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid event_name' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
@@ -99,7 +158,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     if (!response.ok) {
       console.error('[Meta CAPI] Error:', result);
       return new Response(
-        JSON.stringify({ error: 'Failed to send event to Meta', details: result }),
+        JSON.stringify({ error: 'Failed to send event to Meta' }),
         { status: response.status, headers: { 'Content-Type': 'application/json' } }
       );
     }

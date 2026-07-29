@@ -3,7 +3,8 @@ import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { getLanguageFromURL, useTranslations } from "../i18n/utils";
+import { getLanguageFromURL, useTranslations, getAlternateURLs } from "../i18n/utils";
+import { defaultLanguage } from "../i18n/config";
 import StructuredData from "../components/StructuredData.astro";
 import MetaPixel from "../components/MetaPixel.astro";
 import GoogleTagManager from "../components/layout/GoogleTagManager.astro";
@@ -20,6 +21,7 @@ interface Props {
 const { title, description, ogImage = "/logoEnteroOG.png" } = Astro.props;
 const currentLang = getLanguageFromURL(Astro.url);
 const t = useTranslations(currentLang);
+const alternateURLs = getAlternateURLs(Astro.url.pathname, currentLang);
 
 // Create proper page title
 const siteTitle = "Logic & Lines";
@@ -92,30 +94,16 @@ const canonicalURL = new URL(
       rel="stylesheet"
     />
 
-    <!-- Add alternate language links for SEO -->
+    <!-- Hreflang tags for multilingual SEO -->
+    <link rel="alternate" hreflang={currentLang} href={`https://logicandlines.com${alternateURLs[currentLang]}`} />
     {
-      currentLang === "en" && (
-        <link
-          rel="alternate"
-          hreflang="es"
-          href={`https://logicandlines.com${Astro.url.pathname.replace(/^\/(en\/)?/, "/es/")}`}
-        />
-      )
+      Object.entries(alternateURLs)
+        .filter(([lang]) => lang !== currentLang)
+        .map(([lang, url]) => (
+          <link rel="alternate" hreflang={lang} href={`https://logicandlines.com${url}`} />
+        ))
     }
-    {
-      currentLang === "es" && (
-        <link
-          rel="alternate"
-          hreflang="en"
-          href={`https://logicandlines.com${Astro.url.pathname.replace(/^\/(es\/)?/, "/")}`}
-        />
-      )
-    }
-    <link
-      rel="alternate"
-      hreflang="x-default"
-      href={`https://logicandlines.com${Astro.url.pathname.replace(/^\/(en|es)\//, "/")}`}
-    />
+    <link rel="alternate" hreflang="x-default" href={`https://logicandlines.com${alternateURLs[defaultLanguage]}`} />
 
     <!-- Add this in the head section -->
     <link rel="preload" href="/heroSinTexto.webp" as="image" />
