@@ -7,6 +7,7 @@ import { getLanguageFromURL, useTranslations, getAlternateURLs } from "../i18n/u
 import { defaultLanguage } from "../i18n/config";
 import StructuredData from "../components/StructuredData.astro";
 import MetaPixel from "../components/MetaPixel.astro";
+import CookiebotConsent from "../components/layout/CookiebotConsent.astro";
 import GoogleTagManager from "../components/layout/GoogleTagManager.astro";
 import GoogleTagManagerBody from "../components/layout/GoogleTagManagerBody.astro";
 
@@ -110,6 +111,7 @@ const canonicalURL = new URL(
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
+    <CookiebotConsent />
     <GoogleTagManager />
     <MetaPixel />
   </head>

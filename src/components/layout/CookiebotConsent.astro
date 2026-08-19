@@ -1,0 +1,55 @@
+---
+const cbid = import.meta.env.COOKIEBOT_ID || "03f4ee6e-764b-44af-a746-68e8fab1ec60";
+---
+
+<!-- Google Consent Mode v2 - estado por defecto (debe cargar antes que cualquier tracker) -->
+<script is:inline data-cookieconsent="ignore">
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    functionality_storage: 'denied',
+    personalization_storage: 'denied',
+    security_storage: 'granted',
+    wait_for_update: 500
+  });
+  gtag('set', 'ads_data_redaction', true);
+  gtag('set', 'url_passthrough', true);
+
+  window.addEventListener('CookiebotOnAccept', function () {
+    if (!window.gtag || !window.Cookiebot || !window.Cookiebot.consent) return;
+    window.gtag('consent', 'update', {
+      ad_storage: window.Cookiebot.consent.marketing ? 'granted' : 'denied',
+      ad_user_data: window.Cookiebot.consent.marketing ? 'granted' : 'denied',
+      ad_personalization: window.Cookiebot.consent.marketing ? 'granted' : 'denied',
+      analytics_storage: window.Cookiebot.consent.statistics ? 'granted' : 'denied',
+      functionality_storage: window.Cookiebot.consent.preferences ? 'granted' : 'denied',
+      personalization_storage: window.Cookiebot.consent.preferences ? 'granted' : 'denied'
+    });
+  });
+
+  window.addEventListener('CookiebotOnConsentUpdate', function () {
+    if (!window.gtag || !window.Cookiebot || !window.Cookiebot.consent) return;
+    window.gtag('consent', 'update', {
+      ad_storage: window.Cookiebot.consent.marketing ? 'granted' : 'denied',
+      ad_user_data: window.Cookiebot.consent.marketing ? 'granted' : 'denied',
+      ad_personalization: window.Cookiebot.consent.marketing ? 'granted' : 'denied',
+      analytics_storage: window.Cookiebot.consent.statistics ? 'granted' : 'denied',
+      functionality_storage: window.Cookiebot.consent.preferences ? 'granted' : 'denied',
+      personalization_storage: window.Cookiebot.consent.preferences ? 'granted' : 'denied'
+    });
+  });
+</script>
+
+<!-- Cookiebot CMP -->
+<script
+  is:inline
+  id="Cookiebot"
+  src="https://consent.cookiebot.com/uc.js"
+  data-cbid={cbid}
+  data-blockingmode="auto"
+  type="text/javascript"
+></script>

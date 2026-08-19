@@ -168,6 +168,14 @@ const baseUrl = currentLang === "en" ? "/en/" : "/";
       >
         {t.privacy.link}
       </a>
+      <a
+        href="#"
+        data-cookieconsent="ignore"
+        onclick="if(window.Cookiebot){window.Cookiebot.renew()}return false;"
+        class="text-sm md:ml-4 hover:text-[#F59E0B] transition-colors mt-2 md:mt-0"
+      >
+        {t.privacy.cookies}
+      </a>
     </div>
   </div>
 </footer>

@@ -5,7 +5,15 @@ const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID;
 {pixelId && (
   <!-- Meta Conversions API helpers: deduplicacion con event_id compartido -->
   <!-- El script base de Meta Pixel (fbevents.js) lo carga GTM, no este componente -->
-  <script is:inline>
+  <script is:inline data-cookieconsent="ignore">
+    window.hasConsentFor = function (category) {
+      if (window.Cookiebot && typeof window.Cookiebot.consent !== 'undefined') {
+        return !!window.Cookiebot.consent[category];
+      }
+      // CMP no cargado (dev/localhost): no bloquear tracking
+      return true;
+    };
+
     window.generateMetaEventId = function () {
       if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
         return 'evt_' + crypto.randomUUID();
@@ -24,6 +32,7 @@ const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID;
     };
 
     window.sendToMetaCAPI = async function (eventName, eventId, customData, userData) {
+      if (!window.hasConsentFor('marketing')) return;
       var payload = {
         event_name: eventName,
         event_time: Math.floor(Date.now() / 1000),
@@ -49,6 +58,7 @@ const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID;
     };
 
     window.trackMetaEvent = function (eventName, customData, userData) {
+      if (!window.hasConsentFor('marketing')) return;
       var eventId = window.generateMetaEventId();
 
       // Si GTM ya cargó fbq, disparamos el evento browser-side con el mismo event_id

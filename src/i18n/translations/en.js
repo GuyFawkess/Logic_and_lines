@@ -116,6 +116,7 @@ export default {
     copyright: "Copyright © {year} - All right reserved by Logic & Lines"
   },
   privacy: {
-    link: "Privacy Policy"
+    link: "Privacy Policy",
+    cookies: "Cookie Settings"
   }
 };
