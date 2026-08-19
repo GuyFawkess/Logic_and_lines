@@ -2,9 +2,9 @@
 
 ## 1. Resumen de la sesion
 
-**Fecha:** 2026-07-29 (continuacion)
+**Fecha:** 2026-08-19 (continuacion)
 **Proyecto:** Logic & Lines — landing page web
-**Estado:** Bloques 1, 3 y 4 completados. Bloque 2 (Cal.com) saltado. Pendiente bloque 5 (CMP/cookies) + URL de Facebook.
+**Estado:** Bloques 1, 3, 4 y 5 completados. Bloque 2 (Cal.com) saltado. Pendiente config GTM (companera) + URL de Facebook.
 
 Se completaron los bloques 3 (Email CTA fix) y 4 (SEO técnico) planificados en la sesión anterior. Se corrigieron emails rotos, se añadió Instagram visible, se implementaron schemas JSON-LD en home y contacto, se arregló hreflang, se añadieron descriptions y alt texts. Build Astro exitoso (22 páginas). QA final PASS.
 
@@ -52,6 +52,24 @@ Se completaron los bloques 3 (Email CTA fix) y 4 (SEO técnico) planificados en 
 - QA final: PASS. Sin `malaithai`, sin `Malai Thai`, sin `href=""`, hreflang correcto, JSON-LD parseable.
 
 ---
+
+## 3.5 Sesion 2026-08-19 — Bloque 5 CMP/cookies (completado)
+
+Cookiebot + Google Consent Mode v2 integrados y pusheados (commit `8cff8d3`, deploy automatico Coolify):
+
+- Nuevo componente `src/components/layout/CookiebotConsent.astro`: consent default todo `denied` + `ads_data_redaction`/`url_passthrough` + listeners `CookiebotOnAccept`/`CookiebotOnConsentUpdate` con `gtag('consent','update')`; script CMP con `data-cbid=03f4ee6e-764b-44af-a746-68e8fab1ec60` y `data-blockingmode="auto"`; env `COOKIEBOT_ID` opcional.
+- Insertado en `<head>` ANTES de GTM en `Layout.astro` y `en/landing-lead.astro`.
+- `MetaPixel.astro`: gateo con `window.hasConsentFor('marketing')` en `trackMetaEvent` y `sendToMetaCAPI`; helpers con `data-cookieconsent="ignore"`.
+- Footer + i18n ES/EN: enlace "Configuracion de cookies" / "Cookie Settings" (`Cookiebot.renew()`).
+- Build OK (22 paginas). Verificado que el script de consent + CMP salen en el HTML generado en el orden correcto.
+
+### Pendiente: configuracion GTM (companera)
+
+1. Crear trigger custom event `cookie_consent_update`.
+2. Tag Meta Pixel: "Require additional consent" con `ad_storage` + trigger `cookie_consent_update` (en vez de All Pages).
+3. Tags de Google (GA4/Ads/Conversion Linker): NO tocar (Advanced Consent Mode).
+4. Scan nuevo del dominio en Cookiebot para categorizar GTM/Pixel.
+5. Verificar en Tag Assistant que con consent denegado el Pixel no carga y el CAPI no envia.
 
 ## 4. Historico — Sesion anterior (2026-07-29, bloque 1 + ajustes)
 
@@ -112,12 +130,11 @@ Facebook se ha dejado fuera de `Organization.sameAs` hasta que el usuario propor
 
 ## 6. Pendientes (proxima sesion)
 
-### Bloque 5 — CMP / banner cookies (prioritario)
-- Elegir e implementar un gestor de cookies (recomendados: Cookiebot, Usercentrics o CookieYes).
-- Insertar script del CMP en `Layout.astro`.
-- Configurar Consent Mode v2 en Google Tag Manager.
-- Ajustar MetaPixel y Conversions API para respetar el consentimiento del usuario.
-- Crear enlace a politica de cookies en el footer.
+### Configuracion GTM (companera)
+- Trigger `cookie_consent_update` + "Require additional consent" (`ad_storage`) en el tag del Meta Pixel.
+- Tags de Google (GA4/Ads/Conversion Linker): no tocar.
+- Scan nuevo del dominio en Cookiebot.
+- Verificar con Tag Assistant el comportamiento con consent denegado/aceptado.
 
 ### Facebook URL
 - Cuando el usuario proporcione la URL de Facebook: actualizar `contact.astro`, `en/contact.astro`, footer, `Organization.sameAs`.
@@ -127,7 +144,6 @@ Facebook se ha dejado fuera de `Organization.sameAs` hasta que el usuario propor
 
 ### General
 - Actualizar graphify tras los cambios: `graphify update .`
-- Desplegar en Coolify cuando todos los bloques pendientes estén completados (o antes si se desea un deploy intermedio).
 
 ---
 
@@ -164,11 +180,9 @@ src/i18n/utils.js
 
 ## 9. Proximo paso sugerido
 
-Continuar con el **bloque 5 — CMP / banner cookies**, que es el unico bloque funcional pendiente antes de un deploy completo.
+**Bloque 5 (CMP/cookies) COMPLETADO** (Cookiebot + Consent Mode v2, commit `8cff8d3`, deploy en Coolify).
 
-Opciones:
-- **Cookiebot** (recomendado por integracion directa con Consent Mode v2, plan gratuito para < 100 paginas).
-- **Usercentrics** (mas flexible pero mas costoso).
-- **CookieYes** (buen equilibrio, plan gratuito limitado).
-
-Una vez implementado el CMP, se recomienda desplegar en Coolify y verificar el tracking end-to-end.
+Siguiente:
+- Dar a la companera las instrucciones de configuracion GTM (trigger `cookie_consent_update` + consent requerido en Meta Pixel; ver seccion 3.5).
+- Verificar que el banner de cookies aparece en produccion.
+- Cuando haya URL de Facebook, completar `contact.astro`, footer y `Organization.sameAs`.
