@@ -1,8 +1,16 @@
 ---
+// Ficha de servicio v4 (F1-SUBPAGES, Dirección C). Conserva getStaticPaths,
+// la selección de campos del v1, el modo legacy (body markdown estilizado), el
+// JSON-LD Service y el script de ViewContent tal cual. Composiciones: hero
+// editorial asimétrico, problema en split, solución como statement con tramo de
+// línea, automatización en filas numeradas agrupadas, beneficios en filas
+// editoriales desfasadas, casos de uso colgando de un raíl con nodos y cierre en
+// circuito con CTA. Sin cards iguales, sin iconos decorativos.
 import { getCollection, render } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
+import SiteHeader from "../../components/sections/SiteHeader.astro";
+import SiteFooter from "../../components/sections/SiteFooter.astro";
 import BookButton from "../../components/BookButton.astro";
-import { Icon } from "astro-icon/components";
 
 export const prerender = true;
 
@@ -19,6 +27,8 @@ const { Content } = await render(service);
 const { data, slug } = service;
 
 // Fallback for services not yet updated to new schema
+// (hero.aeo_paragraph sigue sin renderizar, como en el v1: se habilita desde
+// el markdown de la colección si algún día se quiere mostrar)
 const title = data.title;
 const img = data.img;
 
@@ -34,10 +44,40 @@ const solution = data.solution;
 const automation = data.automation;
 const benefits = data.benefits;
 const use_cases = data.use_cases;
-const methodology = data.methodology;
 const final_cta = data.final_cta;
 
 const isLegacy = !problem; // If no problem section, render legacy content mode
+const hasBody = (service.body ?? "").trim().length > 0;
+
+// Dimensiones intrínsecas reales de las webp (cabecera RIFF/VP8X/VP8)
+const imageDims: Record<string, { w: number; h: number }> = {
+  "/logic-map/logic-map-2.webp": { w: 1184, h: 864 },
+  "/sales-line/funnels-provisional.webp": { w: 1024, h: 768 },
+  "/flow-line/flow-line-2.webp": { w: 1024, h: 768 },
+  "/logic-agent/logic-agents-2.webp": { w: 1032, h: 755 },
+  "/logic-support/logic-support-3.webp": { w: 1024, h: 1024 },
+  "/smarthost/smarthost-2.webp": { w: 1024, h: 1024 },
+};
+const dims = imageDims[img] ?? { w: 1024, h: 768 };
+
+// La descripción de solution trae párrafos separados por líneas en blanco
+const solutionParagraphs = (solution?.description ?? "")
+  .split(/\n\n+/)
+  .map((p) => p.trim())
+  .filter(Boolean);
+
+const num = (i: number) => String(i + 1).padStart(2, "0");
+
+// Automatización: filas numeradas agrupadas en dos columnas
+// (nunca >5 bullets uniformes sin agrupar)
+const automationItems = automation?.items ?? [];
+const automationHalf = Math.ceil(automationItems.length / 2);
+const automationGroups = [
+  automationItems.slice(0, automationHalf).map((item, i) => ({ n: num(i), item })),
+  automationItems
+    .slice(automationHalf)
+    .map((item, i) => ({ n: num(automationHalf + i), item })),
+];
 
 // Generate Service schema
 const serviceSchema = {
@@ -66,328 +106,242 @@ const serviceSchema = {
 };
 ---
 
-<Layout title={title} description={hero.phrase}>
-  {/* HERO SECTION */}
-  <section
-    class="relative min-h-[90vh] flex items-center justify-center pt-12 pb-38 overflow-hidden bg-(--color-bg) w-full"
-  >
-    <div class="container mx-auto px-6 max-w-7xl relative z-10">
-      <div class="grid md:grid-cols-2 gap-6 items-center">
-        <div class="text-left pl-8">
+<Layout title={title} description={hero.phrase} chrome={false}>
+  <SiteHeader currentLang="es" homePrefix="/" />
+  <main>
+    {/* HERO editorial: texto ancho a la izquierda, imagen real descolgada */}
+    <section
+      class="mx-auto w-full max-w-[1400px] px-6 pb-16 pt-20 lg:px-10 lg:pb-24 lg:pt-28"
+    >
+      <div class="grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-12">
+        <div class="md:col-span-7">
           <h1
-            class="text-5xl md:text-7xl font-display font-medium text-(--color-text-dark) tracking-tight leading-[1.1] mb-2"
+            class="max-w-[16ch] font-display text-[clamp(2.5rem,6vw,5rem)] font-normal leading-[1.12] tracking-[-0.04em] text-(--color-text)"
           >
             {title}
           </h1>
           <p
-            class="text-xl md:text-2xl text-(--color-primary) font-medium mb-6"
+            class="mt-6 font-mono text-xs leading-relaxed text-(--color-text-dark) md:text-sm"
           >
             {hero.subtitle}
           </p>
-          <p class="text-xl text-(--color-text) max-w-lg leading-relaxed mb-6">
+          <p class="mt-8 max-w-[65ch] text-lg leading-relaxed text-(--color-text-dark)">
             {hero.phrase}
           </p>
-
-          <!-- {
-            hero.aeo_paragraph && (
-              <div class="mt-6 p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm relative group overflow-hidden">
-                {/* 
-                  AEO Note: This paragraph directly answers a long-tail search query to capture Google AI Overviews and Perplexity.
-                  You can modify or disable it from the service Markdown files (src/content/services/*.md).
-               */}
-                <div class="absolute inset-0 bg-gradient-to-r from-(--color-primary)/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
-                <p class="text-sm font-medium text-(--color-text)/90 leading-relaxed font-sans relative z-10 italic">
-                  {hero.aeo_paragraph}
-                </p>
-              </div>
-            )
-          } -->
           <div>
             <a
               href="/#booking"
-              class="inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-xl text-(--color-bg) bg-(--color-primary) hover:bg-(--color-primary-hover) transition-all duration-300 shadow-[0_0_20px_rgba(235,170,0,0.3)] hover:shadow-[0_0_30px_rgba(235,170,0,0.5)] transform hover:-translate-y-1"
+              class="mt-10 inline-flex h-12 items-center justify-center whitespace-nowrap bg-(--color-primary) px-6 text-sm font-medium text-(--color-bg) transition-colors duration-200 hover:bg-(--color-primary-hover) active:translate-y-px"
             >
               {hero.cta}
             </a>
           </div>
         </div>
-        <div
-          class="relative h-full flex items-center justify-center animate-fade-in"
-        >
-          <div
-            class="relative w-full aspect-square max-w-[500px] flex items-center justify-center"
-          >
-            <div
-              class="absolute inset-0 bg-linear-to-tr from-(--color-primary)/20 to-transparent rounded-full blur-3xl animate-pulse-slow"
-            >
-            </div>
-            <img
-              transition:name={`img-${slug}`}
-              src={img}
-              alt={title}
-              class="relative z-10 max-w-full max-h-full drop-shadow-2xl hover:scale-105 transition-transform duration-700 rounded-3xl"
-            />
-          </div>
-        </div>
+        <figure class="md:col-span-4 md:col-start-9 md:mt-20">
+          <img
+            transition:name={`img-${slug}`}
+            src={img}
+            width={dims.w}
+            height={dims.h}
+            loading="lazy"
+            decoding="async"
+            alt={title}
+            class="h-auto w-full"
+          />
+        </figure>
       </div>
-    </div>
-    <svg
-      data-name="Layer 1"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 1200 120"
-      preserveAspectRatio="none"
-      class="absolute -bottom-px left-0 w-full h-auto block z-10"
-    >
-      <path
-        d="M0,0 L892.25,114.72 L1200,0 L1200,120 L0,120 Z"
-        class="shape-fill"
-        fill="var(--color-bg-alt)"
-        fill-opacity="1"></path>
-    </svg>
-  </section>
+    </section>
 
-  {
-    isLegacy ? (
-      <div class="container mx-auto px-4 py-16 max-w-6xl prose prose-lg prose-invert">
-        <Content />
-      </div>
-    ) : (
-      <>
-        {/* PROBLEM SECTION */}
-        {problem && (
-          <section class="pt-32 pb-48 bg-(--color-bg-alt) relative">
-            <div class="container mx-auto px-6 max-w-7xl">
-              <div class="grid md:grid-cols-2 gap-16 items-center">
-                <div>
+    {
+      isLegacy ? (
+        hasBody ? (
+          /* Modo legacy: prosa de contenido markdown con hairlines en headings */
+          <section class="mx-auto w-full max-w-[1400px] border-t border-(--color-hairline) px-6 pb-20 pt-16 lg:px-10 lg:pb-28 lg:pt-24">
+            <div class="legacy-prose max-w-[65ch]">
+              <Content />
+            </div>
+          </section>
+        ) : null
+      ) : (
+        <>
+          {/* PROBLEMA: statement display a la izquierda, puntos en filas */}
+          {problem && (
+            <section class="mx-auto w-full max-w-[1400px] border-t border-(--color-hairline) px-6 pb-20 pt-20 lg:px-10 lg:pb-28 lg:pt-28">
+              <div class="grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-12">
+                <div class="md:col-span-7">
                   <h2
-                    data-duration="700"
-                    data-animate="fade-right"
-                    class="lg:ml-18 md:ml-8 text-4xl md:text-5xl font-display text-(--color-text-dark) mb-8 leading-tight"
+                    class="max-w-[22ch] font-display text-[clamp(1.875rem,3.6vw,3rem)] leading-[1.15] tracking-[-0.02em] text-(--color-text)"
                     set:html={problem.statement}
                   />
                 </div>
-                <div
-                  data-duration="700"
-                  data-animate="fade-left"
-                  class="space-y-6"
-                >
+                <ul class="md:col-span-4 md:col-start-9">
                   {problem.points?.map((point) => (
-                    <div class="flex items-center gap-4 p-4 rounded-xl hover:bg-(--color-bg)/50 transition-colors">
-                      <span class="bg-red-500/10 text-red-400 p-2 rounded-lg">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path d="M18 6 6 18" />
-                          <path d="m6 6 12 12" />
-                        </svg>
-                      </span>
-                      <p class="text-xl text-(--color-text) font-light">
-                        {point}
-                      </p>
-                    </div>
+                    <li class="border-t border-(--color-hairline) py-4 text-base leading-relaxed text-(--color-text-dark)">
+                      {point}
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
-            </div>
-            <svg
-              class="absolute bottom-0 left-0 w-full h-16 md:h-24 text-(--color-bg) z-10 pointer-events-none"
-              viewBox="0 0 1200 120"
-              preserveAspectRatio="none"
-              fill="currentColor"
-            >
-              <path d="M0,0 L540,0 L600,80 L660,0 L1200,0 L1200,120 L0,120 Z" />
-            </svg>
-          </section>
-        )}
+            </section>
+          )}
 
-        {/* SOLUTION SECTION */}
-        {solution && (
-          <section class="py-12 bg-(--color-bg) relative overflow-hidden">
-            <div class="absolute inset-0 bg-radial-gradient from-(--color-card) to-transparent opacity-30" />
-            <div class="container mx-auto px-6 max-w-4xl text-center relative z-10">
+          {/* SOLUCIÓN: statement con tramo de línea + nodo (gramática Thesis) */}
+          {solution && (
+            <section class="mx-auto w-full max-w-[1400px] border-t border-(--color-hairline) px-6 pb-20 pt-20 lg:px-10 lg:pb-28 lg:pt-28">
+              <svg
+                class="h-3 w-full max-w-[22rem] overflow-visible"
+                viewBox="0 0 352 12"
+                preserveAspectRatio="xMinYMid meet"
+                aria-hidden="true"
+              >
+                <line
+                  x1="0"
+                  y1="6"
+                  x2="334"
+                  y2="6"
+                  stroke="var(--color-primary)"
+                  stroke-width="2"
+                />
+                <circle cx="342" cy="6" r="5" fill="var(--color-primary)" />
+              </svg>
               <h2
-                class="text-5xl md:text-6xl font-display font-medium text-(--color-text-dark) mb-12"
+                class="mt-12 max-w-[18ch] font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text)"
                 set:html={solution.title}
               />
-              <div
-                class="text-2xl text-(--color-text) leading-relaxed font-light"
-                set:html={solution.description}
-              />
-            </div>
-          </section>
-        )}
-
-        {/* DUAL SECTION: AUTOMATION (INCLUDES) & BENEFITS */}
-        {(automation || benefits || use_cases) && (
-          <section class="pt-24 bg-(--color-bg) w-full">
-            <div class="container mx-auto px-6 max-w-7xl">
-              <div class="grid md:grid-cols-2 gap-8">
-                {/* LEFT CARD: WHAT INCLUDES (AUTOMATION) */}
-                {automation && (
-                  <div
-                    data-duration="700"
-                    data-animate="fade-left"
-                    class="bg-(--color-card) rounded-2xl p-10 border border-white/5 shadow-lg flex flex-col h-full"
-                  >
-                    <h2
-                      class="text-2xl font-display text-(--color-text-dark) mb-8 font-semibold"
-                      set:html={automation.title}
-                    />
-                    <ul class="space-y-4">
-                      {automation.items?.map((item) => (
-                        <div class="flex items-start gap-4">
-                          <span class="text-(--color-primary) mt-1">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="18"
-                              height="18"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            >
-                              <polyline points="20 6 9 17 4 12" />
-                            </svg>
-                          </span>
-                          <p class="text-lg text-(--color-text) leading-snug">
-                            {item}
-                          </p>
-                        </div>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {/* RIGHT CARD: BENEFITS */}
-                {benefits && (
-                  <div
-                    data-duration="700"
-                    data-animate="fade-right"
-                    class="bg-(--color-primary)/5 rounded-2xl p-10 border border-(--color-primary)/20 shadow-lg flex flex-col h-full relative overflow-hidden"
-                  >
-                    {/* Subtle gold glow */}
-                    <div class="absolute top-0 right-0 w-64 h-64 bg-(--color-primary)/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-
-                    <h2
-                      class="text-2xl font-display text-(--color-text-dark) mb-8 font-semibold relative z-10"
-                      set:html={benefits.title}
-                    />
-                    <ul class="space-y-4 relative z-10">
-                      {benefits.items?.map((item) => (
-                        <div class="flex items-start gap-4">
-                          <span class="text-(--color-primary) mt-1">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="18"
-                              height="18"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            >
-                              <polyline points="20 6 9 17 4 12" />
-                            </svg>
-                          </span>
-                          <p class="text-lg text-(--color-text) leading-snug">
-                            {item}
-                          </p>
-                        </div>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+              <div class="mt-8 md:pl-[6%]">
+                {solutionParagraphs.map((paragraph) => (
+                  <p class="mt-6 max-w-[65ch] text-lg leading-relaxed text-(--color-text-dark)">
+                    {paragraph}
+                  </p>
+                ))}
               </div>
+            </section>
+          )}
 
-              {/* USE CASES SECTION */}
-              {use_cases && (
-                <div
-                  data-duration="700"
-                  data-animate="fade-up"
-                  class="mt-16 max-w-5xl mx-auto"
-                >
-                  <div class="bg-(--color-card) rounded-4xl p-10 md:p-14 border border-white/5 shadow-xl relative overflow-hidden">
-                    {/* Subtle background flair */}
-                    <div class="absolute bottom-0 left-0 w-64 h-64 bg-(--color-primary)/5 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3" />
-
-                    <h2
-                      class="text-3xl font-display text-(--color-text-dark) mb-10 text-center font-semibold"
-                      set:html={use_cases.title}
-                    />
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 relative z-10">
-                      {use_cases.items?.map((item) => (
-                        <div class="flex items-start gap-4">
-                          <span class="text-(--color-primary) mt-1">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            >
-                              <polyline points="9 11 12 14 22 4" />
-                              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-                            </svg>
-                          </span>
-                          <p class="text-xl text-(--color-text) leading-snug">
-                            {item}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-            <svg
-              data-name="Layer 1"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 1200 120"
-              preserveAspectRatio="none"
-              class="w-full h-auto block relative mt-24 z-10 -mb-10"
-            >
-              <path
-                d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"
-                class="shape-fill"
-                fill="var(--color-bg-alt)"
-                fill-opacity="1"
-              />
-            </svg>
-          </section>
-        )}
-
-        {/* FINAL CTA SECTION */}
-        {final_cta && (
-          <section class="py-16 md:py-24 bg-(--color-bg-alt) w-full h-full">
-            <div class="container mx-auto px-6 max-w-4xl text-center relative">
+          {/* AUTOMATIZACIÓN: filas numeradas, agrupadas en dos columnas */}
+          {automation && (
+            <section class="mx-auto w-full max-w-[1400px] border-t border-(--color-hairline) px-6 pb-20 pt-20 lg:px-10 lg:pb-28 lg:pt-28">
               <h2
-                class="text-5xl md:text-6xl font-semibold text-(--color-text) mb-8 leading-tight"
-                set:html={final_cta.text}
+                class="max-w-[18ch] font-display text-[clamp(1.875rem,3.6vw,3rem)] leading-[1.12] tracking-[-0.02em] text-(--color-text)"
+                set:html={automation.title}
               />
-              <BookButton text={final_cta.button_text} />
-            </div>
-          </section>
-        )}
-      </>
-    )
-  }
+              <div class="mt-12 grid grid-cols-1 gap-x-12 md:grid-cols-2">
+                {automationGroups.map((group) => (
+                  <ol>
+                    {group.map(({ n, item }) => (
+                      <li class="border-t border-(--color-hairline) py-4">
+                        <p class="font-mono text-xs tabular-nums text-(--color-text-dark)">
+                          {n}
+                        </p>
+                        <p class="mt-2 text-base leading-relaxed text-(--color-text)">
+                          {item}
+                        </p>
+                      </li>
+                    ))}
+                  </ol>
+                ))}
+              </div>
+            </section>
+          )}
 
+          {/* BENEFICIOS: filas editoriales desfasadas (sin números) */}
+          {benefits && (
+            <section class="mx-auto w-full max-w-[1400px] border-t border-(--color-hairline) px-6 pb-20 pt-20 lg:px-10 lg:pb-28 lg:pt-28">
+              <h2
+                class="max-w-[18ch] font-display text-[clamp(1.875rem,3.6vw,3rem)] leading-[1.12] tracking-[-0.02em] text-(--color-text)"
+                set:html={benefits.title}
+              />
+              <ul class="mt-12 grid grid-cols-1 gap-x-12 gap-y-8 md:grid-cols-12">
+                {benefits.items?.map((item, i) => (
+                  <li
+                    class={`border-t border-(--color-hairline) pt-5 ${
+                      i % 2 === 0 ? "md:col-span-7" : "md:col-span-5 md:mt-8"
+                    }`}
+                  >
+                    <p class="font-display text-xl leading-snug text-(--color-text) md:text-2xl">
+                      {item}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {/* CASOS DE USO: colgando de un raíl estático con nodos */}
+          {use_cases && (
+            <section class="mx-auto w-full max-w-[1400px] border-t border-(--color-hairline) px-6 pb-20 pt-20 lg:px-10 lg:pb-28 lg:pt-28">
+              <h2
+                class="max-w-[18ch] font-display text-[clamp(1.875rem,3.6vw,3rem)] leading-[1.12] tracking-[-0.02em] text-(--color-text)"
+                set:html={use_cases.title}
+              />
+              <ol class="mt-12">
+                {(use_cases.items ?? []).map((item, i, arr) => (
+                  <li class="relative pb-10 last:pb-0">
+                    <svg
+                      class="pointer-events-none absolute left-0 top-0 h-full w-2 overflow-visible"
+                      aria-hidden="true"
+                    >
+                      <line
+                        x1="3"
+                        y1="0"
+                        x2="3"
+                        y2={i === arr.length - 1 ? "8" : "100%"}
+                        stroke="var(--color-primary)"
+                        stroke-width="2"
+                      />
+                      <circle cx="3" cy="8" r="5" fill="var(--color-primary)" />
+                    </svg>
+                    <p class="max-w-[65ch] pl-10 text-base leading-relaxed text-(--color-text) md:pl-16 md:text-lg">
+                      {item}
+                    </p>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          )}
+
+          {/* CIERRE: la línea cruza y cierra circuito en el CTA */}
+          {final_cta && (
+            <section class="w-full border-t border-(--color-hairline) bg-(--color-bg-alt) py-20 lg:py-28">
+              <div class="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
+                <h2
+                  class="max-w-[18ch] font-display text-[clamp(2.25rem,5vw,4.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text)"
+                  set:html={final_cta.text}
+                />
+              </div>
+              <div class="mt-12 flex w-full items-center gap-0 pr-6 lg:pr-10">
+                <svg class="h-2 min-w-0 flex-1 overflow-visible" aria-hidden="true">
+                  <line
+                    x1="0"
+                    y1="4"
+                    x2="100%"
+                    y2="4"
+                    stroke="var(--color-primary)"
+                    stroke-width="2"
+                  />
+                </svg>
+                <svg
+                  class="h-2.5 w-2.5 shrink-0"
+                  viewBox="0 0 10 10"
+                  aria-hidden="true"
+                >
+                  <circle cx="5" cy="5" r="4.5" fill="var(--color-primary)" />
+                </svg>
+                <BookButton
+                  currentLang="es"
+                  text={final_cta.button_text}
+                  className="ml-5"
+                />
+              </div>
+            </section>
+          )}
+        </>
+      )
+    }
+  </main>
+  <SiteFooter currentLang="es" homePrefix="/" />
   <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+</Layout>
 
   <script is:inline>
     document.addEventListener('astro:page-load', () => {
@@ -400,19 +354,43 @@ const serviceSchema = {
       }
     });
   </script>
-</Layout>
 
-<style>
-  .animate-pulse-slow {
-    animation: pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+<style is:global>
+  /* Prosa del modo legacy (body markdown de la colección) */
+  .legacy-prose :where(h2, h3, h4) {
+    font-family: var(--font-display);
+    color: var(--color-text);
+    border-top: 1px solid var(--color-hairline);
+    margin-top: 2.75rem;
+    padding-top: 1.25rem;
+    font-size: 1.5rem;
+    line-height: 1.2;
   }
-  @keyframes pulse {
-    0%,
-    100% {
-      opacity: 0.2;
-    }
-    50% {
-      opacity: 0.5;
-    }
+  .legacy-prose :where(p) {
+    margin-top: 1.25rem;
+    color: var(--color-text-dark);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    max-width: 65ch;
+  }
+  .legacy-prose :where(ul, ol) {
+    margin-top: 1.25rem;
+    padding-left: 1.5rem;
+    color: var(--color-text-dark);
+  }
+  .legacy-prose :where(li) {
+    margin-top: 0.5rem;
+    line-height: 1.75;
+  }
+  .legacy-prose :where(strong) {
+    color: var(--color-text);
+  }
+  .legacy-prose :where(a) {
+    color: var(--color-text);
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+  }
+  .legacy-prose :where(a:hover) {
+    color: var(--color-primary);
   }
 </style>

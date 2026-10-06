@@ -1,31 +1,63 @@
 ---
+// 404 (F1-SUBPAGES, Direction C): typographic poster — giant Sentient numeral,
+// a static Master Line segment and the v1 short copy. No GTM events (the v1
+// link had none either).
 import Layout from "../../layouts/Layout.astro";
-import { useTranslations } from "../../i18n/utils";
+import SiteHeader from "../../components/sections/SiteHeader.astro";
+import SiteFooter from "../../components/sections/SiteFooter.astro";
 
 export const prerender = true;
-
-const currentLang = "en";
-const t = useTranslations(currentLang);
 ---
 
 <Layout
   title="Page Not Found"
   description="Sorry, the page you are looking for does not exist. Return to Logic and Lines homepage."
+  chrome={false}
 >
-  <div
-    class="flex flex-col items-center justify-center min-h-[80dvh] px-4 text-center"
-  >
-    <h1 class="text-4xl font-bold text-(--color-terracotta) mb-4">
-      404 - Page Not Found
-    </h1>
-    <p class="text-xl mb-8">
-      Sorry, the page you are looking for does not exist.
-    </p>
-    <a
-      href="/"
-      class="btn bg-(--color-terracotta) text-white hover:bg-(--color-atention) transition-colors"
+  <SiteHeader currentLang="en" homePrefix="/en/" />
+  <main>
+    <section
+      class="mx-auto flex min-h-[72dvh] w-full max-w-[1400px] flex-col justify-center px-6 pb-20 pt-16 lg:px-10 lg:pb-28 lg:pt-24"
     >
-      Return to Homepage
-    </a>
-  </div>
+      <h1
+        class="font-display font-normal leading-[0.9] tracking-[-0.04em] text-(--color-text)"
+      >
+        <span class="block text-[clamp(5rem,20vw,13rem)]">404</span>
+        <span
+          class="mt-6 block text-[clamp(1.75rem,3.2vw,2.75rem)] leading-[1.12] tracking-[-0.02em]"
+          >Page Not Found</span
+        >
+      </h1>
+
+      <!-- Static line segment with node -->
+      <svg
+        class="mt-10 h-3 w-full max-w-[22rem] overflow-visible"
+        viewBox="0 0 352 12"
+        preserveAspectRatio="xMinYMid meet"
+        aria-hidden="true"
+      >
+        <line
+          x1="0"
+          y1="6"
+          x2="334"
+          y2="6"
+          stroke="var(--color-primary)"
+          stroke-width="2"></line>
+        <circle cx="342" cy="6" r="5" fill="var(--color-primary)"></circle>
+      </svg>
+
+      <p class="mt-10 max-w-[65ch] text-lg leading-relaxed text-(--color-text-dark)">
+        Sorry, the page you are looking for does not exist.
+      </p>
+
+      <div>
+        <a
+          href="/"
+          class="mt-10 inline-flex h-12 items-center justify-center whitespace-nowrap bg-(--color-primary) px-6 text-sm font-medium text-(--color-bg) transition-colors duration-200 hover:bg-(--color-primary-hover) active:translate-y-px"
+          >Return to Homepage</a
+        >
+      </div>
+    </section>
+  </main>
+  <SiteFooter currentLang="en" homePrefix="/en/" />
 </Layout>

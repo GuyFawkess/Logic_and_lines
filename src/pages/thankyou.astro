@@ -1,16 +1,121 @@
 ---
+// Confirmación de llamada (F1-SUBPAGES, Dirección C): confirmación sobria en
+// gramática C — misma estructura que el v1 (sin header de nav; el v1 tampoco lo
+// tenía) con el SiteFooter nuevo. noindex, los metas y los dos scripts de
+// tracking se conservan tal cual (mismo evento, mismo orden, mismos atributos).
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import GoogleTagManager from "../components/layout/GoogleTagManager.astro";
 import GoogleTagManagerBody from "../components/layout/GoogleTagManagerBody.astro";
 import MetaPixel from "../components/MetaPixel.astro";
-import Footer from "../components/Footer.astro";
+import SiteFooter from "../components/sections/SiteFooter.astro";
 
 export const prerender = true;
 
 const title = "Llamada Confirmada | Logic & Lines";
 const description =
     "Tu llamada de evaluación está confirmada. Te esperamos para analizar cómo automatizar tu negocio.";
+
+const steps = [
+    {
+        n: "1",
+        title: "Revisión previa de tu negocio",
+        text: "Antes de la llamada, revisaremos brevemente tu web y procesos públicos para entender tu contexto.",
+    },
+    {
+        n: "2",
+        title: "Llamada de evaluación (30 min)",
+        text: "Conversamos sobre tu situación actual, identificamos cuellos de botella y oportunidades de mejora.",
+    },
+    {
+        n: "3",
+        title: "Identificación de procesos clave",
+        text: "Detectamos qué procesos tienen mayor impacto si se automatizan (gestión de leads, seguimiento, reporting, etc.).",
+    },
+    {
+        n: "4",
+        title: "Definición del siguiente paso",
+        text: "Si tiene sentido trabajar juntos, te proponemos un Sprint de Automatización. Si no, te lo diremos con total transparencia.",
+    },
+];
+
+const prepItems = [
+    {
+        title: "Ten claro cómo entran tus leads",
+        text: "Formularios, llamadas, redes sociales, referidos... ¿Cómo llegan? ¿Qué pasa después?",
+    },
+    {
+        title: "Identifica procesos manuales",
+        text: "¿Qué tareas repetitivas hace tu equipo cada día? Copiar datos, enviar emails, actualizar hojas...",
+    },
+    {
+        title: "Piensa dónde se pierde tiempo o dinero",
+        text: "Leads sin seguimiento, tareas que tardan horas, errores recurrentes... ¿Qué duele más?",
+    },
+    {
+        title: "Define tu objetivo principal",
+        text: "¿Quieres convertir más leads? ¿Reducir errores? ¿Tener visibilidad del proceso? Prioriza uno.",
+    },
+];
+
+const idealItems = [
+    "Tienes leads activos y proceso comercial en marcha",
+    "Tu equipo hace tareas manuales repetitivas",
+    'Buscas resultados medibles, no solo "software"',
+    "Estás dispuesto a invertir en mejora operativa",
+];
+
+const notIdealItems = [
+    "Estás empezando desde cero (aún no tienes procesos)",
+    "Buscas software barato o plantillas genéricas",
+    'Quieres soluciones "mágicas" sin esfuerzo',
+    "No estás listo para implementar cambios",
+];
+
+const notThisItems = [
+    {
+        title: "Una demo de software",
+        text: "No vamos a enseñarte n8n, Make o cualquier herramienta. Hablamos de tu negocio, no de tecnología.",
+    },
+    {
+        title: "Una llamada de ventas agresiva",
+        text: "Si no tiene sentido trabajar juntos, te lo diremos directamente. No presionamos a nadie.",
+    },
+    {
+        title: "Consultoría gratuita ilimitada",
+        text: "Es una evaluación inicial. Si queremos profundizar, será dentro de un Sprint pagado.",
+    },
+];
+
+const howItems = [
+    {
+        title: "Sistemas, no herramientas",
+        text: "No vendemos software. Diseñamos sistemas adaptados a cada negocio.",
+    },
+    {
+        title: "Resultados rápidos",
+        text: "Sprint de 7-14 días con una automatización real implementada.",
+    },
+    {
+        title: "Transparencia total",
+        text: "Sabes qué vamos a hacer, cuánto tarda y qué vas a recibir.",
+    },
+];
+
+const reflectionItems = [
+    {
+        title: "¿Cuántos leads pierdes al mes?",
+        text: "Por no hacer seguimiento o responder tarde.",
+    },
+    {
+        title: "¿Cuántas horas semanales se pierden?",
+        text: "En tareas manuales que podrían automatizarse.",
+    },
+    {
+        title: "¿Qué pasaría si automatizan eso?",
+        text: "Más conversiones, más tiempo, menos errores.",
+    },
+];
 ---
 
 <!doctype html>
@@ -34,10 +139,9 @@ const description =
         <meta property="twitter:description" content={description} />
 
         <ClientRouter />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
-            rel="stylesheet"
-        />
+        <!-- Self-hosted faces (v4): preload the two most critical ones -->
+        <link rel="preload" href="/fonts/sentient-400.woff2" as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href="/fonts/cabinet-grotesk-400.woff2" as="font" type="font/woff2" crossorigin />
         <GoogleTagManager />
         <MetaPixel />
     </head>
@@ -46,694 +150,286 @@ const description =
         class="bg-(--color-bg) text-(--color-text) min-h-screen overflow-x-hidden"
     >
         <GoogleTagManagerBody />
-        <!-- Hero - Confirmación -->
-        <section
-            class="min-h-screen flex items-center justify-center py-12 px-4 md:px-6"
-            style="background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);"
-        >
-            <div class="max-w-4xl mx-auto text-center">
-                <!-- Logo -->
-                <div class="mb-8">
-                    <img
-                        src="/logoEntero.svg"
-                        alt="Logic & Lines"
-                        class="h-12 md:h-16 w-auto mx-auto"
-                    />
-                </div>
+        <main>
+            {/* Confirmación: tramo de línea + nodo, titular y dato en mono */}
+            <section
+                class="mx-auto w-full max-w-[1400px] px-6 pb-16 pt-16 lg:px-10 lg:pb-24 lg:pt-24"
+            >
+                <img
+                    src="/logoEntero.svg"
+                    alt="Logic & Lines"
+                    width="223"
+                    height="48"
+                    loading="lazy"
+                    decoding="async"
+                    class="h-12 w-auto md:h-16"
+                />
 
-                <!-- Check Icon -->
-                <div
-                    class="mb-8 inline-flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full bg-(--color-primary) shadow-[0_4px_20px_rgba(230,161,0,0.3)]"
+                <svg
+                    class="mt-12 h-3 w-full max-w-[22rem] overflow-visible"
+                    viewBox="0 0 352 12"
+                    preserveAspectRatio="xMinYMid meet"
+                    aria-hidden="true"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="w-12 h-12 md:w-14 md:h-14 text-(--color-text-dark)"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="3"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                </div>
+                    <line
+                        x1="0"
+                        y1="6"
+                        x2="334"
+                        y2="6"
+                        stroke="var(--color-primary)"
+                        stroke-width="2"></line>
+                    <circle
+                        cx="342"
+                        cy="6"
+                        r="5"
+                        fill="var(--color-primary)"></circle>
+                </svg>
 
                 <h1
-                    class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 text-(--color-text) leading-tight"
+                    class="mt-12 max-w-[18ch] font-display text-[clamp(2.25rem,5vw,4.5rem)] font-normal leading-[1.12] tracking-[-0.04em] text-(--color-text)"
                 >
                     ¡Tu llamada está confirmada!
                 </h1>
 
-                <p
-                    class="text-lg md:text-xl text-(--color-text) opacity-90 max-w-2xl mx-auto mb-8 leading-relaxed"
-                >
+                <p class="mt-8 max-w-[65ch] text-lg leading-relaxed text-(--color-text-dark)">
                     En breve recibirás un email con todos los detalles de la
                     llamada. Revisa tu bandeja de entrada (y spam, por si
                     acaso).
                 </p>
 
-                <div
-                    class="inline-flex items-center gap-3 px-6 py-3 bg-(--color-bg-alt) rounded-lg border border-[rgba(235,231,217,0.2)]"
+                <p
+                    class="mt-10 border-t border-(--color-hairline) pt-5 font-mono text-xs tabular-nums text-(--color-text-dark)"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="w-5 h-5 text-(--color-primary)"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"
-                        ></rect>
-                        <line x1="16" y1="2" x2="16" y2="6"></line>
-                        <line x1="8" y1="2" x2="8" y2="6"></line>
-                        <line x1="3" y1="10" x2="21" y2="10"></line>
-                    </svg>
-                    <span class="text-(--color-text) font-medium"
-                        >La llamada ya está en tu calendario</span
-                    >
-                </div>
-            </div>
-        </section>
+                    La llamada ya está en tu calendario
+                </p>
+            </section>
 
-        <!-- Qué va a pasar ahora -->
-        <section class="py-16 md:py-20 bg-(--color-bg)">
-            <div class="max-w-4xl mx-auto px-4 md:px-6">
+            {/* Qué va a pasar ahora: raíl vertical con nodos */}
+            <section
+                class="mx-auto w-full max-w-[1400px] border-t border-(--color-hairline) px-6 pb-16 pt-16 lg:px-10 lg:pb-24 lg:pt-24"
+            >
                 <h2
-                    class="text-3xl md:text-4xl font-bold text-center mb-12 text-(--color-text)"
+                    class="max-w-[18ch] font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text)"
                 >
                     ¿Qué va a pasar ahora?
                 </h2>
 
-                <div class="space-y-6">
-                    <div class="flex gap-6 items-start">
-                        <div
-                            class="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-(--color-primary) text-(--color-text-dark) flex items-center justify-center text-xl md:text-2xl font-bold"
-                        >
-                            1
-                        </div>
-                        <div class="flex-1 pt-2">
-                            <h3
-                                class="text-xl md:text-2xl font-semibold mb-2 text-(--color-text)"
-                            >
-                                Revisión previa de tu negocio
-                            </h3>
-                            <p
-                                class="text-(--color-text) opacity-85 leading-relaxed"
-                            >
-                                Antes de la llamada, revisaremos brevemente tu
-                                web y procesos públicos para entender tu
-                                contexto.
-                            </p>
-                        </div>
-                    </div>
+                <ol class="mt-12">
+                    {
+                        steps.map((s, i) => {
+                            const isLast = i === steps.length - 1;
+                            return (
+                                <li class="relative pb-10 last:pb-0">
+                                    <svg
+                                        class="pointer-events-none absolute left-0 top-0 h-full w-2 overflow-visible"
+                                        aria-hidden="true"
+                                    >
+                                        <line
+                                            x1="3"
+                                            y1="0"
+                                            x2="3"
+                                            y2={isLast ? "8" : "100%"}
+                                            stroke="var(--color-primary)"
+                                            stroke-width="2"
+                                        />
+                                        <circle
+                                            cx="3"
+                                            cy="8"
+                                            r="5"
+                                            fill="var(--color-primary)"
+                                        />
+                                    </svg>
+                                    <div class="pl-10 md:pl-16">
+                                        <p class="font-mono text-sm tabular-nums text-(--color-text-dark)">
+                                            {s.n}
+                                        </p>
+                                        <h3 class="mt-3 font-display text-2xl leading-[1.12] tracking-[-0.02em] text-(--color-text) md:text-3xl">
+                                            {s.title}
+                                        </h3>
+                                        <p class="mt-3 max-w-[65ch] text-base leading-relaxed text-(--color-text-dark)">
+                                            {s.text}
+                                        </p>
+                                    </div>
+                                </li>
+                            );
+                        })
+                    }
+                </ol>
+            </section>
 
-                    <div
-                        class="h-8 w-0.5 ml-6 md:ml-7"
-                        style="background: linear-gradient(180deg, var(--color-primary) 0%, transparent 100%);"
-                    >
-                    </div>
-
-                    <div class="flex gap-6 items-start">
-                        <div
-                            class="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-(--color-primary) text-(--color-text-dark) flex items-center justify-center text-xl md:text-2xl font-bold"
-                        >
-                            2
-                        </div>
-                        <div class="flex-1 pt-2">
-                            <h3
-                                class="text-xl md:text-2xl font-semibold mb-2 text-(--color-text)"
-                            >
-                                Llamada de evaluación (30 min)
-                            </h3>
-                            <p
-                                class="text-(--color-text) opacity-85 leading-relaxed"
-                            >
-                                Conversamos sobre tu situación actual,
-                                identificamos cuellos de botella y oportunidades
-                                de mejora.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div
-                        class="h-8 w-0.5 ml-6 md:ml-7"
-                        style="background: linear-gradient(180deg, var(--color-primary) 0%, transparent 100%);"
-                    >
-                    </div>
-
-                    <div class="flex gap-6 items-start">
-                        <div
-                            class="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-(--color-primary) text-(--color-text-dark) flex items-center justify-center text-xl md:text-2xl font-bold"
-                        >
-                            3
-                        </div>
-                        <div class="flex-1 pt-2">
-                            <h3
-                                class="text-xl md:text-2xl font-semibold mb-2 text-(--color-text)"
-                            >
-                                Identificación de procesos clave
-                            </h3>
-                            <p
-                                class="text-(--color-text) opacity-85 leading-relaxed"
-                            >
-                                Detectamos qué procesos tienen mayor impacto si
-                                se automatizan (gestión de leads, seguimiento,
-                                reporting, etc.).
-                            </p>
-                        </div>
-                    </div>
-
-                    <div
-                        class="h-8 w-0.5 ml-6 md:ml-7"
-                        style="background: linear-gradient(180deg, var(--color-primary) 0%, transparent 100%);"
-                    >
-                    </div>
-
-                    <div class="flex gap-6 items-start">
-                        <div
-                            class="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-(--color-primary) text-(--color-text-dark) flex items-center justify-center text-xl md:text-2xl font-bold"
-                        >
-                            4
-                        </div>
-                        <div class="flex-1 pt-2">
-                            <h3
-                                class="text-xl md:text-2xl font-semibold mb-2 text-(--color-text)"
-                            >
-                                Definición del siguiente paso
-                            </h3>
-                            <p
-                                class="text-(--color-text) opacity-85 leading-relaxed"
-                            >
-                                Si tiene sentido trabajar juntos, te proponemos
-                                un Sprint de Automatización. Si no, te lo
-                                diremos con total transparencia.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Cómo prepararse -->
-        <section
-            class="py-16 md:py-20"
-            style="background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);"
-        >
-            <div class="max-w-4xl mx-auto px-4 md:px-6">
+            {/* Cómo prepararte: filas editoriales desfasadas en dos columnas */}
+            <section
+                class="mx-auto w-full max-w-[1400px] border-t border-(--color-hairline) px-6 pb-16 pt-16 lg:px-10 lg:pb-24 lg:pt-24"
+            >
                 <h2
-                    class="text-3xl md:text-4xl font-bold text-center mb-6 text-(--color-text)"
+                    class="max-w-[18ch] font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text)"
                 >
                     Cómo prepararte para la llamada
                 </h2>
-                <p
-                    class="text-center text-(--color-text) opacity-75 mb-12 text-lg"
-                >
+                <p class="mt-6 max-w-[65ch] text-lg leading-relaxed text-(--color-text-dark)">
                     No es un examen. Solo queremos aprovechar mejor el tiempo.
                 </p>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div
-                        class="bg-(--color-bg-alt) p-6 md:p-8 rounded-xl border border-[rgba(235,231,217,0.1)] hover:border-(--color-primary) transition-all duration-300"
-                    >
-                        <div class="text-4xl mb-4">📊</div>
-                        <h3
-                            class="text-xl font-semibold mb-3 text-(--color-text)"
-                        >
-                            Ten claro cómo entran tus leads
-                        </h3>
-                        <p
-                            class="text-(--color-text) opacity-85 leading-relaxed"
-                        >
-                            Formularios, llamadas, redes sociales, referidos...
-                            ¿Cómo llegan? ¿Qué pasa después?
-                        </p>
-                    </div>
+                <ul class="mt-12 grid grid-cols-1 gap-x-12 gap-y-8 md:grid-cols-12">
+                    {
+                        prepItems.map((item, i) => (
+                            <li
+                                class={`border-t border-(--color-hairline) pt-5 ${
+                                    i % 2 === 0
+                                        ? "md:col-span-7"
+                                        : "md:col-span-5 md:mt-8"
+                                }`}
+                            >
+                                <h3 class="font-display text-xl leading-snug text-(--color-text) md:text-2xl">
+                                    {item.title}
+                                </h3>
+                                <p class="mt-3 max-w-[65ch] text-base leading-relaxed text-(--color-text-dark)">
+                                    {item.text}
+                                </p>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </section>
 
-                    <div
-                        class="bg-(--color-bg-alt) p-6 md:p-8 rounded-xl border border-[rgba(235,231,217,0.1)] hover:border-(--color-primary) transition-all duration-300"
-                    >
-                        <div class="text-4xl mb-4">⚙️</div>
-                        <h3
-                            class="text-xl font-semibold mb-3 text-(--color-text)"
-                        >
-                            Identifica procesos manuales
-                        </h3>
-                        <p
-                            class="text-(--color-text) opacity-85 leading-relaxed"
-                        >
-                            ¿Qué tareas repetitivas hace tu equipo cada día?
-                            Copiar datos, enviar emails, actualizar hojas...
-                        </p>
-                    </div>
-
-                    <div
-                        class="bg-(--color-bg-alt) p-6 md:p-8 rounded-xl border border-[rgba(235,231,217,0.1)] hover:border-(--color-primary) transition-all duration-300"
-                    >
-                        <div class="text-4xl mb-4">💸</div>
-                        <h3
-                            class="text-xl font-semibold mb-3 text-(--color-text)"
-                        >
-                            Piensa dónde se pierde tiempo o dinero
-                        </h3>
-                        <p
-                            class="text-(--color-text) opacity-85 leading-relaxed"
-                        >
-                            Leads sin seguimiento, tareas que tardan horas,
-                            errores recurrentes... ¿Qué duele más?
-                        </p>
-                    </div>
-
-                    <div
-                        class="bg-(--color-bg-alt) p-6 md:p-8 rounded-xl border border-[rgba(235,231,217,0.1)] hover:border-(--color-primary) transition-all duration-300"
-                    >
-                        <div class="text-4xl mb-4">🎯</div>
-                        <h3
-                            class="text-xl font-semibold mb-3 text-(--color-text)"
-                        >
-                            Define tu objetivo principal
-                        </h3>
-                        <p
-                            class="text-(--color-text) opacity-85 leading-relaxed"
-                        >
-                            ¿Quieres convertir más leads? ¿Reducir errores?
-                            ¿Tener visibilidad del proceso? Prioriza uno.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Para quién sí / Para quién no -->
-        <section class="py-16 md:py-20 bg-(--color-bg)">
-            <div class="max-w-5xl mx-auto px-4 md:px-6">
+            {/* Para quién sí / no: dos columnas con filas de un solo borde */}
+            <section
+                class="mx-auto w-full max-w-[1400px] border-t border-(--color-hairline) px-6 pb-16 pt-16 lg:px-10 lg:pb-24 lg:pt-24"
+            >
                 <h2
-                    class="text-3xl md:text-4xl font-bold text-center mb-12 text-(--color-text)"
+                    class="max-w-[22ch] font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text)"
                 >
                     Recordatorio: ¿Para quién es esta llamada?
                 </h2>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div
-                        class="bg-(--color-bg-alt) p-8 md:p-10 rounded-xl border-2 border-(--color-primary)"
-                    >
-                        <div class="flex items-center gap-3 mb-6">
-                            <div
-                                class="w-8 h-8 rounded-full bg-(--color-primary) flex items-center justify-center"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="w-5 h-5 text-(--color-text-dark)"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="3"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                >
-                                    <polyline points="20 6 9 17 4 12"
-                                    ></polyline>
-                                </svg>
-                            </div>
-                            <h3
-                                class="text-2xl font-bold text-(--color-primary)"
-                            >
-                                Es ideal si...
-                            </h3>
-                        </div>
-                        <ul class="space-y-3">
-                            <li class="flex items-start gap-3">
-                                <span class="text-(--color-primary) mt-1"
-                                    >•</span
-                                >
-                                <span
-                                    class="text-(--color-text) opacity-90 leading-relaxed"
-                                    >Tienes leads activos y proceso comercial en
-                                    marcha</span
-                                >
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="text-(--color-primary) mt-1"
-                                    >•</span
-                                >
-                                <span
-                                    class="text-(--color-text) opacity-90 leading-relaxed"
-                                    >Tu equipo hace tareas manuales repetitivas</span
-                                >
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="text-(--color-primary) mt-1"
-                                    >•</span
-                                >
-                                <span
-                                    class="text-(--color-text) opacity-90 leading-relaxed"
-                                    >Buscas resultados medibles, no solo
-                                    "software"</span
-                                >
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="text-(--color-primary) mt-1"
-                                    >•</span
-                                >
-                                <span
-                                    class="text-(--color-text) opacity-90 leading-relaxed"
-                                    >Estás dispuesto a invertir en mejora
-                                    operativa</span
-                                >
-                            </li>
+                <div class="mt-12 grid grid-cols-1 gap-x-12 gap-y-12 md:grid-cols-2">
+                    <div>
+                        <h3 class="font-display text-xl leading-snug text-(--color-text) md:text-2xl">
+                            Es ideal si...
+                        </h3>
+                        <ul class="mt-6">
+                            {
+                                idealItems.map((item) => (
+                                    <li class="border-t border-(--color-hairline) py-4 text-base leading-relaxed text-(--color-text)">
+                                        {item}
+                                    </li>
+                                ))
+                            }
                         </ul>
                     </div>
-
-                    <div
-                        class="bg-(--color-bg-alt) p-8 md:p-10 rounded-xl border-2 border-[rgba(235,231,217,0.2)]"
-                    >
-                        <div class="flex items-center gap-3 mb-6">
-                            <div
-                                class="w-8 h-8 rounded-full bg-[rgba(235,231,217,0.2)] flex items-center justify-center"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="w-5 h-5 text-(--color-text)"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="3"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                >
-                                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                                </svg>
-                            </div>
-                            <h3 class="text-2xl font-bold text-(--color-text)">
-                                No es ideal si...
-                            </h3>
-                        </div>
-                        <ul class="space-y-3">
-                            <li class="flex items-start gap-3">
-                                <span
-                                    class="text-(--color-text) opacity-50 mt-1"
-                                    >•</span
-                                >
-                                <span
-                                    class="text-(--color-text) opacity-90 leading-relaxed"
-                                    >Estás empezando desde cero (aún no tienes
-                                    procesos)</span
-                                >
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span
-                                    class="text-(--color-text) opacity-50 mt-1"
-                                    >•</span
-                                >
-                                <span
-                                    class="text-(--color-text) opacity-90 leading-relaxed"
-                                    >Buscas software barato o plantillas
-                                    genéricas</span
-                                >
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span
-                                    class="text-(--color-text) opacity-50 mt-1"
-                                    >•</span
-                                >
-                                <span
-                                    class="text-(--color-text) opacity-90 leading-relaxed"
-                                    >Quieres soluciones "mágicas" sin esfuerzo</span
-                                >
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span
-                                    class="text-(--color-text) opacity-50 mt-1"
-                                    >•</span
-                                >
-                                <span
-                                    class="text-(--color-text) opacity-90 leading-relaxed"
-                                    >No estás listo para implementar cambios</span
-                                >
-                            </li>
+                    <div>
+                        <h3 class="font-display text-xl leading-snug text-(--color-text) md:text-2xl">
+                            No es ideal si...
+                        </h3>
+                        <ul class="mt-6">
+                            {
+                                notIdealItems.map((item) => (
+                                    <li class="border-t border-(--color-hairline) py-4 text-base leading-relaxed text-(--color-text-dark)">
+                                        {item}
+                                    </li>
+                                ))
+                            }
                         </ul>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Qué NO es esta llamada -->
-        <section
-            class="py-16 md:py-20"
-            style="background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);"
-        >
-            <div class="max-w-4xl mx-auto px-4 md:px-6">
+            {/* Qué NO es esta llamada: filas apiladas */}
+            <section
+                class="mx-auto w-full max-w-[1400px] border-t border-(--color-hairline) px-6 pb-16 pt-16 lg:px-10 lg:pb-24 lg:pt-24"
+            >
                 <h2
-                    class="text-3xl md:text-4xl font-bold text-center mb-12 text-(--color-text)"
+                    class="max-w-[18ch] font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text)"
                 >
                     Para que estemos alineados...
                 </h2>
 
-                <div
-                    class="bg-(--color-bg-alt) p-8 md:p-10 rounded-xl border border-[rgba(235,231,217,0.1)]"
+                <h3
+                    class="mt-12 max-w-[65ch] border-t border-(--color-hairline) pt-8 font-display text-2xl leading-snug text-(--color-text)"
                 >
-                    <h3 class="text-2xl font-bold mb-6 text-(--color-text)">
-                        Esta llamada NO es:
-                    </h3>
+                    Esta llamada NO es:
+                </h3>
 
-                    <div class="space-y-4">
-                        <div class="flex items-start gap-4">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="w-6 h-6 text-(--color-primary) flex-shrink-0 mt-1"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                            >
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="15" y1="9" x2="9" y2="15"></line>
-                                <line x1="9" y1="9" x2="15" y2="15"></line>
-                            </svg>
-                            <div>
-                                <h4
-                                    class="text-lg font-semibold text-(--color-text) mb-1"
-                                >
-                                    Una demo de software
+                <ul class="mt-2">
+                    {
+                        notThisItems.map((item) => (
+                            <li class="border-t border-(--color-hairline) py-6">
+                                <h4 class="font-display text-xl leading-snug text-(--color-text)">
+                                    {item.title}
                                 </h4>
-                                <p
-                                    class="text-(--color-text) opacity-85 leading-relaxed"
-                                >
-                                    No vamos a enseñarte n8n, Make o cualquier
-                                    herramienta. Hablamos de tu negocio, no de
-                                    tecnología.
+                                <p class="mt-2 max-w-[65ch] text-base leading-relaxed text-(--color-text-dark)">
+                                    {item.text}
                                 </p>
-                            </div>
-                        </div>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </section>
 
-                        <div class="flex items-start gap-4">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="w-6 h-6 text-(--color-primary) flex-shrink-0 mt-1"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                            >
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="15" y1="9" x2="9" y2="15"></line>
-                                <line x1="9" y1="9" x2="15" y2="15"></line>
-                            </svg>
-                            <div>
-                                <h4
-                                    class="text-lg font-semibold text-(--color-text) mb-1"
-                                >
-                                    Una llamada de ventas agresiva
-                                </h4>
-                                <p
-                                    class="text-(--color-text) opacity-85 leading-relaxed"
-                                >
-                                    Si no tiene sentido trabajar juntos, te lo
-                                    diremos directamente. No presionamos a
-                                    nadie.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="w-6 h-6 text-(--color-primary) flex-shrink-0 mt-1"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                            >
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="15" y1="9" x2="9" y2="15"></line>
-                                <line x1="9" y1="9" x2="15" y2="15"></line>
-                            </svg>
-                            <div>
-                                <h4
-                                    class="text-lg font-semibold text-(--color-text) mb-1"
-                                >
-                                    Consultoría gratuita ilimitada
-                                </h4>
-                                <p
-                                    class="text-(--color-text) opacity-85 leading-relaxed"
-                                >
-                                    Es una evaluación inicial. Si queremos
-                                    profundizar, será dentro de un Sprint
-                                    pagado.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Prueba de confianza -->
-        <section class="py-16 md:py-20 bg-(--color-bg)">
-            <div class="max-w-5xl mx-auto px-4 md:px-6">
+            {/* Cómo trabajamos: tres columnas con hairline superior */}
+            <section
+                class="mx-auto w-full max-w-[1400px] border-t border-(--color-hairline) px-6 pb-16 pt-16 lg:px-10 lg:pb-24 lg:pt-24"
+            >
                 <h2
-                    class="text-3xl md:text-4xl font-bold text-center mb-12 text-(--color-text)"
+                    class="max-w-[18ch] font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text)"
                 >
                     Cómo trabajamos
                 </h2>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div
-                        class="bg-(--color-bg-alt) p-6 md:p-8 rounded-xl text-center"
-                    >
-                        <div class="text-5xl mb-4">🎯</div>
-                        <h3
-                            class="text-lg font-semibold mb-3 text-(--color-text)"
-                        >
-                            Sistemas, no herramientas
-                        </h3>
-                        <p
-                            class="text-(--color-text) opacity-85 leading-relaxed text-sm"
-                        >
-                            No vendemos software. Diseñamos sistemas adaptados a
-                            cada negocio.
-                        </p>
-                    </div>
+                <ul class="mt-12 grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-3">
+                    {
+                        howItems.map((item) => (
+                            <li class="border-t border-(--color-hairline) pt-5">
+                                <h3 class="font-display text-xl leading-snug text-(--color-text)">
+                                    {item.title}
+                                </h3>
+                                <p class="mt-3 text-base leading-relaxed text-(--color-text-dark)">
+                                    {item.text}
+                                </p>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </section>
 
-                    <div
-                        class="bg-(--color-bg-alt) p-6 md:p-8 rounded-xl text-center"
-                    >
-                        <div class="text-5xl mb-4">⚡</div>
-                        <h3
-                            class="text-lg font-semibold mb-3 text-(--color-text)"
-                        >
-                            Resultados rápidos
-                        </h3>
-                        <p
-                            class="text-(--color-text) opacity-85 leading-relaxed text-sm"
-                        >
-                            Sprint de 7-14 días con una automatización real
-                            implementada.
-                        </p>
-                    </div>
-
-                    <div
-                        class="bg-(--color-bg-alt) p-6 md:p-8 rounded-xl text-center"
-                    >
-                        <div class="text-5xl mb-4">🔒</div>
-                        <h3
-                            class="text-lg font-semibold mb-3 text-(--color-text)"
-                        >
-                            Transparencia total
-                        </h3>
-                        <p
-                            class="text-(--color-text) opacity-85 leading-relaxed text-sm"
-                        >
-                            Sabes qué vamos a hacer, cuánto tarda y qué vas a
-                            recibir.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Micro-compromiso -->
-        <section
-            class="py-16 md:py-20"
-            style="background: linear-gradient(180deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);"
-        >
-            <div class="max-w-4xl mx-auto px-4 md:px-6 text-center">
+            {/* Mientras tanto: preguntas en filas desfasadas */}
+            <section
+                class="mx-auto w-full max-w-[1400px] border-t border-(--color-hairline) px-6 pb-20 pt-16 lg:px-10 lg:pb-28 lg:pt-24"
+            >
                 <h2
-                    class="text-3xl md:text-4xl font-bold mb-6 text-(--color-text)"
+                    class="max-w-[18ch] font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text)"
                 >
                     Mientras tanto...
                 </h2>
-                <p
-                    class="text-lg text-(--color-text) opacity-90 mb-10 max-w-2xl mx-auto leading-relaxed"
-                >
+                <p class="mt-6 max-w-[65ch] text-lg leading-relaxed text-(--color-text-dark)">
                     Si quieres llegar más preparado a la llamada, aquí tienes
                     algunas preguntas para reflexionar:
                 </p>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
-                    <div
-                        class="bg-(--color-bg-alt) p-6 rounded-xl border border-[rgba(235,231,217,0.1)]"
-                    >
-                        <div class="text-3xl mb-3">💭</div>
-                        <h3
-                            class="text-lg font-semibold mb-2 text-(--color-text)"
-                        >
-                            ¿Cuántos leads pierdes al mes?
-                        </h3>
-                        <p
-                            class="text-(--color-text) opacity-75 text-sm leading-relaxed"
-                        >
-                            Por no hacer seguimiento o responder tarde.
-                        </p>
-                    </div>
+                <ul class="mt-12 grid grid-cols-1 gap-x-12 gap-y-8 md:grid-cols-12">
+                    {
+                        reflectionItems.map((item, i) => (
+                            <li
+                                class={`border-t border-(--color-hairline) pt-5 ${
+                                    i % 2 === 0
+                                        ? "md:col-span-7"
+                                        : "md:col-span-5 md:mt-8"
+                                }`}
+                            >
+                                <h3 class="font-display text-xl leading-snug text-(--color-text) md:text-2xl">
+                                    {item.title}
+                                </h3>
+                                <p class="mt-3 max-w-[65ch] text-base leading-relaxed text-(--color-text-dark)">
+                                    {item.text}
+                                </p>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </section>
+        </main>
 
-                    <div
-                        class="bg-(--color-bg-alt) p-6 rounded-xl border border-[rgba(235,231,217,0.1)]"
-                    >
-                        <div class="text-3xl mb-3">⏱️</div>
-                        <h3
-                            class="text-lg font-semibold mb-2 text-(--color-text)"
-                        >
-                            ¿Cuántas horas semanales se pierden?
-                        </h3>
-                        <p
-                            class="text-(--color-text) opacity-75 text-sm leading-relaxed"
-                        >
-                            En tareas manuales que podrían automatizarse.
-                        </p>
-                    </div>
-
-                    <div
-                        class="bg-(--color-bg-alt) p-6 rounded-xl border border-[rgba(235,231,217,0.1)]"
-                    >
-                        <div class="text-3xl mb-3">📈</div>
-                        <h3
-                            class="text-lg font-semibold mb-2 text-(--color-text)"
-                        >
-                            ¿Qué pasaría si automatizan eso?
-                        </h3>
-                        <p
-                            class="text-(--color-text) opacity-75 text-sm leading-relaxed"
-                        >
-                            Más conversiones, más tiempo, menos errores.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer simple -->
-        <Footer />
+        <SiteFooter currentLang="es" homePrefix="/" />
 
         <script is:inline>
             document.addEventListener('astro:page-load', () => {
@@ -748,6 +444,21 @@ const description =
         <script is:inline>
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({ event: 'generated_lead' });
+        </script>
+        <!-- Listener delegado de data-gtm-event (copia literal del Layout) para
+             que los atributos GTM del SiteFooter funcionen en esta página -->
+        <script is:inline>
+            document.addEventListener('click', function (e) {
+                var el = e.target.closest('[data-gtm-event]');
+                if (!el) return;
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                    event: el.dataset.gtmEvent,
+                    gtm_location: el.dataset.gtmLocation || '',
+                    gtm_label: el.dataset.gtmLabel || '',
+                    url: el.href || '',
+                });
+            });
         </script>
     </body>
 </html>

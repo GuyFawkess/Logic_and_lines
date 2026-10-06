@@ -1,6 +1,12 @@
 ---
+// Contact v4 (F1-SUBPAGES, Direction C): asymmetric composition — wide copy on
+// the left, channels in a narrow hairline-stacked column on the right (no cards,
+// no decorative icons) and a static Master Line segment closing on the Cal.com
+// CTA. Content, ContactPage JSON-LD and every tracking script are preserved
+// verbatim (functionally byte-identical).
 import Layout from "../../layouts/Layout.astro";
-import { Icon } from "astro-icon/components";
+import SiteHeader from "../../components/sections/SiteHeader.astro";
+import SiteFooter from "../../components/sections/SiteFooter.astro";
 import { useTranslations } from "../../i18n/utils";
 
 export const prerender = true;
@@ -29,120 +35,215 @@ const contactSchema = {
 };
 ---
 
-<Layout title={pageTitle} description={pageDescription}>
-  <main class="w-full mb-20 py-10 px-4 text-center">
-    <div class="max-w-6xl mx-auto">
-      <h1 class="text-3xl font-bold mb-8 text-(--color-terracotta)">
+<Layout title={pageTitle} description={pageDescription} chrome={false}>
+  <SiteHeader currentLang={currentLang} homePrefix="/en/" />
+  <main>
+    <section
+      class="mx-auto w-full max-w-[1400px] px-6 pb-20 pt-20 lg:px-10 lg:pb-28 lg:pt-28"
+    >
+      <h1
+        class="max-w-[14ch] font-display text-[clamp(2.5rem,6vw,5rem)] font-normal leading-[1.12] tracking-[-0.04em] text-(--color-text)"
+      >
         {t.contact.title}
       </h1>
-      <div class="flex flex-col md:flex-row gap-10">
-        <div class="md:block w-full md:w-1/2 h-full mx-auto text-left">
+
+      <div class="mt-16 grid grid-cols-1 gap-x-10 gap-y-16 md:grid-cols-12">
+        <!-- Copy: wide, left -->
+        <div class="md:col-span-7">
           <h2
-            class="text-xl font-medium mb-4 text-(--color-atention) text-center"
+            class="font-display text-xl leading-snug text-(--color-text) md:text-2xl"
           >
             {t.contact.info}
           </h2>
-          <h3 class="mb-3 font-medium">
+          <h3
+            class="mt-6 max-w-[22ch] font-display text-[clamp(1.75rem,3.2vw,2.75rem)] leading-[1.12] tracking-[-0.02em] text-(--color-text)"
+          >
             {t.contact.thankYou}
           </h3>
-          <p class="mb-3">
+          <p class="mt-8 max-w-[65ch] text-lg leading-relaxed text-(--color-text-dark)">
             {t.contact.preparation}
           </p>
-          <p class="mb-3">
+          <p class="mt-6 max-w-[65ch] text-lg leading-relaxed text-(--color-text-dark)">
             {t.contact.offering}
           </p>
-          <p class="mb-3">
+          <p class="mt-6 max-w-[65ch] text-lg leading-relaxed text-(--color-text-dark)">
             {t.contact.bookSession}
           </p>
-          <p>{t.contact.lookForward}</p>
+          <p class="mt-6 max-w-[65ch] text-lg leading-relaxed text-(--color-text-dark)">
+            {t.contact.lookForward}
+          </p>
         </div>
-        <div class="w-full md:w-1/2 text-left h-full">
+
+        <!-- Channels: narrow column, stacked with hairlines (no cards) -->
+        <div class="md:col-span-4 md:col-start-9">
           <h2
-            class="text-xl font-medium mb-4 text-(--color-atention) text-center"
+            class="font-display text-xl leading-snug text-(--color-text) md:text-2xl"
           >
             {t.contact.reachMe}
           </h2>
-          <ul class="flex flex-col space-y-8 w-full ml-6 md:ml-16 lg:ml-20">
-            <li class="flex items-center">
+          <ul class="mt-8">
+            <li class="border-t border-(--color-hairline)">
               <a
                 href="https://wa.me/34628125302"
                 target="_blank"
                 rel="noopener noreferrer"
+                class="flex min-h-11 items-center py-4 text-base text-(--color-text) transition-colors duration-200 hover:text-(--color-primary)"
                 aria-label="Contact us on WhatsApp"
-                class="flex items-center gap-3 group"
                 data-gtm-event="contact_click"
                 data-gtm-location="contact_page_en"
                 data-gtm-label="whatsapp"
               >
-                <span class="inline-block">
-                  <Icon
-                    name="whatsapp"
-                    class="text-3xl text-(--color-deep-charcoal) transition duration-200 ease-in-out group-hover:scale-125 group-hover:text-(--color-terracotta)"
-                  />
-                </span>
                 <span>WhatsApp</span>
               </a>
             </li>
-            <li class="flex items-center">
+            <li class="border-t border-(--color-hairline)">
               <a
                 href="https://www.instagram.com/logic_and_lines/?hl=en"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex items-center gap-3 group"
+                class="flex min-h-11 items-center py-4 text-base text-(--color-text) transition-colors duration-200 hover:text-(--color-primary)"
                 aria-label="Follow us on Instagram"
                 data-gtm-event="social_click"
                 data-gtm-location="contact_page_en"
                 data-gtm-label="instagram"
               >
-                <span class="inline-block">
-                  <Icon
-                    name="instagram"
-                    class="text-3xl text-(--color-deep-charcoal) transition duration-200 ease-in-out group-hover:scale-125 group-hover:text-(--color-terracotta)"
-                  />
-                </span>
                 <span>Instagram</span>
               </a>
             </li>
-            <!-- TODO: añadir URL de Facebook cuando esté disponible -->
-            <li class="flex items-center">
+            <!-- TODO: add Facebook URL when available -->
+            <li class="border-t border-(--color-hairline)">
               <span
-                class="flex items-center gap-3 group hidden"
+                class="flex min-h-11 items-center py-4 text-base text-(--color-text) hidden"
                 aria-label="Follow us on Facebook"
               >
-                <span class="inline-block">
-                  <Icon
-                    name="facebook3"
-                    class="text-3xl text-(--color-deep-charcoal) transition duration-200 ease-in-out group-hover:scale-125 group-hover:text-(--color-terracotta)"
-                  />
-                </span>
                 <span>Facebook</span>
               </span>
             </li>
-            <li class="flex items-center">
+            <li class="border-t border-(--color-hairline)">
               <a
                 href="mailto:logicandlinestudios@gmail.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex items-center gap-3 group"
+                class="flex min-h-11 items-center py-4 text-base text-(--color-text) transition-colors duration-200 hover:text-(--color-primary)"
                 aria-label="Send us an email"
                 data-gtm-event="contact_click"
                 data-gtm-location="contact_page_en"
                 data-gtm-label="email"
               >
-                <span class="inline-block">
-                  <Icon
-                    name="gmail2"
-                    class="text-3xl text-(--color-deep-charcoal) transition duration-200 ease-in-out group-hover:scale-125 group-hover:text-(--color-terracotta)"
-                  />
-                </span>
                 <span>Email</span>
               </a>
             </li>
           </ul>
         </div>
       </div>
+    </section>
+
+    <!-- Circuit: the line enters from the left edge and closes on the Cal.com CTA -->
+    <div class="flex w-full items-center gap-0 pr-6 lg:pr-10">
+      <svg class="h-2 min-w-0 flex-1 overflow-visible" aria-hidden="true">
+        <line
+          x1="0"
+          y1="4"
+          x2="100%"
+          y2="4"
+          stroke="var(--color-primary)"
+          stroke-width="2"></line>
+      </svg>
+      <svg
+        class="h-2.5 w-2.5 shrink-0"
+        viewBox="0 0 10 10"
+        aria-hidden="true"
+      >
+        <circle cx="5" cy="5" r="4.5" fill="var(--color-primary)"></circle>
+      </svg>
+      <button
+        type="button"
+        class="ml-5 inline-flex h-12 shrink-0 items-center justify-center whitespace-nowrap bg-(--color-primary) px-6 text-sm font-medium text-(--color-bg) transition-colors duration-200 hover:bg-(--color-primary-hover) active:translate-y-px"
+        data-gtm-event="schedule_click"
+        data-gtm-location="contact_page_en"
+        data-gtm-label="cal_evaluation_call"
+        data-cal-link="logic-and-lines-knzt9s/1ª-llamada-de-evaluacion"
+        data-cal-namespace="1ª-llamada-de-evaluacion"
+        data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true","theme":"dark"}'
+      >
+        {t.buttons.book}
+      </button>
     </div>
+    <div class="h-20 lg:h-24"></div>
+
+    <!-- Cal element-click embed code begins -->
+    <script type="text/javascript">
+    (function (C, A, L) {
+      let p = function (a, ar) {
+        a.q.push(ar);
+      };
+      let d = C.document;
+      C.Cal =
+        C.Cal ||
+        function () {
+          let cal = C.Cal;
+          let ar = arguments;
+          if (!cal.loaded) {
+            cal.ns = {};
+            cal.q = cal.q || [];
+            d.head.appendChild(d.createElement("script")).src = A;
+            cal.loaded = true;
+          }
+          if (ar[0] === L) {
+            const api = function () {
+              p(api, arguments);
+            };
+            const namespace = ar[1];
+            api.q = api.q || [];
+            if (typeof namespace === "string") {
+              cal.ns[namespace] = cal.ns[namespace] || api;
+              p(cal.ns[namespace], ar);
+              p(cal, ["initNamespace", namespace]);
+            } else p(cal, ar);
+            return;
+          }
+          p(cal, ar);
+        };
+    })(window, "https://app.cal.com/embed/embed.js", "init");
+    Cal("init", "1ª-llamada-de-evaluacion", {
+      origin: "https://app.cal.com",
+    });
+
+    Cal.ns["1ª-llamada-de-evaluacion"]("ui", {
+      theme: "dark",
+      cssVarsPerTheme: { light: { "cal-brand": "#0D1A1F" } },
+      hideEventTypeDetails: false,
+      layout: "month_view",
+    });
+
+    Cal.ns["1ª-llamada-de-evaluacion"]("on", {
+      action: "bookingSuccessful",
+      callback: function () {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: "generated_lead" });
+      },
+    });
+  </script>
+  <!-- Cal element-click embed code ends -->
+
+  <!-- Meta Pixel: evento Schedule al pulsar el botón de Cal.com -->
+  <script is:inline>
+    document.addEventListener('astro:page-load', () => {
+      const calButton = document.querySelector('[data-cal-link]');
+      if (calButton) {
+        calButton.addEventListener('click', () => {
+          if (typeof trackMetaEvent === 'function') {
+            trackMetaEvent('Schedule', {
+              content_name: 'cal_booking',
+              content_category: 'scheduling'
+            });
+          }
+        });
+      }
+    });
+  </script>
   </main>
+  <SiteFooter currentLang={currentLang} homePrefix="/en/" />
   <script type="application/ld+json" set:html={JSON.stringify(contactSchema)} />
 </Layout>
 
