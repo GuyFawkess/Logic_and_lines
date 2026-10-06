@@ -1,6 +1,6 @@
 # Motion Plan — Rediseño Logic & Lines v4 ("Trionn-grade")
 
-> **Estado: PROPUESTA — esperando elección de dirección. No se ha tocado código.**
+> **Estado: APROBADO (2026-10-06) — Dirección C "La Línea Maestra" elegida · paleta BLOQUEADA a la de `main` · Lenis confirmado. F0 en curso.**
 > Rama destino: `redesign/logic-lines-v4-motion` (desde `main`; se crea en F0). Este doc vive sin trackear en el working tree hasta que F0 lo commitee en la rama nueva.
 > Capturas de evidencia: `docs/research-v4/`.
 > Investigación realizada con navegador real (Playwright) + forense de motion (sondas DOM, grabación de animaciones a 70ms, firmas de bundles). Todo lo que sigue está **medido**, no adivinado — salvo donde se marca "conocimiento".
@@ -128,6 +128,9 @@ Medido en vivo: petróleo `#0D1A1F` + texto `#EBEBD9`, Inter + Manrope, h2 64px 
 
 ## 3. Direcciones visuales (ELIGE 1)
 
+> **DECISIÓN (2026-10-06): Dirección C — LA LÍNEA MAESTRA.**
+> **Paleta bloqueada para TODAS las direcciones (la de `main`, extraída de producción):** petróleo `#0D1A1F` (base) · superficie `#16262E` · marfil `#FEF7EA` (texto) · marfil apagado `#B3AA9A` (secundario) · **ámbar `#E5A525`** acento único (hover `#F0B83A`). Las paletas descritas abajo por dirección quedan sustituidas por ésta. En C: tipografía marfil sobre petróleo, la Línea Maestra es ÁMBAR (el acento tiene un único dueño: la línea, los CTAs y los estados activos), labels mono en marfil apagado, grano sutil en tramos oscuros.
+
 Las tres comparten: identidad ligada al nombre ("Logic & Lines" = estructura, línea, trazo, retícula), tipografía con carácter y escala dramática, composiciones asimétricas, detalles de oficio (hairlines, microtipografía), motion coherente (misma familia de easings), contraste AA, sin daisyUI, sin `data-theme`, sin morados/azules SaaS. Ningusa repite la gramática "chaptered editorial" de v3 (descartada) ni la paleta petróleo+ámbar de v1.
 
 ### Dirección A — "EL PLANO" (blueprint técnico-cálido)
@@ -153,7 +156,7 @@ Las tres comparten: identidad ligada al nombre ("Logic & Lines" = estructura, l�
 ### Dirección C — "LA LÍNEA MAESTRA" (el diagrama vivo)
 
 - **Concepto:** una única línea continua (SVG path, sticky a viewport) se dibuja con el scroll atravesando TODA la página y conectando los nodos-sección: el sistema del cliente dibujándose ante sus ojos. La línea ES la marca ("Lines"); el nodo final cierra el circuito en el CTA. Hereda la idea "rail maestro de líneas" del v2 (que nunca llegó a navegadores) y la lleva a su forma pura.
-- **Paleta:** marfil `#F5F2EB` · tinta china `#1A1A18` · acento cobre `#B4593A` · línea gris cálido. Grano sutil al 4% en los tramos oscuros.
+- **Paleta (bloqueada a main):** petróleo #0D1A1F de base · tipografía marfil #FEF7EA · secundario #B3AA9A · **la línea es ámbar #E5A525** (único acento, dueño también de CTAs y estados activos) · grano sutil al 4% sobre los tramos oscuros.
 - **Tipografía:** **Sentient** (Fontshare, serif con itálicas expresivas para énfasis) + **Cabinet Grotesk** (Fontshare, grotesk con personalidad) + acentos **JetBrains Mono** (labels de nodo).
 - **Gramática:** continuous world ligero — un espacio (la línea) recorrido por actos que cuelgan de ella; cada sección es un nodo con label mono (`NODO 02 — MÉTODO`).
 - **Ejemplo de sección:** el proceso de 4 pasos cuelga de la línea maestra: la línea dibuja un tramo, el paso aparece junto al nodo, conector corto, siguiente tramo. En el pico, la línea se tensa y cruza la pantalla entera.
@@ -316,7 +319,7 @@ Cada fase termina con el checklist del master prompt (§10) + validación visual
 
 ## 10. Decisiones que necesito del usuario
 
-1. **Dirección visual: A (El Plano) / B (Prensa & Trazo) / C (La Línea Maestra).**
-2. **Confirmar Lenis** como smooth scroll (recomendado; ya en deps).
-3. **Copy del hero**: candidato v3 ("Tu negocio ya tiene la lógica. Yo trazo las líneas.") vs extraer de `main` en F0.
-4. **Stats (1.240h / 38 / 6)**: confirmar como reales, o bloque en estado "sin-dato".
+1. **Dirección visual: ✅ C — La Línea Maestra** (decidido 2026-10-06).
+2. **Lenis: ✅ confirmado** (ya en deps, instalado en v4).
+3. **Hero: ✅ copy candidato v3** ("Tu negocio ya tiene la lógica. Yo trazo las líneas." / EN "Your business already has the logic. I draw the lines.") — el usuario valida el resultado; si no convence, aportará referencia online que adaptaremos (forense de motion, sin copiar assets).
+4. **Stats: ✅ se mantienen como reales** (1.240 h / 38 / 6); el usuario las confirmará visualmente en F1.
