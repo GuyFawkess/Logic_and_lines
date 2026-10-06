@@ -1,23 +1,115 @@
 @import "tailwindcss";
-@plugin "daisyui";
 
-:root {
-  /* Fondos */
+/* Design tokens (Tailwind v4). Palette locked to main: petrol / ivory / amber.
+   The static option forces every token to be emitted as a CSS custom property
+   even before any utility uses it (Tailwind tree-shakes unused theme variables by
+   default), so plain var(--color-hairline) references always resolve. Each entry
+   also generates its utility (bg-bg, text-primary, font-sans, border-hairline...). */
+@theme static {
+  /* Backgrounds */
   --color-bg: #0D1A1F;
   --color-bg-alt: #16262E;
-  /* --color-bg-alt: #1C3A45; */
 
-  /* Tarjetas / Superficies */
+  /* Surfaces / cards */
   --color-card: #16262E;
 
-  /* Marca / CTA (recomendado para AIMA) */
+  /* Brand / CTA (the amber is the single accent: lines, CTAs, active states) */
   --color-primary: #e5a525;
   --color-primary-hover: #F0B83A;
 
-  /* Texto */
+  /* Text */
   --color-text: #fef7ea;
   --color-text-dark: #B3AA9A;
-  /* Para textos en tarjetas */
+
+  /* Hairlines and separators */
+  --color-hairline: color-mix(in srgb, var(--color-text) 14%, transparent);
+
+  /* Typography: self-hosted (see @font-face below) */
+  --font-display: "Sentient", Georgia, serif;
+  --font-sans: "Cabinet Grotesk", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+/* Self-hosted webfonts (Fontshare for Sentient / Cabinet Grotesk, Google Fonts
+   for JetBrains Mono). font-display: swap everywhere; the two most critical
+   faces are preloaded in Layout.astro. */
+@font-face {
+  font-family: "Sentient";
+  src: url("/fonts/sentient-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sentient";
+  src: url("/fonts/sentient-400i.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sentient";
+  src: url("/fonts/sentient-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cabinet Grotesk";
+  src: url("/fonts/cabinet-grotesk-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cabinet Grotesk";
+  src: url("/fonts/cabinet-grotesk-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cabinet Grotesk";
+  src: url("/fonts/cabinet-grotesk-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+/* JetBrains Mono ships as one variable file per subset; Google splits it into
+   latin / latin-ext, and only those two subsets are kept (labels are latin).
+   The same source file backs weights 400 and 500 (the wght axis is slaved to
+   the font-weight descriptor). */
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/jetbrains-mono-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/jetbrains-mono-400-ext.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/jetbrains-mono-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/jetbrains-mono-500-ext.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 /* :root {
@@ -41,12 +133,12 @@
 
 /* Global Font Styles */
 body {
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--font-sans);
 }
 
 h1,
 h2 {
-  font-family: 'Manrope', sans-serif;
+  font-family: var(--font-display);
 }
 
 /* Fix for header scroll offset */
