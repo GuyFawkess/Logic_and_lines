@@ -1,4 +1,6 @@
 ---
+// CTA de booking (gramática C): botón ámbar plano (radio 0, sin glow), una sola
+// línea. Conserva el destino (home + #booking) y los atributos GTM del v1.
 import { useTranslations } from "../i18n/utils";
 
 const {
@@ -15,11 +17,10 @@ const displayText = text || t.buttons.book;
 
 <a
   href={`${baseUrl}#booking`}
-  class={`flex items-center justify-center px-8 py-4 text-base font-medium rounded-xl text-(--color-bg) bg-(--color-primary) hover:bg-(--color-primary-hover) transition-all duration-300 shadow-[0_0_20px_rgba(235,170,0,0.3)] hover:shadow-[0_0_30px_rgba(235,170,0,0.5)] transform hover:-translate-y-1 whitespace-nowrap min-w-[220px] my-8 w-fit mx-auto ${className} ${buttonClass}`}
+  class={`inline-flex h-12 items-center justify-center whitespace-nowrap bg-(--color-primary) px-6 text-sm font-medium text-(--color-bg) transition-colors duration-200 hover:bg-(--color-primary-hover) active:translate-y-px ${className} ${buttonClass}`}
   data-gtm-event="cta_click"
   data-gtm-location={gtmLocation}
   data-gtm-label="schedule_call"
 >
   {displayText}
 </a>
-

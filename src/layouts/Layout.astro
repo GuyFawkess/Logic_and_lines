@@ -17,9 +17,17 @@ interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  // La home v4 monta su propio header/footer (sections/SiteHeader + SiteFooter);
+  // el resto de páginas siguen usando el chrome v1 de este layout.
+  chrome?: boolean;
 }
 
-const { title, description, ogImage = "/logoEnteroOG.png" } = Astro.props;
+const {
+  title,
+  description,
+  ogImage = "/logoEnteroOG.png",
+  chrome = true,
+} = Astro.props;
 const currentLang = getLanguageFromURL(Astro.url);
 const t = useTranslations(currentLang);
 const alternateURLs = getAlternateURLs(Astro.url.pathname, currentLang);
@@ -90,13 +98,21 @@ const canonicalURL = new URL(
     />
 
     <ClientRouter />
-    <!-- Self-hosted faces (v4 F0): preload the two most critical ones -->
-    <link rel="preload" href="/fonts/sentient-400.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/cabinet-grotesk-400.woff2" as="font" type="font/woff2" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Permanent+Marker&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Self-hosted faces (v4 F0): preload the two most critical ones.
+         crossorigin="anonymous" en el preload + crossorigin: anonymous en
+         el @font-face correspondiente: ambos pasan a credentials mode
+         "same-origin" y CORS mode "cors", y los modos casan (sin esto,
+         Chrome emite "preloaded but not used because the request
+         credentials mode does not match"). Para same-origin, no hace
+         falta Access-Control-Allow-Origin (Chrome acepta la respuesta sin
+         handshake CORS); sólo sirve para alinear los modos.
+         data-astro-transition-persist: sin él, cada navegación soft del
+         ClientRouter elimina estos <link> y los reinserta como nodos nuevos
+         (swapHeadElements solo conserva link[rel=stylesheet]), y Chrome
+         avisa "preloaded but not used" porque las caras ya están cargadas.
+         Con el atributo, el nodo consumido sobrevive al swap. -->
+    <link rel="preload" href="/fonts/sentient-400.woff2" as="font" type="font/woff2" crossorigin="anonymous" data-astro-transition-persist="ll-font-sentient-400" />
+    <link rel="preload" href="/fonts/cabinet-grotesk-400.woff2" as="font" type="font/woff2" crossorigin="anonymous" data-astro-transition-persist="ll-font-cabinet-grotesk-400" />
 
     <!-- Hreflang tags for multilingual SEO -->
     <link rel="alternate" hreflang={currentLang} href={`https://logicandlines.com${alternateURLs[currentLang]}`} />
@@ -109,24 +125,16 @@ const canonicalURL = new URL(
     }
     <link rel="alternate" hreflang="x-default" href={`https://logicandlines.com${alternateURLs[defaultLanguage]}`} />
 
-    <!-- Add this in the head section -->
-    <link rel="preload" href="/heroSinTexto.webp" as="image" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
     <CookiebotConsent />
     <GoogleTagManager />
     <MetaPixel />
   </head>
   <body>
     <GoogleTagManagerBody />
-    <Header currentLang={currentLang} />
+    {chrome && <Header currentLang={currentLang} />}
     <slot />
-    <Footer currentLang={currentLang} />
+    {chrome && <Footer currentLang={currentLang} />}
     <StructuredData currentLang={currentLang} />
-    <script src="/scroll-animate.js" defer></script>
-    <!-- Added: persistent hero initializer to re-run on astro:page-load -->
-    <script src="/hero-init.js" defer></script>
     <!-- Motion system (v4 F0 skeleton: plugins, tokens, Lenis). Bundled by Astro;
          re-runs its setup on astro:page-load after each ClientRouter swap. -->
     <script>
@@ -155,10 +163,17 @@ const canonicalURL = new URL(
     background-color: var(--color-bg);
     font-family: var(--font-sans);
     margin: 0;
-    width: 100%;
-    height: 100%;
-    justify-items: center;
-    color: #ebe7d9;
+    color: var(--color-text);
     overflow-x: hidden;
   }
+  /* antes: height: 100% + justify-items: center. height: 100% capaba
+   *html y body a la altura del viewport; con overflow-x: hidden, html se
+   *volvía overflow-y:auto pero su contenido (capado a 100% también)
+   *nunca crecía, así que el scroll del documento quedaba en 0. El
+   *IntersectionObserver de loading="lazy" mide el viewport real, así que
+   *ninguna imagen fuera de 100vh entraba en viewport y nunca se pedían
+   *los woff2/png posteriores. Ahora html crece con body y html es el
+   *scroll container único (window.scrollY). justify-items: center era
+   *código muerto sin grid/flex context.
+   */
 </style>

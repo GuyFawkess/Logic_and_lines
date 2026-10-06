@@ -9,7 +9,7 @@ const alternateURLs = getAlternateURLs(currentPath, currentLang);
 
 <!-- Mobile Toggle Design -->
 <div
-  class="md:hidden inline-flex bg-transparent border border-(--color-text)/30 rounded-full p-1 gap-1"
+  class="md:hidden inline-flex bg-transparent border border-(--color-text)/30 rounded-none p-1 gap-1"
 >
   {
     Object.entries(languages)
@@ -17,7 +17,7 @@ const alternateURLs = getAlternateURLs(currentPath, currentLang);
       .map(([lang, label]) => (
         <a
           href={alternateURLs[lang as keyof typeof alternateURLs]}
-          class={`px-3 py-1 rounded-full text-sm font-medium transition-colors duration-200 ${
+          class={`px-3 py-1 rounded-none text-sm font-medium transition-colors duration-200 ${
             currentLang === lang
               ? "bg-(--color-primary) text-(--color-bg)"
               : "text-(--color-text) hover:bg-(--color-text)/10"
@@ -36,7 +36,7 @@ const alternateURLs = getAlternateURLs(currentPath, currentLang);
 <div class="hidden md:inline-block relative text-left dropdown group">
   <button
     type="button"
-    class="inline-flex justify-center items-center w-full rounded-full border border-(--color-text)/30 shadow-sm px-4 py-2 bg-transparent text-sm font-medium text-(--color-text) hover:bg-(--color-text)/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-(--color-primary) transition-colors duration-200"
+    class="inline-flex justify-center items-center w-full rounded-none border border-(--color-text)/30 shadow-sm px-4 py-2 bg-transparent text-sm font-medium text-(--color-text) hover:bg-(--color-text)/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-(--color-primary) transition-colors duration-200"
     aria-expanded="true"
     aria-haspopup="true"
   >
@@ -58,7 +58,7 @@ const alternateURLs = getAlternateURLs(currentPath, currentLang);
   </button>
 
   <div
-    class="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-(--color-bg-alt) ring-1 ring-black ring-opacity-5 focus:outline-none opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
+    class="origin-top-right absolute right-0 mt-2 w-32 rounded-none shadow-lg bg-(--color-bg-alt) ring-1 ring-black ring-opacity-5 focus:outline-none opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 z-50"
   >
     <div
       class="py-1"

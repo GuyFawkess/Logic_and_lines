@@ -1,0 +1,83 @@
+---
+// Hero v4 (F1): claim en 2 líneas (línea clave en itálica de la misma familia),
+// línea de datos mono + 2 CTAs. Sin eyebrow ni tagline. El H1 es el claim.
+// Primer trazo estático de la Línea Maestra (SVG, sin animación).
+import { useTranslations } from "../../i18n/utils";
+
+interface Props {
+  currentLang: "es" | "en";
+}
+
+const { currentLang } = Astro.props;
+const t = useTranslations(currentLang);
+const contactHref = currentLang === "en" ? "/en/contact" : "/contact";
+
+const [line1, line2] = t.value.title;
+const italicWord = t.value.titleItalic as string;
+const italicIndex = line2.indexOf(italicWord);
+const beforeItalic = italicIndex >= 0 ? line2.slice(0, italicIndex) : line2;
+const afterItalic =
+  italicIndex >= 0 ? line2.slice(italicIndex + italicWord.length) : "";
+---
+
+<section
+  class="relative flex min-h-[100dvh] flex-col justify-end overflow-hidden pb-16 pt-24"
+>
+  <div
+    class="relative mx-auto w-full max-w-[1400px] pl-14 pr-6 lg:pl-24 lg:pr-10"
+  >
+    <!-- Línea Maestra: nace del borde superior y baja hasta el bloque de CTAs,
+         donde cierra con un nodo. El texto cuelga de ella (eje de alineación). -->
+    <svg
+      class="pointer-events-none absolute left-6 -top-24 h-[calc(100%+6rem)] w-3 overflow-visible lg:left-10"
+      aria-hidden="true"
+    >
+      <line
+        x1="3"
+        y1="0"
+        x2="3"
+        y2="100%"
+        stroke="var(--color-primary)"
+        stroke-width="2"></line>
+      <circle cx="3" cy="100%" r="5" fill="var(--color-primary)"></circle>
+    </svg>
+
+    <h1
+      class="max-w-[16ch] font-display text-[clamp(2.5rem,7vw,6rem)] font-normal leading-[1.12] tracking-[-0.04em] text-(--color-text)"
+    >
+      <span class="block pb-1">{line1}</span>
+      <span class="block pb-2"
+        >{beforeItalic}<em class="italic">{italicWord}</em>{afterItalic}</span
+      >
+    </h1>
+
+    <p
+      class="mt-8 max-w-[52ch] font-mono text-xs leading-relaxed text-(--color-text-dark) md:text-sm"
+    >
+      {t.value.keywordsLine}
+    </p>
+
+    <div class="mt-10 flex flex-wrap items-center gap-4">
+      <a
+        href={contactHref}
+        class="inline-flex h-11 items-center justify-center whitespace-nowrap bg-(--color-primary) px-6 text-sm font-medium text-(--color-bg) transition-colors duration-200 hover:bg-(--color-primary-hover) active:translate-y-px"
+        data-gtm-event="cta_click"
+        data-gtm-location="hero"
+        data-gtm-label="schedule_call"
+      >
+        {t.buttons.book}
+      </a>
+      <a
+        href="https://wa.me/34628125302"
+        target="_blank"
+        rel="noopener"
+        class="inline-flex h-11 items-center justify-center whitespace-nowrap border border-(--color-hairline) px-6 text-sm font-medium text-(--color-text) transition-colors duration-200 hover:border-(--color-primary) hover:text-(--color-primary) active:translate-y-px"
+        data-gtm-event="contact_click"
+        data-gtm-location="hero"
+        data-gtm-label="whatsapp"
+      >
+        WhatsApp
+      </a>
+    </div>
+  </div>
+</section>

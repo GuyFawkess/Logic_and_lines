@@ -1,14 +1,15 @@
 ---
-import Hero from "../components/Hero.astro";
-import Stats from "../components/Stats.astro";
-import BenefitsList from "../components/BenefitsList.astro";
 import Layout from "../layouts/Layout.astro";
-import ServicesList from "../components/ServicesList.astro";
-import ReasonsList from "../components/ReasonsList.astro";
-import BookButton from "../components/BookButton.astro";
-import Proceso from "../components/Proceso.astro";
-import Booking from "../components/Booking.astro";
-import FAQ from "../components/FAQ.astro";
+import SiteHeader from "../components/sections/SiteHeader.astro";
+import HeroHome from "../components/sections/HeroHome.astro";
+import MarqueeBand from "../components/sections/MarqueeBand.astro";
+import Thesis from "../components/sections/Thesis.astro";
+import ServicesIndex from "../components/sections/ServicesIndex.astro";
+import ProcessRail from "../components/sections/ProcessRail.astro";
+import Proof from "../components/sections/Proof.astro";
+import FaqIndex from "../components/sections/FaqIndex.astro";
+import BookingClose from "../components/sections/BookingClose.astro";
+import SiteFooter from "../components/sections/SiteFooter.astro";
 
 export const prerender = true;
 
@@ -44,21 +45,23 @@ const organizationSchema = {
 	title="Agencia de Marketing y Automatización con IA"
 	description="Logic & Lines: Agencia de Marketing y Automatización con IA. Transformamos negocios mediante estrategias digitales avanzadas y automatización inteligente."
 	ogImage="/logoNoSub.svg"
+	chrome={false}
 >
-	<!-- H1 visible solo para lectores de pantalla y SEO (el hero usa h2 por diseño) -->
-	<h1 class="sr-only">Logic & Lines — Automatización Inteligente para Empresas</h1>
-
 	<!-- Schemas JSON-LD exclusivos de la home -->
 	<script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
 	<script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
 
-	<Hero currentLang={currentLang} />
-	<Stats currentLang={currentLang} />
-	<BenefitsList currentLang={currentLang} />
-	<ServicesList currentLang={currentLang} />
-	<Proceso currentLang={currentLang} />
-	<!-- <Opinion currentLang={currentLang} /> -->
-	<ReasonsList currentLang={currentLang} />
-	<Booking currentLang={currentLang} />
-	<FAQ currentLang={currentLang} />
+	<!-- El H1 único de la página es el claim del hero (HeroHome) -->
+	<SiteHeader currentLang={currentLang} />
+	<main>
+		<HeroHome currentLang={currentLang} />
+		<MarqueeBand currentLang={currentLang} />
+		<Thesis currentLang={currentLang} />
+		<ServicesIndex currentLang={currentLang} />
+		<ProcessRail currentLang={currentLang} />
+		<Proof currentLang={currentLang} />
+		<FaqIndex currentLang={currentLang} />
+		<BookingClose currentLang={currentLang} />
+	</main>
+	<SiteFooter currentLang={currentLang} />
 </Layout>

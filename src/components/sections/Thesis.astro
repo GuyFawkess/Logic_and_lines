@@ -1,0 +1,43 @@
+---
+// Tesis: statement editorial apilado (h2 + body ≤65ch), con un tramo estático
+// de la Línea Maestra como remate superior. Sin eyebrow.
+import { useTranslations } from "../../i18n/utils";
+
+interface Props {
+  currentLang: "es" | "en";
+}
+
+const { currentLang } = Astro.props;
+const t = useTranslations(currentLang);
+---
+
+<section class="mx-auto w-full max-w-[1400px] px-6 pb-24 pt-28 lg:px-10 lg:pb-32 lg:pt-36">
+  <!-- Tramo de línea: sale del margen izquierdo y termina en un nodo -->
+  <svg
+    class="h-3 w-full max-w-[22rem] overflow-visible"
+    viewBox="0 0 352 12"
+    preserveAspectRatio="xMinYMid meet"
+    aria-hidden="true"
+  >
+    <line
+      x1="0"
+      y1="6"
+      x2="334"
+      y2="6"
+      stroke="var(--color-primary)"
+      stroke-width="2"></line>
+    <circle cx="342" cy="6" r="5" fill="var(--color-primary)"></circle>
+  </svg>
+
+  <h2
+    class="mt-14 max-w-[18ch] font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text)"
+  >
+    {t.thesis.title}
+  </h2>
+
+  <p
+    class="mt-8 max-w-[65ch] text-lg leading-relaxed text-(--color-text-dark) md:pl-[6%]"
+  >
+    {t.value.subtitle}
+  </p>
+</section>

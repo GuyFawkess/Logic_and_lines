@@ -1,8 +1,20 @@
 export default {
   value: {
     title: ["Your business already has the logic.", "I draw the lines."],
+    titleItalic: "lines",
     keywordsLine: "Marketing and AI automation for businesses in Lanzarote",
     subtitle: "I'm a full-stack developer who designs, builds and maintains the websites, automations and AI agents your business relies on every day."
+  },
+  marquee: {
+    phrases: [
+      "Systems that work for you",
+      "Logic before tools",
+      "Code you can maintain",
+      "Automation with judgment"
+    ]
+  },
+  thesis: {
+    title: "First the logic. Then the technology."
   },
   nav: {
     benefits: "Benefits",
@@ -22,11 +34,12 @@ export default {
     subtitle: "Reduce operating costs and eliminate repetitive tasks with intelligent solutions that improve efficiency and accuracy in every process."
   },
   services: {
-    title: 'Our <span class="text-primary">Services</span>',
-    subtitle: "Automation and artificial intelligence designed to boost your business."
+    title: "Services",
+    subtitle: "Automation and artificial intelligence designed to boost your business.",
+    view: "View"
   },
   process: {
-    title: 'Our <span class="text-primary">Clear</span> Process',
+    title: "Our process",
     subtitle: "Proven methodology that guarantees results. Each step is designed to maximize the success of your digital transformation.",
     steps: [
       {
@@ -57,8 +70,14 @@ export default {
     quote: "“Each step is designed to reduce friction, eliminate manual work, and build scalable systems from day one.”"
   },
   reasons: {
-    title: 'Why choose <span class="text-primary">Logic <span class="text-white">&</span> Lines</span>?',
-    subtitle: "We combine technical expertise with a focus on business results."
+    title: "Why choose Logic & Lines?",
+    subtitle: "We combine technical expertise with a focus on business results.",
+    items: [
+      "You talk to me, not to a salesperson",
+      "Clean code, and it is yours",
+      "I think in years, not in launches",
+      "Results you can measure"
+    ]
   },
   prices: {
     title: "Our Prices",
@@ -68,24 +87,21 @@ export default {
     subtitle: "Real metrics from our clients who trust us",
     items: [
       {
-        value: "85%",
-        label: "Time reduction",
-        subLabel: "in repetitive tasks"
+        value: "1,240",
+        label: "hours automated"
       },
       {
-        value: "24/7",
-        label: "Availability",
-        subLabel: "Continuous automation"
+        value: "38",
+        label: "websites and systems"
       },
       {
-        value: "95%",
-        label: "Success rate",
-        subLabel: "In implementations"
+        value: "6",
+        label: "service lines"
       }
     ]
   },
   faq: {
-    title: 'Frequently Asked <span class="text-primary">Questions</span>'
+    title: "Frequently asked questions"
   },
   seo: {
     contactTitle: "Contact",
@@ -109,16 +125,18 @@ export default {
     opening: "Next opening soon!"
   },
   buttons: {
-    book: "Schedule Consultation"
+    book: "Book your call"
   },
   booking: {
-    title: 'Schedule your <span class="text-primary">Free</span> Consultation',
+    title: "The next step is a conversation",
     text: "Select the day and time that best suits you for our initial meeting. In this consultation we will analyze your business and propose the best strategy.",
-    button: "Schedule Free Consultation",
-    footer: "No commitment • 100% Free • 30 minutes"
+    button: "Book your call",
+    footer: "No commitment · 30 minutes"
   },
   footer: {
-    copyright: "Copyright © {year} - All right reserved by Logic & Lines"
+    copyright: "© {year} Logic & Lines. All rights reserved.",
+    home: "Home",
+    contact: "Contact"
   },
   privacy: {
     link: "Privacy Policy",

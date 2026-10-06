@@ -1,0 +1,173 @@
+---
+// Cierre / Booking (F1): el pico estático. La Línea Maestra cruza la sección a
+// sangre y cierra circuito en el CTA de Cal.com (embed exacto del Booking v1).
+// Hora local de Lanzarote calculada en el render.
+import { useTranslations } from "../../i18n/utils";
+import { formatLanzaroteTime } from "../../lib/time";
+
+interface Props {
+  currentLang: "es" | "en";
+}
+
+const { currentLang } = Astro.props;
+const t = useTranslations(currentLang);
+const lanzaroteTime = formatLanzaroteTime(currentLang);
+const email = "logicandlinestudios@gmail.com";
+---
+
+<section
+  id="booking"
+  class="relative w-full overflow-hidden border-t border-(--color-hairline) bg-(--color-bg-alt) py-24 lg:py-32"
+>
+  <div class="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
+    <h2
+      class="max-w-[16ch] font-display text-[clamp(2.25rem,5vw,4.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text)"
+    >
+      {t.booking.title}
+    </h2>
+    <p class="mt-8 max-w-[65ch] text-lg leading-relaxed text-(--color-text-dark)">
+      {t.booking.text}
+    </p>
+  </div>
+
+  <!-- Circuito: la línea entra desde el borde izquierdo y cierra en el CTA -->
+  <div class="mt-14 flex w-full items-center gap-0 pr-6 lg:pr-10">
+    <svg
+      class="h-2 min-w-0 flex-1 overflow-visible"
+      aria-hidden="true"
+    >
+      <line
+        x1="0"
+        y1="4"
+        x2="100%"
+        y2="4"
+        stroke="var(--color-primary)"
+        stroke-width="2"></line>
+    </svg>
+    <svg
+      class="h-2.5 w-2.5 shrink-0"
+      viewBox="0 0 10 10"
+      aria-hidden="true"
+    >
+      <circle cx="5" cy="5" r="4.5" fill="var(--color-primary)"></circle>
+    </svg>
+    <button
+      type="button"
+      class="ml-5 inline-flex h-12 shrink-0 items-center justify-center whitespace-nowrap bg-(--color-primary) px-6 text-sm font-medium text-(--color-bg) transition-colors duration-200 hover:bg-(--color-primary-hover) active:translate-y-px"
+      data-gtm-event="schedule_click"
+      data-gtm-location="booking_section"
+      data-gtm-label="cal_evaluation_call"
+      data-cal-link="logic-and-lines-knzt9s/1ª-llamada-de-evaluacion"
+      data-cal-namespace="1ª-llamada-de-evaluacion"
+      data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true","theme":"dark"}'
+    >
+      {t.booking.button}
+    </button>
+  </div>
+
+  <div class="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
+    <p class="mt-8 font-mono text-xs tabular-nums text-(--color-text-dark)">
+      {t.booking.footer}
+    </p>
+
+    <!-- Canales directos + hora local -->
+    <div class="mt-10 flex flex-wrap items-center gap-x-10 gap-y-4">
+      <a
+        href="https://wa.me/34628125302"
+        target="_blank"
+        rel="noopener"
+        class="inline-flex min-h-11 items-center text-sm font-medium text-(--color-text) underline underline-offset-4 transition-colors duration-200 hover:text-(--color-primary)"
+        data-gtm-event="contact_click"
+        data-gtm-location="booking_section"
+        data-gtm-label="whatsapp"
+      >
+        <span>WhatsApp</span>
+      </a>
+      <a
+        href={`mailto:${email}`}
+        class="inline-flex min-h-11 items-center text-sm font-medium text-(--color-text) underline underline-offset-4 transition-colors duration-200 hover:text-(--color-primary)"
+        data-gtm-event="contact_click"
+        data-gtm-location="booking_section"
+        data-gtm-label="email"
+      >
+        <span>{email}</span>
+      </a>
+      <p class="font-mono text-xs tabular-nums text-(--color-text-dark)">
+        <span>LANZAROTE</span>
+        <time>{lanzaroteTime}</time>
+      </p>
+    </div>
+  </div>
+
+  <!-- Cal element-click embed code begins -->
+  <script type="text/javascript">
+    (function (C, A, L) {
+      let p = function (a, ar) {
+        a.q.push(ar);
+      };
+      let d = C.document;
+      C.Cal =
+        C.Cal ||
+        function () {
+          let cal = C.Cal;
+          let ar = arguments;
+          if (!cal.loaded) {
+            cal.ns = {};
+            cal.q = cal.q || [];
+            d.head.appendChild(d.createElement("script")).src = A;
+            cal.loaded = true;
+          }
+          if (ar[0] === L) {
+            const api = function () {
+              p(api, arguments);
+            };
+            const namespace = ar[1];
+            api.q = api.q || [];
+            if (typeof namespace === "string") {
+              cal.ns[namespace] = cal.ns[namespace] || api;
+              p(cal.ns[namespace], ar);
+              p(cal, ["initNamespace", namespace]);
+            } else p(cal, ar);
+            return;
+          }
+          p(cal, ar);
+        };
+    })(window, "https://app.cal.com/embed/embed.js", "init");
+    Cal("init", "1ª-llamada-de-evaluacion", {
+      origin: "https://app.cal.com",
+    });
+
+    Cal.ns["1ª-llamada-de-evaluacion"]("ui", {
+      theme: "dark",
+      cssVarsPerTheme: { light: { "cal-brand": "#0D1A1F" } },
+      hideEventTypeDetails: false,
+      layout: "month_view",
+    });
+
+    Cal.ns["1ª-llamada-de-evaluacion"]("on", {
+      action: "bookingSuccessful",
+      callback: function () {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: "generated_lead" });
+      },
+    });
+  </script>
+  <!-- Cal element-click embed code ends -->
+
+  <!-- Meta Pixel: evento Schedule al pulsar el botón de Cal.com -->
+  <script is:inline>
+    document.addEventListener('astro:page-load', () => {
+      const calButton = document.querySelector('[data-cal-link]');
+      if (calButton) {
+        calButton.addEventListener('click', () => {
+          if (typeof trackMetaEvent === 'function') {
+            trackMetaEvent('Schedule', {
+              content_name: 'cal_booking',
+              content_category: 'scheduling'
+            });
+          }
+        });
+      }
+    });
+  </script>
+</section>

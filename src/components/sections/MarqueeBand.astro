@@ -1,0 +1,41 @@
+---
+// Banda marquee ESTÁTICA (F1): frases de marca entre hairlines, separadas por
+// nodos ámbar. Sin animación: F4 la animará con marquee.ts (data-marquee-band).
+import { useTranslations } from "../../i18n/utils";
+
+interface Props {
+  currentLang: "es" | "en";
+}
+
+const { currentLang } = Astro.props;
+const t = useTranslations(currentLang);
+const phrases = t.marquee.phrases as string[];
+---
+
+<div
+  class="w-full border-y border-(--color-hairline) bg-(--color-bg-alt)"
+  data-marquee-band
+>
+  <ul
+    class="mx-auto flex w-full max-w-[1400px] flex-wrap items-center gap-x-8 gap-y-3 px-6 py-6 lg:px-10"
+  >
+    {
+      phrases.map((phrase, i) => (
+        <li class="flex items-center gap-8">
+          <span class="font-display text-lg text-(--color-text) lg:text-xl">
+            {phrase}
+          </span>
+          {i < phrases.length - 1 && (
+            <svg
+              class="h-1.5 w-1.5 shrink-0"
+              viewBox="0 0 6 6"
+              aria-hidden="true"
+            >
+              <circle cx="3" cy="3" r="3" fill="var(--color-primary)" />
+            </svg>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+</div>

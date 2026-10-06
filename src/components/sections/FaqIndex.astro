@@ -1,0 +1,100 @@
+---
+// FAQ (F1): acordeón nativo <details>/<summary> (funciona sin JS), agrupado por
+// categoría. Porta el JSON-LD FAQPage con la misma lógica que FAQ.astro.
+// Eventos GTM con la semántica exacta del v1 (FAQ.astro): la pregunta dispara
+// `faq_question_expand` con la pregunta como label y `faq_section` como location
+// (en el v1 `faq_expand` era el toggle de categoría, que aquí no existe: las
+// categorías son h3 siempre visibles).
+import { getCollection } from "astro:content";
+import { useTranslations } from "../../i18n/utils";
+
+interface Props {
+  currentLang: "es" | "en";
+}
+
+const { currentLang } = Astro.props;
+const t = useTranslations(currentLang);
+const isEn = currentLang === "en";
+
+const categories = (await getCollection("faq")).sort(
+  (a, b) => (a.data.sortOrder || 999) - (b.data.sortOrder || 999),
+);
+
+// Mismo esquema FAQPage que generaba FAQ.astro
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: categories.flatMap((category) =>
+    category.data.faqs.map((faq) => ({
+      "@type": "Question",
+      name: isEn && faq.question_en ? faq.question_en : faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: isEn && faq.answer_en ? faq.answer_en : faq.answer,
+      },
+    })),
+  ),
+};
+---
+
+<section id="faq" class="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
+  <h2
+    class="pt-24 font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text) lg:pt-32"
+  >
+    {t.faq.title}
+  </h2>
+
+  <div class="mt-14 grid grid-cols-1 gap-x-16 gap-y-12 lg:grid-cols-2">
+    {
+      categories.map((category) => {
+        const catTitle =
+          isEn && category.data.title_en
+            ? category.data.title_en
+            : category.data.title;
+
+        return (
+          <div>
+            <h3 class="font-display text-xl leading-snug text-(--color-text) md:text-2xl">
+              {catTitle}
+            </h3>
+            <div class="mt-5">
+              {category.data.faqs.map((faq) => {
+                const question =
+                  isEn && faq.question_en ? faq.question_en : faq.question;
+                const answer = isEn && faq.answer_en ? faq.answer_en : faq.answer;
+
+                return (
+                  <details class="group border-t border-(--color-hairline)">
+                    <summary
+                      class="flex cursor-pointer list-none items-start justify-between gap-6 py-4 text-base leading-relaxed text-(--color-text) transition-colors duration-200 hover:text-(--color-primary) [&::-webkit-details-marker]:hidden"
+                      data-gtm-event="faq_question_expand"
+                      data-gtm-location="faq_section"
+                      data-gtm-label={question}
+                    >
+                      <span>{question}</span>
+                      <svg
+                        class="mt-1 h-4 w-4 shrink-0 text-(--color-text-dark) transition-transform duration-200 group-open:rotate-45"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.25"
+                        aria-hidden="true"
+                      >
+                        <path d="M8 2v12M2 8h12" />
+                      </svg>
+                    </summary>
+                    <p class="max-w-[65ch] pb-5 text-sm leading-relaxed text-(--color-text-dark)">
+                      {answer}
+                    </p>
+                  </details>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })
+    }
+  </div>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />

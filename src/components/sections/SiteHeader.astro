@@ -1,0 +1,223 @@
+---
+// Cabecera v4 (F1): una línea desktop, sticky, con burger a pantalla completa en móvil.
+// Sin motion avanzado: solo transiciones CSS de color ≤200ms.
+import LanguageSwitcher from "../LanguageSwitcher.astro";
+import { useTranslations } from "../../i18n/utils";
+
+interface Props {
+  currentLang: "es" | "en";
+  // Prefijo de la home para las anclas de sección. En la home se deja vacío
+  // (href="#servicios"); las subpáginas pasan "/" o "/en/" para que las
+  // anclas apunten a las secciones de la home. No cambia el render del home.
+  homePrefix?: string;
+}
+
+const { currentLang, homePrefix = "" } = Astro.props;
+const t = useTranslations(currentLang);
+const baseUrl = currentLang === "en" ? "/en/" : "/";
+const contactHref = currentLang === "en" ? "/en/contact" : "/contact";
+
+// Anclas de la home nueva (ids de las secciones F1)
+const navLinks = [
+  { href: `${homePrefix}#servicios`, label: t.nav.services },
+  { href: `${homePrefix}#proceso`, label: t.nav.process },
+  { href: `${homePrefix}#razones`, label: t.nav.reason },
+  { href: `${homePrefix}#faq`, label: t.nav.faq },
+];
+
+const menuLabel = currentLang === "en" ? "Open menu" : "Abrir menú";
+const closeLabel = currentLang === "en" ? "Close menu" : "Cerrar menú";
+---
+
+<header
+  class="sticky top-0 z-50 w-full border-b border-(--color-hairline) bg-(--color-bg)"
+>
+  <nav
+    class="mx-auto flex h-[72px] w-full max-w-[1400px] items-center justify-between gap-6 px-6 lg:px-10"
+    aria-label={currentLang === "en" ? "Main" : "Principal"}
+  >
+    <!-- Marca: símbolo + wordmark -->
+    <a
+      href={baseUrl}
+      class="flex shrink-0 items-center gap-3"
+      aria-label="Logic & Lines"
+    >
+      <img
+        src="/logoSolo.svg"
+        width="60"
+        height="60"
+        alt=""
+        loading="lazy"
+        class="h-8 w-8"
+        decoding="async"
+      />
+      <span class="font-display text-lg leading-none text-(--color-text)"
+        >Logic &amp; Lines</span
+      >
+    </a>
+
+    <!-- Navegación desktop -->
+    <ul class="hidden items-center gap-8 lg:flex">
+      {
+        navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="inline-flex h-11 items-center text-sm text-(--color-text) transition-colors duration-200 hover:text-(--color-primary)"
+            >
+              <span>{link.label}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="hidden shrink-0 items-center gap-4 lg:flex">
+      <LanguageSwitcher currentLang={currentLang} />
+      <a
+        href={contactHref}
+        class="inline-flex h-11 items-center justify-center whitespace-nowrap bg-(--color-primary) px-5 text-sm font-medium text-(--color-bg) transition-colors duration-200 hover:bg-(--color-primary-hover) active:translate-y-px"
+        data-gtm-event="cta_click"
+        data-gtm-location="header_desktop"
+        data-gtm-label="schedule_call"
+      >
+        {t.buttons.book}
+      </a>
+    </div>
+
+    <!-- Burger (móvil y tablet) -->
+    <button
+      type="button"
+      id="nav-toggle"
+      class="inline-flex h-11 w-11 items-center justify-center lg:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-panel"
+      aria-label={menuLabel}
+    >
+      <svg
+        class="h-5 w-5 text-(--color-text)"
+        viewBox="0 0 20 20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        aria-hidden="true"
+      >
+        <path d="M2 5h16M2 10h16M2 15h16"></path>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Panel móvil a pantalla completa (se muestra/oculta con hidden: sin reveal por CSS) -->
+  <div
+    id="mobile-panel"
+    hidden
+    class="fixed inset-0 z-[70] flex flex-col bg-(--color-bg) lg:hidden"
+  >
+    <div
+      class="mx-auto flex h-[72px] w-full max-w-[1400px] items-center justify-between px-6"
+    >
+      <a
+        href={baseUrl}
+        class="flex items-center gap-3"
+        aria-label="Logic & Lines"
+      >
+        <img
+          src="/logoSolo.svg"
+          width="60"
+          height="60"
+          alt=""
+          loading="lazy"
+          class="h-8 w-8"
+          decoding="async"
+        />
+        <span class="font-display text-lg leading-none text-(--color-text)"
+          >Logic &amp; Lines</span
+        >
+      </a>
+      <button
+        type="button"
+        id="nav-close"
+        class="inline-flex h-11 w-11 items-center justify-center"
+        aria-label={closeLabel}
+      >
+        <svg
+          class="h-5 w-5 text-(--color-text)"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          aria-hidden="true"
+        >
+          <path d="M4 4l12 12M16 4L4 16"></path>
+        </svg>
+      </button>
+    </div>
+
+    <nav
+      class="mx-auto flex w-full max-w-[1400px] flex-1 flex-col gap-1 px-6 pb-12"
+      aria-label={currentLang === "en" ? "Mobile" : "Móvil"}
+    >
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="mobile-link inline-flex min-h-11 items-center border-t border-(--color-hairline) py-4 font-display text-2xl text-(--color-text) transition-colors duration-200 hover:text-(--color-primary)"
+          >
+            <span>{link.label}</span>
+          </a>
+        ))
+      }
+      <a
+        href={contactHref}
+        class="mt-8 inline-flex h-12 items-center justify-center whitespace-nowrap bg-(--color-primary) px-6 text-base font-medium text-(--color-bg) transition-colors duration-200 hover:bg-(--color-primary-hover) active:translate-y-px"
+        data-gtm-event="cta_click"
+        data-gtm-location="header_mobile"
+        data-gtm-label="schedule_call"
+      >
+        {t.buttons.book}
+      </a>
+      <div class="mt-6">
+        <LanguageSwitcher currentLang={currentLang} />
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Panel móvil: toggle accesible (aria-expanded + hidden), Escape para cerrar
+  // y cierre al pulsar un ancla. Sin reveal: el contenido nunca queda oculto por CSS.
+  function setupMobileNav() {
+    const toggle = document.getElementById("nav-toggle");
+    const closeBtn = document.getElementById("nav-close");
+    const panel = document.getElementById("mobile-panel");
+    if (!toggle || !closeBtn || !panel) return;
+    if (toggle.dataset.bound === "true") return;
+    toggle.dataset.bound = "true";
+
+    const open = () => {
+      panel.hidden = false;
+      toggle.setAttribute("aria-expanded", "true");
+      closeBtn.focus();
+    };
+    const close = () => {
+      panel.hidden = true;
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.focus();
+    };
+
+    toggle.addEventListener("click", () => {
+      if (panel.hidden) open();
+      else close();
+    });
+    closeBtn.addEventListener("click", close);
+    panel.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", close);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !panel.hidden) close();
+    });
+  }
+
+  setupMobileNav();
+  document.addEventListener("astro:page-load", setupMobileNav);
+</script>

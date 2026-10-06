@@ -1,8 +1,20 @@
 export default {
   value: {
     title: ["Tu negocio ya tiene la lógica.", "Yo trazo las líneas."],
+    titleItalic: "líneas",
     keywordsLine: "Marketing y automatización con IA para negocios en Lanzarote",
     subtitle: "Soy desarrollador full-stack: diseño, construyo y mantengo las webs, automatizaciones y agentes de IA con los que tu negocio trabaja cada día."
+  },
+  marquee: {
+    phrases: [
+      "Sistemas que trabajan por ti",
+      "Lógica antes que herramientas",
+      "Código que puedes mantener",
+      "Automatización con criterio"
+    ]
+  },
+  thesis: {
+    title: "Primero la lógica. Después la tecnología."
   },
   nav: {
     benefits: "Beneficios",
@@ -22,11 +34,12 @@ export default {
     subtitle: "Reduce los costes operativos y elimina tareas repetitivas con soluciones inteligentes que mejoran la eficiencia y la precisión en cada proceso."
   },
   services: {
-    title: 'Nuestros <span class="text-primary">Servicios</span>',
-    subtitle: "Automatización e inteligencia artificial diseñadas para impulsar tu negocio."
+    title: "Servicios",
+    subtitle: "Automatización e inteligencia artificial diseñadas para impulsar tu negocio.",
+    view: "Ver"
   },
   process: {
-    title: 'Nuestro <span class="text-primary">Proceso</span> Claro',
+    title: "Nuestro proceso",
     subtitle: "Metodología probada que garantiza resultados. Cada paso está diseñado para maximizar el éxito de tu transformación digital.",
     steps: [
       {
@@ -57,8 +70,14 @@ export default {
     quote: "“Cada paso está diseñado para reducir fricción, eliminar trabajo manual y construir sistemas escalables desde el primer día.”"
   },
   reasons: {
-    title: '¿Por qué elegir <span class="text-primary">Logic <span class="text-white">&</span> Lines</span>?',
-    subtitle: "Combinamos experiencia técnica con un enfoque centrado en resultados empresariales."
+    title: "¿Por qué elegir Logic & Lines?",
+    subtitle: "Combinamos experiencia técnica con un enfoque centrado en resultados empresariales.",
+    items: [
+      "Hablas conmigo, no con un comercial",
+      "Código limpio, y es tuyo",
+      "Pienso en años, no en lanzamientos",
+      "Resultados que se miden"
+    ]
   },
   prices: {
     title: "Nuestros Precios",
@@ -68,24 +87,21 @@ export default {
     subtitle: "Métricas reales que demuestran la confianza de nuestros clientes",
     items: [
       {
-        value: "85%",
-        label: "Reducción de tiempo",
-        subLabel: "En tareas repetitivas"
+        value: "1.240",
+        label: "horas automatizadas"
       },
       {
-        value: "24/7",
-        label: "Disponibilidad",
-        subLabel: "Automatización continua"
+        value: "38",
+        label: "webs y sistemas"
       },
       {
-        value: "95%",
-        label: "Tasa de éxito",
-        subLabel: "En implementaciones"
+        value: "6",
+        label: "líneas de servicio"
       }
     ]
   },
   faq: {
-    title: 'Preguntas <span class="text-primary">Frecuentes</span>'
+    title: "Preguntas frecuentes"
   },
   seo: {
     contactTitle: "Contacto",
@@ -109,16 +125,18 @@ export default {
     opening: "Próxima apertura pronto!"
   },
   buttons: {
-    book: "Agendar consulta"
+    book: "Reserva tu llamada"
   },
   booking: {
-    title: 'Agenda tu Consulta <span class="text-primary">Gratuita</span>',
+    title: "El siguiente paso es una conversación",
     text: "Selecciona el día y hora que mejor te convenga para nuestra reunión inicial. En esta consulta analizaremos tu negocio y te propondremos la mejor estrategia.",
-    button: "Agendar Consulta Gratuita",
-    footer: "Sin compromiso • 100% Gratuito • 30 minutos"
+    button: "Reserva tu llamada",
+    footer: "Sin compromiso · 30 minutos"
   },
   footer: {
-    copyright: "Copyright © {year} - Todos los derechos reservados por Logic & Lines"
+    copyright: "© {year} Logic & Lines. Todos los derechos reservados.",
+    home: "Inicio",
+    contact: "Contacto"
   },
   privacy: {
     link: "Política de Privacidad",
