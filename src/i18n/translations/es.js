@@ -1,4 +1,9 @@
 export default {
+  value: {
+    title: ["Tu negocio ya tiene la lógica.", "Yo trazo las líneas."],
+    keywordsLine: "Marketing y automatización con IA para negocios en Lanzarote",
+    subtitle: "Soy desarrollador full-stack: diseño, construyo y mantengo las webs, automatizaciones y agentes de IA con los que tu negocio trabaja cada día."
+  },
   nav: {
     benefits: "Beneficios",
     services: "Servicios",
