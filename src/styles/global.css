@@ -194,6 +194,16 @@ html {
   line-height: 1.75 !important;
 }
 
+/* Text reveals (F2): mascara de linea de SplitText (clase ll-line + "-mask").
+   overflow-clip-margin desplaza el borde de recorte 0.06em hacia fuera para
+   que dieresis, descendentes e italic nunca se corten en estado final; el
+   clip solo debe actuar durante el slide. Cero impacto de layout: no toca la
+   caja, solo el limite de pintado. Los navegadores sin soporte ignoran la
+   declaracion (queda el clip estricto de SplitText). */
+.ll-line-mask {
+  overflow-clip-margin: 0.06em;
+}
+
 /* Superficies de navegador (v4): selección, caret, foco visible y subrayado */
 ::selection {
   background: var(--color-primary);

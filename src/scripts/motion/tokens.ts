@@ -42,6 +42,23 @@ export const STAGGER = {
 } as const;
 
 /*
+ * Text reveals (F2, text-reveal.ts). Kept here so every motion constant has a
+ * single home (docs/motion-plan.md, section 4).
+ */
+
+/** Mobile breakpoint for text reveals. Aligned with Tailwind `md` (768px). */
+export const MOBILE_QUERY = "(max-width: 767px)";
+
+/**
+ * Words reveal travel (px): short fade + rise (y 12 -> 0). The spec leaves the
+ * final value to implementation; 12px floats a 14px mono line without noise.
+ */
+export const WORDS_Y = 12;
+
+/** Re-split resize debounce (ms). Same tolerance SplitText autoSplit uses. */
+export const RESIZE_DEBOUNCE = 200;
+
+/*
  * Shutter (route transition) constants. Trionn runs 10 horizontal belts with a
  * ~820ms cover / ~475ms hold / ~700ms reveal cycle (overshoot 1.10). Ours is leaner
  * and vertical so the belts read as segments of "La Linea Maestra": fewer belts,
