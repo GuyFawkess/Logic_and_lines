@@ -76,6 +76,7 @@ const revealedMemory = new WeakMap<Element, boolean>();
 let resizeTimer: ReturnType<typeof setTimeout> | null = null;
 let lastWidth = 0;
 let refreshPending = false;
+let refreshRafId: number | null = null;
 
 function isMobile(): boolean {
   return window.matchMedia(MOBILE_QUERY).matches;
@@ -97,7 +98,8 @@ function disposeAnimation(entry: RevealEntry): void {
 function scheduleRefresh(): void {
   if (refreshPending) return;
   refreshPending = true;
-  requestAnimationFrame(() => {
+  refreshRafId = requestAnimationFrame(() => {
+    refreshRafId = null;
     refreshPending = false;
     ScrollTrigger.refresh();
   });
@@ -250,10 +252,11 @@ export function initTextReveal(): void {
 
 /**
  * Limpieza total: reverte todos los SplitText (sin wrappers ni mascaras),
- * mata tweens/ScrollTriggers y listeners. resetMotion() llama esto ANTES de
- * media.revert() porque matchMedia.revert() NO revierte las mutaciones DOM de
- * SplitText: sin este revert explicito habria fugas de wrappers entre
- * navegaciones VT. Doble revert es inocuo (revert() esta guardado por isSplit).
+ * mata tweens/ScrollTriggers y listeners, y cancela el rAF pendiente.
+ * resetMotion() llama esto ANTES de media.revert() porque matchMedia.revert()
+ * NO revierte las mutaciones DOM de SplitText: sin este revert explicito
+ * habria fugas de wrappers entre navegaciones VT. Doble revert es inocuo
+ * (revert() esta guardado por isSplit).
  */
 export function destroyTextReveal(): void {
   window.removeEventListener("resize", onResize);
@@ -261,6 +264,14 @@ export function destroyTextReveal(): void {
     clearTimeout(resizeTimer);
     resizeTimer = null;
   }
+  // Cancela el rAF pendiente de scheduleRefresh: sin esto un refresh()
+  // huerfano de ScrollTrigger correria tras la destruccion (p.ej. navegacion
+  // VT) midiendo un DOM que ya no existe. Guard + null = idempotente.
+  if (refreshRafId !== null) {
+    cancelAnimationFrame(refreshRafId);
+    refreshRafId = null;
+  }
+  refreshPending = false;
   entries.forEach((entry) => {
     disposeAnimation(entry);
     entry.split?.revert();

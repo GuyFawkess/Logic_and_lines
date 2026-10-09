@@ -41,8 +41,11 @@ function resetMotion(): void {
 }
 
 /**
- * Builds the motion setup. Called once from the Layout script and again on every
- * astro:page-load, so it must stay idempotent: reset previous state, then init.
+ * Construye el setup de motion. Se llama UNA VEZ en la carga inicial (directo
+ * desde el script del Layout, antes de window load: sin flash de texto visible)
+ * y luego una vez por navegacion del ClientRouter (astro:page-load, con el flag
+ * de after-swap ya puesto). Debe seguir siendo idempotente: reset del estado
+ * previo y init.
  */
 export function initMotion(): void {
   resetMotion();
@@ -57,6 +60,15 @@ export function initMotion(): void {
     initTextReveal();
     // TODO(F3): shutter + route transitions -> shutter.ts
     // TODO(F4): marquee, image reveals, preloader -> marquee.ts / image-reveal.ts / preloader.ts
+    // Cleanup del contexto: gsap.matchMedia ejecuta este return al revertirlo,
+    // tambien en el toggle en vivo a reduce (aun sin media.revert()). Sin esta
+    // llamada, las mascaras DOM de SplitText y el listener de resize quedarian
+    // vivos hasta el proximo init. destroyTextReveal() es idempotente (refs a
+    // null, Map vacio), asi que el doble call con el destroyTextReveal()
+    // explicito de resetMotion() es inocuo.
+    return () => {
+      destroyTextReveal();
+    };
   });
 
   // Reduced motion: no smooth scroll, no shutter, no marquee. Content stays
@@ -78,15 +90,23 @@ export function initMotion(): void {
   ScrollTrigger.refresh();
 }
 
-// ClientRouter events: astro:page-load fires on the first load and after every
-// route swap (the DOM is new each time), so the setup is rebuilt from scratch.
-// astro:after-swap fires before that with the new DOM already in place, and is
-// used to release state bound to the old one. Both only exist because
-// <ClientRouter /> is in the Layout head.
+// ClientRouter events (fuente: node_modules/astro/dist/transitions/router.js):
+// astro:page-load se dispara EN LA CARGA INICIAL (window load) y tras cada swap;
+// astro:after-swap SOLO en navegaciones y SIEMPRE antes que page-load. El init
+// temprano de la carga inicial ya lo hizo el script del Layout, asi que el flag
+// de swap evita el segundo init (que truncaba el reveal del hero al matar el
+// tween en vuelo y re-splitear con el WeakMap ya marcado).
+let didSwap = false;
+
 document.addEventListener("astro:page-load", () => {
+  // Carga inicial: after-swap no llego, flag en false -> ya inicializado.
+  if (!didSwap) return;
+  didSwap = false;
   initMotion();
 });
 
 document.addEventListener("astro:after-swap", () => {
+  didSwap = true;
+  // Libera el estado ligado al DOM viejo; el init lo hara el page-load siguiente.
   resetMotion();
 });
