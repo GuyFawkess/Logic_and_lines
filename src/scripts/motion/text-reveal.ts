@@ -108,12 +108,52 @@ function scheduleRefresh(): void {
 /** Configura ocultacion inicial + tween pausado + trigger one-shot. */
 function handleSplit(entry: RevealEntry, self: SplitText): void {
   entry.splits += 1;
+
+  // Si el re-split (autoSplit por fuentes loadingdone o ResizeObserver) cae
+  // MIENTRAS el tween de reveal esta en vuelo sobre un entry ya revelado,
+  // la geometria anterior muere con disposeAnimation y el early-return
+  // dejaria las lineas nuevas en estado final (transform: none) sin
+  // animacion visible: en la carga inicial no se nota porque el re-split
+  // suele caer despues de los 800ms del tween, pero tras una navegacion
+  // VT a una ruta con el titular dentro del viewport (caso del h1 del
+  // hero, top 85% ya pasado al crear el trigger), el onEnter dispara
+  // gsap.play() y el re-split de autoSplit cae en el siguiente microtask
+  // matando el tween a los pocos ms. La unica forma de evitar el salto
+  // visual a estado final es capturar la posicion actual del tween ANTES
+  // de matarlo y montar el split nuevo como continuacion del mismo viaje.
+  // Si el tween ya completo (progress >= 1) o nunca existio (caso reduce
+  // toggle: destroyTextReveal ya limpio entries), el comportamiento
+  // conservador se mantiene: lineas nuevas en estado final, sin re-animar.
+  let captured: { yPercent: number } | { y: number; autoAlpha: number } | null = null;
+  if (entry.revealed && entry.tween && entry.tween.progress() < 1) {
+    const target = entry.tween.targets()[0] as Element | undefined;
+    if (target) {
+      if (entry.mode === "lines") {
+        const yp = gsap.getProperty(target, "yPercent") as number;
+        if (Number.isFinite(yp)) captured = { yPercent: yp };
+      } else {
+        const y = gsap.getProperty(target, "y") as number;
+        const aa = gsap.getProperty(target, "autoAlpha") as number;
+        if (Number.isFinite(y) && Number.isFinite(aa)) captured = { y, autoAlpha: aa };
+      }
+      // Reset del flag para que el re-split vuelva a pasar por el flujo
+      // normal (gsap.set + tween + trigger). Sin esto, el early-return
+      // siguiente haria un segundo snap a estado final.
+      entry.revealed = false;
+      revealedMemory.delete(entry.el);
+    }
+  }
+
   // Un re-split sustituye a la geometria anterior: el tween/trigger previos mueren.
   disposeAnimation(entry);
 
   if (entry.revealed) {
-    // REGLA CRITICA: si el trigger ya paso, el split nuevo queda en estado
-    // final inmediato, sin ocultar y sin tween.
+    // REGLA CRITICA: si el trigger ya paso y el tween ya completo, el split
+    // nuevo queda en estado final inmediato, sin ocultar y sin tween.
+    // Esto preserva el comportamiento verificado por QA: toggle reduce
+    // (destroyTextReveal limpia entries, al restaurar initTextReveal ve
+    // revealed=true sin tween asociado y deja el estado final) y re-splits
+    // de resize sobre un reveal ya completo (progress >= 1).
     return;
   }
 
@@ -121,8 +161,11 @@ function handleSplit(entry: RevealEntry, self: SplitText): void {
 
   if (entry.mode === "lines") {
     const lines = self.lines;
-    // Ocultacion inicial POR gsap.set, jamas CSS.
-    gsap.set(lines, { yPercent: 110 });
+    // Ocultacion inicial POR gsap.set, jamas CSS. Si el re-split capturo
+    // un punto intermedio del tween anterior, las lineas nuevas arrancan
+    // en ese mismo punto (sin salto) y el tween continua hasta yPercent 0.
+    const startYPercent = captured && "yPercent" in captured ? captured.yPercent : 110;
+    gsap.set(lines, { yPercent: startYPercent });
     entry.tween = gsap.to(lines, {
       yPercent: 0,
       duration: DUR.base,
@@ -132,7 +175,9 @@ function handleSplit(entry: RevealEntry, self: SplitText): void {
     });
   } else {
     const words = self.words;
-    gsap.set(words, { y: WORDS_Y, autoAlpha: 0 });
+    const startY = captured && "y" in captured ? captured.y : WORDS_Y;
+    const startAutoAlpha = captured && "autoAlpha" in captured ? captured.autoAlpha : 0;
+    gsap.set(words, { y: startY, autoAlpha: startAutoAlpha });
     entry.tween = gsap.to(words, {
       y: 0,
       autoAlpha: 1,
