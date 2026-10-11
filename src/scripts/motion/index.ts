@@ -23,7 +23,7 @@ import { destroyTextReveal, initTextReveal } from "./text-reveal";
 import { destroyLineSystem, initLineSystem } from "./line-system";
 import { destroyImageReveal, initImageReveal } from "./image-reveal";
 import { destroyShutter, destroyShuttersH, initShutter, initShuttersH } from "./shutter";
-import { destroyHScroll, getScrollTween, initHScroll } from "./hscroll";
+import { destroyHScroll, initHScroll } from "./hscroll";
 import { destroyCircuit, initCircuit } from "./circuit";
 import { destroyPreloader, runPreloader } from "./preloader";
 import { destroyMarquee, initMarquee } from "./marquee";
@@ -151,11 +151,12 @@ export function initMotion(): void {
       // el orden determinista lo fija motion-plan.md, section 6.
       initLineSystem();
       // F3-v2 tanda 2: line-wipe de las imagenes de servicio — image-reveal.ts.
-      // Despues del sistema de linea. En desktop recibe el tween del hscroll
-      // (containerAnimation: wipes al entrar cada panel por la derecha); en
-      // movil recibe null (scrub vertical). Ambos modos scrub/reversibles
+      // Despues del sistema de linea. F4-t3: en desktop el stack de tarjetas
+      // esta montado (isStackActive) y las figuras de ServicesIndex NO
+      // wipean — la entrada deslizante de la tarjeta ES el reveal; el modulo
+      // queda para el fallback vertical (movil <lg). Scrub/reversible
       // (politica rewind F4-t2).
-      initImageReveal(getScrollTween());
+      initImageReveal();
       // F3-v2 tanda 3 (pico peak-end): cierre de circuito en BookingClose —
       // circuit.ts. ULTIMO de la rama: su pin es el de la seccion mas baja con
       // triggers de la pagina, asi que el refresh en orden de creacion lo mide

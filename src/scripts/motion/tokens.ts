@@ -158,21 +158,32 @@ export const SHUTTER = {
 } as const;
 
 /*
- * Scroll horizontal reversible de ServicesIndex (F4-t2, hscroll.ts) — 6
- * paneles iguales, pin + scrub 100% reversible. Solo lg + no-preference: el
- * layout horizontal lo aplica el JS (regla de oro sin-JS).
+ * Sticky-stacking cards de ServicesIndex (F4-t3, hscroll.ts) — 6 tarjetas de
+ * contenido apiladas en el mismo slot; cada nueva entra desde la DERECHA
+ * mientras las cubiertas escalan hacia atrás (progresivo). Pin + scrub 100%
+ * reversible. Solo lg + no-preference: el layout del stack lo aplica el JS
+ * (regla de oro sin-JS). Matemática del referente (21st.dev adaptado a GSAP):
+ * targetScale(j) = max(minScale, 1 - (N-j-1) * scaleStep).
  */
-export const HSCROLL = {
-  /** Query lg (Tailwind): el horizontal solo existe en desktop. */
+export const STACK = {
+  /** Query lg (Tailwind): el stack solo existe en desktop. */
   lgQuery: "(min-width: 1024px)",
-  /** Ancho de cada panel (iguales): fila editorial con la siguiente asomando. */
-  panelWidth: "min(72vw, 900px)",
-  /** Separación entre paneles del track. */
-  gap: "4rem",
-  /** Scrub (s) del pin horizontal (rebobinado con lag táctil). */
+  /** Ancho de las tarjetas (las 6 IGUALES: imprescindible para apilar). */
+  cardWidth: "min(76vw, 920px)",
+  /** Alto de las tarjetas (igual para las 6; cabe en 1024x768, ver hscroll.ts). */
+  cardHeight: "min(70svh, 640px)",
+  /** Scrub (s) del pin (rebobinado con lag táctil). */
   scrub: 0.8,
-  /** Recorrido mínimo (px) para montar el horizontal (si el track cabe, vertical). */
-  minDistance: 10,
+  /** Escala de la tarjeta más enterrada (el referente usa 0.6). */
+  minScale: 0.6,
+  /** Caída de escala por nivel de profundidad (el referente usa 0.08). */
+  scaleStep: 0.08,
+  /** Deriva horizontal por nivel de profundidad (px, sutil). */
+  drift: 12,
+  /** Entrada de las tarjetas nuevas: % de su propio ancho desde la derecha. */
+  enterXPercent: 120,
+  /** Viewports de scroll por transición de tarjeta (ritmo del pin). */
+  vhPerCard: 0.9,
 } as const;
 
 /*

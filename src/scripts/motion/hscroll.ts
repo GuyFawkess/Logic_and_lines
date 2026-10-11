@@ -1,123 +1,161 @@
 /**
- * Scroll horizontal reversible de ServicesIndex (F4-t2) — gramática de
- * capítulos del plan (docs/motion-plan.md §F4): 6 paneles iguales, pin +
- * scrub → 100% reversible (el x del track va ligado al scroll; hacer scroll
- * hacia atrás rebobina los paneles).
+ * Sticky-stacking cards de ServicesIndex (F4-t3) — sustituye el "track que se
+ * traslada" por un "stack que se apila" (patrón sticky-stacking adaptado del
+ * referente de 21st.dev a GSAP; SIN React: mismo contrato, otro motor).
  *
- * REGLA DE ORO SIN-JS: el layout horizontal (flex nowrap + ancho de panel +
- * clip) se aplica SOLO por JS (gsap.set) dentro de la rama lg + no-preference
- * del matchMedia de index.ts. Sin JS, en móvil (<lg) o con reduced-motion los
- * 6 servicios apilan VERTICAL (las filas igualadas del markup, intactas):
- * contenido 100% visible siempre. destroyHScroll() hace clearProps de todo lo
- * aplicado y devuelve el markup a su estado vertical.
+ * GEOMETRÍA: el stage (el wrapper [data-hscroll], flex-1 bajo el header con el
+ * h2) contiene las N tarjetas ABSOLUTAS apiladas en el MISMO slot centrado
+ * (inset:0 + margin:auto + ancho/alto fijos → centrado por LAYOUT, nunca por
+ * transform: lección Morning Ritual — GSAP hornea el translate). El z es el
+ * orden natural del DOM: la tarjeta N queda ENCIMA. Pin + scrub se mantienen
+ * con el MISMO encadenado del debugger (start = end de "shutter-v" vía
+ * shutterAlignedStart(), pinnedContainer, id "hscroll" para "shutter-h-0").
  *
- * ENCADENAMIENTO DE PINS (el punto delicado de esta tanda): la persiana
- * vertical (shutter.ts, trigger con id "shutter-v") pinea el wrapper que
- * CONTIENE esta sección; su unpin deja el top de la sección exactamente en el
- * borde superior del viewport, donde arranca este pin. El start se resuelve
- * como NUMERO absoluto leyendo el end del trigger "shutter-v" en el refresh
- * (fuente GSAP: los starts numéricos no se re-offsettean por pins previos —
- * aquí eso es justo lo que queremos: posición absoluta real) con fallback
- * "top top" si la persiana no existe en el markup. El pinnedContainer apunta
- * al wrapper de la persiana para que SU pin-spacer acomode la expansión que
- * provoca el spacer anidado de este pin (mecanismo _subPinOffset del fuente
- * de ScrollTrigger: sin él, el spacer exterior queda corto y el contenido
- * posterior solaparía la sección).
+ * COREOGRAFÍA (UNA timeline scrubbed → 100% reversible, ease "none" en todo:
+ * el scroll manda). Unidades de timeline = transiciones; N tarjetas → duración
+ * N-1. Para la tarjeta j (0-indexed):
+ *  - j >= 1 ENTRADA: xPercent 120 → 0 durante [j-1, j] (desliza desde la
+ *    derecha; 120% de su ancho la deja fuera del stage a cualquier viewport).
+ *    Ocultación inicial SOLO por gsap.set (regla sin-JS) + immediateRender
+ *    false para que el from no se hornee al crear.
+ *  - j <= N-2 ESCALA PROGRESIVA: 1 → targetScale(j) durante [j, N-1], con
+ *    targetScale(j) = max(0.6, 1 - (N-j-1) * 0.08) (matemática del referente,
+ *    portada literal). Progresiva, sin saltos: cuando la tarjeta j+1 aterriza,
+ *    la j está EXACTAMENTE a 0.92 y sigue encogiendo mientras llegan las
+ *    demás — la más enterrada acaba a 0.6.
+ *  - j <= N-2 DERIVA (profundidad, sutil): x 0 → -(N-1-j)*12px durante
+ *    [j, N-1]: la cubierta se desplaza un pelín a la izquierda por nivel.
  *
- * WIPES DENTRO DEL HORIZONTAL: image-reveal.ts recibe este tween vía
- * getScrollTween() como containerAnimation, de modo que cada panel dispare su
- * line-wipe al ENTRAR por la derecha, en modo scrub (reversible). Por eso el
- * tween usa ease "none" (obligatorio con containerAnimation: mapeo 1:1
- * scroll↔posición horizontal) y NO se anima el elemento pineado (se anima el
- * track, hijo; el pin es sobre la sección).
+ * TARJETAS DE CONTENIDO (no solo imagen como el referente): conservan TODO el
+ * markup (imagen 4/3 + número + título + spec + descripción + CTA con sus
+ * data-gtm INTACTOS). El cromo de tarjeta (radio, borde hairline, fondo
+ * --color-card, padding) lo aplica el JS con vars del sistema — SIN hex
+ * nuevos y SIN tocar el fallback: sin JS / reduced / móvil las filas
+ * verticales del markup quedan exactamente como estaban.
  *
- * CONTADOR: `01 / 06` en mono junto al h2 — creado por JS (regla sin-JS: sin
- * JS no existe) y actualizado por el onUpdate del scrub. aria-hidden: es un
- * artefacto de animación, no contenido.
+ * WIPES HORIZONTALES FUERA (F4-t3): la entrada deslizante ES el reveal.
+ * image-reveal.ts sigue vivo para el fallback móvil; sus triggers
+ * horizontales (containerAnimation) quedan desconectados — ya no existe tween
+ * de track que devolver (getScrollTween eliminado) y setupWipe() salta las
+ * figuras del stack vía isStackActive().
+ *
+ * CONTADOR: `01 / 06` en mono junto al h2 — creado por JS (regla sin-JS) y
+ * actualizado por el onUpdate del scrub: refleja la tarjeta que ENTRA / está
+ * en cima. aria-hidden: artefacto de animación, no contenido.
  *
  * ORDEN DE CREACIÓN: index.ts llama initHScroll() en la rama lg +
  * no-preference DESPUÉS de initShutter() (su start lee el end de ese pin) y
  * ANTES de initShuttersH() (los pins siguientes miden con este spacer ya
- * contabilizado). El UNICO refresh del ciclo lo dispara initMotion.
+ * contabilizado). El ÚNICO refresh del ciclo lo dispara initMotion.
  */
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { HSCROLL } from "./tokens";
+import { STACK } from "./tokens";
 
-interface HScrollState {
-  tween: gsap.core.Tween | null;
+interface StackState {
+  timeline: gsap.core.Timeline | null;
   wrapper: HTMLElement | null;
   track: HTMLElement | null;
   section: HTMLElement | null;
-  panels: HTMLElement[];
+  cards: HTMLElement[];
   counter: HTMLElement | null;
+  /** true mientras el stack esté montado (la consulta image-reveal.ts). */
+  mounted: boolean;
 }
 
-const state: HScrollState = {
-  tween: null,
+const state: StackState = {
+  timeline: null,
   wrapper: null,
   track: null,
   section: null,
-  panels: [],
+  cards: [],
   counter: null,
+  mounted: false,
 };
 
 const pad2 = (n: number): string => String(n).padStart(2, "0");
 
 /**
- * Start absoluto del pin: el fin del pin de la persiana vertical (ver
- * cabecera). Function-based para re-medirse en cada refresh; numérico para
- * que ningún offset de pins previos lo toque.
+ * Escala final de la tarjeta j cuando esté totalmente enterrada (matemática
+ * del referente, portada literal): la primera acaba a 0.6 con N=6 y cada una
+ * tiene su target — progresivo, sin saltos.
+ */
+function targetScale(j: number, n: number): number {
+  return Math.max(STACK.minScale, 1 - (n - j - 1) * STACK.scaleStep);
+}
+
+/**
+ * Start absoluto del pin: el fin del pin de la persiana vertical (id
+ * "shutter-v"). Function-based para re-medirse en cada refresh; numérico para
+ * que ningún offset de pins previos lo toque. NO SE TOCA: encadenado del
+ * debugger (commit 0fe093d).
  */
 function shutterAlignedStart(): number | string {
   const st = ScrollTrigger.getById("shutter-v");
   return st ? Math.round(st.end) : "top top";
 }
 
-/** Monta el horizontal. Idempotente: destruye lo anterior antes de montar. */
+/** ¿Está el stack de tarjetas montado? (la consulta image-reveal.ts). */
+export function isStackActive(): boolean {
+  return state.mounted;
+}
+
+/** Monta el stack. Idempotente: destruye lo anterior antes de montar. */
 export function initHScroll(): void {
   destroyHScroll();
   const wrapper = document.querySelector<HTMLElement>("[data-hscroll]");
-  if (wrapper === null || !window.matchMedia(HSCROLL.lgQuery).matches) return;
+  if (wrapper === null || !window.matchMedia(STACK.lgQuery).matches) return;
   const track = wrapper.querySelector<HTMLElement>("[data-hscroll-track]");
   const section = wrapper.closest<HTMLElement>("section");
   if (track === null || section === null) return;
-  const panels = Array.from(track.children).filter(
+  const cards = Array.from(track.children).filter(
     (el): el is HTMLElement => el instanceof HTMLElement,
   );
-  if (panels.length === 0) return;
+  if (cards.length < 2) return;
 
   state.wrapper = wrapper;
   state.track = track;
   state.section = section;
-  state.panels = panels;
+  state.cards = cards;
+  state.mounted = true;
 
-  // Layout horizontal SOLO por JS (regla de oro sin-JS): la sección pasa a
-  // capítulo a viewport completo (header + track centrados) y el track a
-  // cinta de paneles iguales recortada por el wrapper.
+  // Layout de stage SOLO por JS (regla de oro sin-JS): la sección pasa a
+  // capítulo a viewport completo (header + stage) y el stage a slot relativo
+  // que acota las tarjetas absolutas.
   gsap.set(section, {
     minHeight: "100svh",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
   });
-  gsap.set(wrapper, { overflow: "hidden" });
-  gsap.set(track, {
-    display: "flex",
-    flexWrap: "nowrap",
-    width: "max-content",
-    alignItems: "stretch",
-    columnGap: HSCROLL.gap,
+  gsap.set(wrapper, {
+    position: "relative",
+    overflow: "hidden",
+    flex: "1 1 auto",
+    width: "100%",
   });
-  gsap.set(panels, { width: HSCROLL.panelWidth, flexShrink: 0 });
+  gsap.set(track, { position: "absolute", inset: "0" });
 
-  const distance = (): number => Math.max(track.scrollWidth - wrapper.clientWidth, 0);
-  // Si el track cabe (viewport enorme, contenido corto): sin horizontal, el
-  // vertical del markup manda.
-  if (distance() < HSCROLL.minDistance) {
-    destroyHScroll();
-    return;
-  }
+  // Tarjetas: todas IGUALES (imprescindible para apilar), centradas por
+  // LAYOUT (inset + margin:auto — nunca translate: GSAP lo hornea), con el
+  // cromo del sistema (radio 12px = rounded-xl, hairline, --color-card).
+  // Sin hex nuevos: todo por vars existentes.
+  gsap.set(cards, {
+    position: "absolute",
+    inset: "0",
+    margin: "auto",
+    width: STACK.cardWidth,
+    height: STACK.cardHeight,
+    overflow: "hidden",
+    borderRadius: "0.75rem",
+    border: "1px solid var(--color-hairline)",
+    backgroundColor: "var(--color-card)",
+    padding: "2.5rem 3rem",
+    willChange: "transform",
+  });
+  // Ocultación inicial SOLO por gsap.set: las tarjetas 2..N esperan fuera del
+  // stage (a la derecha); sin JS nunca se aplica → filas verticales visibles.
+  gsap.set(cards.slice(1), { xPercent: STACK.enterXPercent });
 
   // Contador de progreso: artefacto de animación creado por JS (sin JS no
   // existe). Absolute dentro del header relativo: resize-proof.
@@ -130,35 +168,37 @@ export function initHScroll(): void {
       "position:absolute;right:0;bottom:0;" +
       "font-family:var(--font-mono);font-size:0.875rem;line-height:1.5;" +
       "font-variant-numeric:tabular-nums;color:var(--color-text-dark);";
-    counter.textContent = `${pad2(1)} / ${pad2(panels.length)}`;
+    counter.textContent = `${pad2(1)} / ${pad2(cards.length)}`;
     header.appendChild(counter);
     state.counter = counter;
   }
 
   let lastIdx = -1;
-  const total = pad2(panels.length);
+  const total = pad2(cards.length);
   const updateCounter = (progress: number): void => {
     const counter = state.counter;
     if (counter === null) return;
     const idx = Math.min(
-      panels.length - 1,
-      Math.max(0, Math.round(progress * (panels.length - 1))),
+      cards.length - 1,
+      Math.max(0, Math.round(progress * (cards.length - 1))),
     );
     if (idx === lastIdx) return;
     lastIdx = idx;
     counter.textContent = `${pad2(idx + 1)} / ${total}`;
   };
 
-  state.tween = gsap.to(track, {
-    x: () => -distance(),
-    // ease "none" OBLIGATORIO: containerAnimation mapea scroll↔x 1:1.
-    ease: "none",
+  const n = cards.length;
+
+  // UNA timeline scrubbed para TODO el stack (política rewind: reversible).
+  // Recorrido pineado: ~0.9 viewport por transición de tarjeta (ritmo similar
+  // al track anterior, ~4.5 viewports en total con N=6).
+  const timeline = gsap.timeline({
     scrollTrigger: {
       trigger: section,
       start: () => shutterAlignedStart(),
-      end: () => "+=" + distance(),
+      end: () => "+=" + Math.round((n - 1) * window.innerHeight * STACK.vhPerCard),
       pin: true,
-      scrub: HSCROLL.scrub,
+      scrub: STACK.scrub,
       anticipatePin: 1,
       invalidateOnRefresh: true,
       // El trigger vive dentro del wrapper pineado por la persiana vertical:
@@ -166,54 +206,81 @@ export function initHScroll(): void {
       // de este spacer anidado (_subPinOffset en el fuente de ScrollTrigger).
       pinnedContainer: section.closest("[data-shutter]") ?? undefined,
       // Id para que la primera persiana horizontal (shutter.ts -> "shutter-h-0")
-      // encadene su start con el unpin de este pin (cierra el hueco muerto de
-      // 900 px entre fin del hscroll y entrada al cap\u00edtulo claro).
+      // encadene su start con el unpin de este pin (cierra el hueco muerto
+      // entre fin del stack y entrada al capítulo claro).
       id: "hscroll",
       onUpdate: (self) => {
         updateCounter(self.progress);
       },
     },
   });
-}
 
-/** Tween horizontal para los containerAnimation de image-reveal.ts (o null). */
-export function getScrollTween(): gsap.core.Tween | null {
-  return state.tween;
+  // Coreografía por tarjeta (ver cabecera): entrada desde la derecha +
+  // escala progresiva + deriva de profundidad. Todo ease "none": el scroll
+  // es el playhead. Rangos en unidades de timeline [j, N-1] = el rango
+  // [i*step, 1] del referente con step = 1/(N-1).
+  cards.forEach((card, j) => {
+    if (j > 0) {
+      // Entrada: desliza desde la derecha hasta cubrir el slot.
+      timeline.fromTo(
+        card,
+        { xPercent: STACK.enterXPercent },
+        { xPercent: 0, duration: 1, ease: "none", immediateRender: false },
+        j - 1,
+      );
+    }
+    if (j < n - 1) {
+      // Escala progresiva hacia su target mientras las siguientes llegan.
+      timeline.to(
+        card,
+        { scale: targetScale(j, n), duration: n - 1 - j, ease: "none" },
+        j,
+      );
+      // Deriva de profundidad: sutil desplazamiento a la izquierda por nivel.
+      timeline.to(
+        card,
+        { x: () => -(n - 1 - j) * STACK.drift, duration: n - 1 - j, ease: "none" },
+        j,
+      );
+    }
+  });
+
+  state.timeline = timeline;
 }
 
 /**
- * Limpieza total: mata trigger/tween y devuelve section/wrapper/track/panels
+ * Limpieza total: mata timeline/trigger y devuelve section/wrapper/track/cards
  * al estado del markup (filas verticales). resetMotion() la llama ANTES de
- * media.revert(); idempotente.
+ * media.revert(); idempotente. clearProps "all" en las tarjetas es seguro: no
+ * tienen ningún estilo inline previo (el cromo lo puso este módulo).
  */
 export function destroyHScroll(): void {
-  if (state.tween !== null) {
-    state.tween.scrollTrigger?.kill();
-    state.tween.kill();
-    state.tween = null;
+  if (state.timeline !== null) {
+    state.timeline.scrollTrigger?.kill();
+    state.timeline.kill();
+    state.timeline = null;
+  }
+  if (state.cards.length > 0) {
+    gsap.set(state.cards, { clearProps: "all" });
   }
   if (state.track !== null) {
-    gsap.set(state.track, {
-      clearProps: "display,flexWrap,width,alignItems,columnGap,x",
-    });
+    gsap.set(state.track, { clearProps: "position,inset" });
   }
-  if (state.panels.length > 0) {
-    gsap.set(state.panels, { clearProps: "width,flexShrink" });
+  if (state.wrapper !== null) {
+    gsap.set(state.wrapper, { clearProps: "position,overflow,flex,width" });
   }
   if (state.section !== null) {
     gsap.set(state.section, {
       clearProps: "minHeight,display,flexDirection,justifyContent",
     });
   }
-  if (state.wrapper !== null) {
-    gsap.set(state.wrapper, { clearProps: "overflow" });
-  }
   if (state.counter !== null) {
     state.counter.remove();
     state.counter = null;
   }
-  state.panels = [];
+  state.cards = [];
   state.wrapper = null;
   state.track = null;
   state.section = null;
+  state.mounted = false;
 }

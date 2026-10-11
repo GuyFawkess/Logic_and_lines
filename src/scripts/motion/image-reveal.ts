@@ -23,6 +23,10 @@
  *
  * DOS MODOS (F4-t2, política rewind — TODO scrub, reversible en ambos):
  *  - HORIZONTAL (lg + no-preference, con el hscroll de hscroll.ts montado):
+ *    ⚠️ DESCONECTADO en F4-t3: el hscroll pasó a sticky-stacking cards (la
+ *    entrada deslizante de la tarjeta ES el reveal) y ya no existe tween de
+ *    track; setupWipe() salta las figuras del stack vía isStackActive(). El
+ *    código se conserva como referencia (containerAnimation).
  *    el trigger usa containerAnimation = el tween del track (getScrollTween())
  *    con start/end en espacio HORIZONTAL ("left 90%" → "left 40%"): cada
  *    panel dispara su wipe al ENTRAR por la derecha y el progreso va ligado
@@ -56,6 +60,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { IMAGE_WIPE } from "./tokens";
 import { isPast } from "./utils";
+import { isStackActive } from "./hscroll";
 
 type WipeDir = "ltr" | "rtl";
 
@@ -78,6 +83,12 @@ function clipFrom(dir: WipeDir): string {
 
 /** Prepara y anima una figura. Devuelve el registro (o null si ya pasó). */
 function setupWipe(figure: HTMLElement, scrollTween: gsap.core.Tween | null): WipeRecord | null {
+  // F4-t3: con el stack de tarjetas montado (desktop lg), las figuras de
+  // ServicesIndex NO wipean — la entrada deslizante de la tarjeta ES el
+  // reveal. La rama horizontal (containerAnimation) queda desconectada: ya
+  // no existe tween de track (el stack usa una timeline propia); el código
+  // se conserva para el fallback vertical (movil <lg), que sigue vivo.
+  if (figure.closest("[data-hscroll]") !== null && isStackActive()) return null;
   const img = figure.querySelector<HTMLImageElement>("img");
   const holder = figure.parentElement;
   if (img === null || holder === null) return null;
