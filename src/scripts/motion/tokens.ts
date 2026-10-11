@@ -82,3 +82,29 @@ export const REVEAL = 0.6;
 
 /** scaleY overshoot during COVER (1.06 vs the measured 1.10 on Trionn). */
 export const OVERSHOOT = 1.06;
+
+/*
+ * Line system (F3-v2, line-system.ts) — "La Linea Maestra" (direccion C).
+ * Params from the research catalog (docs/research-v4, techniques 1, 2 and 10):
+ * comet draw with chasing tail, node pops with ring, stats count-up. The comet
+ * ends with a tail "settle" so every segment stays complete (see line-system.ts
+ * header for why the brief's literal end state would leave a 12% gap).
+ */
+export const LINE = {
+  /** Comet head start (% of the segment): visible segment width at rest. */
+  headStart: 8,
+  /** Tail chase (% of the segment): where the tail lands when the head arrives. */
+  tailChase: 12,
+  /** Fraction of each segment's timeline slice spent drawing (rest = tail settle). */
+  cometPhase: 0.8,
+  /** Scrub smoothing (s) shared by every line ScrollTrigger. */
+  scrub: 0.5,
+  /** Node pop duration (s), ease back.out(2.2). */
+  nodePopDur: 0.45,
+  /** Node ring draw+fade duration (s), ease power2.out. */
+  nodeRingDur: 0.4,
+  /** Stats count-up duration (s), ease power2.out. */
+  countDur: 1.4,
+  /** Stat underline draw duration (s), ease power3.inOut. */
+  underlineDur: 0.8,
+} as const;

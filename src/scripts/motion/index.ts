@@ -2,10 +2,11 @@
  * F0 motion orchestrator (docs/motion-plan.md, section 4).
  *
  * Responsibilities: register plugins, register the reveal easing and hold the
- * gsap.matchMedia() structure that every phase hooks into. F2 (text reveals) is
- * wired below; F3 (shutter/route transitions) and F4 (micro-interactions) fill
- * the remaining TODO hooks and their modules (shutter, image-reveal, marquee,
- * magnetic, preloader), which are already in place as documented stubs.
+ * gsap.matchMedia() structure that every phase hooks into. F2 (text reveals)
+ * and F3-v2 (master line system) are wired below; the shutter/route
+ * transitions (F3) and micro-interactions (F4) fill the remaining TODO hooks
+ * and their modules (shutter, image-reveal, marquee, magnetic, preloader),
+ * which are already in place as documented stubs.
  *
  * The module is loaded from a processed <script> in Layout.astro, so it survives
  * ClientRouter navigations as a single instance and re-runs its setup through the
@@ -15,11 +16,13 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CustomEase } from "gsap/CustomEase";
 import { SplitText } from "gsap/SplitText";
+import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 import { destroySmoothScroll, initSmoothScroll } from "./smooth-scroll";
 import { destroyTextReveal, initTextReveal } from "./text-reveal";
+import { destroyLineSystem, initLineSystem } from "./line-system";
 import { EASE_REVEAL_PATH } from "./tokens";
 
-gsap.registerPlugin(ScrollTrigger, CustomEase, SplitText);
+gsap.registerPlugin(ScrollTrigger, CustomEase, SplitText, DrawSVGPlugin);
 
 // "ll-reveal" is the GSAP twin of EASE_REVEAL (cubic-bezier(0.16, 1, 0.3, 1)).
 // The SVG path below is the standard approximation of power4.out used by reveals.
@@ -29,10 +32,13 @@ let media: gsap.MatchMedia | null = null;
 
 /** Drops everything created by the previous init (matchMedia contexts revert). */
 function resetMotion(): void {
-  // destroyTextReveal() va ANTES de media.revert(): matchMedia.revert() no
-  // revierte las mutaciones DOM de SplitText (wrappers/mascaras) y sin este
-  // revert explicito habria fugas entre navegaciones VT (text-reveal.ts).
+  // destroyTextReveal() y destroyLineSystem() van ANTES de media.revert():
+  // matchMedia.revert() no revierte mutaciones DOM (wrappers/mascaras de
+  // SplitText, textContent de las cifras, anillos creados por JS) y sin estos
+  // reverts explicitos habria fugas entre navegaciones VT (text-reveal.ts,
+  // line-system.ts).
   destroyTextReveal();
+  destroyLineSystem();
   if (media !== null) {
     media.revert();
     media = null;
@@ -58,16 +64,21 @@ export function initMotion(): void {
     // Orden determinista (motion-plan.md, section 6): Lenis primero, textos
     // despues; el UNICO ScrollTrigger.refresh() del ciclo lo dispara initMotion.
     initTextReveal();
+    // F3-v2: sistema de línea maestra (cometa por secciones, driver único del
+    // rail, count-up de Proof) — line-system.ts. Despues de los textos: el
+    // orden determinista lo fija motion-plan.md, section 6.
+    initLineSystem();
     // TODO(F3): shutter + route transitions -> shutter.ts
     // TODO(F4): marquee, image reveals, preloader -> marquee.ts / image-reveal.ts / preloader.ts
     // Cleanup del contexto: gsap.matchMedia ejecuta este return al revertirlo,
     // tambien en el toggle en vivo a reduce (aun sin media.revert()). Sin esta
-    // llamada, las mascaras DOM de SplitText y el listener de resize quedarian
-    // vivos hasta el proximo init. destroyTextReveal() es idempotente (refs a
-    // null, Map vacio), asi que el doble call con el destroyTextReveal()
-    // explicito de resetMotion() es inocuo.
+    // llamada, las mascaras DOM de SplitText, el listener de resize y los
+    // anillos creados por JS quedarian vivos hasta el proximo init. Ambos
+    // destroy son idempotentes (refs a null, Map/Set vacios), asi que el doble
+    // call con el destroy explicito de resetMotion() es inocuo.
     return () => {
       destroyTextReveal();
+      destroyLineSystem();
     };
   });
 
