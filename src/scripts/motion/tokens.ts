@@ -166,8 +166,13 @@ export const SHUTTER = {
  * targetScale(j) = max(minScale, 1 - (N-j-1) * scaleStep).
  */
 export const STACK = {
-  /** Query lg (Tailwind): el stack solo existe en desktop. */
-  lgQuery: "(min-width: 1024px)",
+  /** Query de montaje del stack — lg Y sin reduced-motion (regla del
+   *  proyecto: el layout apilado y el estado inicial oculto SOLO existen con
+   *  movimiento; en reduce el fallback es el flujo vertical del markup). Es
+   *  la MISMA condición de la rama matchMedia de index.ts y además el guard
+   *  interno de initHScroll (doble cerradura): aunque el módulo se llamara
+   *  fuera de la rama, reduce nunca monta el stack. */
+  mountQuery: "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
   /** Ancho de las tarjetas (las 6 IGUALES: imprescindible para apilar). */
   cardWidth: "min(76vw, 920px)",
   /** Alto de las tarjetas (igual para las 6; cabe en 1024x768, ver hscroll.ts). */

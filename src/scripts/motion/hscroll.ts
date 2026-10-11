@@ -46,7 +46,9 @@
  * ORDEN DE CREACIÓN: index.ts llama initHScroll() en la rama lg +
  * no-preference DESPUÉS de initShutter() (su start lee el end de ese pin) y
  * ANTES de initShuttersH() (los pins siguientes miden con este spacer ya
- * contabilizado). El ÚNICO refresh del ciclo lo dispara initMotion.
+ * contabilizado). El ÚNICO refresh del ciclo lo dispara initMotion. El guard
+ * interno repite la condición compuesta (STACK.mountQuery): doble cerradura,
+ * el stack no existe en reduce aunque el módulo se llamara fuera de la rama.
  */
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -104,7 +106,13 @@ export function isStackActive(): boolean {
 export function initHScroll(): void {
   destroyHScroll();
   const wrapper = document.querySelector<HTMLElement>("[data-hscroll]");
-  if (wrapper === null || !window.matchMedia(STACK.lgQuery).matches) return;
+  // Doble cerradura (STACK.mountQuery = lg + no-preference): la rama
+  // matchMedia de index.ts ya exige la misma condición, pero este guard
+  // propio garantiza que NINGUNA vía de llamada monte el stack con
+  // reduced-motion (tarjetas absolutas + xPercent 120 = fuera de pantalla y
+  // fallback vertical muerto — hallazgo QA). En reduce: return sin tocar el
+  // markup; las filas verticales quedan como están.
+  if (wrapper === null || !window.matchMedia(STACK.mountQuery).matches) return;
   const track = wrapper.querySelector<HTMLElement>("[data-hscroll-track]");
   const section = wrapper.closest<HTMLElement>("section");
   if (track === null || section === null) return;
@@ -253,6 +261,17 @@ export function initHScroll(): void {
  * al estado del markup (filas verticales). resetMotion() la llama ANTES de
  * media.revert(); idempotente. clearProps "all" en las tarjetas es seguro: no
  * tienen ningún estilo inline previo (el cromo lo puso este módulo).
+ *
+ * REVERSIÓN EN TOGGLE EN VIVO (verificada en el fuente de GSAP 3.15,
+ * Context.kill(revert)): al cruzar a reduce, matchMedia revierte el contexto
+ * en dos fases — (1) los tweens grabados (los gsap.set de layout y el estado
+ * inicial) se revierten en orden inverso de creación y cada propiedad vuelve
+ * a su valor PRE-set (los estilos inline desaparecen); (2) DESPUÉS corre este
+ * cleanup, cuyo clearProps remata cualquier resto. Resultado: tarjetas de
+ * vuelta al flujo del markup (fallback vertical opera). Al volver a
+ * no-preference el contexto se recrea y initHScroll() remonta el stack
+ * (idempotente: destruye lo anterior al entrar). Mismo ciclo que
+ * hover-roll/shutter.
  */
 export function destroyHScroll(): void {
   if (state.timeline !== null) {
