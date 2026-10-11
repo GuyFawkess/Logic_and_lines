@@ -483,9 +483,17 @@ function initProof(): void {
     const valueEl = li.querySelector<HTMLElement>("[data-stat-value]");
     if (valueEl === null) return;
     const original = (valueEl.textContent ?? "").trim();
-    const final = Number(original.replace(/[^\d]/g, ""));
-    // Valor no numérico: la cifra se queda como está (sin animar).
-    if (!Number.isFinite(final) || final <= 0) return;
+    // Objetivo del count: el atributo data-stat-value, poblado por el servidor
+    // con el valor final (Proof.astro). El FORMATO lo dicta el texto
+    // server-renderizado (original), no el idioma.
+    const attrRaw = (valueEl.getAttribute("data-stat-value") ?? "").trim();
+    const final = Number(attrRaw.replace(/[^\d]/g, ""));
+    // Fail-safe NO silencioso: si no hay objetivo válido (atributo vacío o no
+    // numérico — no debería pasar con el markup actual), la cifra se queda
+    // EXACTAMENTE como la renderizó el servidor: sin count y sin preparar el
+    // texto a "0". Un valor sin objetivo jamás se toca: el texto nunca puede
+    // quedar en "0" sin un tween que lo devuelva al valor final.
+    if (attrRaw === "" || !Number.isFinite(final) || final <= 0) return;
     stats.push({
       el: valueEl,
       original,

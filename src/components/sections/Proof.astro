@@ -26,14 +26,16 @@ const reasons = t.reasons.items as string[];
 
   <!-- (a) Cifras: datos reales, tabulares, fila alineada. F3-v2: count-up +
        subrayado ámbar dibujado (line-system.ts). El markup parte del estado
-       FINAL (valor final, regla dibujada): es el JS quien lo prepara. -->
+       FINAL (valor final, regla dibujada): es el JS quien lo prepara. El
+       atributo data-stat-value lleva el valor final: es el objetivo del count
+       (el texto visible es el mismo valor, fuente del formato ES/EN). -->
   <ul class="mt-16 grid grid-cols-1 gap-y-10 sm:grid-cols-3" data-stats>
     {
       stats.map((stat) => (
         <li class="border-t border-(--color-hairline) pt-6 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0 sm:first:border-l-0 sm:first:pl-0">
           <p
             class="font-display text-[clamp(2.5rem,6vw,4.5rem)] leading-none tabular-nums text-(--color-text)"
-            data-stat-value
+            data-stat-value={stat.value}
           >
             {stat.value}
           </p>
