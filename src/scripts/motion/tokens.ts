@@ -178,9 +178,7 @@ export const HSCROLL = {
 /*
  * Line-wipe de imágenes de servicio (F3-v2, image-reveal.ts) — técnica 4 del
  * catálogo: clip-path inset + línea guía ámbar sincronizada + inner-parallax.
- * F4-t2: en desktop los wipes van ligados al scroll horizontal
- * (containerAnimation, scrub); la conversión vertical a scrub llega en la
- * tanda de política rewind.
+ * F4-t2: los wipes pasan de once a SCRUB (política rewind, reversibles).
  */
 export const IMAGE_WIPE = {
   /** Duración del wipe (s), ease power4.inOut. */
@@ -193,6 +191,10 @@ export const IMAGE_WIPE = {
   lineWidth: 2,
   /** Start del trigger vertical: "top 80%". */
   start: 0.8,
+  /** End del trigger vertical: "top 35%" (el wipe completa con la fila en zona de lectura). */
+  end: 0.35,
+  /** Scrub (s) del wipe vertical (reversible). */
+  scrub: 0.8,
   /** Start del trigger horizontal (containerAnimation): el panel entra por la derecha. */
   hStart: "left 90%",
   /** End del trigger horizontal: el wipe completa con el panel ya en zona de lectura. */

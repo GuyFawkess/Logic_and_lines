@@ -21,7 +21,7 @@
  * La alternación por fila se conserva en ambos modos: es la gramática interna
  * del panel, no del eje de scroll.
  *
- * DOS MODOS (F4-t2):
+ * DOS MODOS (F4-t2, política rewind — TODO scrub, reversible en ambos):
  *  - HORIZONTAL (lg + no-preference, con el hscroll de hscroll.ts montado):
  *    el trigger usa containerAnimation = el tween del track (getScrollTween())
  *    con start/end en espacio HORIZONTAL ("left 90%" → "left 40%"): cada
@@ -32,23 +32,22 @@
  *    usan aquí. Los paneles ya visibles al arrancar el pin (1 y 2) quedan con
  *    el trigger en progreso 1 (pasado): revelados sin animación — solo los
  *    paneles que ENTRAN por la derecha wipean.
- *  - VERTICAL (móvil <lg, o páginas sin hscroll): comportamiento F3-v2
- *    (trigger once + play). Sin pinnedContainer: en móvil no hay ningún pin
- *    delante (la persiana vertical y el hscroll son solo lg) y en desktop
- *    este modo no existe. La conversión del vertical a scrub (política
- *    rewind) llega en la tanda siguiente de F4.
+ *  - VERTICAL (móvil <lg, o páginas sin hscroll): trigger de scroll vertical
+ *    "top 80%" → "top 35%" con scrub 0.8: el wipe corre (y se rebobina) con
+ *    el scroll. Sin pinnedContainer: en móvil no hay ningún pin delante (la
+ *    persiana vertical y el hscroll son solo lg) y en desktop este modo no
+ *    existe.
  *
  * REDUCED-MOTION: el módulo solo corre en la rama no-preference (index.ts) —
  * estado final del markup, sin clip.
  *
  * Ocultación inicial SOLO por gsap.set (sin JS = imágenes visibles sin clip).
- * En el modo horizontal (scrub) la timeline NO lleva onComplete ni paused: el
- * playhead lo gobierna el contenedor; la línea guía se queda en el DOM
- * (autoAlpha 0 al completar = visibility:hidden, coste de pintado cero) y
- * will-change se libera en el destroy — el scrub puede reactivar el wipe en
- * cualquier momento mientras el trigger esté en rango. En el vertical (once)
- * la línea se retira al completar (sin residuo, F3-v2). destroyImageReveal()
- * retira las líneas restantes y devuelve figures/imgs al estado del markup.
+ * En modo scrub la timeline NO lleva onComplete ni paused: el playhead lo
+ * gobierna el scroll; la línea guía se queda en el DOM (autoAlpha 0 al
+ * completar = visibility:hidden, coste de pintado cero) y will-change se
+ * libera en el destroy — el scrub puede reactivar el wipe en cualquier
+ * momento mientras el trigger esté en rango. destroyImageReveal() retira las
+ * líneas y devuelve figures/imgs al estado del markup.
  *
  * Patrón init/destroy: idéntico a line-system.ts (destroy desde resetMotion()
  * ANTES de media.revert() + cleanup del contexto, ambos idempotentes).
@@ -147,27 +146,22 @@ function setupWipe(figure: HTMLElement, scrollTween: gsap.core.Tween | null): Wi
     return record;
   }
 
-  // Vertical (F3-v2): timeline pausada + trigger once. La línea se retira al
-  // completar (sin residuo) y will-change se libera.
+  // Vertical: scrub ligado al scroll (política rewind F4-t2, reversible en
+  // ambos sentidos). La línea guía se queda en el DOM (autoAlpha 0 al
+  // completar) y will-change se libera en el destroy: el scrub puede
+  // reactivar el wipe en cualquier momento mientras el trigger esté en rango.
   const tl = gsap.timeline({
-    paused: true,
-    onComplete: () => {
-      line.remove();
-      record.line = null;
-      gsap.set([figure, img], { clearProps: "willChange" });
+    scrollTrigger: {
+      trigger: figure,
+      start: `top ${Math.round(IMAGE_WIPE.start * 100)}%`,
+      end: `top ${Math.round(IMAGE_WIPE.end * 100)}%`,
+      scrub: IMAGE_WIPE.scrub,
+      invalidateOnRefresh: true,
     },
   });
   record.timeline = tl;
+  record.trigger = tl.scrollTrigger ?? null;
   addWipeTweens(tl);
-
-  record.trigger = ScrollTrigger.create({
-    trigger: figure,
-    start: `top ${Math.round(IMAGE_WIPE.start * 100)}%`,
-    once: true,
-    onEnter: () => {
-      record.timeline?.play();
-    },
-  });
 
   return record;
 }
