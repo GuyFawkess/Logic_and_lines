@@ -1,7 +1,8 @@
 ---
-// Pruebas (F1): dos actos en una sección. (a) stats reales en fila escalonada
-// con hairlines verticales (sin cards); (b) razones en lista editorial 2-col
-// asimétrica con un solo borde por fila. Sin iconos.
+// Pruebas (F2): dos actos en una sección. (a) stats reales en fila alineada
+// con hairlines verticales (sin cards); (b) razones en grid 2x2 con columnas
+// iguales para que las reglas horizontales queden alineadas. Sin iconos.
+// (F2: se eliminan los offsets escalonados de F1 por feedback del usuario.)
 import { useTranslations } from "../../i18n/utils";
 
 interface Props {
@@ -12,11 +13,6 @@ const { currentLang } = Astro.props;
 const t = useTranslations(currentLang);
 const stats = t.stats.items as Array<{ value: string; label: string }>;
 const reasons = t.reasons.items as string[];
-
-// Desfases verticales: rompe la fila de cifras idéntica
-const statOffsets = ["", "sm:mt-12", "sm:mt-24"];
-const reasonWidths = ["md:col-span-7", "md:col-span-5", "md:col-span-7", "md:col-span-5"];
-const reasonOffsets = ["", "md:mt-10", "", "md:mt-10"];
 ---
 
 <section id="razones" class="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
@@ -27,13 +23,11 @@ const reasonOffsets = ["", "md:mt-10", "", "md:mt-10"];
     {t.reasons.title}
   </h2>
 
-  <!-- (a) Cifras: datos reales, tabulares, escalonados -->
+  <!-- (a) Cifras: datos reales, tabulares, fila alineada -->
   <ul class="mt-16 grid grid-cols-1 gap-y-10 sm:grid-cols-3">
     {
-      stats.map((stat, i) => (
-        <li
-          class={`border-t border-(--color-hairline) pt-6 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0 sm:first:border-l-0 sm:first:pl-0 ${statOffsets[i] ?? ""}`}
-        >
+      stats.map((stat) => (
+        <li class="border-t border-(--color-hairline) pt-6 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0 sm:first:border-l-0 sm:first:pl-0">
           <p class="font-display text-[clamp(2.5rem,6vw,4.5rem)] leading-none tabular-nums text-(--color-text)">
             {stat.value}
           </p>
@@ -45,13 +39,11 @@ const reasonOffsets = ["", "md:mt-10", "", "md:mt-10"];
     }
   </ul>
 
-  <!-- (b) Razones: lista editorial asimétrica, un solo borde por fila -->
-  <ul class="mt-20 grid grid-cols-1 gap-x-12 gap-y-10 md:grid-cols-12">
+  <!-- (b) Razones: grid 2x2 con columnas iguales, reglas alineadas -->
+  <ul class="mt-20 grid grid-cols-1 gap-x-12 gap-y-10 md:grid-cols-2">
     {
-      reasons.map((reason, i) => (
-        <li
-          class={`border-t border-(--color-hairline) pt-5 ${reasonWidths[i] ?? "md:col-span-6"} ${reasonOffsets[i] ?? ""}`}
-        >
+      reasons.map((reason) => (
+        <li class="border-t border-(--color-hairline) pt-5">
           <p class="font-display text-xl leading-snug text-(--color-text) md:text-2xl">
             {reason}
           </p>
