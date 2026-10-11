@@ -367,6 +367,11 @@ function initRailDesktop(railSvg: SVGSVGElement, grid: HTMLElement, cards: HTMLE
       start: "top 85%",
       end: "top 35%",
       scrub: LINE.scrub,
+      // El grid vive dentro del wrapper pineado por la persiana horizontal de
+      // capítulo (F4-t2, shutter.ts): sin pinnedContainer el start saldría
+      // desplazado por ese pin-spacer (mismo patrón que image-reveal.ts). En
+      // móvil el wrapper existe pero no hay pin: es inocuo.
+      pinnedContainer: grid.closest("[data-shutter-h], [data-shutter]") ?? undefined,
     },
   });
   rail.timeline = tl;

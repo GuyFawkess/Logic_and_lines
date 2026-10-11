@@ -22,7 +22,7 @@ import { destroySmoothScroll, initSmoothScroll } from "./smooth-scroll";
 import { destroyTextReveal, initTextReveal } from "./text-reveal";
 import { destroyLineSystem, initLineSystem } from "./line-system";
 import { destroyImageReveal, initImageReveal } from "./image-reveal";
-import { destroyShutter, initShutter } from "./shutter";
+import { destroyShutter, destroyShuttersH, initShutter, initShuttersH } from "./shutter";
 import { destroyHScroll, getScrollTween, initHScroll } from "./hscroll";
 import { destroyCircuit, initCircuit } from "./circuit";
 import { EASE_REVEAL_PATH } from "./tokens";
@@ -49,6 +49,7 @@ function resetMotion(): void {
   destroyLineSystem();
   destroyImageReveal();
   destroyShutter();
+  destroyShuttersH();
   destroyHScroll();
   destroyCircuit();
   if (media !== null) {
@@ -69,19 +70,23 @@ export function initMotion(): void {
 
   media = gsap.matchMedia();
 
-  // 1) Persiana line-native (F3-v2, primer pin de la página) + scroll
-  //    horizontal de servicios (F4-t2, pin 2 anidado en el wrapper de la
-  //    persiana: su start lee el end de "shutter-v"). Condición compuesta lg +
-  //    no-preference, registrada PRIMERO para que sus ScrollTriggers se creen
-  //    antes que los de secciones posteriores — el refresh corre en orden de
-  //    creación y así cada pin-spacer queda contabilizado (fuente GSAP).
-  //    matchMedia revierte los pins limpiamente al cruzar lg (móvil sin nada
-  //    de esto), por eso la condición es compuesta y no un check manual.
+  // 1) Gramática de capítulos (F4-t2): los 4 primeros pins de la página, en
+  //    ORDEN DE PÁGINA — persiana vertical Thesis→Services (pin 1), scroll
+  //    horizontal de servicios (pin 2, anidado en el wrapper de la persiana:
+  //    su start lee el end de "shutter-v"), persianas horizontales de
+  //    ProcessRail y FaqIndex (pins 3-4). El refresh corre en orden de
+  //    creación y así cada pin-spacer queda contabilizado al posicionar los
+  //    triggers siguientes (fuente GSAP). El quinto pin es el pico peak-end
+  //    de BookingClose (circuit.ts, ÚLTIMO en la rama general). matchMedia
+  //    revierte los pins limpiamente al cruzar lg (móvil sin nada de esto),
+  //    por eso la condición es compuesta y no un check manual.
   media.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
     initShutter();
     initHScroll();
+    initShuttersH();
     return () => {
       destroyHScroll();
+      destroyShuttersH();
       destroyShutter();
     };
   });

@@ -63,9 +63,17 @@ const organizationSchema = {
 		<div data-shutter>
 			<ServicesIndex currentLang={currentLang} />
 		</div>
-		<ProcessRail currentLang={currentLang} />
+		<!-- Horizontal chapter shutter (F4-t2): dark-to-light flip when entering
+		     the light chapter. Styleless wrapper; everything ephemeral is created
+		     by shutter.ts only with JS and lg viewport. Without JS or on mobile:
+		     normal flow, zero overlays. -->
+		<div data-shutter-h>
+			<ProcessRail currentLang={currentLang} />
+		</div>
 		<Proof currentLang={currentLang} />
-		<FaqIndex currentLang={currentLang} />
+		<div data-shutter-h>
+			<FaqIndex currentLang={currentLang} />
+		</div>
 		<BookingClose currentLang={currentLang} />
 	</main>
 	<SiteFooter currentLang={currentLang} />
