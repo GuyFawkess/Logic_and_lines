@@ -280,6 +280,16 @@ export function destroyHScroll(): void {
     state.timeline = null;
   }
   if (state.cards.length > 0) {
+    // FIX (f4): killTweensOf antes del clearProps. Causa raíz: los fromTo
+    // hijos del timeline (parent.data === "nested") sobreviven a
+    // `timeline.kill()` porque Context.kill solo itera data top-level
+    // (getTweens() excluye anidados). Sus propTweens quedan vivos en el
+    // _gsap cache de cada card. Cuando ScrollTrigger.kill (invocado antes)
+    // pierde el pin-spacer y dispara un refresh, esos propTweens vuelven a
+    // escribir `transform: translate(120%, 0%)` DESPUÉS del clearProps.
+    // killTweensOf limpia los propTweens residuales, clearProps borra el
+    // estilo inline: ningún render posterior puede reescribir el transform.
+    gsap.killTweensOf(state.cards);
     gsap.set(state.cards, { clearProps: "all" });
   }
   if (state.track !== null) {
