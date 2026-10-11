@@ -39,14 +39,26 @@ const wipeDir = (i: number): "ltr" | "rtl" => (i % 2 === 0 ? "ltr" : "rtl");
 ---
 
 <section id="servicios" class="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
-  <h2
-    class="pt-24 font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text) lg:pt-32"
-    data-reveal="lines"
-  >
-    {t.services.title}
-  </h2>
+  <!-- Header de sección: el h2 queda FUERA del track (encima, visible durante
+       el scroll horizontal). data-hscroll-header es el ancla del contador de
+       progreso (01 / 06), que crea hscroll.ts por JS — sin JS no existe
+       (regla de oro sin-JS). -->
+  <div class="relative" data-hscroll-header>
+    <h2
+      class="pt-24 font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text) lg:pt-32"
+      data-reveal="lines"
+    >
+      {t.services.title}
+    </h2>
+  </div>
 
-  <div class="mt-14">
+  <!-- Scroll horizontal reversible (F4-t2): el layout horizontal (flex nowrap,
+       paneles iguales, clip) lo aplica hscroll.ts SOLO con JS en lg +
+       no-preference. Sin JS, en móvil o con reduced-motion este wrapper es
+       inerte y los 6 servicios apilan VERTICAL (filas igualadas del markup):
+       contenido 100% visible siempre. -->
+  <div data-hscroll>
+    <div class="mt-14" data-hscroll-track>
     {
       services.map((entry, i) => {
         const dims = imageDims[entry.data.img] ?? { w: 1024, h: 768 };
@@ -129,5 +141,6 @@ const wipeDir = (i: number): "ltr" | "rtl" => (i % 2 === 0 ? "ltr" : "rtl");
         );
       })
     }
+    </div>
   </div>
 </section>

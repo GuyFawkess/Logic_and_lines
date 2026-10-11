@@ -1,14 +1,13 @@
 /**
- * Line-wipe de las imágenes de servicio (F3-v2) — técnica 4 del catálogo
- * (docs/research-v4/2026-10-11-catalogo-motion-trionn.md).
+ * Line-wipe de las imágenes de servicio (F3-v2 + F4-t2) — técnica 4 del
+ * catálogo (docs/research-v4/2026-10-11-catalogo-motion-trionn.md).
  *
  * Cada `figure[data-image-wipe]` de ServicesIndex se revela con:
  *  - clip-path inset sobre el FIGURE (no sobre el img: así el borde del clip
  *    y la línea guía viven en el mismo espacio y quedan sincronizados; el
  *    inner-parallax del img escala por debajo sin desplazar el borde).
  *  - Línea guía ámbar de 2px (creada por JS, regla de oro sin-JS) que viaja EN
- *    SINCRONÍA con el borde del clip (misma timeline, misma duración y ease)
- *    y se desvanece 0.2s al terminar: no queda residuo.
+ *    SINCRONÍA con el borde del clip (misma timeline, misma duración y ease).
  *  - Inner-parallax: la imagen scale 1.15 → 1 en la misma timeline (acaba en
  *    scale 1 EXACTO).
  *
@@ -16,26 +15,41 @@
  * hacia la imagen — el borde del reveal nace en el borde de la imagen
  * colindante a la columna de texto y viaja hacia fuera (dirección C: la línea
  * llega desde el contenido, y el wipe sigue el orden de lectura texto→imagen).
- *   - dir="ltr" (filas pares: texto izquierda / imagen derecha): el clip se
- *     abre de izquierda a derecha (`inset(0% 100% 0% 0%)` → `inset(0% 0% 0% 0%)`).
- *   - dir="rtl" (filas impares: imagen izquierda / texto derecha): espejo
- *     (`inset(0% 0% 0% 100%)` → `inset(0% 0% 0% 0%)`).
- * En móvil el grid colapsa a una columna (imagen arriba del texto): se
- * conserva la dirección por fila — el wipe es horizontal y barato, misma
- * gramática en ambos viewports (spec F3-v2).
+ *   - dir="ltr": el clip se abre de izquierda a derecha
+ *     (`inset(0% 100% 0% 0%)` → `inset(0% 0% 0% 0%)`).
+ *   - dir="rtl": espejo (`inset(0% 0% 0% 100%)` → `inset(0% 0% 0% 0%)`).
+ * La alternación por fila se conserva en ambos modos: es la gramática interna
+ * del panel, no del eje de scroll.
  *
- * INTERACCIÓN CON LA PERSIANA (shutter.ts): las 6 filas viven dentro del
- * wrapper `<div data-shutter>` pineado. Sus triggers llevan `pinnedContainer`
- * apuntando a ese wrapper para que ScrollTrigger desplace su start por el
- * pin-spacer (fuente GSAP: el refresh acumula el offset de pins previos);
- * sin él, las filas profundas dispararían ~1.5vh tarde (imagen visible pero
- * aún recortada). La fila 1 dispara así a mitad del pin: su wipe corre
- * mientras las lamas se abren alrededor — la persiana y el wipe se reparten
- * el reveal sin animación doble en el primer frame (al entrar el pin todo
- * está aún tapado).
+ * DOS MODOS (F4-t2):
+ *  - HORIZONTAL (lg + no-preference, con el hscroll de hscroll.ts montado):
+ *    el trigger usa containerAnimation = el tween del track (getScrollTween())
+ *    con start/end en espacio HORIZONTAL ("left 90%" → "left 40%"): cada
+ *    panel dispara su wipe al ENTRAR por la derecha y el progreso va ligado
+ *    al del contenedor (scrub: true — el contenedor ya suaviza con scrub 0.8;
+ *    un segundo scrub numérico añadiría lag doble). Pin y snap NO existen
+ *    dentro de un containerAnimation (limitación documentada de GSAP): no se
+ *    usan aquí. Los paneles ya visibles al arrancar el pin (1 y 2) quedan con
+ *    el trigger en progreso 1 (pasado): revelados sin animación — solo los
+ *    paneles que ENTRAN por la derecha wipean.
+ *  - VERTICAL (móvil <lg, o páginas sin hscroll): comportamiento F3-v2
+ *    (trigger once + play). Sin pinnedContainer: en móvil no hay ningún pin
+ *    delante (la persiana vertical y el hscroll son solo lg) y en desktop
+ *    este modo no existe. La conversión del vertical a scrub (política
+ *    rewind) llega en la tanda siguiente de F4.
+ *
+ * REDUCED-MOTION: el módulo solo corre en la rama no-preference (index.ts) —
+ * estado final del markup, sin clip.
  *
  * Ocultación inicial SOLO por gsap.set (sin JS = imágenes visibles sin clip).
- * Reduced-motion: el módulo solo corre en la rama no-preference (index.ts).
+ * En el modo horizontal (scrub) la timeline NO lleva onComplete ni paused: el
+ * playhead lo gobierna el contenedor; la línea guía se queda en el DOM
+ * (autoAlpha 0 al completar = visibility:hidden, coste de pintado cero) y
+ * will-change se libera en el destroy — el scrub puede reactivar el wipe en
+ * cualquier momento mientras el trigger esté en rango. En el vertical (once)
+ * la línea se retira al completar (sin residuo, F3-v2). destroyImageReveal()
+ * retira las líneas restantes y devuelve figures/imgs al estado del markup.
+ *
  * Patrón init/destroy: idéntico a line-system.ts (destroy desde resetMotion()
  * ANTES de media.revert() + cleanup del contexto, ambos idempotentes).
  */
@@ -50,7 +64,7 @@ interface WipeRecord {
   figure: HTMLElement;
   img: HTMLImageElement;
   dir: WipeDir;
-  /** Línea guía creada por JS (null tras retirarse). */
+  /** Línea guía creada por JS (se retira en el destroy). */
   line: HTMLSpanElement | null;
   timeline: gsap.core.Timeline | null;
   trigger: ScrollTrigger | null;
@@ -64,15 +78,19 @@ function clipFrom(dir: WipeDir): string {
 }
 
 /** Prepara y anima una figura. Devuelve el registro (o null si ya pasó). */
-function setupWipe(figure: HTMLElement): WipeRecord | null {
+function setupWipe(figure: HTMLElement, scrollTween: gsap.core.Tween | null): WipeRecord | null {
   const img = figure.querySelector<HTMLImageElement>("img");
   const holder = figure.parentElement;
   if (img === null || holder === null) return null;
   const dir: WipeDir = figure.getAttribute("data-image-wipe") === "rtl" ? "rtl" : "ltr";
+  const horizontal = scrollTween !== null;
 
   // ¿Ya pasó la sección al inicializar (VT a ancla, resize por debajo)? El
-  // markup ya está en estado final: no se prepara ni se re-anima nada.
-  if (isPast(figure, IMAGE_WIPE.start)) return null;
+  // markup ya está en estado final: no se prepara ni se re-anima nada. Guard
+  // SOLO en vertical: dentro del pin horizontal la posición vertical de la
+  // figura no significa nada (el estado lo dicta el progreso del contenedor,
+  // que el scrub sincroniza en el refresh).
+  if (!horizontal && isPast(figure, IMAGE_WIPE.start)) return null;
 
   const record: WipeRecord = { figure, img, dir, line: null, timeline: null, trigger: null };
 
@@ -90,42 +108,62 @@ function setupWipe(figure: HTMLElement): WipeRecord | null {
 
   // Recorrido de la línea: todo el ancho del holder, sincronizada con el
   // borde del clip (misma duración y ease). Función re-medida en refresh
-  // (invalidateOnRefresh) para seguir siendo exacta si el ancho cambia antes
-  // de disparar.
+  // (invalidateOnRefresh) para seguir siendo exacta si el ancho cambia.
   const travel = (): number => Math.max(holder.offsetWidth - IMAGE_WIPE.lineWidth, 0);
 
+  /** Tweens del wipe (comunes a ambos modos): clip + parallax + línea + fade. */
+  const addWipeTweens = (tl: gsap.core.Timeline): void => {
+    tl.to(figure, { clipPath: "inset(0% 0% 0% 0%)", duration: IMAGE_WIPE.dur, ease: "power4.inOut" }, 0);
+    tl.to(img, { scale: 1, duration: IMAGE_WIPE.dur, ease: "power4.inOut" }, 0);
+    tl.fromTo(
+      line,
+      { x: () => (dir === "ltr" ? 0 : travel()) },
+      { x: () => (dir === "ltr" ? travel() : 0), duration: IMAGE_WIPE.dur, ease: "power4.inOut" },
+      0,
+    );
+    tl.to(
+      line,
+      { autoAlpha: 0, duration: IMAGE_WIPE.lineFade, ease: "power1.out" },
+      IMAGE_WIPE.dur - IMAGE_WIPE.lineFade,
+    );
+  };
+
+  if (horizontal) {
+    // Dentro del scroll horizontal: espacio de triggers horizontal, progreso
+    // ligado al contenedor (scrub reversible; el contenedor ya suaviza).
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        containerAnimation: scrollTween,
+        trigger: figure,
+        start: IMAGE_WIPE.hStart,
+        end: IMAGE_WIPE.hEnd,
+        scrub: true,
+        invalidateOnRefresh: true,
+      },
+    });
+    record.timeline = tl;
+    record.trigger = tl.scrollTrigger ?? null;
+    addWipeTweens(tl);
+    return record;
+  }
+
+  // Vertical (F3-v2): timeline pausada + trigger once. La línea se retira al
+  // completar (sin residuo) y will-change se libera.
   const tl = gsap.timeline({
     paused: true,
     onComplete: () => {
-      // La línea se retira (no queda residuo) y se libera will-change.
       line.remove();
+      record.line = null;
       gsap.set([figure, img], { clearProps: "willChange" });
     },
   });
   record.timeline = tl;
-
-  tl.to(figure, { clipPath: "inset(0% 0% 0% 0%)", duration: IMAGE_WIPE.dur, ease: "power4.inOut" }, 0);
-  tl.to(img, { scale: 1, duration: IMAGE_WIPE.dur, ease: "power4.inOut" }, 0);
-  tl.fromTo(
-    line,
-    { x: () => (dir === "ltr" ? 0 : travel()) },
-    { x: () => (dir === "ltr" ? travel() : 0), duration: IMAGE_WIPE.dur, ease: "power4.inOut" },
-    0,
-  );
-  tl.to(
-    line,
-    { autoAlpha: 0, duration: IMAGE_WIPE.lineFade, ease: "power1.out" },
-    IMAGE_WIPE.dur - IMAGE_WIPE.lineFade,
-  );
+  addWipeTweens(tl);
 
   record.trigger = ScrollTrigger.create({
     trigger: figure,
     start: `top ${Math.round(IMAGE_WIPE.start * 100)}%`,
     once: true,
-    // Las filas viven dentro del wrapper pineado por la persiana: sin
-    // pinnedContainer las filas profundas dispararían ~1.5vh tarde (imagen
-    // visible pero aún recortada). GSAP desplaza el start por el pin-spacer.
-    pinnedContainer: figure.closest("[data-shutter]"),
     onEnter: () => {
       record.timeline?.play();
     },
@@ -138,13 +176,13 @@ function setupWipe(figure: HTMLElement): WipeRecord | null {
  * Line-wipe para todas las `figure[data-image-wipe]` de la página. Idempotente:
  * destruye lo anterior antes de montar (la ruta nueva trae DOM nuevo). Se
  * llama en la rama no-preference del matchMedia de index.ts, después de
- * initLineSystem() (y tras la condición de la persiana: sus triggers necesitan
- * el pin ya creado para pinnedContainer).
+ * initLineSystem() y con el hscroll ya montado: en desktop recibe su tween
+ * como containerAnimation (getScrollTween()); en móvil recibe null (vertical).
  */
-export function initImageReveal(): void {
+export function initImageReveal(scrollTween: gsap.core.Tween | null = null): void {
   destroyImageReveal();
   document.querySelectorAll<HTMLElement>("figure[data-image-wipe]").forEach((figure) => {
-    const record = setupWipe(figure);
+    const record = setupWipe(figure, scrollTween);
     if (record !== null) records.push(record);
   });
 }

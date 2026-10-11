@@ -158,8 +158,29 @@ export const SHUTTER = {
 } as const;
 
 /*
+ * Scroll horizontal reversible de ServicesIndex (F4-t2, hscroll.ts) — 6
+ * paneles iguales, pin + scrub 100% reversible. Solo lg + no-preference: el
+ * layout horizontal lo aplica el JS (regla de oro sin-JS).
+ */
+export const HSCROLL = {
+  /** Query lg (Tailwind): el horizontal solo existe en desktop. */
+  lgQuery: "(min-width: 1024px)",
+  /** Ancho de cada panel (iguales): fila editorial con la siguiente asomando. */
+  panelWidth: "min(72vw, 900px)",
+  /** Separación entre paneles del track. */
+  gap: "4rem",
+  /** Scrub (s) del pin horizontal (rebobinado con lag táctil). */
+  scrub: 0.8,
+  /** Recorrido mínimo (px) para montar el horizontal (si el track cabe, vertical). */
+  minDistance: 10,
+} as const;
+
+/*
  * Line-wipe de imágenes de servicio (F3-v2, image-reveal.ts) — técnica 4 del
  * catálogo: clip-path inset + línea guía ámbar sincronizada + inner-parallax.
+ * F4-t2: en desktop los wipes van ligados al scroll horizontal
+ * (containerAnimation, scrub); la conversión vertical a scrub llega en la
+ * tanda de política rewind.
  */
 export const IMAGE_WIPE = {
   /** Duración del wipe (s), ease power4.inOut. */
@@ -170,8 +191,12 @@ export const IMAGE_WIPE = {
   lineFade: 0.2,
   /** Grosor de la línea guía (px). */
   lineWidth: 2,
-  /** Start del trigger: "top 80%". */
+  /** Start del trigger vertical: "top 80%". */
   start: 0.8,
+  /** Start del trigger horizontal (containerAnimation): el panel entra por la derecha. */
+  hStart: "left 90%",
+  /** End del trigger horizontal: el wipe completa con el panel ya en zona de lectura. */
+  hEnd: "left 40%",
 } as const;
 
 /*

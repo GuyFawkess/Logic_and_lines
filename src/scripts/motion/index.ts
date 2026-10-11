@@ -23,6 +23,7 @@ import { destroyTextReveal, initTextReveal } from "./text-reveal";
 import { destroyLineSystem, initLineSystem } from "./line-system";
 import { destroyImageReveal, initImageReveal } from "./image-reveal";
 import { destroyShutter, initShutter } from "./shutter";
+import { destroyHScroll, getScrollTween, initHScroll } from "./hscroll";
 import { destroyCircuit, initCircuit } from "./circuit";
 import { EASE_REVEAL_PATH } from "./tokens";
 
@@ -37,16 +38,18 @@ let media: gsap.MatchMedia | null = null;
 /** Drops everything created by the previous init (matchMedia contexts revert). */
 function resetMotion(): void {
   // destroyTextReveal()/destroyLineSystem()/destroyImageReveal()/
-  // destroyShutter()/destroyCircuit() van ANTES de media.revert():
-  // matchMedia.revert() no revierte mutaciones DOM (wrappers/mascaras de
-  // SplitText, textContent de las cifras, anillos y lineas guia creados por
-  // JS, overlay SVG de la persiana, viajero del circuito) y sin estos
-  // reverts explicitos habria fugas entre navegaciones VT (text-reveal.ts,
-  // line-system.ts, image-reveal.ts, shutter.ts, circuit.ts).
+  // destroyShutter()/destroyShuttersH()/destroyHScroll()/destroyCircuit() van
+  // ANTES de media.revert(): matchMedia.revert() no revierte mutaciones DOM
+  // (wrappers/mascaras de SplitText, textContent de las cifras, anillos y
+  // lineas guia creados por JS, overlays SVG de las persianas, layout
+  // horizontal del track, viajero del circuito) y sin estos reverts
+  // explicitos habria fugas entre navegaciones VT (text-reveal.ts,
+  // line-system.ts, image-reveal.ts, shutter.ts, hscroll.ts, circuit.ts).
   destroyTextReveal();
   destroyLineSystem();
   destroyImageReveal();
   destroyShutter();
+  destroyHScroll();
   destroyCircuit();
   if (media !== null) {
     media.revert();
@@ -66,18 +69,19 @@ export function initMotion(): void {
 
   media = gsap.matchMedia();
 
-  // 1) Persiana line-native (F3-v2, primer pin de la pagina; el segundo es el
-  //    pico peak-end de BookingClose, circuit.ts): condicion compuesta lg +
-  //    no-preference, registrada PRIMERO para que su ScrollTrigger (el pin)
-  //    se cree antes que los triggers de secciones posteriores — el refresh
-  //    corre en orden de creacion y asi el pin-spacer queda contabilizado al
-  //    posicionar rail/proof/wipes (fuente GSAP: el refresh acumula el offset
-  //    de pins previos). matchMedia ademas revierte el pin limpiamente al
-  //    cruzar lg (movil sin persiana), por eso la condicion es compuesta y no
-  //    un check manual en la rama general.
+  // 1) Persiana line-native (F3-v2, primer pin de la página) + scroll
+  //    horizontal de servicios (F4-t2, pin 2 anidado en el wrapper de la
+  //    persiana: su start lee el end de "shutter-v"). Condición compuesta lg +
+  //    no-preference, registrada PRIMERO para que sus ScrollTriggers se creen
+  //    antes que los de secciones posteriores — el refresh corre en orden de
+  //    creación y así cada pin-spacer queda contabilizado (fuente GSAP).
+  //    matchMedia revierte los pins limpiamente al cruzar lg (móvil sin nada
+  //    de esto), por eso la condición es compuesta y no un check manual.
   media.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
     initShutter();
+    initHScroll();
     return () => {
+      destroyHScroll();
       destroyShutter();
     };
   });
@@ -94,9 +98,11 @@ export function initMotion(): void {
     // orden determinista lo fija motion-plan.md, section 6.
     initLineSystem();
     // F3-v2 tanda 2: line-wipe de las imagenes de servicio — image-reveal.ts.
-    // Despues del sistema de linea y de la persiana: sus triggers necesitan el
-    // pin ya creado para pinnedContainer (ver image-reveal.ts).
-    initImageReveal();
+    // Despues del sistema de linea. En desktop recibe el tween del hscroll
+    // (containerAnimation: wipes al entrar cada panel por la derecha); en
+    // movil recibe null (scrub vertical). Ambos modos scrub/reversibles
+    // (politica rewind F4-t2).
+    initImageReveal(getScrollTween());
     // F3-v2 tanda 3 (pico peak-end): cierre de circuito en BookingClose —
     // circuit.ts. ULTIMO de la rama: su pin es el de la seccion mas baja con
     // triggers de la pagina, asi que el refresh en orden de creacion lo mide
@@ -110,9 +116,10 @@ export function initMotion(): void {
     // anillos y las lineas guia creados por JS, y el Lenis del smooth scroll
     // quedarian vivos hasta el proximo init. Los destroy son idempotentes
     // (refs a null, Map/Set vacios), asi que el doble call con el destroy
-    // explicito de resetMotion() es inocuo. destroyShutter() NO va aqui: la
-    // persiana vive en su rama compuesta lg + no-preference, que trae su
-    // propio cleanup (arriba) y se revierte junto con esta rama.
+    // explicito de resetMotion() es inocuo. destroyShutter()/destroyShuttersH()/
+    // destroyHScroll() NO van aqui: viven en su rama compuesta lg +
+    // no-preference, que trae su propio cleanup (arriba) y se revierte junto
+    // con esta rama.
     return () => {
       destroyTextReveal();
       destroyLineSystem();
