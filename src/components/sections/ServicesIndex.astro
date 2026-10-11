@@ -30,6 +30,12 @@ const imageDims: Record<string, { w: number; h: number }> = {
 
 const pad = () => "py-12 lg:py-16";
 const num = (i: number) => String(i + 1).padStart(2, "0");
+// Dirección del line-wipe (image-reveal.ts, F3-v2): el reveal nace en el borde
+// de la imagen colindante a la columna de TEXTO y viaja hacia fuera (dirección
+// C: la línea llega desde el contenido, y el wipe sigue el orden de lectura
+// texto→imagen). Filas pares: texto izquierda / imagen derecha -> "ltr" (el
+// clip se abre de izquierda a derecha); impares: espejo ("rtl").
+const wipeDir = (i: number): "ltr" | "rtl" => (i % 2 === 0 ? "ltr" : "rtl");
 ---
 
 <section id="servicios" class="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
@@ -68,8 +74,8 @@ const num = (i: number) => String(i + 1).padStart(2, "0");
           <article
             class={`grid grid-cols-1 gap-8 border-t border-(--color-hairline) ${pad()} md:grid-cols-12 md:gap-10`}
           >
-            <div class={imgWrap}>
-              <figure class="w-full overflow-hidden">
+            <div class={`relative ${imgWrap}`}>
+              <figure class="w-full overflow-hidden" data-image-wipe={wipeDir(i)}>
                 <img
                   src={entry.data.img}
                   width={dims.w}

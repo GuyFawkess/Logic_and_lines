@@ -18,6 +18,11 @@ export const EASE_REVEAL_PATH = "M0,0 C0.16,1 0.3,1 1,1";
 /**
  * Shutter belt easing. Softened `back.out` so belts overshoot slightly and settle
  * (Trionn's belts overshoot harder with elastic; 1.4 is the sober adaptation).
+ *
+ * ⚠️ SUPERSEDED (F3-v2, 2026-10-11): pertenecía a la persiana de rutas de 6
+ * lamas, descartada por el catálogo (docs/research-v4, §4). Se conserva como
+ * referencia histórica; la persiana vigente (shutter.ts) usa power2.inOut por
+ * lama + overshoot manual del último grupo (OVERSHOOT, que sí sigue vivo).
  */
 export const EASE_SHUTTER = "back.out(1.4)";
 
@@ -37,7 +42,7 @@ export const STAGGER = {
   text: 0.06,
   /** Between split lines (mobile). */
   textMobile: 0.04,
-  /** Between shutter belts. */
+  /** Between shutter belts. ⚠️ SUPERSEDED (F3-v2): el stagger de lamas vive en SHUTTER.stagger. */
   belt: 0.055,
 } as const;
 
@@ -63,21 +68,28 @@ export const RESIZE_DEBOUNCE = 200;
  * ~820ms cover / ~475ms hold / ~700ms reveal cycle (overshoot 1.10). Ours is leaner
  * and vertical so the belts read as segments of "La Linea Maestra": fewer belts,
  * shorter phases, lighter overshoot (see docs/motion-plan.md, section 4).
+ *
+ * ⚠️ SUPERSEDED (F3-v2, 2026-10-11): la persiana de rutas de 6 lamas
+ * (BELTS/BELTS_MOBILE + fases COVER/HOLD/REVEAL) queda descartada por el
+ * catálogo (docs/research-v4, §4: densidad insuficiente y wipe repetida =
+ * ruina de ritmo). Se conservan como referencia histórica; la persiana VIGENTE
+ * es la line-native de BLADES lamas (constantes SHUTTER, abajo) y OVERSHOOT
+ * sigue en uso para su último grupo de lamas.
  */
 
-/** Vertical belts on desktop. */
+/** Vertical belts on desktop. ⚠️ SUPERSEDED (F3-v2) -> BLADES. */
 export const BELTS = 6;
 
-/** Vertical belts on mobile. */
+/** Vertical belts on mobile. ⚠️ SUPERSEDED (F3-v2): sin persiana en móvil. */
 export const BELTS_MOBILE = 4;
 
-/** COVER phase (s): belts scale 0 -> 1 with overshoot, cascaded. */
+/** COVER phase (s): belts scale 0 -> 1 with overshoot, cascaded. ⚠️ SUPERSEDED (F3-v2). */
 export const COVER = 0.75;
 
-/** HOLD phase (s): screen stays covered while the content swaps underneath. */
+/** HOLD phase (s): screen stays covered while the content swaps underneath. ⚠️ SUPERSEDED (F3-v2). */
 export const HOLD = 0.35;
 
-/** REVEAL phase (s): belts scale 1 -> 0 in inverse direction, no undershoot. */
+/** REVEAL phase (s): belts scale 1 -> 0 in inverse direction, no undershoot. ⚠️ SUPERSEDED (F3-v2). */
 export const REVEAL = 0.6;
 
 /** scaleY overshoot during COVER (1.06 vs the measured 1.10 on Trionn). */
@@ -107,4 +119,51 @@ export const LINE = {
   countDur: 1.4,
   /** Stat underline draw duration (s), ease power3.inOut. */
   underlineDur: 0.8,
+} as const;
+
+/*
+ * Persiana line-native (F3-v2, shutter.ts) — la transición estrella
+ * Thesis→ServicesIndex, USO ÚNICO en toda la página (catálogo §4: la wipe
+ * repetida entre bloques arruina el ritmo; aquí es EL momento donde la línea
+ * muta de forma). Parámetros del catálogo (técnica 5): 12 lamas, stagger 0.02,
+ * scrub 2.0-2.5, máscara SVG userSpaceOnUse con rects centro-fuera.
+ */
+export const BLADES = 12;
+
+export const SHUTTER = {
+  /** Query lg (Tailwind): la persiana solo existe en desktop. */
+  lgQuery: "(min-width: 1024px)",
+  /** Distancia pineada: 1.5 viewports de scroll para el reveal. */
+  pinDistance: "+=150%",
+  /** Scrub (s): suavizado del playhead (rango del catálogo 2.0-2.5). */
+  scrub: 2.2,
+  /** Stagger entre lamas (s), de izquierda a derecha (frente de onda). */
+  stagger: 0.02,
+  /** Duración de apertura de cada lama (unidades de timeline, scrubbed). */
+  bladeDur: 0.5,
+  /** Solape anti-gap entre las mitades de una lama (fracción de media lama). */
+  overlap: 0.05,
+  /** Grosor del frente de onda ámbar (px). */
+  waveWidth: 2,
+  /** Fade final del frente de onda (unidades de timeline). */
+  waveFade: 0.15,
+  /** Duración del overshoot de subida y del settle del último grupo (s de timeline). */
+  overshootDur: 0.15,
+} as const;
+
+/*
+ * Line-wipe de imágenes de servicio (F3-v2, image-reveal.ts) — técnica 4 del
+ * catálogo: clip-path inset + línea guía ámbar sincronizada + inner-parallax.
+ */
+export const IMAGE_WIPE = {
+  /** Duración del wipe (s), ease power4.inOut. */
+  dur: 1.1,
+  /** Escala inicial de la imagen (inner-parallax; acaba EXACTA en 1). */
+  scaleFrom: 1.15,
+  /** Fade de la línea guía al terminar (s). */
+  lineFade: 0.2,
+  /** Grosor de la línea guía (px). */
+  lineWidth: 2,
+  /** Start del trigger: "top 80%". */
+  start: 0.8,
 } as const;

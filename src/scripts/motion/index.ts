@@ -2,11 +2,11 @@
  * F0 motion orchestrator (docs/motion-plan.md, section 4).
  *
  * Responsibilities: register plugins, register the reveal easing and hold the
- * gsap.matchMedia() structure that every phase hooks into. F2 (text reveals)
- * and F3-v2 (master line system) are wired below; the shutter/route
- * transitions (F3) and micro-interactions (F4) fill the remaining TODO hooks
- * and their modules (shutter, image-reveal, marquee, magnetic, preloader),
- * which are already in place as documented stubs.
+ * gsap.matchMedia() structure that every phase hooks into. F2 (text reveals),
+ * F3-v2 (master line system, image line-wipes and the single line-native
+ * shutter pin) are wired below; micro-interactions (F4) fill the remaining
+ * TODO hooks and their modules (marquee, magnetic, preloader), which are
+ * already in place as documented stubs.
  *
  * The module is loaded from a processed <script> in Layout.astro, so it survives
  * ClientRouter navigations as a single instance and re-runs its setup through the
@@ -20,6 +20,7 @@ import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 import { destroySmoothScroll, initSmoothScroll } from "./smooth-scroll";
 import { destroyTextReveal, initTextReveal } from "./text-reveal";
 import { destroyLineSystem, initLineSystem } from "./line-system";
+import { destroyImageReveal, initImageReveal } from "./image-reveal";
 import { EASE_REVEAL_PATH } from "./tokens";
 
 gsap.registerPlugin(ScrollTrigger, CustomEase, SplitText, DrawSVGPlugin);
@@ -32,20 +33,20 @@ let media: gsap.MatchMedia | null = null;
 
 /** Drops everything created by the previous init (matchMedia contexts revert). */
 function resetMotion(): void {
-  // destroyTextReveal() y destroyLineSystem() van ANTES de media.revert():
-  // matchMedia.revert() no revierte mutaciones DOM (wrappers/mascaras de
-  // SplitText, textContent de las cifras, anillos creados por JS) y sin estos
-  // reverts explicitos habria fugas entre navegaciones VT (text-reveal.ts,
-  // line-system.ts).
+  // destroyTextReveal()/destroyLineSystem()/destroyImageReveal() van ANTES de
+  // media.revert(): matchMedia.revert() no revierte mutaciones DOM
+  // (wrappers/mascaras de SplitText, textContent de las cifras, anillos y
+  // lineas guia creados por JS) y sin estos reverts explicitos habria fugas
+  // entre navegaciones VT (text-reveal.ts, line-system.ts, image-reveal.ts).
   destroyTextReveal();
   destroyLineSystem();
+  destroyImageReveal();
   if (media !== null) {
     media.revert();
     media = null;
   }
   destroySmoothScroll();
 }
-
 /**
  * Construye el setup de motion. Se llama UNA VEZ en la carga inicial (directo
  * desde el script del Layout, antes de window load: sin flash de texto visible)
@@ -58,7 +59,8 @@ export function initMotion(): void {
 
   media = gsap.matchMedia();
 
-  // Full experience: smooth scroll, F2 text reveals now; F3/F4 hooks below.
+  // 1) Full experience: smooth scroll, F2 text reveals, F3-v2 line system and
+  //    image line-wipes. F4 hooks below.
   media.add("(prefers-reduced-motion: no-preference)", () => {
     initSmoothScroll();
     // Orden determinista (motion-plan.md, section 6): Lenis primero, textos
@@ -68,17 +70,22 @@ export function initMotion(): void {
     // rail, count-up de Proof) — line-system.ts. Despues de los textos: el
     // orden determinista lo fija motion-plan.md, section 6.
     initLineSystem();
-    // TODO(F3): shutter + route transitions -> shutter.ts
-    // TODO(F4): marquee, image reveals, preloader -> marquee.ts / image-reveal.ts / preloader.ts
+    // F3-v2 tanda 2: line-wipe de las imagenes de servicio — image-reveal.ts.
+    // Despues del sistema de linea y de la persiana: sus triggers necesitan el
+    // pin ya creado para pinnedContainer (ver image-reveal.ts).
+    initImageReveal();
+    // TODO(F4): marquee, preloader -> marquee.ts / preloader.ts
     // Cleanup del contexto: gsap.matchMedia ejecuta este return al revertirlo,
     // tambien en el toggle en vivo a reduce (aun sin media.revert()). Sin esta
-    // llamada, las mascaras DOM de SplitText, el listener de resize y los
-    // anillos creados por JS quedarian vivos hasta el proximo init. Ambos
-    // destroy son idempotentes (refs a null, Map/Set vacios), asi que el doble
-    // call con el destroy explicito de resetMotion() es inocuo.
+    // llamada, las mascaras DOM de SplitText, el listener de resize, los
+    // anillos y las lineas guia creados por JS quedarian vivos hasta el
+    // proximo init. Los destroy son idempotentes (refs a null, Map/Set
+    // vacios), asi que el doble call con el destroy explicito de resetMotion()
+    // es inocuo.
     return () => {
       destroyTextReveal();
       destroyLineSystem();
+      destroyImageReveal();
     };
   });
 
