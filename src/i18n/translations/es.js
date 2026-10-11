@@ -36,7 +36,7 @@ export default {
   services: {
     title: "Servicios",
     subtitle: "Automatización e inteligencia artificial diseñadas para impulsar tu negocio.",
-    view: "Ver"
+    view: "Ver servicio"
   },
   process: {
     title: "Nuestro proceso",

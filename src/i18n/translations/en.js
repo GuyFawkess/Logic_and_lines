@@ -36,7 +36,7 @@ export default {
   services: {
     title: "Services",
     subtitle: "Automation and artificial intelligence designed to boost your business.",
-    view: "View"
+    view: "View service"
   },
   process: {
     title: "Our process",
