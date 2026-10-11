@@ -57,7 +57,12 @@ const organizationSchema = {
 		<HeroHome currentLang={currentLang} />
 		<MarqueeBand currentLang={currentLang} />
 		<Thesis currentLang={currentLang} />
-		<ServicesIndex currentLang={currentLang} />
+		<!-- Persiana line-native (F3-v2, USO ÚNICO): wrapper sin estilos; TODO lo
+		     efímero lo crea shutter.ts solo con JS y viewport lg. Sin JS o en
+		     móvil: flujo normal, cero overlays. -->
+		<div data-shutter>
+			<ServicesIndex currentLang={currentLang} />
+		</div>
 		<ProcessRail currentLang={currentLang} />
 		<Proof currentLang={currentLang} />
 		<FaqIndex currentLang={currentLang} />

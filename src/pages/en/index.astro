@@ -57,7 +57,12 @@ const organizationSchema = {
 		<HeroHome currentLang={currentLang} />
 		<MarqueeBand currentLang={currentLang} />
 		<Thesis currentLang={currentLang} />
-		<ServicesIndex currentLang={currentLang} />
+		<!-- Line-native shutter (F3-v2, SINGLE USE): styleless wrapper; everything
+		     ephemeral is created by shutter.ts only with JS and lg viewport.
+		     Without JS or on mobile: normal flow, zero overlays. -->
+		<div data-shutter>
+			<ServicesIndex currentLang={currentLang} />
+		</div>
 		<ProcessRail currentLang={currentLang} />
 		<Proof currentLang={currentLang} />
 		<FaqIndex currentLang={currentLang} />

@@ -21,6 +21,7 @@ import { destroySmoothScroll, initSmoothScroll } from "./smooth-scroll";
 import { destroyTextReveal, initTextReveal } from "./text-reveal";
 import { destroyLineSystem, initLineSystem } from "./line-system";
 import { destroyImageReveal, initImageReveal } from "./image-reveal";
+import { destroyShutter, initShutter } from "./shutter";
 import { EASE_REVEAL_PATH } from "./tokens";
 
 gsap.registerPlugin(ScrollTrigger, CustomEase, SplitText, DrawSVGPlugin);
@@ -33,14 +34,16 @@ let media: gsap.MatchMedia | null = null;
 
 /** Drops everything created by the previous init (matchMedia contexts revert). */
 function resetMotion(): void {
-  // destroyTextReveal()/destroyLineSystem()/destroyImageReveal() van ANTES de
-  // media.revert(): matchMedia.revert() no revierte mutaciones DOM
-  // (wrappers/mascaras de SplitText, textContent de las cifras, anillos y
-  // lineas guia creados por JS) y sin estos reverts explicitos habria fugas
-  // entre navegaciones VT (text-reveal.ts, line-system.ts, image-reveal.ts).
+  // destroyTextReveal()/destroyLineSystem()/destroyImageReveal()/
+  // destroyShutter() van ANTES de media.revert(): matchMedia.revert() no
+  // revierte mutaciones DOM (wrappers/mascaras de SplitText, textContent de
+  // las cifras, anillos y lineas guia creados por JS, overlay SVG de la
+  // persiana) y sin estos reverts explicitos habria fugas entre navegaciones
+  // VT (text-reveal.ts, line-system.ts, image-reveal.ts, shutter.ts).
   destroyTextReveal();
   destroyLineSystem();
   destroyImageReveal();
+  destroyShutter();
   if (media !== null) {
     media.revert();
     media = null;
@@ -59,7 +62,22 @@ export function initMotion(): void {
 
   media = gsap.matchMedia();
 
-  // 1) Full experience: smooth scroll, F2 text reveals, F3-v2 line system and
+  // 1) Persiana line-native (F3-v2, el UNICO pin de la pagina): condicion
+  //    compuesta lg + no-preference, registrada PRIMERO para que su
+  //    ScrollTrigger (el pin) se cree antes que los triggers de secciones
+  //    posteriores — el refresh corre en orden de creacion y asi el
+  //    pin-spacer queda contabilizado al posicionar rail/proof/wipes (fuente
+  //    GSAP: el refresh acumula el offset de pins previos). matchMedia ademas
+  //    revierte el pin limpiamente al cruzar lg (movil sin persiana), por eso
+  //    la condicion es compuesta y no un check manual en la rama general.
+  media.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
+    initShutter();
+    return () => {
+      destroyShutter();
+    };
+  });
+
+  // 2) Full experience: smooth scroll, F2 text reveals, F3-v2 line system and
   //    image line-wipes. F4 hooks below.
   media.add("(prefers-reduced-motion: no-preference)", () => {
     initSmoothScroll();
