@@ -165,6 +165,10 @@ export function initHScroll(): void {
       // pinnedContainer hace que ese pin-spacer exterior acomode la expansión
       // de este spacer anidado (_subPinOffset en el fuente de ScrollTrigger).
       pinnedContainer: section.closest("[data-shutter]") ?? undefined,
+      // Id para que la primera persiana horizontal (shutter.ts -> "shutter-h-0")
+      // encadene su start con el unpin de este pin (cierra el hueco muerto de
+      // 900 px entre fin del hscroll y entrada al cap\u00edtulo claro).
+      id: "hscroll",
       onUpdate: (self) => {
         updateCounter(self.progress);
       },

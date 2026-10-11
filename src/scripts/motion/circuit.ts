@@ -277,11 +277,18 @@ function initDesktop(): void {
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: section,
-      start: "top top",
+      // Encadenado al unpin de la segunda persiana horizontal ("shutter-h-1" en
+      // shutter.ts) para cerrar el hueco muerto de ~1000 px entre el flip del
+      // cap\u00edtulo claro y el arranque del pico peak-end.
+      start: () => {
+        const prev = ScrollTrigger.getById("shutter-h-1");
+        return prev ? Math.round(prev.end) : "top top";
+      },
       end: CIRCUIT.pinDistance,
       pin: true,
       scrub: CIRCUIT.scrub,
       anticipatePin: 1,
+      id: "circuit",
       // El claim (blur-reveal) arranca con el pin, UNA vez (guard en playClaim):
       // el onEnter del pin se re-dispara en cada re-entrada al rango.
       onEnter: () => {

@@ -65,6 +65,7 @@
  *    alinear su propio pin con el unpin (ver hscroll.ts).
  */
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { BLADES, OVERSHOOT, SHUTTER } from "./tokens";
 import { SVG_NS } from "./utils";
 
@@ -193,11 +194,23 @@ function buildOverlay(
   return { svg, wave, firstRects, secondRects, centers, extSize };
 }
 
-/** Pin + timeline scrubbed de las lamas (comportamiento común, eje parametrizado). */
+/** Pin + timeline scrubbed de las lamas (comportamiento común, eje parametrizado).
+ *  pinId: id único del ScrollTrigger de esta persiana (necesario para que la
+ *    siguiente persiana / circuito encadene su `start` con `getById`).
+ *  prevPinId: id del pin anterior en la cadena o `null` para la primera
+ *    persiana. Cuando es `null`, `start` queda en "top top" (la persiana se
+ *    dispara con el wrapper en viewport). Cuando viene un id, `start` se
+ *    resuelve como `() => Math.round(prevPin.end)` para encadenar pines y
+ *    cerrar los huecos muertos entre persianas (mismo patrón que hscroll.ts:
+ *    `shutterAlignedStart()`). El encadenamiento usa `invalidateOnRefresh`
+ *    implícito al ser función, así que el primer refresh del initMotion()
+ *    re-mide cada pin en orden de creación. */
 function mountShutter(
   wrapper: HTMLElement,
   orientation: ShutterOrientation,
   maskId: string,
+  pinId: string,
+  prevPinId: string | null,
 ): ShutterInstance | null {
   if (!window.matchMedia(SHUTTER.lgQuery).matches) return null;
   const W = wrapper.offsetWidth;
@@ -210,16 +223,22 @@ function mountShutter(
     maskId,
   );
 
+  const startValue: string | (() => number | string) = prevPinId === null
+    ? "top top"
+    : () => {
+        const prev = ScrollTrigger.getById(prevPinId);
+        return prev ? Math.round(prev.end) : "top top";
+      };
+
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: wrapper,
-      start: "top top",
+      start: startValue,
       end: SHUTTER.pinDistance,
       pin: true,
       scrub: SHUTTER.scrub,
       anticipatePin: 1,
-      // Id solo en la vertical: hscroll.ts alinea su pin con este unpin.
-      ...(orientation === "v" ? { id: "shutter-v" } : {}),
+      id: pinId,
       // Al volver a entrar en el rango (scroll hacia atrás tras haber
       // completado) el overlay vuelve: el scrub inverso cierra las lamas.
       onEnterBack: () => {
@@ -338,7 +357,9 @@ export function initShutter(): void {
   destroyShutter();
   const wrapper = document.querySelector<HTMLElement>("[data-shutter]");
   if (wrapper === null) return;
-  vertical = mountShutter(wrapper, "v", "ll-shutter-mask-v");
+  // Vertical: pinId "shutter-v" (hscroll.ts lee este id en shutterAlignedStart);
+  // prevPinId null (la primera persiana se ancla a su wrapper en viewport).
+  vertical = mountShutter(wrapper, "v", "ll-shutter-mask-v", "shutter-v", null);
 }
 
 /** Limpieza de la persiana vertical. Idempotente. */
@@ -356,7 +377,16 @@ export function destroyShutter(): void {
 export function initShuttersH(): void {
   destroyShuttersH();
   document.querySelectorAll<HTMLElement>("[data-shutter-h]").forEach((wrapper, i) => {
-    const instance = mountShutter(wrapper, "h", `ll-shutter-mask-h-${i}`);
+    // Cadena de persianas horizontales: la primera se ancla al unpin del
+    // hscroll ("hscroll"); la segunda al unpin de la primera ("shutter-h-0").
+    // Así los flips de capítulo oscuro→claro encajan exactamente al final del
+    // scroll horizontal de servicios y al final del primer cap\u00edtulo claro,
+    // cerrando los huecos muertos que dejaba el "top top" por defecto entre
+    // pines (la persiana quedaba pinnada en y=8257 mientras el hscroll ya
+    // hab\u00eda terminado en y=7357: 900 px sin movimiento).
+    const prevPinId = i === 0 ? "hscroll" : "shutter-h-0";
+    const pinId = i === 0 ? "shutter-h-0" : "shutter-h-1";
+    const instance = mountShutter(wrapper, "h", `ll-shutter-mask-h-${i}`, pinId, prevPinId);
     if (instance !== null) horizontals.push(instance);
   });
 }
