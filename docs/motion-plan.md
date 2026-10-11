@@ -4,6 +4,7 @@
 > Rama destino: `redesign/logic-lines-v4-motion` (desde `main`; se crea en F0). Este doc vive sin trackear en el working tree hasta que F0 lo commitee en la rama nueva.
 > Capturas de evidencia: `docs/research-v4/`.
 > Investigación realizada con navegador real (Playwright) + forense de motion (sondas DOM, grabación de animaciones a 70ms, firmas de bundles). Todo lo que sigue está **medido**, no adivinado — salvo donde se marca "conocimiento".
+> **Revisión de motion 2026-10-11 (F3-v2):** ver catálogo de técnicas y veredicto en [`docs/research-v4/2026-10-11-catalogo-motion-trionn.md`](research-v4/2026-10-11-catalogo-motion-trionn.md). La F3 original (persiana de 6 lamas) queda **SUPERSEDED**.
 
 ---
 
@@ -15,8 +16,8 @@
 | Plan (hecho) | `scroll-craft-method` | Gramática de página, curva de sensación, taste floor, refuse list, fingerprint gate |
 | F1 diseño estático | `design-taste-frontend` + `impeccable` | Gate anti-genérico y anti-plantilla sobre la dirección elegida |
 | F2 texto | `gsap-core` + `gsap-scrolltrigger` | Reveals con SplitText, máscaras, staggers |
-| F3 persiana | `gsap-timeline` | Coreografía cover→hold→reveal de belts |
-| F4 micro | `gsap-plugins` + `emil-design-eng` | DrawSVG, magnetic, micro-interacciones con criterio |
+| F3 ~~persiana~~ → **F3-v2** | `gsap-timeline` + `gsap-scrolltrigger` | Sistema de línea (cometa DrawSVG + nodos), persiana line-native de 12 lamas (única), driver único de progreso en el pico. Ver catálogo `2026-10-11-catalogo-motion-trionn.md` |
+| F4 micro | `gsap-plugins` + `emil-design-eng` | Preloader de línea, marquee velocity-reactive, hover roll de chars, DrawSVG, magnetic con criterio |
 | QA cada fase | `visual-qa` + `qa` | Matriz de viewports, motion aceptance, reduced-motion, consola |
 
 ---
@@ -195,9 +196,11 @@ preloader.ts      — entrada corta, skippable (ver rendimiento)
 | `--dur-base` | 0.8s | reveals |
 | `--dur-slow` | 1.2s | momentos hero |
 | `--stagger-text` | 60ms entre líneas (40ms mobile) | SplitText |
-| `--stagger-belt` | 55ms entre lamas | persiana |
+| `--stagger-belt` | 55ms entre lamas | ⚠️ **SUPERSEDED** (persiana de 6 lamas); en F3-v2 el stagger de lamas es `0.02` (`BLADES = 12`) |
 
-### La persiana v4 (spec propia, inspirada en las mediciones)
+### La persiana v4 (spec propia, inspirada en las mediciones) — ⚠️ SUPERSEDED
+
+> **SUPERSEDED por F3-v2 (2026-10-11), ver sección [F3-v2 — La Línea como protagonista](#f3-v2--la-línea-como-protagonista-aprobada-por-el-usuario-2026-10-11).** La persiana de 6 lamas (`BELTS = 6` / `BELTS_MOBILE = 4`) aplicada entre bloques se descarta: densidad insuficiente y wipe repetido = ruina de ritmo. Se conserva únicamente como **referencia histórica**; su lección (line-native, 12 lamas, uso único) vive en F3-v2 y en el catálogo §4.
 
 - Overlay fijo con **6 lamas VERTICALES** a sangre (no 10 horizontales: nos diferencia y lee mejor con tipografía vertical de sección), `scaleY` con `transform-origin` alternado (top/bottom), color según dirección (papel/tinta del acto destino).
 - **COVER** ~750ms: `scaleY 0→1` cascada, stagger 55ms, overshoot 1.06 con `--ease-shutter`.
@@ -207,6 +210,38 @@ preloader.ts      — entrada corta, skippable (ver rendimiento)
 - `pointer-events: none` en idle; `visibility` gestionada; `will-change: transform` SOLO durante la animación (nada del will-change×1243 de Trionn).
 - **Dónde aplica:** cambios de RUTA (`/`↔`/contact`↔`/service/[id]`, ES↔EN incluido) y al abrir el CTA de reserva. **Dónde NO:** entre secciones del scroll interno (cubrir el contenido a mitad de lectura rompe el flujo; las secciones transicionan con fondos/wipes ligeros dentro de su propio acto). Las anclas van con `lenis.scrollTo`.
 - **Arquitectura en Astro MPA:** View Transitions API nativas de Astro (`<ClientRouter />`) para el swap + nuestro overlay belts como skin del transition (`astro:before-swap`/`astro:after-swap`). Alternativa evaluada: Swup/Barba (más control, +8KB y una dep más) — se descarta salvo que las VT fallen en QA. El re-init de motion tras swap cuelga de `astro:page-load`.
+
+### F3-v2 — La Línea como protagonista (aprobada por el usuario 2026-10-11)
+
+> Reemplaza la persiana original (`SUPERSEDED`, arriba) y reorganiza F3/F4/F5. **Fuente de verdad de técnicas y recetas:** [`docs/research-v4/2026-10-11-catalogo-motion-trionn.md`](research-v4/2026-10-11-catalogo-motion-trionn.md) (§1 técnicas, §4 veredicto, §5 plan). Aquí solo el plan; los parámetros detallados NO se duplican.
+
+**1. Sistema de línea** (`src/scripts/motion/line-system.ts`) — la línea deja de "crecer" y pasa a ser un sistema:
+- **Cometa DrawSVG por secciones**: la cabeza dibuja `X%→100%`, la cola persigue `0%→Y%`, `scrub: 0.5`. Segmentos **POR SECCIÓN** anclados al layout — **NO** un overlay full-page (evita el desincronizado de longitudes absolutas).
+- **Nodos `data-node`**: pop una sola vez al paso de la cabeza — `scale 0→1` `back.out(2.2)` 0.45s + anillo `drawSVG 0→100%` 0.4s (guard `if (fired.has(node)) return`).
+- **Subrayados dibujados** bajo stats + **count-up** (1.240 / 38 / 6, 1.4s `power2.out`, formato con el separador existente) — la misma línea continúa hacia el bloque siguiente.
+- **Line-wipe de imágenes de servicio**: `clip-path: inset()` sincronizado con el paso de la línea (+ `scale`/`yPercent`).
+
+**2. Transición estrella (ÚNICA)** — persiana **line-native** Thesis→ServicesIndex:
+- **12 lamas desktop** (`BLADES = 12`); **SIN persiana en móvil** (flujo normal).
+- Máscara SVG `userSpaceOnUse`; cada lama abre **centro-fuera con dos mitades** (solape +0.05, `crispEdges`); `stagger 0.02`; `scrub 2.0–2.5`.
+- La línea **viaja como frente de onda** (su cabeza marca qué lamas están abiertas) — la línea ES la persiana.
+- **Overshoot 1.06 SOLO en el último grupo de lamas** (no en todas).
+- Ficheros estructurales: wrapper pineado Thesis+Services en `index.astro` / `en/index.astro`.
+
+**3. Pico peak-end — BookingClose**:
+- **Pin + driver único de progreso** (patrón trionn, catálogo técnica 7): un único ScrollTrigger + una timeline construida UNA vez, scrubbeada con `tl.progress()` (cero triggers en paralelo → elimina la clase de bugs de carrera).
+- La línea **cierra el circuito local** (path que vuelve al nodo inicial) con el **viajero MotionPath**.
+- **Claim con blur-reveal de chars** (`blur 12→0`, `stagger 0.08 from:"random"`, `power2.out` — SOLO headings).
+- CTA destacado.
+
+**4. Reglas heredadas que se mantienen** (no regresar):
+- Ocultación inicial **solo por `gsap.set`** → sin JS todo visible y en estado final.
+- Reduced-motion = **estado final sin scrub**.
+- **Paleta bloqueada** (vars `@theme`); **un solo dueño del ámbar** (la línea).
+- Prohibido: glow/bloom, partículas, gradientes animados, delays mágicos, `blur` en párrafos.
+- `will-change` solo durante la animación (retirado `onComplete`).
+
+**5. Tokens**: `BELTS = 6` / `BELTS_MOBILE = 4` **superseded** → nuevo `BLADES = 12` (+ constantes `LINE_*` que defina la implementación: grosor, cola, scrub).
 
 ### Smooth scroll — DECISIÓN: Lenis (confirmar)
 
@@ -234,7 +269,7 @@ ScrollSmoother se descarta (firmas muertas en Trionn, peor integración con SSR/
 | `no-preference` | completo |
 | `reduce` | sin persiana, sin parallax, sin Lenis, sin marquee; fades ≤200ms o estado final; contenido íntegro y alcanzable |
 | `(hover:hover) and (pointer:fine)` | magnetic + hovers roll |
-| móvil | stagger menor, sin velocity-skew, persiana de 4 lamas, pins revisados (ver riesgos) |
+| móvil | stagger menor, sin velocity-skew, **sin persiana** (F3-v2: solo desktop), pins revisados (ver riesgos) |
 
 ---
 
@@ -263,7 +298,7 @@ Otras rutas: `/contact` (datos + Cal.com), `/service/[id]` (ficha completa por s
 
 | Riesgo | Mitigación |
 |---|---|
-| Lenis + pins (carrera de ScrollTriggers; ya mordió en Sal y Pimienta y Morning Ritual) | init orquestado en orden determinista desde `index.ts` + UN `ScrollTrigger.refresh()` final; pins justificados uno a uno en F3; NADA de `setTimeout(0)` |
+| Lenis + pins (carrera de ScrollTriggers; ya mordió en Sal y Pimienta y Morning Ritual) | init orquestado en orden determinista desde `index.ts` + UN `ScrollTrigger.refresh()` final; pins justificados uno a uno en F3-v2 (persiana única + pico BookingClose con driver único); NADA de `setTimeout(0)` |
 | SplitText + i18n ES/EN | re-split en `fonts.ready` + resize + cambio de idioma; testeado en ambas rutas |
 | Transiciones de ruta en MPA (Astro no es SPA como Trionn) | View Transitions nativas + overlay belts; fallback documentado si VT falla: navegación clásica con belts solo de salida |
 | Tracking tras swap de ruta (Cookiebot/GTM/Pixel) | GTM ya pageviewea en `astro:page-load`; verificar pixel único por vista en QA F0; los componentes de tracking NO se reescriben |
@@ -309,9 +344,10 @@ Los prompts completos por recurso (OpenWork + fal.ai) van en `docs/assets-prompt
 | **F0** | rama `redesign/logic-lines-v4-motion` desde `main`, tokens Tailwind 4 (`@theme`), tipografías self-host, layout base, i18n intacto, tracking re-montado y verificado, `lenis` (ya en deps) + `motion/` skeleton | `astro check` 0 errores · build OK · `/` y `/en/` · Cookiebot+GTM+Pixel activos en dev · sin daisyUI ni `data-theme` |
 | **F1** | estructura + diseño estático de TODAS las secciones con contenido real (gate `design-taste-frontend`+`impeccable`) | capturas por sección · squint test · sin scroll horizontal · a11y base |
 | **F2** | SplitText + reveals de texto | reveals medibles por viewport · re-split tras fonts.ready/resize/idioma · reduced-motion |
-| **F3** | persiana + transiciones de ruta | grabación del ciclo cover/hold/reveal con timings · atrás/adelante/anclas sin glitch · VT + tracking intacto |
-| **F4** | micro-interacciones (roll, magnetic, marquee, parallax, image-reveal, preloader) | hover/focus/active/disabled · fine-pointer gating · consola limpia |
-| **F5** | imágenes, pulido, móvil, rendimiento, a11y final | checklist completo §10 master prompt · Lighthouse en presupuesto · 60fps · capturas finales |
+| **F3** ~~persiana + transiciones de ruta~~ | **⚠️ SUPERSEDED por F3-v2 (2026-10-11)** | — |
+| **F3-v2** | sistema de línea (cometa + nodos + subrayados + line-wipe) + persiana única line-native Thesis→ServicesIndex (12 lamas, solo desktop) + pico peak-end BookingClose (driver único) | cometa y nodos verificados por viewport · persiana una sola vez · cierre de circuito · reduced-motion = estado final · sin-JS visible · tracking intacto |
+| **F4** | preloader de línea (~1.4s), marquee velocity-reactive, hover roll de chars (+ hora viva Lanzarote) | hover/focus/active/disabled · fine-pointer gating · preloader ≤1.6s · consola limpia |
+| **F5** | footer sticky-reveal, imágenes/pulido, móvil, rendimiento, a11y final | checklist completo §10 master prompt · Lighthouse en presupuesto · 60fps · capturas finales |
 
 Cada fase termina con el checklist del master prompt (§10) + validación visual del usuario. Sin push a `main` ni merge sin OK.
 
