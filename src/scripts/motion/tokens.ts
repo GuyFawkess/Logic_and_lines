@@ -167,3 +167,42 @@ export const IMAGE_WIPE = {
   /** Start del trigger: "top 80%". */
   start: 0.8,
 } as const;
+
+/*
+ * Pico peak-end — BookingClose (F3-v2, circuit.ts) — técnicas 7, 14 y 6 del
+ * catálogo (docs/research-v4/2026-10-11-catalogo-motion-trionn.md): driver
+ * único (UN ScrollTrigger pineado + UNA timeline construida una vez), cierre
+ * de circuito con viajero MotionPath, pop del nodo de cierre (params de LINE)
+ * y flash ÚNICO del CTA (sin pulso repetitivo, sin glow: el F1 ya retiró el
+ * pulso del booking). El claim usa el blur-reveal de chars de trionn
+ * (técnica 6: blur 12px -> 0, stagger 0.08 from:"random", power2.out — SOLO
+ * headings).
+ */
+export const CIRCUIT = {
+  /** Query lg (Tailwind): pin + driver único solo en desktop. */
+  lgQuery: "(min-width: 1024px)",
+  /** Distancia pineada del pico (relativa: el refresh la re-mide). */
+  pinDistance: "+=170%",
+  /** Scrub (s) del driver único (rango del brief 0.8-1.2). */
+  scrub: 1,
+  /** Duración del dibujo del circuito (unidades de timeline scrubbed). */
+  drawDur: 0.7,
+  /** Tamaño del viajero (px). */
+  travelerSize: 8,
+  /** Hold tras el pop antes de que el unpin libere (unidades de timeline). */
+  holdDur: 0.2,
+  /** Flash único del CTA (unidades de timeline, ida y vuelta). */
+  flashDur: 0.4,
+  /** Duración del dibujo en móvil (s reales: timeline time-based, sin pin). */
+  mobileDur: 1.3,
+  /** Start del trigger móvil del claim: "top 80%" (el h2 entra antes que la fila). */
+  mobileClaimStart: 0.8,
+  /** Start del trigger móvil del circuito (sobre la fila): "top 85%". */
+  mobileRowStart: 0.85,
+  /** Blur inicial del claim (px, técnica 6). */
+  claimBlur: 12,
+  /** Duración del reveal de cada char del claim (s, técnica 6). */
+  claimDur: 0.8,
+  /** Stagger entre chars del claim (s, from:"random", técnica 6). */
+  claimStagger: 0.08,
+} as const;

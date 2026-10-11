@@ -3,10 +3,11 @@
  *
  * Responsibilities: register plugins, register the reveal easing and hold the
  * gsap.matchMedia() structure that every phase hooks into. F2 (text reveals),
- * F3-v2 (master line system, image line-wipes and the single line-native
- * shutter pin) are wired below; micro-interactions (F4) fill the remaining
- * TODO hooks and their modules (marquee, magnetic, preloader), which are
- * already in place as documented stubs.
+ * F3-v2 (master line system, image line-wipes, the line-native shutter pin and
+ * the BookingClose peak with its own circuit driver) are wired below;
+ * micro-interactions (F4) fill the remaining TODO hooks and their modules
+ * (marquee, magnetic, preloader), which are already in place as documented
+ * stubs.
  *
  * The module is loaded from a processed <script> in Layout.astro, so it survives
  * ClientRouter navigations as a single instance and re-runs its setup through the
@@ -22,6 +23,7 @@ import { destroyTextReveal, initTextReveal } from "./text-reveal";
 import { destroyLineSystem, initLineSystem } from "./line-system";
 import { destroyImageReveal, initImageReveal } from "./image-reveal";
 import { destroyShutter, initShutter } from "./shutter";
+import { destroyCircuit, initCircuit } from "./circuit";
 import { EASE_REVEAL_PATH } from "./tokens";
 
 gsap.registerPlugin(ScrollTrigger, CustomEase, SplitText, DrawSVGPlugin);
@@ -35,15 +37,17 @@ let media: gsap.MatchMedia | null = null;
 /** Drops everything created by the previous init (matchMedia contexts revert). */
 function resetMotion(): void {
   // destroyTextReveal()/destroyLineSystem()/destroyImageReveal()/
-  // destroyShutter() van ANTES de media.revert(): matchMedia.revert() no
-  // revierte mutaciones DOM (wrappers/mascaras de SplitText, textContent de
-  // las cifras, anillos y lineas guia creados por JS, overlay SVG de la
-  // persiana) y sin estos reverts explicitos habria fugas entre navegaciones
-  // VT (text-reveal.ts, line-system.ts, image-reveal.ts, shutter.ts).
+  // destroyShutter()/destroyCircuit() van ANTES de media.revert():
+  // matchMedia.revert() no revierte mutaciones DOM (wrappers/mascaras de
+  // SplitText, textContent de las cifras, anillos y lineas guia creados por
+  // JS, overlay SVG de la persiana, viajero del circuito) y sin estos
+  // reverts explicitos habria fugas entre navegaciones VT (text-reveal.ts,
+  // line-system.ts, image-reveal.ts, shutter.ts, circuit.ts).
   destroyTextReveal();
   destroyLineSystem();
   destroyImageReveal();
   destroyShutter();
+  destroyCircuit();
   if (media !== null) {
     media.revert();
     media = null;
@@ -62,14 +66,15 @@ export function initMotion(): void {
 
   media = gsap.matchMedia();
 
-  // 1) Persiana line-native (F3-v2, el UNICO pin de la pagina): condicion
-  //    compuesta lg + no-preference, registrada PRIMERO para que su
-  //    ScrollTrigger (el pin) se cree antes que los triggers de secciones
-  //    posteriores — el refresh corre en orden de creacion y asi el
-  //    pin-spacer queda contabilizado al posicionar rail/proof/wipes (fuente
-  //    GSAP: el refresh acumula el offset de pins previos). matchMedia ademas
-  //    revierte el pin limpiamente al cruzar lg (movil sin persiana), por eso
-  //    la condicion es compuesta y no un check manual en la rama general.
+  // 1) Persiana line-native (F3-v2, primer pin de la pagina; el segundo es el
+  //    pico peak-end de BookingClose, circuit.ts): condicion compuesta lg +
+  //    no-preference, registrada PRIMERO para que su ScrollTrigger (el pin)
+  //    se cree antes que los triggers de secciones posteriores — el refresh
+  //    corre en orden de creacion y asi el pin-spacer queda contabilizado al
+  //    posicionar rail/proof/wipes (fuente GSAP: el refresh acumula el offset
+  //    de pins previos). matchMedia ademas revierte el pin limpiamente al
+  //    cruzar lg (movil sin persiana), por eso la condicion es compuesta y no
+  //    un check manual en la rama general.
   media.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
     initShutter();
     return () => {
@@ -92,6 +97,12 @@ export function initMotion(): void {
     // Despues del sistema de linea y de la persiana: sus triggers necesitan el
     // pin ya creado para pinnedContainer (ver image-reveal.ts).
     initImageReveal();
+    // F3-v2 tanda 3 (pico peak-end): cierre de circuito en BookingClose —
+    // circuit.ts. ULTIMO de la rama: su pin es el de la seccion mas baja con
+    // triggers de la pagina, asi que el refresh en orden de creacion lo mide
+    // con el pin-spacer de la persiana ya contabilizado, y ningun trigger
+    // posterior necesita el suyo (tras BookingClose solo queda el footer).
+    initCircuit();
     // TODO(F4): marquee, preloader -> marquee.ts / preloader.ts
     // Cleanup del contexto: gsap.matchMedia ejecuta este return al revertirlo,
     // tambien en el toggle en vivo a reduce (aun sin media.revert()). Sin esta
@@ -104,6 +115,7 @@ export function initMotion(): void {
       destroyTextReveal();
       destroyLineSystem();
       destroyImageReveal();
+      destroyCircuit();
     };
   });
 

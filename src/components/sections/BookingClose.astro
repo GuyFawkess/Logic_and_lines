@@ -2,6 +2,12 @@
 // Cierre / Booking (F1): el pico estático. La Línea Maestra cruza la sección a
 // sangre y cierra circuito en el CTA de Cal.com (embed exacto del Booking v1).
 // Hora local de Lanzarote calculada en el render.
+// F3-v2 tanda 3 (pico peak-end): el motion vive en src/scripts/motion/circuit.ts
+// (pin + driver único, cierre de circuito con viajero, pop del nodo, flash del
+// CTA y blur-reveal del claim). Aquí solo el markup: svg del bucle + nodo
+// (estado FINAL en markup, regla de oro sin-JS) y min-h en lg para que el pin
+// tenga escenario de viewport completo (sin él, durante el pin se vería una
+// banda del fondo de página bajo la sección).
 import { useTranslations } from "../../i18n/utils";
 import { formatLanzaroteTime } from "../../lib/time";
 
@@ -17,14 +23,16 @@ const email = "logicandlinestudios@gmail.com";
 
 <section
   id="booking"
-  class="relative w-full overflow-hidden border-t border-(--color-hairline) bg-(--color-bg-alt) py-24 lg:py-32"
+  data-circuit
+  class="relative w-full overflow-hidden border-t border-(--color-hairline) bg-(--color-bg-alt) py-24 lg:py-32 lg:min-h-[100svh]"
 >
   <div class="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
     {/* Closing h2 runs larger on purpose (72px vs 56px on standard section
-        titles): peak-end hierarchy, this headline closes the page. */}
+        titles): peak-end hierarchy, this headline closes the page. Sin
+        data-reveal: el claim usa el blur-reveal de chars del pico
+        (circuit.ts, técnica 6 del catálogo), no el reveal por líneas de F2. */}
     <h2
       class="max-w-[16ch] font-display text-[clamp(2.25rem,5vw,4.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text)"
-      data-reveal="lines"
     >
       {t.booking.title}
     </h2>
@@ -34,7 +42,40 @@ const email = "logicandlinestudios@gmail.com";
   </div>
 
   <!-- Circuito: la línea entra desde el borde izquierdo y cierra en el CTA -->
-  <div class="mt-14 flex w-full items-center gap-0 pr-6 lg:pr-10">
+  <div class="relative mt-14 flex w-full items-center gap-0 pr-6 lg:pr-10" data-circuit-row>
+    <!-- Bucle de cierre (pico peak-end, F3-v2): parte del nodo de entrada
+         (donde la Línea Maestra cruza el borde del bucle), rodea la fila —CTA
+         incluido— y vuelve a cerrarse sobre ese nodo. Estado en markup: path
+         COMPLETO dibujado (regla de oro sin-JS); el JS lo prepara para
+         animar. El viajero y el anillo del pop son artefactos creados por JS.
+         preserveAspectRatio="none" estira el bucle con la fila y
+         vector-effect mantiene el trazo a 2px; el borde derecho (98%) despeja
+         el CTA en todos los anchos. -->
+    <svg
+      class="pointer-events-none absolute -inset-y-5 left-0 right-0 overflow-visible"
+      viewBox="0 0 1000 88"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <path
+        data-circuit-path
+        d="M8 44 C8 25 24 10 50 10 L930 10 C962 10 980 26 980 44 C980 62 962 78 930 78 L50 78 C24 78 8 63 8 44 Z"
+        fill="none"
+        stroke="var(--color-primary)"
+        stroke-width="2"
+        vector-effect="non-scaling-stroke"></path>
+    </svg>
+    <!-- Nodo de cierre: svg propio SIN estirar (un circle dentro del estirado
+         sería elipse). Centrado con translate sobre el svg padre; GSAP anima
+         el circle hijo, así que el centrado es inmune (lección Morning
+         Ritual). -->
+    <svg
+      class="pointer-events-none absolute left-[0.8%] top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 overflow-visible"
+      viewBox="0 0 12 12"
+      aria-hidden="true"
+    >
+      <circle data-node cx="6" cy="6" r="4.5" fill="var(--color-primary)"></circle>
+    </svg>
     <svg
       class="h-2 min-w-0 flex-1 overflow-visible"
       aria-hidden="true"
