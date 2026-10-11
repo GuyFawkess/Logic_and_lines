@@ -54,8 +54,6 @@ interface RollEntry {
 }
 
 const entries = new Map<HTMLElement, RollEntry>();
-/** Labels ya procesados (idempotencia dentro del mismo ciclo de init). */
-const processed = new WeakSet<Element>();
 
 /** Localiza (o crea) el elemento label: el `<span>` del texto dentro del target. */
 function resolveLabel(el: HTMLElement): { label: HTMLElement; created: boolean } {
@@ -72,11 +70,13 @@ function resolveLabel(el: HTMLElement): { label: HTMLElement; created: boolean }
   return { label, created: true };
 }
 
-/** Monta el roll sobre un target. Silencioso si el label ya está procesado. */
+/** Monta el roll sobre un target. Silencioso si el target ya tiene entrada viva. */
 function setupRoll(el: HTMLElement): void {
   const { label } = resolveLabel(el);
-  if (processed.has(label)) return;
-  processed.add(label);
+  // Guard de idempotencia: el Map `entries` SÍ se vacía en destroyHoverRoll,
+  // así que un re-init sobre el mismo DOM re-procesa todo (un WeakSet de
+  // labels sobreviviría al destroy y mataría el roll en silencio).
+  if (entries.has(el)) return;
 
   const originalText = label.textContent ?? "";
 
