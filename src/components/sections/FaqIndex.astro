@@ -37,7 +37,17 @@ const faqSchema = {
 };
 ---
 
-<section id="faq" class="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
+<!-- Capitulo claro (F4-t1): fondo full-bleed --color-bg-chapter (#223B47,
+     corte recto, sin rounded). El section pasa a ser la banda a sangre y el
+     max-w/px baja a un div interior: mismo layout interno, cero cambios de
+     diseno. pb simetrico al pt del h2 (ritmo Thesis: pb-24/lg:pb-32).
+     Contrastes calculados (WCAG): text 11.04:1, text-dark 5.12:1 y primary
+     5.46:1 sobre el capitulo (todos >= 4.5, incluido el hover ambar de las
+     preguntas a 16px) -> tokens de texto SIN cambios. La hairline de los
+     <details> compuesta sobre el capitulo da 1.50:1, identica en caracter a
+     la de bg (1.49:1): bordes intactos. -->
+<section id="faq" class="bg-(--color-bg-chapter) pb-24 lg:pb-32">
+  <div class="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
   <h2
     class="pt-24 font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text) lg:pt-32"
     data-reveal="lines"
@@ -95,6 +105,7 @@ const faqSchema = {
         );
       })
     }
+  </div>
   </div>
 </section>
 

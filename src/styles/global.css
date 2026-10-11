@@ -9,6 +9,10 @@
   /* Backgrounds */
   --color-bg: #0D1A1F;
   --color-bg-alt: #16262E;
+  /* Capitulo claro (ProcessRail / FaqIndex): mismo petroleo, un paso mas
+     claro, para que el flip entre capitulos se note. Autorizado por el
+     usuario 2026-10-11. Unico hex nuevo de la tanda. */
+  --color-bg-chapter: #223B47;
 
   /* Surfaces / cards */
   --color-card: #16262E;
