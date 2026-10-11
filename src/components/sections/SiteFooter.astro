@@ -147,7 +147,11 @@ const navLinks = [
       <div>
         <p class="font-mono text-xs tabular-nums text-(--color-text-dark)">
           <span>LANZAROTE</span>
-          <time>{lanzaroteTime}</time>
+          <!-- Hora congelada en build = fallback sin-JS; local-time.ts la
+               actualiza cada 30s (F4). -->
+          <time data-local-time data-local-time-lang={currentLang}
+            >{lanzaroteTime}</time
+          >
         </p>
       </div>
     </div>
