@@ -1,9 +1,13 @@
 ---
 // Proceso (F2): tarjetas de paso en clave v4 (feedback del usuario: prefiere
 // "las tarjetas de antes" de main, sin daisyUI ni glass). Iconos extraídos de
-// main:src/components/Proceso.astro. Línea maestra estática (dirección C):
-// hairline horizontal con 4 nodos ámbar sobre las tarjetas en lg, sin JS —
-// los dots llevan data-node estable para animarse después con el driver.
+// main:src/components/Proceso.astro. Línea maestra (F3-v2, dirección C): SVG
+// con 3 segmentos + 4 nodos ámbar que une las tarjetas en lg, dirigida por el
+// driver único de line-system.ts. El markup parte del estado FINAL (línea
+// completa, nodos visibles): es el JS quien la "prepara" para animar — sin JS
+// todo visible (regla de oro). En móvil (<lg) no hay línea: entrada simple de
+// tarjetas (decisión documentada en line-system.ts). Los nodos llevan
+// data-node y los segmentos data-line-segment para el sistema de línea.
 import { useTranslations } from "../../i18n/utils";
 
 interface Props {
@@ -39,21 +43,49 @@ const stepIcons = [
     {t.process.subtitle}
   </p>
 
-  <!-- Línea maestra estática: hairline horizontal + 4 nodos ámbar (solo lg) -->
-  <div class="relative mt-14 hidden lg:block" aria-hidden="true">
-    <div class="absolute left-0 right-0 top-[5px] border-t border-(--color-primary)/30"></div>
-    <div class="grid grid-cols-4">
-      {
-        steps.map(() => (
-          <div class="flex justify-center">
-            <span data-node class="h-2.5 w-2.5 rounded-full bg-(--color-primary)" />
-          </div>
-        ))
-      }
-    </div>
-  </div>
+  <!-- Línea maestra (F3-v2): 3 segmentos + 4 nodos en un SVG anclado al layout
+       (solo lg; overflow-visible para que el anillo del pop no se recorte).
+       Geometría idéntica a la hairline F1 que sustituye: caja de 10px (h-2.5),
+       nodos r=5 en 12.5/37.5/62.5/87.5%, línea por el centro (y=50%). -->
+  <svg
+    class="mt-14 hidden h-2.5 w-full overflow-visible lg:block"
+    aria-hidden="true"
+    data-line-rail
+  >
+    <line
+      data-line-segment
+      x1="12.5%"
+      y1="50%"
+      x2="37.5%"
+      y2="50%"
+      class="stroke-(--color-primary)"
+      stroke-width="1.5"
+      stroke-linecap="round"></line>
+    <line
+      data-line-segment
+      x1="37.5%"
+      y1="50%"
+      x2="62.5%"
+      y2="50%"
+      class="stroke-(--color-primary)"
+      stroke-width="1.5"
+      stroke-linecap="round"></line>
+    <line
+      data-line-segment
+      x1="62.5%"
+      y1="50%"
+      x2="87.5%"
+      y2="50%"
+      class="stroke-(--color-primary)"
+      stroke-width="1.5"
+      stroke-linecap="round"></line>
+    <circle data-node cx="12.5%" cy="50%" r="5" class="fill-(--color-primary)"></circle>
+    <circle data-node cx="37.5%" cy="50%" r="5" class="fill-(--color-primary)"></circle>
+    <circle data-node cx="62.5%" cy="50%" r="5" class="fill-(--color-primary)"></circle>
+    <circle data-node cx="87.5%" cy="50%" r="5" class="fill-(--color-primary)"></circle>
+  </svg>
 
-  <div class="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2 lg:mt-8 lg:grid-cols-4">
+  <div class="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2 lg:mt-8 lg:grid-cols-4" data-rail-grid>
     {
       steps.map((s, i) => (
         <article class="flex h-full flex-col rounded-xl border border-(--color-hairline) bg-(--color-card) p-6 transition-colors duration-300 hover:border-(--color-primary)/60">
