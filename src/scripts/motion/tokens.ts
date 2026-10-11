@@ -202,6 +202,51 @@ export const IMAGE_WIPE = {
 } as const;
 
 /*
+ * Preloader (F4, preloader.ts) — técnica 11 del catálogo: contador + la línea
+ * maestra dibujándose; al completar, el overlay se levanta y el hero arranca.
+ * SOLO primera carga del documento (flag de módulo, no sessionStorage); las
+ * navegaciones VT y reduced-motion no lo ven.
+ */
+export const PRELOADER = {
+  /** Duración del dibujo de línea + contador (s), ease power1.inOut. */
+  dur: 1.4,
+  /** Salida del overlay (s), yPercent -100 con power4.inOut. */
+  exitDur: 0.7,
+  /** Hard-cap failsafe (s): si algo se atasca, el overlay se quita igual. */
+  hardCap: 2.5,
+} as const;
+
+/*
+ * Marquee velocity-reactive (F4, marquee.ts) — técnica 8 del catálogo: loop
+ * base lineal + timeScale acoplado a la velocidad de scroll (invierte al
+ * subir), con retorno suave al reposo.
+ */
+export const MARQUEE = {
+  /** Duración del loop base xPercent -50 (s), lineal. */
+  dur: 19,
+  /** Divisor de velocidad: timeScale = 1 + velocity / factor. */
+  velocityFactor: 400,
+  /** Límites del timeScale (invierte dirección al subir: negativo permitido). */
+  timeScaleMin: -4,
+  timeScaleMax: 4,
+  /** Velocidad de retorno suave al reposo (lerp por frame del ticker). */
+  settleLerp: 0.06,
+} as const;
+
+/*
+ * Hover roll de chars (F4, hover-roll.ts) — técnica 9 del catálogo: label
+ * duplicado en dos capas apiladas; hover saca la capa superior char a char
+ * mientras la copia entra desde abajo. Salida en ola inversa (reverse del
+ * timeline). Solo (hover:hover) and (pointer:fine) + no-preference.
+ */
+export const ROLL = {
+  /** Duración del roll (s). */
+  dur: 0.4,
+  /** Stagger entre chars (s). */
+  stagger: 0.02,
+} as const;
+
+/*
  * Pico peak-end — BookingClose (F3-v2, circuit.ts) — técnicas 7, 14 y 6 del
  * catálogo (docs/research-v4/2026-10-11-catalogo-motion-trionn.md): driver
  * único (UN ScrollTrigger pineado + UNA timeline construida una vez), cierre
