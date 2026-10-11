@@ -5,6 +5,7 @@
 > Capturas de evidencia: `docs/research-v4/`.
 > Investigación realizada con navegador real (Playwright) + forense de motion (sondas DOM, grabación de animaciones a 70ms, firmas de bundles). Todo lo que sigue está **medido**, no adivinado — salvo donde se marca "conocimiento".
 > **Revisión de motion 2026-10-11 (F3-v2):** ver catálogo de técnicas y veredicto en [`docs/research-v4/2026-10-11-catalogo-motion-trionn.md`](research-v4/2026-10-11-catalogo-motion-trionn.md). La F3 original (persiana de 6 lamas) queda **SUPERSEDED**.
+> **F4 AMPLIADA (2026-10-11):** el usuario aprueba la micro planificada **+ gramática de capítulos** (background `#223B47`, scroll horizontal en ServicesIndex, 2 persianas horizontales, política rewind). Ver §4 y la fila F4 de la tabla de fases.
 
 ---
 
@@ -17,7 +18,7 @@
 | F1 diseño estático | `design-taste-frontend` + `impeccable` | Gate anti-genérico y anti-plantilla sobre la dirección elegida |
 | F2 texto | `gsap-core` + `gsap-scrolltrigger` | Reveals con SplitText, máscaras, staggers |
 | F3 ~~persiana~~ → **F3-v2** | `gsap-timeline` + `gsap-scrolltrigger` | Sistema de línea (cometa DrawSVG + nodos), persiana line-native de 12 lamas (única), driver único de progreso en el pico. Ver catálogo `2026-10-11-catalogo-motion-trionn.md` |
-| F4 micro | `gsap-plugins` + `emil-design-eng` | Preloader de línea, marquee velocity-reactive, hover roll de chars, DrawSVG, magnetic con criterio |
+| F4 micro + capítulos | `gsap-plugins` + `gsap-scrolltrigger` + `emil-design-eng` | Preloader de línea, marquee velocity-reactive, hover roll de chars, DrawSVG, scroll horizontal (pin+scrub), persianas con orientación configurable, política rewind |
 | QA cada fase | `visual-qa` + `qa` | Matriz de viewports, motion aceptance, reduced-motion, consola |
 
 ---
@@ -177,7 +178,7 @@ index.ts          — init único, registro de plugins, gsap.matchMedia, cleanup
 tokens.ts         — CustomEase, duraciones, staggers centralizados
 smooth-scroll.ts  — Lenis + gsap.ticker (wiring exacto abajo)
 text-reveal.ts    — SplitText con máscaras; re-split tras document.fonts.ready y resize
-shutter.ts        — la persiana (spec abajo)
+shutter.ts        — la persiana, orientación configurable (vertical F3-v2 + horizontal F4)
 image-reveal.ts   — reveals de imagen con clip-path
 marquee.ts        — banda de frases (pausable, fuera de viewport quieta)
 magnetic.ts       — magnetic en CTAs, SOLO (hover:hover) and (pointer:fine)
@@ -242,6 +243,29 @@ preloader.ts      — entrada corta, skippable (ver rendimiento)
 - `will-change` solo durante la animación (retirado `onComplete`).
 
 **5. Tokens**: `BELTS = 6` / `BELTS_MOBILE = 4` **superseded** → nuevo `BLADES = 12` (+ constantes `LINE_*` que defina la implementación: grosor, cola, scrub).
+
+### F4 — Micro + gramática de capítulos (aprobada por el usuario 2026-10-11)
+
+> **Amplía** la F4 planificada (micro) con la **gramática de capítulos** pedida por el usuario. **Recetas detalladas:** [`docs/research-v4/2026-10-11-catalogo-motion-trionn.md`](research-v4/2026-10-11-catalogo-motion-trionn.md); aquí solo el plan.
+
+**1. Micro (ya planificada)**
+- **Preloader corto** (~1.4s, `power1.inOut`): en él **nace la línea maestra**. Gate `transitionReady` — nada anima antes de que termine; el hero arranca al acabar. ≤1.6s. Solo con JS: **sin-JS y reduced-motion = sin preloader**.
+- **Marquee velocity-reactive**: `timeScale` desde `getVelocity`, **clamp ±4**, retorno suave.
+- **Hover roll de chars** en CTAs/nav: SplitText en **dos capas apiladas**, `yPercent -100`, `stagger 0.02`, `power4.out`, puerta `(hover:hover) and (pointer:fine)`.
+- **Hora viva Lanzarote** (resuelve el flag de F1: hoy congelada en build).
+
+**2. Gramática de capítulos (NUEVO por feedback del usuario)**
+- **Segundo background**: `--color-bg-chapter: #223B47` (petróleo claro de la misma familia; **único hex nuevo autorizado** por el usuario). Capítulos claros: **ProcessRail** y **FaqIndex**.
+- **Ritmo de la página**: Hero/Thesis/Services **oscuro** → persiana → Proceso **CLARO** → Proof **oscuro** → persiana → FAQ **CLARO** → Booking **oscuro** (pico).
+- **Scroll horizontal**: **ServicesIndex** pasa a **6 paneles horizontales iguales** (pin + scrub, reversible). Proceso sigue **vertical** (rail driver).
+- **Persianas horizontales**: generalizar `shutter.ts` (orientación configurable) + **2 persianas de lamas HORIZONTALES** (frente de onda viaja vertical) en las entradas a **Proceso** y **FAQ**, marcando los flips oscuro→claro. **Total 3 persianas** en la página (la vertical existente + 2 nuevas).
+- **Rewind (política)**: animaciones de sección **scrubbed/reversibles** (persianas, circuito, rail, tarjetas, wipes — **las wipes pasan de `once` a scrub**). Los reveals de **TEXTO** siguen **`once`** (decisión de craft, **vetoable por el usuario**).
+
+**3. Reglas heredadas (intactas, no regresar)**
+- Ocultación inicial **solo por `gsap.set`** → sin JS todo visible y en estado final.
+- Reduced-motion = **estado final sin scrub** (y sin preloader).
+- **Un solo dueño del ámbar** (la línea); `will-change` temporal.
+- Init determinista + **UN `ScrollTrigger.refresh()` final**.
 
 ### Smooth scroll — DECISIÓN: Lenis (confirmar)
 
@@ -346,7 +370,7 @@ Los prompts completos por recurso (OpenWork + fal.ai) van en `docs/assets-prompt
 | **F2** | SplitText + reveals de texto | reveals medibles por viewport · re-split tras fonts.ready/resize/idioma · reduced-motion |
 | **F3** ~~persiana + transiciones de ruta~~ | **⚠️ SUPERSEDED por F3-v2 (2026-10-11)** | — |
 | **F3-v2** | sistema de línea (cometa + nodos + subrayados + line-wipe) + persiana única line-native Thesis→ServicesIndex (12 lamas, solo desktop) + pico peak-end BookingClose (driver único) | cometa y nodos verificados por viewport · persiana una sola vez · cierre de circuito · reduced-motion = estado final · sin-JS visible · tracking intacto |
-| **F4** | preloader de línea (~1.4s), marquee velocity-reactive, hover roll de chars (+ hora viva Lanzarote) | hover/focus/active/disabled · fine-pointer gating · preloader ≤1.6s · consola limpia |
+| **F4** | **⚠️ AMPLIADA por feedback del usuario (2026-10-11).** Micro: preloader de línea (~1.4s), marquee velocity-reactive, hover roll de chars (+ hora viva Lanzarote). **+ Gramática de capítulos:** segundo background `#223B47` (Proceso/FAQ claros; ritmo oscuro→claro→oscuro→claro→oscuro), ServicesIndex en scroll horizontal (6 paneles iguales, pin+scrub), `shutter.ts` con orientación configurable + 2 persianas horizontales (entradas a Proceso y FAQ), política rewind (secciones scrubbed; texto `once`). | hover/focus/active/disabled · fine-pointer gating · preloader ≤1.6s · flips oscuro→claro verificados · 3 persianas (1 vertical + 2 horizontales) · scroll horizontal reversible · reduced-motion = estado final · consola limpia |
 | **F5** | footer sticky-reveal, imágenes/pulido, móvil, rendimiento, a11y final | checklist completo §10 master prompt · Lighthouse en presupuesto · 60fps · capturas finales |
 
 Cada fase termina con el checklist del master prompt (§10) + validación visual del usuario. Sin push a `main` ni merge sin OK.
