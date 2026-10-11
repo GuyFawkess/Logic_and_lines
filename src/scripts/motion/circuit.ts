@@ -72,8 +72,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { CIRCUIT, LINE, RESIZE_DEBOUNCE } from "./tokens";
-
-const SVG_NS = "http://www.w3.org/2000/svg";
+import { buildNodeRing, isPast } from "./utils";
 
 interface ClaimState {
   el: HTMLElement | null;
@@ -134,11 +133,6 @@ function isDesktop(): boolean {
   return window.matchMedia(CIRCUIT.lgQuery).matches;
 }
 
-/** true cuando el elemento ya cruzó hacia arriba la línea `fraction` del viewport. */
-function isPast(el: Element, fraction: number): boolean {
-  return el.getBoundingClientRect().top < window.innerHeight * fraction;
-}
-
 /**
  * Lee los dos ámbar de la paleta desde las vars @theme de :root (sin hex en
  * el código: la paleta es de las vars). Fail-safe NO silencioso: si alguna no
@@ -168,13 +162,14 @@ function buildTraveler(row: HTMLElement): HTMLDivElement {
 
 /** Anillo del pop: artefacto creado por JS en el svg del nodo (patrón line-system). */
 function buildRing(node: SVGCircleElement, nodeSvg: SVGSVGElement): SVGCircleElement {
-  const ring = document.createElementNS(SVG_NS, "circle");
-  ring.setAttribute("cx", node.getAttribute("cx") ?? "6");
-  ring.setAttribute("cy", node.getAttribute("cy") ?? "6");
-  ring.setAttribute("r", String(node.r.baseVal.value + 6));
-  ring.style.fill = "none";
-  ring.style.stroke = "var(--color-primary)";
-  ring.style.strokeWidth = "1.5";
+  const ring = buildNodeRing(
+    {
+      cx: node.getAttribute("cx") ?? "6",
+      cy: node.getAttribute("cy") ?? "6",
+      r: node.r.baseVal.value,
+    },
+    document,
+  );
   nodeSvg.appendChild(ring);
   return ring;
 }
@@ -330,7 +325,7 @@ function initDesktop(): void {
   tl.fromTo(node, { scale: 0 }, {
     scale: 1,
     duration: LINE.nodePopDur,
-    ease: "back.out(2.2)",
+    ease: LINE.nodePopEase,
     immediateRender: false,
   }, CIRCUIT.drawDur);
   tl.fromTo(ring, { drawSVG: "0% 0%", autoAlpha: 0 }, {
@@ -393,7 +388,7 @@ function initMobile(): void {
   tl.fromTo(node, { scale: 0 }, {
     scale: 1,
     duration: LINE.nodePopDur,
-    ease: "back.out(2.2)",
+    ease: LINE.nodePopEase,
     immediateRender: false,
   }, CIRCUIT.mobileDur);
   tl.fromTo(ring, { drawSVG: "0% 0%", autoAlpha: 0 }, {
@@ -422,9 +417,6 @@ function initMobile(): void {
       tl.play();
     },
   });
-  // Red de seguridad (patrón line-system): si el trigger nace con la fila ya
-  // en zona activa y el navegador no disparara onEnter, arranca igual.
-  if (isPast(row, CIRCUIT.mobileRowStart)) tl.play();
 
   // Claim móvil: su propio trigger (el h2 entra antes que la fila del CTA).
   state.mobileClaimTrigger = ScrollTrigger.create({
@@ -435,7 +427,6 @@ function initMobile(): void {
       playClaim();
     },
   });
-  if (isPast(section, CIRCUIT.mobileClaimStart)) playClaim();
 }
 
 /**

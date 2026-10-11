@@ -47,6 +47,7 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { DUR, LINE, RESIZE_DEBOUNCE } from "./tokens";
+import { buildNodeRing, isPast } from "./utils";
 
 type SegmentEl = SVGLineElement | SVGPathElement;
 
@@ -92,8 +93,6 @@ interface ProofState {
   tweens: gsap.core.Tween[];
 }
 
-const SVG_NS = "http://www.w3.org/2000/svg";
-
 /** Tolerancia (px) para considerar un nodo "apoyado" sobre un segmento. */
 const ON_LINE_TOLERANCE = 24;
 
@@ -135,11 +134,6 @@ let lastWidth = 0;
 function isDesktop(): boolean {
   // Tailwind lg: el rail SVG es `hidden lg:block`.
   return window.matchMedia("(min-width: 1024px)").matches;
-}
-
-/** true cuando el elemento ya cruzó hacia arriba la línea `fraction` del viewport. */
-function isPast(el: Element, fraction: number): boolean {
-  return el.getBoundingClientRect().top < window.innerHeight * fraction;
 }
 
 /** Punto de unidades de usuario del SVG a coordenadas de pantalla. */
@@ -274,18 +268,20 @@ function popNode(node: NodeRecord): void {
   gsap.fromTo(node.el, { scale: 0 }, {
     scale: 1,
     duration: LINE.nodePopDur,
-    ease: "back.out(2.2)",
+    ease: LINE.nodePopEase,
     transformOrigin: "50% 50%",
   });
   // Anillo: artefacto de animación creado por JS (sin JS el markup queda como
-  // el diseño F1). stroke por style porque var() no funciona en atributos.
-  const ring = document.createElementNS(SVG_NS, "circle");
-  ring.setAttribute("cx", node.el.getAttribute("cx") ?? "50%");
-  ring.setAttribute("cy", node.el.getAttribute("cy") ?? "50%");
-  ring.setAttribute("r", String(node.el.r.baseVal.value + 6));
-  ring.style.fill = "none";
-  ring.style.stroke = "var(--color-primary)";
-  ring.style.strokeWidth = "1.5";
+  // el diseño F1); el stroke va por style porque var() no funciona en
+  // atributos (utils.ts).
+  const ring = buildNodeRing(
+    {
+      cx: node.el.getAttribute("cx") ?? "50%",
+      cy: node.el.getAttribute("cy") ?? "50%",
+      r: node.el.r.baseVal.value,
+    },
+    document,
+  );
   node.svg.appendChild(ring);
   node.ring = ring;
   gsap.fromTo(ring, { drawSVG: "0% 0%", opacity: 0.9 }, {
@@ -412,10 +408,6 @@ function initRailMobile(grid: HTMLElement, cards: HTMLElement[]): void {
       tween.play();
     },
   });
-  // Red de seguridad: si el trigger nace con la sección ya en zona activa y el
-  // navegador no disparara onEnter en su evaluación inicial, arranca igual
-  // (play() sobre un tween ya en vuelo o completo es inocuo).
-  if (isPast(grid, RAIL_START)) tween.play();
 }
 
 /** Re-monta la parte dependiente del ancho (driver lg+ vs entrada móvil). */
@@ -522,8 +514,6 @@ function initProof(): void {
       playProof();
     },
   });
-  // Red de seguridad (misma justificación que en la entrada móvil).
-  if (isPast(ul, PROOF_START)) playProof();
 }
 
 /** Cometas por secciones: segmentos `[data-line-segment]` fuera del rail. */

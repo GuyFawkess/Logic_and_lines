@@ -51,8 +51,7 @@
  */
 import gsap from "gsap";
 import { BLADES, OVERSHOOT, SHUTTER } from "./tokens";
-
-const SVG_NS = "http://www.w3.org/2000/svg";
+import { SVG_NS } from "./utils";
 const MASK_ID = "ll-shutter-mask";
 
 interface ShutterState {

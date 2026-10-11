@@ -107,15 +107,18 @@ export function initMotion(): void {
     // Cleanup del contexto: gsap.matchMedia ejecuta este return al revertirlo,
     // tambien en el toggle en vivo a reduce (aun sin media.revert()). Sin esta
     // llamada, las mascaras DOM de SplitText, el listener de resize, los
-    // anillos y las lineas guia creados por JS quedarian vivos hasta el
-    // proximo init. Los destroy son idempotentes (refs a null, Map/Set
-    // vacios), asi que el doble call con el destroy explicito de resetMotion()
-    // es inocuo.
+    // anillos y las lineas guia creados por JS, y el Lenis del smooth scroll
+    // quedarian vivos hasta el proximo init. Los destroy son idempotentes
+    // (refs a null, Map/Set vacios), asi que el doble call con el destroy
+    // explicito de resetMotion() es inocuo. destroyShutter() NO va aqui: la
+    // persiana vive en su rama compuesta lg + no-preference, que trae su
+    // propio cleanup (arriba) y se revierte junto con esta rama.
     return () => {
       destroyTextReveal();
       destroyLineSystem();
       destroyImageReveal();
       destroyCircuit();
+      destroySmoothScroll();
     };
   });
 

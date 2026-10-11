@@ -42,6 +42,7 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { IMAGE_WIPE } from "./tokens";
+import { isPast } from "./utils";
 
 type WipeDir = "ltr" | "rtl";
 
@@ -56,11 +57,6 @@ interface WipeRecord {
 }
 
 const records: WipeRecord[] = [];
-
-/** true cuando el elemento ya cruzó hacia arriba la línea `fraction` del viewport. */
-function isPast(el: Element, fraction: number): boolean {
-  return el.getBoundingClientRect().top < window.innerHeight * fraction;
-}
 
 /** Clip inicial según dirección: el reveal nace en el lado del texto. */
 function clipFrom(dir: WipeDir): string {
@@ -134,9 +130,6 @@ function setupWipe(figure: HTMLElement): WipeRecord | null {
       record.timeline?.play();
     },
   });
-  // Red de seguridad (patrón line-system): si el trigger nace con la figura
-  // ya en zona activa y el navegador no disparara onEnter, arranca igual.
-  if (isPast(figure, IMAGE_WIPE.start)) record.timeline?.play();
 
   return record;
 }

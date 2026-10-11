@@ -111,8 +111,14 @@ export const LINE = {
   cometPhase: 0.8,
   /** Scrub smoothing (s) shared by every line ScrollTrigger. */
   scrub: 0.5,
-  /** Node pop duration (s), ease back.out(2.2). */
+  /** Node pop duration (s), ease nodePopEase. */
   nodePopDur: 0.45,
+  /** Node pop ease (overshoot del pop, compartido line-system + circuit). */
+  nodePopEase: "back.out(2.2)",
+  /** Delta de radio del anillo del pop sobre el nodo (px). */
+  nodeRingRadiusDelta: 6,
+  /** Grosor del trazo del anillo del pop (px). */
+  nodeRingStroke: 1.5,
   /** Node ring draw+fade duration (s), ease power2.out. */
   nodeRingDur: 0.4,
   /** Stats count-up duration (s), ease power2.out. */
