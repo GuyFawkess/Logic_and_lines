@@ -32,9 +32,8 @@ const t = useTranslations(currentLang);
   <h2
     class="mt-14 max-w-[18ch] font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text)"
     data-reveal="lines"
-  >
-    {t.thesis.title}
-  </h2>
+    set:html={t.thesis.title}
+  />
 
   <p
     class="mt-8 max-w-[65ch] text-lg leading-relaxed text-(--color-text-dark) md:pl-[6%]"

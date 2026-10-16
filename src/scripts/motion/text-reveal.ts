@@ -1,10 +1,20 @@
 /**
- * Text reveals (SplitText) - phase F2 (docs/motion-plan.md, section 4).
+ * Text reveals (SplitText) - phase F2 (docs/motion-plan.md, section 4) + R1
+ * política re-disparable.
  *
  * Titulares: split por LINEAS con mascara (`mask: "lines"` de SplitText 3.13+,
  * wrapper extra con overflow:clip) y `yPercent: 110 -> 0` con easing "ll-reveal".
  * Frases cortas: split por PALABRAS (fade + subida corta). Los CHARS quedan
  * excluidos de F2 (hover roll = F4).
+ *
+ * R1 (2026-10-12, CAMBIO DE POLÍTICA — decisión del usuario, supersede
+ * "once"): los reveals de texto son RE-DISPARABLES con
+ * `toggleActions: "restart none restart reverse"` — onEnter: restart (entrar
+ * bajando → las letras aparecen), onLeave: none, onEnterBack: restart (volver
+ * a entrar subiendo → re-aparecen), onLeaveBack: reverse (seguir subiendo →
+ * se reversan = efecto rewind). Sigue siendo reveal TIME-driven (nunca scrub)
+ * con las duraciones/caps actuales. Reduced-motion: la rama no corre → estado
+ * final visible sin triggers (regla de oro sin-JS intacta).
  *
  * DECISION autoSplit vs ciclo manual: se usa `autoSplit: true` + `onSplit`.
  * Evidencia del propio fuente (node_modules/gsap/SplitText.js, 3.15.0):
@@ -17,9 +27,11 @@
  *     palabra son espacios: no dependen ni de las fuentes ni del ancho).
  * Cubre por tanto el ciclo pedido (fonts + resize 200ms solo-ancho + ruta/idioma
  * via astro:after-swap -> resetMotion). El estado "ya revelado" NO lo gestiona
- * SplitText: se persiste aqui en un WeakMap por elemento (robusto a re-splits)
- * para cumplir la regla critica de que un re-split jamas re-anima un titular
- * cuyo trigger ya paso: el split nuevo queda en estado final inmediato.
+ * SplitText: se persiste aqui en un WeakMap por elemento (robusto a re-splits).
+ * La REGLA que sobrevive del modelo "once" es que un RE-SPLIT jamas re-anima
+ * por su cuenta: el estado del tween se captura y se continúa (o se clava a
+ * estado final si ya completo). Lo que SÍ re-anima ahora es el SCROLL
+ * (toggleActions), nunca el resize.
  *
  * DECISION deepSlice: `false` en los splits por lineas (el default `true`
  * subdividiria hijos anidados que envuelven varias lineas visuales clonandolos
@@ -58,7 +70,8 @@ interface RevealEntry {
   split: SplitText | null;
   tween: gsap.core.Tween | null;
   trigger: ScrollTrigger | null;
-  /** true cuando el elemento ya paso su trigger: los re-splits no lo re-animan. */
+  /** true cuando el elemento ya pasó su trigger alguna vez (los re-splits lo
+   *  preservan; el SCROLL puede re-animarlo: política re-disparable R1). */
   revealed: boolean;
   /** Numero de splits ejecutados (1 = inicial; >1 = re-split). */
   splits: number;
@@ -105,7 +118,7 @@ function scheduleRefresh(): void {
   });
 }
 
-/** Configura ocultacion inicial + tween pausado + trigger one-shot. */
+/** Configura ocultación inicial + tween pausado + trigger RE-DISPARABLE (R1). */
 function handleSplit(entry: RevealEntry, self: SplitText): void {
   entry.splits += 1;
 
@@ -122,8 +135,8 @@ function handleSplit(entry: RevealEntry, self: SplitText): void {
   // visual a estado final es capturar la posicion actual del tween ANTES
   // de matarlo y montar el split nuevo como continuacion del mismo viaje.
   // Si el tween ya completo (progress >= 1) o nunca existio (caso reduce
-  // toggle: destroyTextReveal ya limpio entries), el comportamiento
-  // conservador se mantiene: lineas nuevas en estado final, sin re-animar.
+  // toggle: destroyTextReveal ya limpio entries), el estado se clava a final
+  // mas abajo (progress(1) instantaneo, sin re-animar: R1).
   let captured: { yPercent: number } | { y: number; autoAlpha: number } | null = null;
   if (entry.revealed && entry.tween && entry.tween.progress() < 1) {
     const target = entry.tween.targets()[0] as Element | undefined;
@@ -137,8 +150,8 @@ function handleSplit(entry: RevealEntry, self: SplitText): void {
         if (Number.isFinite(y) && Number.isFinite(aa)) captured = { y, autoAlpha: aa };
       }
       // Reset del flag para que el re-split vuelva a pasar por el flujo
-      // normal (gsap.set + tween + trigger). Sin esto, el early-return
-      // siguiente haria un segundo snap a estado final.
+      // normal (gsap.set + tween + trigger). El onEnter del trigger lo
+      // vuelve a marcar en cuanto el scroll hable.
       entry.revealed = false;
       revealedMemory.delete(entry.el);
     }
@@ -146,16 +159,6 @@ function handleSplit(entry: RevealEntry, self: SplitText): void {
 
   // Un re-split sustituye a la geometria anterior: el tween/trigger previos mueren.
   disposeAnimation(entry);
-
-  if (entry.revealed) {
-    // REGLA CRITICA: si el trigger ya paso y el tween ya completo, el split
-    // nuevo queda en estado final inmediato, sin ocultar y sin tween.
-    // Esto preserva el comportamiento verificado por QA: toggle reduce
-    // (destroyTextReveal limpia entries, al restaurar initTextReveal ve
-    // revealed=true sin tween asociado y deja el estado final) y re-splits
-    // de resize sobre un reveal ya completo (progress >= 1).
-    return;
-  }
 
   const mobile = isMobile();
 
@@ -188,16 +191,43 @@ function handleSplit(entry: RevealEntry, self: SplitText): void {
     });
   }
 
+  // Estado inicial según la historia del elemento (R1):
+  //  - captured: el tween arranca en el punto capturado (progress 0 = captura)
+  //    y el restart del toggle continúa el viaje desde ahí.
+  //  - revelado y tween anterior completo (o memoria de un init anterior):
+  //    estado final INSTANTÁNEO (progress 1) — un re-split/resize jamás
+  //    re-anima por su cuenta; el rewind sigue disponible vía onLeaveBack.
+  //  - nunca revelado: progress 0 (oculto, esperando onEnter).
+  if (!captured && entry.revealed) {
+    entry.tween.progress(1);
+  }
+
+  // RE-DISPARABLE (R1, decisión del usuario — supersede "once"):
+  // onEnter restart / onLeave none / onEnterBack restart / onLeaveBack
+  // reverse. El onEnter adicional SOLO marca la memoria (los re-inits de
+  // resize no re-preparan un titular ya revelado); la animación la gobierna
+  // el toggleActions. Reveal time-driven, nunca scrub (política F2 intacta).
   entry.trigger = ScrollTrigger.create({
     trigger: entry.el,
     start: "top 85%",
-    once: true,
+    animation: entry.tween,
+    toggleActions: "restart none restart reverse",
     onEnter: () => {
       entry.revealed = true;
       revealedMemory.set(entry.el, true);
-      entry.tween?.play();
     },
   });
+
+  // Carga (VT/recarga) o re-split con el elemento YA PASADO (scroll
+  // restaurado más abajo del titular): estado final sin animar. ScrollTrigger
+  // no garantiza callbacks de creación en estado pasado; el check manual
+  // (rect totalmente por encima del viewport) lo clava y deja el rewind
+  // (onLeaveBack reverse) operativo para el scroll hacia atrás.
+  if (!entry.revealed && entry.el.getBoundingClientRect().bottom < 0) {
+    entry.revealed = true;
+    revealedMemory.set(entry.el, true);
+    entry.tween.progress(1);
+  }
 
   // Re-split (no el split inicial): refrescar triggers una vez por lote.
   if (entry.splits > 1) scheduleRefresh();

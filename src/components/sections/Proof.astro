@@ -1,9 +1,16 @@
 ---
-// Pruebas (F2): dos actos en una sección. (a) stats reales en fila alineada
-// con hairlines verticales (sin cards); (b) razones en grid 2x2 con columnas
-// iguales para que las reglas horizontales queden alineadas. Sin iconos.
-// (F2: se eliminan los offsets escalonados de F1 por feedback del usuario.)
-// (F3-v2: count-up de cifras + subrayado ámbar dibujado — line-system.ts.)
+// Razones — rediseño legacy (petición del usuario: prefiere el diseño antiguo
+// de main) adaptado al sistema v4: h2 centrado con "Logic & Lines" en ámbar
+// (token --color-primary, SIN gradientes ni hex nuevos), subtítulo centrado,
+// tira de cifras COMPACTA (count-up + subrayado ámbar intactos, line-system.ts)
+// y grid 3x2 (tablet 2 / móvil 1) de 6 tarjetas con icono en círculo de trazo
+// ámbar fino. Tarjetas con el idioma v4 de ProcessRail (rounded-xl, borde
+// hairline, bg-card, hover borde ámbar). Iconos: paths SVG inline extraídos de
+// main:src/components/ReasonsList.astro (sin librería nueva). La entrada de las
+// tarjetas la monta initProof (line-system.ts): ocultación inicial SOLO por
+// gsap.set — sin JS o con reduced-motion todo visible (regla de oro).
+// El copy de las 4 razones anteriores ("Hablas conmigo...") desaparece: NO se
+// mueve a otra sección (decisión del usuario).
 import { useTranslations } from "../../i18n/utils";
 
 interface Props {
@@ -13,36 +20,51 @@ interface Props {
 const { currentLang } = Astro.props;
 const t = useTranslations(currentLang);
 const stats = t.stats.items as Array<{ value: string; label: string }>;
-const reasons = t.reasons.items as string[];
+const reasons = t.reasons.items as Array<{ title: string; text: string }>;
+
+// Paths de icono (24px, stroke) tomados de main:src/components/ReasonsList.astro
+const reasonIcons = [
+  "M13 10V3L4 14h7v7l9-11h-7z", // Rayo (Resultados Rápidos)
+  "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M9 12l2 2 4-4", // Escudo (Seguridad Garantizada)
+  "M22 12A10 10 0 1 1 12 2a10 10 0 0 1 10 10z M18 12A6 6 0 1 1 12 6a6 6 0 0 1 6 6z M14 12a2 2 0 1 1-2-2 2 2 0 0 1 2 2z", // Diana (Precisión Absoluta)
+  "M22 12A10 10 0 1 1 12 2a10 10 0 0 1 10 10z M12 6v6l4 2", // Reloj (Ahorro de Tiempo)
+  "M23 6l-9.5 9.5-5-5L1 18 M17 6h6v6", // Tendencia (Escalabilidad)
+  "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M22 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75", // Personas (Soporte Continuo)
+];
 ---
 
-<section id="razones" class="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
+<!-- Scroll NATURAL (R6): Proof entra entre el pin de Proceso y FAQ sin pins ni
+     fronteras propias. pb simétrico al pt (ritmo de capítulo) porque el grid
+     de tarjetas cierra la sección antes de la banda de FAQ. -->
+<section id="razones" class="mx-auto w-full max-w-[1400px] px-6 pb-24 pt-24 lg:px-10 lg:min-h-[100svh] lg:pb-32 lg:pt-32">
   <h2
-    class="pt-24 font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text) lg:pt-32"
+    class="text-center font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text)"
     data-reveal="lines"
-  >
-    {t.reasons.title}
-  </h2>
+    set:html={t.reasons.title}
+  />
+  <p class="mx-auto mt-4 max-w-2xl text-center text-base leading-relaxed text-(--color-text-dark) lg:text-lg">
+    {t.reasons.subtitle}
+  </p>
 
-  <!-- (a) Cifras: datos reales, tabulares, fila alineada. F3-v2: count-up +
-       subrayado ámbar dibujado (line-system.ts). El markup parte del estado
-       FINAL (valor final, regla dibujada): es el JS quien lo prepara. El
-       atributo data-stat-value lleva el valor final: es el objetivo del count
-       (el texto visible es el mismo valor, fuente del formato ES/EN). -->
-  <ul class="mt-16 grid grid-cols-1 gap-y-10 sm:grid-cols-3" data-stats>
+  <!-- Cifras COMPACTAS: banda de apoyo entre subtítulo y grid (menos
+       protagonismo que la F1: valores más pequeños, mismas columnas).
+       F3-v2 intacto: count-up + subrayado ámbar dibujado (line-system.ts,
+       selectores data-stats / data-stat-value / data-underline SIN cambios).
+       El markup parte del estado FINAL; es el JS quien lo prepara. -->
+  <ul class="mt-14 grid grid-cols-1 gap-y-8 sm:grid-cols-3" data-stats>
     {
       stats.map((stat) => (
-        <li class="border-t border-(--color-hairline) pt-6 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0 sm:first:border-l-0 sm:first:pl-0">
+        <li class="border-t border-(--color-hairline) pt-4 sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0 sm:first:border-l-0 sm:first:pl-0">
           <p
-            class="font-display text-[clamp(2.5rem,6vw,4.5rem)] leading-none tabular-nums text-(--color-text)"
+            class="font-display text-[clamp(1.75rem,3.5vw,2.75rem)] leading-none tabular-nums text-(--color-text)"
             data-stat-value={stat.value}
           >
             {stat.value}
           </p>
-          <svg class="mt-3 block h-0.5 w-full" aria-hidden="true" data-underline>
+          <svg class="mt-2 block h-0.5 w-24" aria-hidden="true" data-underline>
             <line x1="0" y1="1" x2="100%" y2="1" class="stroke-(--color-primary)" stroke-width="2" />
           </svg>
-          <p class="mt-3 font-mono text-sm leading-relaxed text-(--color-text-dark)">
+          <p class="mt-2 font-mono text-sm leading-relaxed text-(--color-text-dark)">
             {stat.label}
           </p>
         </li>
@@ -50,16 +72,35 @@ const reasons = t.reasons.items as string[];
     }
   </ul>
 
-  <!-- (b) Razones: grid 2x2 con columnas iguales, reglas alineadas -->
-  <ul class="mt-20 grid grid-cols-1 gap-x-12 gap-y-10 md:grid-cols-2">
+  <!-- Grid de 6 razones (legacy): icono en círculo de trazo ámbar fino +
+       heading + body. data-reasons-grid lo consume initProof (line-system.ts)
+       para la entrada escalonada re-disparable. -->
+  <div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" data-reasons-grid>
     {
-      reasons.map((reason) => (
-        <li class="border-t border-(--color-hairline) pt-5">
-          <p class="font-display text-xl leading-snug text-(--color-text) md:text-2xl">
-            {reason}
+      reasons.map((reason, i) => (
+        <article class="group rounded-xl border border-(--color-hairline) bg-(--color-card) p-6 transition-colors duration-300 hover:border-(--color-primary)/60">
+          <div class="flex h-12 w-12 items-center justify-center rounded-full border border-(--color-primary)/30 transition-colors duration-300 group-hover:border-(--color-primary)">
+            <svg
+              class="h-6 w-6 text-(--color-primary)"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d={reasonIcons[i]} />
+            </svg>
+          </div>
+          <h3 class="mt-5 font-display text-xl leading-[1.15] tracking-[-0.02em] text-(--color-text) transition-colors duration-300 group-hover:text-(--color-primary)">
+            {reason.title}
+          </h3>
+          <p class="mt-3 text-sm leading-relaxed text-(--color-text-dark)">
+            {reason.text}
           </p>
-        </li>
+        </article>
       ))
     }
-  </ul>
+  </div>
 </section>

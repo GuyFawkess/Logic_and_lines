@@ -1,9 +1,22 @@
 /**
  * Motion tokens for the v4 "La Linea Maestra" system.
  *
- * Single source of truth for easings, durations and staggers. Values come from
- * docs/motion-plan.md (section 4) and are adapted from the transition measured on
- * trionn.com (see docs/research-v4): we keep the feel, not their numbers.
+ * R6 (2026-10-15): gramática de transiciones NATURALES estilo Trionn. Fuera el
+ * sistema de persianas/fronteras (shutter.ts ELIMINADO: cero overlays, cero
+ * teleports, cero tokens de frontera). El scroll es continuo:
+ *   - Servicios pinea (STACK) y su cola desliza la SECCIÓN entera a la
+ *     izquierda (REVEAL.slideLenVh) revelando Proceso, que espera DEBAJO
+ *     pinneado por GSAP (pin "proceso" sobre [data-proceso-pin], montado por
+ *     hscroll.ts con el wrapper adelantado por margen negativo).
+ *   - El rail del Proceso (RAIL) encadena su rango al end del pin de
+ *     Servicios: start = hscroll.end leído FRESCO en cada refresh.
+ *   - El pico (CIRCUIT) pinea solo su viaje propio.
+ *
+ * Prioridades de refresh (GSAP 3.15.0: priority MAYOR refresca PRIMERO, sort
+ * `(priority || 0) * -1e6`): hscroll 19 → rail-grid 15 → circuit 10 — orden
+ * de página descendente, así cada trigger lee anclas frescas con los pins de
+ * arriba ya aplicados. Los triggers naturales (reveals, proof, móviles)
+ * quedan a 0.
  */
 
 /**
@@ -14,17 +27,6 @@ export const EASE_REVEAL = "cubic-bezier(0.16, 1, 0.3, 1)";
 
 /** SVG path used to register the CustomEase "ll-reveal" (GSAP side of EASE_REVEAL). */
 export const EASE_REVEAL_PATH = "M0,0 C0.16,1 0.3,1 1,1";
-
-/**
- * Shutter belt easing. Softened `back.out` so belts overshoot slightly and settle
- * (Trionn's belts overshoot harder with elastic; 1.4 is the sober adaptation).
- *
- * ⚠️ SUPERSEDED (F3-v2, 2026-10-11): pertenecía a la persiana de rutas de 6
- * lamas, descartada por el catálogo (docs/research-v4, §4). Se conserva como
- * referencia histórica; la persiana vigente (shutter.ts) usa power2.inOut por
- * lama + overshoot manual del último grupo (OVERSHOOT, que sí sigue vivo).
- */
-export const EASE_SHUTTER = "back.out(1.4)";
 
 /** Durations, in seconds. */
 export const DUR = {
@@ -42,8 +44,6 @@ export const STAGGER = {
   text: 0.06,
   /** Between split lines (mobile). */
   textMobile: 0.04,
-  /** Between shutter belts. ⚠️ SUPERSEDED (F3-v2): el stagger de lamas vive en SHUTTER.stagger. */
-  belt: 0.055,
 } as const;
 
 /*
@@ -64,43 +64,10 @@ export const WORDS_Y = 12;
 export const RESIZE_DEBOUNCE = 200;
 
 /*
- * Shutter (route transition) constants. Trionn runs 10 horizontal belts with a
- * ~820ms cover / ~475ms hold / ~700ms reveal cycle (overshoot 1.10). Ours is leaner
- * and vertical so the belts read as segments of "La Linea Maestra": fewer belts,
- * shorter phases, lighter overshoot (see docs/motion-plan.md, section 4).
- *
- * ⚠️ SUPERSEDED (F3-v2, 2026-10-11): la persiana de rutas de 6 lamas
- * (BELTS/BELTS_MOBILE + fases COVER/HOLD/REVEAL) queda descartada por el
- * catálogo (docs/research-v4, §4: densidad insuficiente y wipe repetida =
- * ruina de ritmo). Se conservan como referencia histórica; la persiana VIGENTE
- * es la line-native de BLADES lamas (constantes SHUTTER, abajo) y OVERSHOOT
- * sigue en uso para su último grupo de lamas.
- */
-
-/** Vertical belts on desktop. ⚠️ SUPERSEDED (F3-v2) -> BLADES. */
-export const BELTS = 6;
-
-/** Vertical belts on mobile. ⚠️ SUPERSEDED (F3-v2): sin persiana en móvil. */
-export const BELTS_MOBILE = 4;
-
-/** COVER phase (s): belts scale 0 -> 1 with overshoot, cascaded. ⚠️ SUPERSEDED (F3-v2). */
-export const COVER = 0.75;
-
-/** HOLD phase (s): screen stays covered while the content swaps underneath. ⚠️ SUPERSEDED (F3-v2). */
-export const HOLD = 0.35;
-
-/** REVEAL phase (s): belts scale 1 -> 0 in inverse direction, no undershoot. ⚠️ SUPERSEDED (F3-v2). */
-export const REVEAL = 0.6;
-
-/** scaleY overshoot during COVER (1.06 vs the measured 1.10 on Trionn). */
-export const OVERSHOOT = 1.06;
-
-/*
  * Line system (F3-v2, line-system.ts) — "La Linea Maestra" (direccion C).
- * Params from the research catalog (docs/research-v4, techniques 1, 2 and 10):
- * comet draw with chasing tail, node pops with ring, stats count-up. The comet
- * ends with a tail "settle" so every segment stays complete (see line-system.ts
- * header for why the brief's literal end state would leave a 12% gap).
+ * R6: los cometas con cola perseguidora (headStart/tailChase) solo viven ya en
+ * los segmentos INDEPENDIENTES (Thesis); el rail del Proceso usa coreografía
+ * fija (línea que crece continua + pops secos + tarjetas en secuencia).
  */
 export const LINE = {
   /** Comet head start (% of the segment): visible segment width at rest. */
@@ -109,9 +76,12 @@ export const LINE = {
   tailChase: 12,
   /** Fraction of each segment's timeline slice spent drawing (rest = tail settle). */
   cometPhase: 0.8,
-  /** Scrub smoothing (s) shared by every line ScrollTrigger. */
-  scrub: 0.5,
-  /** Node pop duration (s), ease nodePopEase. */
+  /**
+   * Scrub (s) de los segmentos independientes (cometas por secciones).
+   * R6: el rail ya no lo comparte — usa RAIL.scrub (0.6).
+   */
+  scrub: 0.75,
+  /** Node pop duration (s), ease nodePopEase (solo circuito y móvil). */
   nodePopDur: 0.45,
   /** Node pop ease (overshoot del pop, compartido line-system + circuit). */
   nodePopEase: "back.out(2.2)",
@@ -127,34 +97,38 @@ export const LINE = {
   underlineDur: 0.8,
 } as const;
 
-/*
- * Persiana line-native (F3-v2, shutter.ts) — la transición estrella
- * Thesis→ServicesIndex, USO ÚNICO en toda la página (catálogo §4: la wipe
- * repetida entre bloques arruina el ritmo; aquí es EL momento donde la línea
- * muta de forma). Parámetros del catálogo (técnica 5): 12 lamas, stagger 0.02,
- * scrub 2.0-2.5, máscara SVG userSpaceOnUse con rects centro-fuera.
+/**
+ * R6 — Gramática de REVEAL natural (transición Servicios→Proceso): sin
+ * overlays. La cola del pin de hscroll desliza la SECCIÓN de Servicios fuera
+ * por la izquierda y Proceso (pinneado, z-0) queda revelado debajo.
  */
-export const BLADES = 12;
+export const REVEAL = {
+  /**
+   * Tramo del slide final (svh): la sección sale xPercent 0 → -100 con
+   * power2.inOut. R6-b: es TAMBIÉN el tramo inicial del pin "proceso" de
+   * hscroll.ts (que cubre slide + RAIL.railLenVh) y el sumando del margen del
+   * wrapper (-100svh de la sección - este slide = -210svh): deja el top del
+   * wrapper en el inicio EXACTO del slide, donde el pin engancha con "top
+   * top" natural (ver hscroll.ts).
+   */
+  slideLenVh: 1.1,
+} as const;
 
-export const SHUTTER = {
-  /** Query lg (Tailwind): la persiana solo existe en desktop. */
-  lgQuery: "(min-width: 1024px)",
-  /** Distancia pineada: 1.5 viewports de scroll para el reveal. */
-  pinDistance: "+=150%",
-  /** Scrub (s): suavizado del playhead (rango del catálogo 2.0-2.5). */
-  scrub: 2.2,
-  /** Stagger entre lamas (s), de izquierda a derecha (frente de onda). */
-  stagger: 0.02,
-  /** Duración de apertura de cada lama (unidades de timeline, scrubbed). */
-  bladeDur: 0.5,
-  /** Solape anti-gap entre las mitades de una lama (fracción de media lama). */
-  overlap: 0.05,
-  /** Grosor del frente de onda ámbar (px). */
-  waveWidth: 2,
-  /** Fade final del frente de onda (unidades de timeline). */
-  waveFade: 0.15,
-  /** Duración del overshoot de subida y del settle del último grupo (s de timeline). */
-  overshootDur: 0.15,
+/**
+ * R6 — Driver del rail del Proceso (line-system.ts, desktop lg+): UN trigger
+ * SIN pin + UNA timeline scrubbed de coreografía FIJA (línea crece continua,
+ * nodos con pop seco, tarjetas en secuencia). Encadenado al pin de Servicios.
+ * R6-b: el PANEL está pinneado aparte (pin "proceso", hscroll.ts — cubre
+ * slide + este rango con refreshPriority igual a RAIL.priority); este valor
+ * de priority es el que comparten ambos triggers de Proceso.
+ */
+export const RAIL = {
+  /** Longitud del rango scrubbed (vh): los 3 tramos + pops + tarjetas. */
+  railLenVh: 2.2,
+  /** Scrub (s): igualado al del pin de Servicios (R6). */
+  scrub: 0.6,
+  /** refreshPriority (ver cabecera: 19 > 15 > 10, orden de página). */
+  priority: 15,
 } as const;
 
 /*
@@ -162,7 +136,9 @@ export const SHUTTER = {
  * contenido apiladas en el mismo slot; cada nueva entra desde la DERECHA
  * mientras las cubiertas escalan hacia atrás (progresivo). Pin + scrub 100%
  * reversible. Solo lg + no-preference: el layout del stack lo aplica el JS
- * (regla de oro sin-JS). Matemática del referente (21st.dev adaptado a GSAP):
+ * (regla de oro sin-JS). R6: la cola del pin añade el dwell de lectura y el
+ * SLIDE de salida de la sección (REVEAL.slideLenVh) que revela Proceso.
+ * Matemática del referente (21st.dev adaptado a GSAP):
  * targetScale(j) = max(minScale, 1 - (N-j-1) * scaleStep).
  */
 export const STACK = {
@@ -173,20 +149,55 @@ export const STACK = {
    *  interno de initHScroll (doble cerradura): aunque el módulo se llamara
    *  fuera de la rama, reduce nunca monta el stack. */
   mountQuery: "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
-  /** Ancho de las tarjetas (las 6 IGUALES: imprescindible para apilar). */
-  cardWidth: "min(76vw, 920px)",
-  /** Alto de las tarjetas (igual para las 6; cabe en 1024x768, ver hscroll.ts). */
-  cardHeight: "min(70svh, 640px)",
-  /** Scrub (s) del pin (rebobinado con lag táctil). */
-  scrub: 0.8,
-  /** Escala de la tarjeta más enterrada (el referente usa 0.6). */
-  minScale: 0.6,
-  /** Caída de escala por nivel de profundidad (el referente usa 0.08). */
-  scaleStep: 0.08,
+  /**
+   * Ancho de las tarjetas (las 6 IGUALES: imprescindible para apilar). R2
+   * (escala editorial, feedback del usuario): techo 1160px (rango pedido
+   * 1120-1200) y floor 880px — por debajo, el grid 12-col interno con
+   * gap-10 colapsa (columnas de <10px en un stage de 1024px).
+   */
+  cardWidth: "clamp(880px, 62vw, 1160px)",
+  /**
+   * Alto de las tarjetas (igual para las 6; proporción ~1.9:1 con el ancho).
+   * R3-4: cap 60svh — reparte el aire a ambos lados en viewports de 800-943px
+   * de alto sin capar el 640px en pantallas altas. Palanca complementaria en
+   * hscroll.ts (neutralización del pt del h2 en modo stack).
+   */
+  cardHeight: "min(60svh, 640px)",
+  /** Scrub (s) del pin (rebobinado con lag táctil). R6: 0.6 (antes 0.8),
+   *  igualado al rail — todo el sistema más ágil. */
+  scrub: 0.6,
+  /** refreshPriority (ver cabecera: 19 > 15 > 10, orden de página). */
+  priority: 19,
+  /**
+   * R6: dwell de LECTURA tras el viaje — la tarjeta 06 queda quieta y
+   * legible antes del slide de salida (ex-BOUNDARY.stackDwellVh).
+   */
+  stackDwellVh: 0.7,
+  /**
+   * Escala de la tarjeta más enterrada. R2 (feedback: profundidad sutil tipo
+   * 21st.dev, nada del 0.6 dramático del referente): la primera acaba a 0.94
+   * y las siguientes suben PROGRESIVAMENTE hasta ~0.96 (con N=6). La fórmula
+   * de targetScale (hscroll.ts) es minScale + j * scaleStep.
+   */
+  minScale: 0.94,
+  /** Subida de escala por nivel de cercanía a la cima (0.94 -> ~0.96 con N=6). */
+  scaleStep: 0.005,
+  /**
+   * Oscurecimiento de la tarjeta cubierta: overlay interno (div creado por JS,
+   * bg --color-bg-alt) cuya opacity va de 0 a este valor en el mismo rango
+   * que la escala. Solo opacity (transform/opacity, nada de filter).
+   */
+  dimOpacity: 0.45,
   /** Deriva horizontal por nivel de profundidad (px, sutil). */
   drift: 12,
   /** Entrada de las tarjetas nuevas: % de su propio ancho desde la derecha. */
   enterXPercent: 120,
+  /**
+   * Ease de la entrada (R2): back.out MUY suave = aterrizaje con leve
+   * overshoot elegante que se asienta (sin rebote cómico). Dentro del scrub
+   * sigue siendo 100% reversible: al retroceder, el overshoot se deshace.
+   */
+  enterEase: "back.out(1.2)",
   /** Viewports de scroll por transición de tarjeta (ritmo del pin). */
   vhPerCard: 0.9,
 } as const;
@@ -266,19 +277,22 @@ export const ROLL = {
  * Pico peak-end — BookingClose (F3-v2, circuit.ts) — técnicas 7, 14 y 6 del
  * catálogo (docs/research-v4/2026-10-11-catalogo-motion-trionn.md): driver
  * único (UN ScrollTrigger pineado + UNA timeline construida una vez), cierre
- * de circuito con viajero MotionPath, pop del nodo de cierre (params de LINE)
- * y flash ÚNICO del CTA (sin pulso repetitivo, sin glow: el F1 ya retiró el
- * pulso del booking). El claim usa el blur-reveal de chars de trionn
- * (técnica 6: blur 12px -> 0, stagger 0.08 from:"random", power2.out — SOLO
- * headings).
+ * de circuito con viajero MotionPath, pop del nodo de cierre y flash ÚNICO
+ * del CTA. El claim usa el blur-reveal de chars (técnica 6). R6: el pin mide
+ * SOLO el viaje propio del circuito (sin extensiones de frontera).
  */
 export const CIRCUIT = {
   /** Query lg (Tailwind): pin + driver único solo en desktop. */
   lgQuery: "(min-width: 1024px)",
-  /** Distancia pineada del pico (relativa: el refresh la re-mide). */
-  pinDistance: "+=170%",
+  /**
+   * Recorrido pineado PROPIO del pico (vh). R6: sin el openLen heredado de la
+   * frontera b5 — el circuito se dibuja íntegro en su propio rango.
+   */
+  pinTravelVh: 1.7,
   /** Scrub (s) del driver único (rango del brief 0.8-1.2). */
   scrub: 1,
+  /** refreshPriority (ver cabecera: 19 > 15 > 10, orden de página). */
+  priority: 10,
   /** Duración del dibujo del circuito (unidades de timeline scrubbed). */
   drawDur: 0.7,
   /** Tamaño del viajero (px). */

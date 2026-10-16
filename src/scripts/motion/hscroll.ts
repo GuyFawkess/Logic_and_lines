@@ -1,66 +1,85 @@
 /**
- * Sticky-stacking cards de ServicesIndex (F4-t3) — sustituye el "track que se
- * traslada" por un "stack que se apila" (patrón sticky-stacking adaptado del
- * referente de 21st.dev a GSAP; SIN React: mismo contrato, otro motor).
+ * Sticky-stacking cards de ServicesIndex (F4-t3) + SLIDE de salida (R6).
  *
- * GEOMETRÍA: el stage (el wrapper [data-hscroll], flex-1 bajo el header con el
- * h2) contiene las N tarjetas ABSOLUTAS apiladas en el MISMO slot centrado
- * (inset:0 + margin:auto + ancho/alto fijos → centrado por LAYOUT, nunca por
- * transform: lección Morning Ritual — GSAP hornea el translate). El z es el
- * orden natural del DOM: la tarjeta N queda ENCIMA. Pin + scrub se mantienen
- * con el MISMO encadenado del debugger (start = end de "shutter-v" vía
- * shutterAlignedStart(), pinnedContainer, id "hscroll" para "shutter-h-0").
+ * STACK (gramática sin cambios): tarjetas ABSOLUTAS apiladas en el mismo slot
+ * centrado (inset:0 + margin:auto — centrado por LAYOUT, nunca por transform:
+ * lección Morning Ritual). La tarjeta j entra desde la derecha (xPercent 120,
+ * back.out(1.2)) mientras las cubiertas escalan (progresivo 0.94→0.96), se
+ * oscurecen (overlay opacity) y derivan a la izquierda. UNA timeline scrubbed
+ * → 100% reversible. El layout del capítulo (sección 100svh flex, stage
+ * relativo, tarjetas absolutas, pt del h2) lo aplica el JS — regla de oro
+ * sin-JS: sin JS / móvil / reduce, filas verticales del markup.
  *
- * COREOGRAFÍA (UNA timeline scrubbed → 100% reversible, ease "none" en todo:
- * el scroll manda). Unidades de timeline = transiciones; N tarjetas → duración
- * N-1. Para la tarjeta j (0-indexed):
- *  - j >= 1 ENTRADA: xPercent 120 → 0 durante [j-1, j] (desliza desde la
- *    derecha; 120% de su ancho la deja fuera del stage a cualquier viewport).
- *    Ocultación inicial SOLO por gsap.set (regla sin-JS) + immediateRender
- *    false para que el from no se hornee al crear.
- *  - j <= N-2 ESCALA PROGRESIVA: 1 → targetScale(j) durante [j, N-1], con
- *    targetScale(j) = max(0.6, 1 - (N-j-1) * 0.08) (matemática del referente,
- *    portada literal). Progresiva, sin saltos: cuando la tarjeta j+1 aterriza,
- *    la j está EXACTAMENTE a 0.92 y sigue encogiendo mientras llegan las
- *    demás — la más enterrada acaba a 0.6.
- *  - j <= N-2 DERIVA (profundidad, sutil): x 0 → -(N-1-j)*12px durante
- *    [j, N-1]: la cubierta se desplaza un pelín a la izquierda por nivel.
+ * R6 (2026-10-15) — GEOMETRÍA DEL RECORRIDO, sin fronteras (shutter.ts fuera):
+ *   end = travel + dwell + slide, todo en vh:
+ *     travel = (N-1)·STACK.vhPerCard   → tarjetas 01→06
+ *     dwell  = STACK.stackDwellVh (0.7) → tarjeta 06 quieta y legible
+ *     slide  = REVEAL.slideLenVh (1.1)  → LA SECCIÓN ENTERA sale xPercent
+ *              0 → -100 (power2.inOut) y debajo queda PROCESO.
  *
- * TARJETAS DE CONTENIDO (no solo imagen como el referente): conservan TODO el
- * markup (imagen 4/3 + número + título + spec + descripción + CTA con sus
- * data-gtm INTACTOS). El cromo de tarjeta (radio, borde hairline, fondo
- * --color-card, padding) lo aplica el JS con vars del sistema — SIN hex
- * nuevos y SIN tocar el fallback: sin JS / reduced / móvil las filas
- * verticales del markup quedan exactamente como estaban.
+ * REVEAL DE PROCESO (R6-b, supersede el sticky emulado de R6): el panel
+ * espera DEBAJO de Servicios (relative z-0 vs relative z-10 + bg opaco) y se
+ * sostiene con un PIN GSAP NATURAL — el patrón estándar, sin clamps ni
+ * onUpdate (QA R6: el y emulado no sostenía el panel y el rail acababa con
+ * Proof en pantalla):
+ *   1. initHScroll adelanta el WRAPPER EXTERIOR [data-proceso-under] con
+ *      marginTop = -(100svh de la sección + slide) = -210svh (svh crudo,
+ *      resize-proof: gsap.set hornearía px). Con el stack montado la sección
+ *      mide EXACTAMENTE 100svh (minHeight por JS + stage flex que se encoge),
+ *      así que el top del wrapper queda EXACTAMENTE en el inicio del slide
+ *      (scroll = hscroll.end − slideLenVh): durante viaje+dwell el wrapper
+ *      está bajo el fondo opaco de Servicios (invisible) y llega a "top top"
+ *      justo cuando el slide arranca. El margen va FUERA del pin-target a
+ *      propósito: GSAP envuelve [data-proceso-pin] en un pin-spacer y un
+ *      margen dentro del pin-target se anularía al envolverlo.
+ *   2. PIN NATURAL del div interior [data-proceso-pin]: start "top top"
+ *      NATURAL (el margen ya lo adelantó — caso estándar de GSAP, cero
+ *      saltos al enganchar ni al soltar), end = slide + rail (cubre TODO el
+ *      slide de salida y TODO el dibujo del rail), id "proceso",
+ *      refreshPriority 15 (= RAIL.priority; hscroll 19 refresca ANTES — su
+ *      spacer ya está aplicado cuando este mide su "top top" — y circuit 10
+ *      después). pinSpacing absorbe slide+rail: Proof conserva su posición
+ *      natural sin parches (fuera el paddingBottom compensatorio de R6: con
+ *      el pin la suma ya es neta 0). Al terminar, el panel continúa en flujo
+ *      1:1 (liberación natural). El driver del rail (line-system.ts) sigue
+ *      SIN pin: se encadena a hscroll.end FRESCO y dibuja mientras el panel
+ *      está pineado.
+ *   QA R6-b (docs/r6-captures/qa2): rect.top del panel = 0 en E+0.5/1.2/2.0vh,
+ *   liberación natural tras el fin del rail, rewind reversible.
  *
- * WIPES HORIZONTALES FUERA (F4-t3): la entrada deslizante ES el reveal.
- * image-reveal.ts sigue vivo para el fallback móvil; sus triggers
- * horizontales (containerAnimation) quedan desconectados — ya no existe tween
- * de track que devolver (getScrollTween eliminado) y setupWipe() salta las
- * figuras del stack vía isStackActive().
+ * CONTADOR: `01 / 06` (creado por JS) mapeado al tramo de VIAJE — durante
+ * dwell y slide el 06/06 queda estático.
  *
- * CONTADOR: `01 / 06` en mono junto al h2 — creado por JS (regla sin-JS) y
- * actualizado por el onUpdate del scrub: refleja la tarjeta que ENTRA / está
- * en cima. aria-hidden: artefacto de animación, no contenido.
+ * ORDEN DE CREACIÓN (index.ts): initHScroll() → rail → circuit, con
+ * refreshPriority 19 (STACK.priority) > 15 (pin "proceso" + driver "rail-grid")
+ * > circuit 10 (GSAP 3.15.0: priority MAYOR refresca PRIMERO). El rail lee
+ * hscroll.end FRESCO.
  *
- * ORDEN DE CREACIÓN: index.ts llama initHScroll() en la rama lg +
- * no-preference DESPUÉS de initShutter() (su start lee el end de ese pin) y
- * ANTES de initShuttersH() (los pins siguientes miden con este spacer ya
- * contabilizado). El ÚNICO refresh del ciclo lo dispara initMotion. El guard
- * interno repite la condición compuesta (STACK.mountQuery): doble cerradura,
- * el stack no existe en reduce aunque el módulo se llamara fuera de la rama.
+ * OVERFLOW: el slide solo transforma la sección mientras está pineada
+ * (position:fixed — no contribuye al scroll del documento) y en flujo acaba
+ * en xPercent -100 (overflow IZQUIERDO, que no genera scrollbar). Cinturón:
+ * html/body { overflow-x: clip } — vive en Layout.astro y aplica a TODOS los
+ * breakpoints; `clip` no crea contenedor de scroll.
  */
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { STACK } from "./tokens";
+import { RAIL, REVEAL, STACK } from "./tokens";
 
 interface StackState {
   timeline: gsap.core.Timeline | null;
   wrapper: HTMLElement | null;
   track: HTMLElement | null;
   section: HTMLElement | null;
+  /** h2 del header (R3-4: su pt se neutraliza en modo stack; destroy restaura). */
+  title: HTMLElement | null;
   cards: HTMLElement[];
+  /** Overlays de oscurecimiento (R2), uno por tarjeta, creados por JS. */
+  overlays: HTMLElement[];
   counter: HTMLElement | null;
+  /** R6-b: wrapper de Proceso (su margen negativo lo aplica este módulo). */
+  under: HTMLElement | null;
+  /** R6-b: pin natural del panel (ScrollTrigger "proceso", creado aquí). */
+  pinTrigger: ScrollTrigger | null;
   /** true mientras el stack esté montado (la consulta image-reveal.ts). */
   mounted: boolean;
 }
@@ -70,31 +89,24 @@ const state: StackState = {
   wrapper: null,
   track: null,
   section: null,
+  title: null,
   cards: [],
+  overlays: [],
   counter: null,
+  under: null,
+  pinTrigger: null,
   mounted: false,
 };
 
 const pad2 = (n: number): string => String(n).padStart(2, "0");
 
 /**
- * Escala final de la tarjeta j cuando esté totalmente enterrada (matemática
- * del referente, portada literal): la primera acaba a 0.6 con N=6 y cada una
- * tiene su target — progresivo, sin saltos.
+ * Escala final de la tarjeta j (R2): progresiva y SUTIL — la más enterrada
+ * (j=0) acaba a STACK.minScale (0.94) y cada nivel de cercanía a la cima suma
+ * STACK.scaleStep (con N=6: 0.94 → ~0.96).
  */
-function targetScale(j: number, n: number): number {
-  return Math.max(STACK.minScale, 1 - (n - j - 1) * STACK.scaleStep);
-}
-
-/**
- * Start absoluto del pin: el fin del pin de la persiana vertical (id
- * "shutter-v"). Function-based para re-medirse en cada refresh; numérico para
- * que ningún offset de pins previos lo toque. NO SE TOCA: encadenado del
- * debugger (commit 0fe093d).
- */
-function shutterAlignedStart(): number | string {
-  const st = ScrollTrigger.getById("shutter-v");
-  return st ? Math.round(st.end) : "top top";
+function targetScale(j: number): number {
+  return STACK.minScale + j * STACK.scaleStep;
 }
 
 /** ¿Está el stack de tarjetas montado? (la consulta image-reveal.ts). */
@@ -142,12 +154,30 @@ export function initHScroll(): void {
     flex: "1 1 auto",
     width: "100%",
   });
-  gsap.set(track, { position: "absolute", inset: "0" });
+  // R3-4: el mt-14 del markup (fallback vertical) COMÍA 56px del slot en modo
+  // stack (inset:0 + margin-top encoge la caja por arriba) → tarjeta empujada
+  // al límite inferior. Anulado en modo stack; destroy lo restaura.
+  gsap.set(track, { position: "absolute", inset: "0", margin: "0" });
+
+  // R3-4 (segunda palanca, misma causa): el pt del h2 en el markup (pt-24
+  // móvil / lg:pt-32 desktop, pensado para el capítulo vertical) empuja el
+  // stage hacia abajo — el centrado del stage no es el centrado del viewport.
+  // En modo stack baja a 6rem (= pt-24): reparto vertical header ~96px +
+  // tarjeta min(60svh,640px) centrada en el resto, con aire inferior real en
+  // viewports de 800-943px de alto. SOLO en modo stack (layout por JS, regla
+  // sin-JS); destroy lo restaura y el fallback vertical queda intacto. Layout
+  // puro: nada de translate.
+  const title = section.querySelector<HTMLElement>("h2");
+  if (title !== null) {
+    gsap.set(title, { paddingTop: "6rem" });
+    state.title = title;
+  }
 
   // Tarjetas: todas IGUALES (imprescindible para apilar), centradas por
   // LAYOUT (inset + margin:auto — nunca translate: GSAP lo hornea), con el
   // cromo del sistema (radio 12px = rounded-xl, hairline, --color-card).
-  // Sin hex nuevos: todo por vars existentes.
+  // Sin hex nuevos: todo por vars existentes. SIN will-change persistente:
+  // lo aplica/retira onToggle (solo durante el pin).
   gsap.set(cards, {
     position: "absolute",
     inset: "0",
@@ -159,11 +189,26 @@ export function initHScroll(): void {
     border: "1px solid var(--color-hairline)",
     backgroundColor: "var(--color-card)",
     padding: "2.5rem 3rem",
-    willChange: "transform",
   });
   // Ocultación inicial SOLO por gsap.set: las tarjetas 2..N esperan fuera del
   // stage (a la derecha); sin JS nunca se aplica → filas verticales visibles.
   gsap.set(cards.slice(1), { xPercent: STACK.enterXPercent });
+
+  // R2 — Overlays de oscurecimiento: uno por tarjeta, ÚLTIMO hijo (pinta
+  // encima del contenido; la tarjeta tiene overflow hidden). Artefactos de
+  // animación creados por JS (regla sin-JS: sin JS no existen) → destroy los
+  // remueve. SOLO opacity (nada de filter: transform/opacity).
+  const overlays = cards.map((card) => {
+    const overlay = document.createElement("div");
+    overlay.setAttribute("data-hscroll-dim", "");
+    overlay.setAttribute("aria-hidden", "true");
+    overlay.style.cssText =
+      "position:absolute;inset:0;pointer-events:none;" +
+      "background:var(--color-bg-alt);opacity:0;";
+    card.appendChild(overlay);
+    return overlay;
+  });
+  state.overlays = overlays;
 
   // Contador de progreso: artefacto de animación creado por JS (sin JS no
   // existe). Absolute dentro del header relativo: resize-proof.
@@ -197,43 +242,83 @@ export function initHScroll(): void {
 
   const n = cards.length;
 
-  // UNA timeline scrubbed para TODO el stack (política rewind: reversible).
-  // Recorrido pineado: ~0.9 viewport por transición de tarjeta (ritmo similar
-  // al track anterior, ~4.5 viewports en total con N=6).
+  // R6 — recorrido en vh: viaje + dwell de lectura + slide de salida.
+  const travelVh = (n - 1) * STACK.vhPerCard;
+
+  // UNA timeline scrubbed para TODO el recorrido (política rewind:
+  // reversible). Start NATURAL "top top": la sección llega arriba y el pin
+  // engancha (transición Thesis→Servicios continua, sin fronteras).
+  // refreshPriority 19 (STACK.priority): en GSAP 3.15.0 el sort del refresh
+  // es `(priority || 0) * -1e6` — priority MAYOR se refresca PRIMERO (19 >
+  // rail 15 > circuit 10): el rail lee este end FRESCO en cada refresh.
   const timeline = gsap.timeline({
     scrollTrigger: {
       trigger: section,
-      start: () => shutterAlignedStart(),
-      end: () => "+=" + Math.round((n - 1) * window.innerHeight * STACK.vhPerCard),
+      start: "top top",
+      end: () =>
+        "+=" +
+        Math.round(
+          (travelVh + STACK.stackDwellVh + REVEAL.slideLenVh) * window.innerHeight,
+        ),
       pin: true,
       scrub: STACK.scrub,
       anticipatePin: 1,
       invalidateOnRefresh: true,
-      // El trigger vive dentro del wrapper pineado por la persiana vertical:
-      // pinnedContainer hace que ese pin-spacer exterior acomode la expansión
-      // de este spacer anidado (_subPinOffset en el fuente de ScrollTrigger).
-      pinnedContainer: section.closest("[data-shutter]") ?? undefined,
-      // Id para que la primera persiana horizontal (shutter.ts -> "shutter-h-0")
-      // encadene su start con el unpin de este pin (cierra el hueco muerto
-      // entre fin del stack y entrada al capítulo claro).
+      refreshPriority: STACK.priority,
       id: "hscroll",
+      // will-change SOLO durante el pin: capas GPU permanentes en el resto de
+      // la página = lag. R6: la sección entra en el ciclo (anima xPercent).
+      onToggle: (self) => {
+        if (self.isActive) {
+          gsap.set(cards, { willChange: "transform" });
+          gsap.set(overlays, { willChange: "opacity" });
+          gsap.set(section, { willChange: "transform" });
+        } else {
+          gsap.set(cards, { clearProps: "willChange" });
+          gsap.set(overlays, { clearProps: "willChange" });
+          gsap.set(section, { clearProps: "willChange" });
+        }
+      },
       onUpdate: (self) => {
-        updateCounter(self.progress);
+        // El contador vive SOLO en el tramo de VIAJE [0, travel]: durante el
+        // dwell de lectura y el slide de salida el 06/06 queda estático.
+        // (R6-b: fuera el sticky emulado del panel — lo sostiene el pin
+        // natural "proceso", creado al final de esta función.)
+        const range = self.end - self.start;
+        if (range <= 0) return;
+        const travelFrac = (travelVh * window.innerHeight) / range;
+        const travel = self.progress / travelFrac;
+        updateCounter(Math.min(1, Math.max(0, travel)));
       },
     },
   });
 
-  // Coreografía por tarjeta (ver cabecera): entrada desde la derecha +
-  // escala progresiva + deriva de profundidad. Todo ease "none": el scroll
-  // es el playhead. Rangos en unidades de timeline [j, N-1] = el rango
-  // [i*step, 1] del referente con step = 1/(N-1).
+  // will-change inicial si el pin arranca ya activo (carga con el scroll
+  // restaurado dentro del rango: onToggle puede no dispararse al crear).
+  if (timeline.scrollTrigger?.isActive === true) {
+    gsap.set(cards, { willChange: "transform" });
+    gsap.set(overlays, { willChange: "opacity" });
+    gsap.set(section, { willChange: "transform" });
+  }
+
+  // Coreografía por tarjeta: entrada desde la derecha con overshoot de
+  // asentado (R2) + escala progresiva sutil + overlay de oscurecimiento +
+  // deriva de profundidad. Todo menos la entrada con ease "none": el scroll
+  // es el playhead. Rangos en unidades [j - 1, j] / [j, N - 1]; la cola
+  // (dwell + slide) se añade después.
   cards.forEach((card, j) => {
     if (j > 0) {
-      // Entrada: desliza desde la derecha hasta cubrir el slot.
+      // Entrada: desliza desde la derecha y aterriza con leve overshoot
+      // elegante (back.out(1.2)) que se asienta al final del rango.
       timeline.fromTo(
         card,
         { xPercent: STACK.enterXPercent },
-        { xPercent: 0, duration: 1, ease: "none", immediateRender: false },
+        {
+          xPercent: 0,
+          duration: 1,
+          ease: STACK.enterEase,
+          immediateRender: false,
+        },
         j - 1,
       );
     }
@@ -241,7 +326,14 @@ export function initHScroll(): void {
       // Escala progresiva hacia su target mientras las siguientes llegan.
       timeline.to(
         card,
-        { scale: targetScale(j, n), duration: n - 1 - j, ease: "none" },
+        { scale: targetScale(j), duration: n - 1 - j, ease: "none" },
+        j,
+      );
+      // R2: oscurecimiento de la tarjeta cubierta (mismo rango que la
+      // escala: la profundidad se LEE con dos señales coherentes).
+      timeline.to(
+        overlays[j],
+        { opacity: STACK.dimOpacity, duration: n - 1 - j, ease: "none" },
         j,
       );
       // Deriva de profundidad: sutil desplazamiento a la izquierda por nivel.
@@ -253,14 +345,74 @@ export function initHScroll(): void {
     }
   });
 
+  // R6 — COLA del recorrido en unidades de timeline (1 unidad =
+  // vhPerCard·vh px: el ritmo px/unidad del viaje se conserva en todo el
+  // rango). (a) dwell de lectura de la tarjeta 06; (b) SLIDE final: la
+  // SECCIÓN entera sale por la izquierda (power2.inOut) y revela Proceso
+  // (pinneado z-0 debajo — ver cabecera: su pin cubre exactamente este slide
+  // más el rango del rail).
+  const dwellUnits = STACK.stackDwellVh / STACK.vhPerCard;
+  const slideUnits = REVEAL.slideLenVh / STACK.vhPerCard;
+  timeline.to({}, { duration: dwellUnits }, n - 1);
+  timeline.fromTo(
+    section,
+    { xPercent: 0 },
+    {
+      xPercent: -100,
+      duration: slideUnits,
+      ease: "power2.inOut",
+      immediateRender: false,
+    },
+    n - 1 + dwellUnits,
+  );
+
   state.timeline = timeline;
+
+  // R6-b — REVEAL DE PROCESO (ver cabecera): margen negativo en el WRAPPER
+  // EXTERIOR (nunca en el pin-target: el pin-spacer lo anularía al envolver)
+  // + PIN NATURAL del div interior [data-proceso-pin]. Va DESPUÉS de crear la
+  // timeline: así el pin-spacer de hscroll ya está aplicado cuando el pin
+  // mide su "top top" (el final ScrollTrigger.refresh() de index.ts lo
+  // re-valida en cada ciclo). Estilos crudos con unidades svh (resize-proof;
+  // gsap.set hornearía px). SOLO con el stack montado (regla sin-JS): sin JS
+  // / móvil / reduced-motion el wrapper queda en flujo normal y sin pin.
+  const under = document.querySelector<HTMLElement>("[data-proceso-under]");
+  const pinEl = document.querySelector<HTMLElement>("[data-proceso-pin]");
+  if (under !== null && pinEl !== null) {
+    // -(100svh de la sección pineada + slideLenVh): deja el top del wrapper
+    // en scroll = hscroll.end − slideLenVh = inicio EXACTO del slide → el pin
+    // del panel engancha con "top top" NATURAL (cero saltos) y cubre
+    // slide + rail. La sección mide 100svh exactos en modo stack (ver
+    // cabecera), así que la fórmula no depende de N ni de vhPerCard.
+    under.style.marginTop = `${-(100 + REVEAL.slideLenVh * 100)}svh`;
+    state.under = under;
+    state.pinTrigger = ScrollTrigger.create({
+      trigger: pinEl,
+      start: "top top",
+      end: () =>
+        "+=" +
+        Math.round(
+          (REVEAL.slideLenVh + RAIL.railLenVh) * window.innerHeight,
+        ),
+      pin: true,
+      pinSpacing: true,
+      anticipatePin: 1,
+      // 15 = RAIL.priority (hscroll 19 refresca antes; circuit 10 después).
+      // Empata con el driver del rail ("rail-grid"): este se crea antes, y el
+      // sort estable del refresh resuelve el empate por orden de creación.
+      refreshPriority: RAIL.priority,
+      id: "proceso",
+    });
+  }
 }
 
 /**
- * Limpieza total: mata timeline/trigger y devuelve section/wrapper/track/cards
- * al estado del markup (filas verticales). resetMotion() la llama ANTES de
- * media.revert(); idempotente. clearProps "all" en las tarjetas es seguro: no
- * tienen ningún estilo inline previo (el cromo lo puso este módulo).
+ * Limpieza total: mata timeline/trigger, el pin "proceso" y devuelve
+ * section/wrapper/track/cards al estado del markup (filas verticales), retira
+ * el margen del wrapper de Proceso y el contador. resetMotion() la llama
+ * ANTES de media.revert(); idempotente. clearProps "all" en las tarjetas es
+ * seguro: no tienen ningún estilo inline previo (el cromo lo puso este
+ * módulo).
  *
  * REVERSIÓN EN TOGGLE EN VIVO (verificada en el fuente de GSAP 3.15,
  * Context.kill(revert)): al cruzar a reduce, matchMedia revierte el contexto
@@ -268,10 +420,9 @@ export function initHScroll(): void {
  * inicial) se revierten en orden inverso de creación y cada propiedad vuelve
  * a su valor PRE-set (los estilos inline desaparecen); (2) DESPUÉS corre este
  * cleanup, cuyo clearProps remata cualquier resto. Resultado: tarjetas de
- * vuelta al flujo del markup (fallback vertical opera). Al volver a
- * no-preference el contexto se recrea y initHScroll() remonta el stack
- * (idempotente: destruye lo anterior al entrar). Mismo ciclo que
- * hover-roll/shutter.
+ * vuelta al flujo del markup (fallback vertical opera) y Proceso de vuelta a
+ * flujo normal (sin margen ni pin). Al volver a no-preference el contexto se
+ * recrea y initHScroll() remonta el stack (idempotente).
  */
 export function destroyHScroll(): void {
   if (state.timeline !== null) {
@@ -292,20 +443,49 @@ export function destroyHScroll(): void {
     gsap.killTweensOf(state.cards);
     gsap.set(state.cards, { clearProps: "all" });
   }
+  if (state.overlays.length > 0) {
+    // R2: los overlays son artefactos JS → mismos dos pasos que las tarjetas
+    // (killTweensOf limpia propTweens residuales, remove los saca del DOM).
+    gsap.killTweensOf(state.overlays);
+    state.overlays.forEach((overlay) => overlay.remove());
+    state.overlays = [];
+  }
   if (state.track !== null) {
-    gsap.set(state.track, { clearProps: "position,inset" });
+    gsap.set(state.track, { clearProps: "position,inset,margin" });
   }
   if (state.wrapper !== null) {
     gsap.set(state.wrapper, { clearProps: "position,overflow,flex,width" });
   }
   if (state.section !== null) {
+    // R6: killTweensOf también para la sección (el fromTo del slide es un
+    // hijo anidado del timeline: mismo mecanismo de fuga que las tarjetas) y
+    // xPercent en el clearProps.
+    gsap.killTweensOf(state.section);
     gsap.set(state.section, {
-      clearProps: "minHeight,display,flexDirection,justifyContent",
+      clearProps: "minHeight,display,flexDirection,justifyContent,xPercent,willChange",
     });
+  }
+  if (state.pinTrigger !== null) {
+    // R6-b: el pin del panel muere antes de retirar su margen (matar el
+    // trigger desmonta su pin-spacer; al ir en ese orden no hay un refresh
+    // intermedio que mida el layout a medio desmontar).
+    state.pinTrigger.kill();
+    state.pinTrigger = null;
+  }
+  if (state.under !== null) {
+    // R6-b: el margen del wrapper lo aplicó este módulo con estilo crudo →
+    // se retira a mano (matchMedia.revert() no deshace mutaciones de style).
+    state.under.style.marginTop = "";
+    state.under = null;
   }
   if (state.counter !== null) {
     state.counter.remove();
     state.counter = null;
+  }
+  if (state.title !== null) {
+    // R3-4: devuelve el pt del markup (pt-24 / lg:pt-32) al fallback vertical.
+    gsap.set(state.title, { clearProps: "paddingTop" });
+    state.title = null;
   }
   state.cards = [];
   state.wrapper = null;

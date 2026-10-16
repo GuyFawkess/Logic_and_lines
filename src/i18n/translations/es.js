@@ -14,7 +14,9 @@ export default {
     ]
   },
   thesis: {
-    title: "Primero la lógica. Después la tecnología."
+    // Juego crema+ámbar: palabra clave final en ámbar (un span por título;
+    // el HTML lo inyecta Thesis.astro con set:html).
+    title: 'Primero la lógica. Después la <span class="text-primary">tecnología</span>.'
   },
   nav: {
     benefits: "Beneficios",
@@ -34,12 +36,13 @@ export default {
     subtitle: "Reduce los costes operativos y elimina tareas repetitivas con soluciones inteligentes que mejoran la eficiencia y la precisión en cada proceso."
   },
   services: {
-    title: "Servicios",
+    // Título de UNA palabra: completo en ámbar (decisión por defecto de la ronda).
+    title: '<span class="text-primary">Servicios</span>',
     subtitle: "Automatización e inteligencia artificial diseñadas para impulsar tu negocio.",
     view: "Ver servicio"
   },
   process: {
-    title: "Nuestro proceso",
+    title: 'Nuestro <span class="text-primary">proceso</span>',
     subtitle: "Metodología probada que garantiza resultados. Cada paso está diseñado para maximizar el éxito de tu transformación digital.",
     steps: [
       {
@@ -70,13 +73,35 @@ export default {
     quote: "“Cada paso está diseñado para reducir fricción, eliminar trabajo manual y construir sistemas escalables desde el primer día.”"
   },
   reasons: {
-    title: "¿Por qué elegir Logic & Lines?",
+    // "Logic" y "Lines" en ámbar con el "&" en crema (hereda el color del h2):
+    // patrón de 2 spans del legacy de main.
+    title: '¿Por qué elegir <span class="text-primary">Logic</span> & <span class="text-primary">Lines</span>?',
     subtitle: "Combinamos experiencia técnica con un enfoque centrado en resultados empresariales.",
     items: [
-      "Hablas conmigo, no con un comercial",
-      "Código limpio, y es tuyo",
-      "Pienso en años, no en lanzamientos",
-      "Resultados que se miden"
+      {
+        title: "Resultados Rápidos",
+        text: "Implementación ágil que genera valor desde el primer día"
+      },
+      {
+        title: "Seguridad Garantizada",
+        text: "Protección de datos y cumplimiento normativo en cada solución"
+      },
+      {
+        title: "Precisión Absoluta",
+        text: "IA entrenada específicamente para tus necesidades"
+      },
+      {
+        title: "Ahorro de Tiempo",
+        text: "Reduce hasta un 85% el tiempo en tareas repetitivas"
+      },
+      {
+        title: "Escalabilidad",
+        text: "Crece sin límites con infraestructura flexible"
+      },
+      {
+        title: "Soporte Continuo",
+        text: "Equipo experto disponible para ayudarte siempre"
+      }
     ]
   },
   prices: {
@@ -101,7 +126,7 @@ export default {
     ]
   },
   faq: {
-    title: "Preguntas frecuentes"
+    title: 'Preguntas <span class="text-primary">frecuentes</span>'
   },
   seo: {
     contactTitle: "Contacto",
@@ -128,7 +153,7 @@ export default {
     book: "Reserva tu llamada"
   },
   booking: {
-    title: "El siguiente paso es una conversación",
+    title: 'El siguiente paso es una <span class="text-primary">conversación</span>',
     text: "Selecciona el día y hora que mejor te convenga para nuestra reunión inicial. En esta consulta analizaremos tu negocio y te propondremos la mejor estrategia.",
     button: "Reserva tu llamada",
     footer: "Sin compromiso · 30 minutos"

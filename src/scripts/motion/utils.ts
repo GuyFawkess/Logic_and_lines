@@ -2,8 +2,8 @@
  * Helpers compartidos del sistema de motion (F3-v2).
  *
  * Deduplicación (review M2/M4): `isPast` estaba triplicado (line-system,
- * image-reveal, circuit), `SVG_NS` triplicado (line-system, shutter, circuit)
- * y el anillo del pop de nodo duplicado (line-system, circuit). Los TWEENS no
+ * image-reveal, circuit), `SVG_NS` triplicado (line-system, circuit) y el
+ * anillo del pop de nodo duplicado (line-system, circuit). Los TWEENS no
  * se tocan: cada módulo conserva su propio driver (one-shot vs scrubbed).
  */
 import { LINE } from "./tokens";

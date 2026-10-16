@@ -11,18 +11,42 @@
  * repetitivo, sin glow: el F1 ya retiró el pulso del booking).
  *
  * DRIVER ÚNICO (técnica 7, desktop lg+): UN ScrollTrigger (pin de la sección,
- * start "top top", end +=170%, scrub 1, anticipatePin 1) + UNA timeline
- * construida una vez que contiene dibujo + viajero + pop + anillo + flash +
- * hold. Cero triggers en paralelo: todo deriva del mismo progreso scrubbed.
- * El claim es la excepción DECLARADA: time-based one-shot al INICIARSE el pin
- * (onEnter del propio trigger del pin), nunca scrubbed (spec tanda 3).
+ * start "top top", end += pinTravelVh, scrub 1, anticipatePin 1) + UNA
+ * timeline construida una vez que contiene el dibujo + viajero + pop + anillo
+ * + flash + hold. Cero triggers en paralelo para el circuito: todo deriva del
+ * mismo progreso scrubbed.
+ *
+ * R6 (2026-10-15): fuera el sistema de fronteras — el end ya NO se extiende
+ * con el openLen de la ex-frontera b5 ni la timeline lleva segmento frontal:
+ * el pin mide SOLO el viaje propio del circuito (CIRCUIT.pinTravelVh) y la
+ * transición natural FAQ→Booking lo aterriza directamente en "top top".
+ *
+ * CLAIM (R3-7, supersede el toggleActions de R1): el blur-reveal pasa de
+ * trigger de visibilidad a SCRUB ligado al scroll — trigger propio SIN pin
+ * sobre [circuit.start + tramo del draw, +40vh] (dentro del rango pineado,
+ * tras el flash; R6 eliminó el openLen que se sumaba aquí), scrub 0.6,
+ * 100% reversible al subir (el re-difuminado progresa con el scroll, sin
+ * replay). En móvil sin pin se conserva el toggleActions re-disparable
+ * (mountClaimTrigger). will-change del claim vía onToggle de los triggers
+ * (regla del plan).
+ *
+ * FIX F-3 → SUPERSEDED por R1 → SUPERSEDED por R3-7 (2026-10-12): el claim
+ * fue re-disparable (R1, toggleActions "restart none restart reverse") y en R3
+ * pasa a SCRUB (ver arriba). En móvil sin pin se conserva el R1.
+ *
+ * R1 (refactor de anclas): el pin mantiene start "top top" NATURAL (la
+ * sección llega arriba → se engancha: transición FAQ→CTA continua por
+ * construcción). SIN sectionDocTop ni overrides: cero compensaciones manuales.
+ * R6: refreshPriority 10 (CIRCUIT.priority — en GSAP 3.15.0 priority MAYOR
+ * refresca ANTES, sort * -1e6; orden de página: hscroll 19 > rail 15 >
+ * circuit 10). El trigger se crea asíncrono tras el preloader.
  *
  * MÓVIL (<lg): sin pin (decisión: 170% de scroll extra no cabe en pantallas
- * cortas y el pico ya vive en el contenido). Dos triggers once: el claim
- * (blur-reveal) dispara cuando la sección entra ("top 80%") y el circuito
- * cuando entra su fila ("top 85%") — cada elemento anima al ENTRAR, no antes.
- * El circuito móvil es una timeline time-based (1.3s, power2.inOut) con el
- * mismo viajero + pop + flash; sin hold (no hay unpin que sostener).
+ * cortas y el pico ya vive en el contenido). El claim y el circuito animan al
+ * ENTRAR ("top 80%" / "top 85%"); el claim usa el mismo toggleActions
+ * re-disparable que en desktop. El circuito móvil es una timeline time-based
+ * (1.3s, power2.inOut) con el mismo viajero + pop + flash; sin hold (no hay
+ * unpin que sostener).
  *
  * ESTADO FINAL SIN JS (regla de oro): el markup parte del estado FINAL (path
  * completo dibujado, nodo visible, claim sin split) y es el JS quien prepara
@@ -31,8 +55,7 @@
  * (VT a ancla, resize), no se prepara nada: estado final del markup sin
  * re-animar (patrón isPast de line-system.ts). El PIN, en cambio, SIEMPRE se
  * crea en lg+ (estabilidad del layout: sin él, un resize con la sección
- * pasada acortaría la página y saltaría el scroll — patrón shutter.ts, que
- * tampoco guarda isPast para su pin).
+ * pasada acortaría la página y saltaría el scroll).
  *
  * SCRUB Y REVERSIBILIDAD: el circuito entero es scrubbed (reversible al
  * scroll hacia atrás: el cierre se "des-cierra"). Para que el scrub inverso
@@ -50,9 +73,8 @@
  *
  * BLUR-REVEAL DEL CLAIM (técnica 6, params de trionn): SplitText chars
  * (aria:"auto" preserva el nombre accesible del h2) -> gsap.set contenedor+
- * chars {autoAlpha:0, filter:blur(12px), willChange} -> al disparar:
- * contenedor autoAlpha 1/blur 0 (0.5s) + chars blur 0/autoAlpha 1 (0.8s,
- * stagger 0.08 from:"random", power2.out). will-change retirado onComplete.
+ * chars {autoAlpha:0, filter:blur(12px)} -> en desktop scrubbed sobre su
+ * trigger propio (R3-7); en móvil al entrar. will-change vía onToggle.
  * SOLO heading (el blur en párrafos está prohibido por el catálogo §3).
  * Reduced-motion: el módulo no corre (rama reduce vacía en index.ts) -> el
  * h2 queda en estado final del markup, sin blur.
@@ -77,8 +99,9 @@ import { buildNodeRing, isPast } from "./utils";
 interface ClaimState {
   el: HTMLElement | null;
   split: SplitText | null;
-  tween: gsap.core.Tween | null;
-  played: boolean;
+  /** Timeline del blur-reveal (pausada; el ScrollTrigger con toggleActions la
+   *  controla: R1 la hace re-disparable — ver cabecera F-3/R1). */
+  timeline: gsap.core.Timeline | null;
 }
 
 interface CircuitState {
@@ -96,6 +119,9 @@ interface CircuitState {
   mobileTimeline: gsap.core.Timeline | null;
   mobileTrigger: ScrollTrigger | null;
   mobileClaimTrigger: ScrollTrigger | null;
+  /** Trigger scrubbed del claim en desktop (R3-7): rango dentro del pin,
+   * tras el draw/flash. null en móvil (allí manda mountClaimTrigger). */
+  desktopClaimTrigger: ScrollTrigger | null;
   claim: ClaimState;
   /** Colores del flash leídos de las vars @theme (null: sin flash). */
   colors: { base: string; hover: string } | null;
@@ -114,15 +140,17 @@ const state: CircuitState = {
   mobileTimeline: null,
   mobileTrigger: null,
   mobileClaimTrigger: null,
-  claim: { el: null, split: null, tween: null, played: false },
+  desktopClaimTrigger: null,
+  claim: { el: null, split: null, timeline: null },
   colors: null,
 };
 
 /**
- * Memoria de "claim ya revelado" que sobrevive a los re-inits de resize
- * (patrón revealedMemory de text-reveal.ts): sin ella, un resize a mitad del
- * pin re-prepararía el h2 y el blur-reveal se repetiría. DOM nuevo de una
- * navegación VT = memoria nueva (el claim se anima de nuevo, correcto).
+ * Memoria de "claim ya revelado en este DOM" que sobrevive a los re-inits de
+ * resize (patrón revealedMemory de text-reveal.ts): sin ella, un resize a
+ * mitad del pin re-prepararía el h2 y el blur-reveal se repetiría. Se marca
+ * en el primer onEnter del trigger del claim. DOM nuevo de una navegación VT
+ * = memoria nueva (el claim se anima de nuevo, correcto).
  */
 const playedMemory = new WeakMap<Element, boolean>();
 
@@ -175,10 +203,12 @@ function buildRing(node: SVGCircleElement, nodeSvg: SVGSVGElement): SVGCircleEle
 }
 
 /**
- * Prepara el claim: SplitText chars + ocultación por gsap.set. Si el punto de
- * disparo (fracción `fraction` del viewport) ya pasó, o el claim ya se reveló
- * en un init anterior (resize a mitad del pin), NO se prepara: el h2 queda en
- * estado final del markup, sin split y sin estilos inline.
+ * Prepara el claim: SplitText chars + ocultación por gsap.set + timeline
+ * PAUSADA del blur-reveal (el ScrollTrigger con toggleActions la gobierna —
+ * R1: re-disparable). Si el punto de disparo (fracción `fraction` del
+ * viewport) ya pasó, o el claim ya se reveló en un init anterior (resize a
+ * mitad del pin), NO se prepara: el h2 queda en estado final del markup, sin
+ * split y sin estilos inline.
  */
 function prepareClaim(fraction: number): void {
   const h2 = state.section?.querySelector<HTMLElement>("h2") ?? null;
@@ -189,36 +219,72 @@ function prepareClaim(fraction: number): void {
   const split = SplitText.create(h2, { type: "chars,words", aria: "auto" });
   state.claim.split = split;
   // Ocultación inicial SOLO por gsap.set (regla de oro). Técnica 6: contenedor
-  // y chars a autoAlpha 0 + blur; will-change solo durante el reveal.
-  gsap.set([h2, ...split.chars], {
+  // y chars a autoAlpha 0 + blur. El will-change lo gestiona la timeline por
+  // ciclo (onStart/onComplete abajo: con el reveal re-disparable, cada
+  // ejecución lo vuelve a aplicar y retirar).
+  const chars = split.chars;
+  gsap.set([h2, ...chars], {
     autoAlpha: 0,
     filter: `blur(${CIRCUIT.claimBlur}px)`,
-    willChange: "filter, opacity",
   });
-}
 
-/**
- * Claim: blur-reveal de chars (técnica 6). Una sola vez por elemento (guard
- * `played` + playedMemory): el onEnter del pin puede dispararse en cada
- * re-entrada al rango y el claim no debe re-animarse.
- */
-function playClaim(): void {
-  const { el, split, played } = state.claim;
-  if (el === null || split === null || played) return;
-  state.claim.played = true;
-  playedMemory.set(el, true);
+  // F-3: el spread se CAPA a ~1.5s de reveal total (criterio del plan):
+  // trionn usa stagger 0.08 fijo, pero con 38 chars daba 0.08*37+0.8 = 3.84s
+  // de estado intermedio "roto" (el vídeo F-3). Se conservan duración,
+  // easing y orden random (el EFECTO no cambia): solo se comprime la
+  // separación entre chars en titulares largos; en cortos queda 0.08.
+  const spread = Math.max(1.5 - CIRCUIT.claimDur, 0);
+  const each = Math.min(CIRCUIT.claimStagger, chars.length > 1 ? spread / (chars.length - 1) : spread);
+
+  const tl = gsap.timeline({ paused: true });
   // Contenedor: autoAlpha 1 + blur 0 (0.5s, técnica 6).
-  gsap.to(el, { autoAlpha: 1, filter: "blur(0px)", duration: 0.5, ease: "power2.out" });
+  tl.to(h2, { autoAlpha: 1, filter: "blur(0px)", duration: 0.5, ease: "power2.out" }, 0);
   // Chars: blur 12 -> 0, stagger aleatorio (técnica 6, params de trionn).
-  state.claim.tween = gsap.to(split.chars, {
+  tl.to(chars, {
     autoAlpha: 1,
     filter: "blur(0px)",
     duration: CIRCUIT.claimDur,
     ease: "power2.out",
-    stagger: { each: CIRCUIT.claimStagger, from: "random" },
-    onComplete: () => {
-      // will-change retirado al terminar (regla del plan, sección 4).
-      gsap.set([el, ...split.chars], { clearProps: "willChange" });
+    stagger: { each, from: "random" },
+  }, 0);
+  // will-change: lo aplican/retiran los TRIGGERS por onToggle (R3-7: en scrub
+  // los onStart/onComplete de la timeline no son fiables — ver setClaimWillChange).
+  state.claim.timeline = tl;
+}
+
+/**
+ * will-change del claim SOLO mientras su trigger está activo (R3-7, regla del
+ * plan sección 4): onToggle del trigger del claim (móvil y scrub-desktop) y
+ * del driver del circuito (desktop).
+ */
+function setClaimWillChange(active: boolean): void {
+  const h2 = state.claim.el;
+  const chars = state.claim.split?.chars ?? [];
+  if (h2 === null) return;
+  if (active) {
+    gsap.set([h2, ...chars], { willChange: "filter, opacity" });
+  } else {
+    gsap.set([h2, ...chars], { clearProps: "willChange" });
+  }
+}
+
+/**
+ * Trigger del claim MÓVIL (sin pin): toggleActions RE-DISPARABLES (R1):
+ * onEnter/onEnterBack restart, onLeave none, onLeaveBack reverse. El primer
+ * onEnter marca la memoria (los re-inits de resize no re-preparan un claim ya
+ * revelado). En desktop el claim ya NO pasa por aquí (R3-7: scrub propio).
+ */
+function mountClaimTrigger(trigger: Element, start: string): ScrollTrigger {
+  return ScrollTrigger.create({
+    trigger,
+    start,
+    animation: state.claim.timeline ?? undefined,
+    toggleActions: "restart none restart reverse",
+    onToggle: (self) => {
+      setClaimWillChange(self.isActive);
+    },
+    onEnter: () => {
+      if (state.claim.el !== null) playedMemory.set(state.claim.el, true);
     },
   });
 }
@@ -274,29 +340,60 @@ function initDesktop(): void {
   const { path, node, ring, traveler } = state;
   if (path === null || node === null || ring === null || traveler === null) return;
 
+  // R6: pin de SOLO el viaje propio (CIRCUIT.pinTravelVh) — sin el openLen de
+  // la ex-frontera b5 ni segmento frontal: la transición natural FAQ→Booking
+  // aterriza la sección en "top top" y el draw arranca inmediatamente.
+  const baseUnits = CIRCUIT.drawDur + LINE.nodePopDur + CIRCUIT.holdDur;
+
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: section,
-      // Encadenado al unpin de la segunda persiana horizontal ("shutter-h-1" en
-      // shutter.ts) para cerrar el hueco muerto de ~1000 px entre el flip del
-      // cap\u00edtulo claro y el arranque del pico peak-end.
-      start: () => {
-        const prev = ScrollTrigger.getById("shutter-h-1");
-        return prev ? Math.round(prev.end) : "top top";
-      },
-      end: CIRCUIT.pinDistance,
+      start: "top top",
+      // Recorrido propio del pico, sin extensiones de frontera (R6).
+      end: () => "+=" + Math.round(CIRCUIT.pinTravelVh * 100) + "%",
       pin: true,
       scrub: CIRCUIT.scrub,
       anticipatePin: 1,
+      invalidateOnRefresh: true,
+      // R6: refreshPriority 10 (CIRCUIT.priority) — EN GSAP 3.15.0 priority
+      // MAYOR refresca ANTES (sort * -1e6). Orden de página: hscroll 19 >
+      // rail 15 > circuit 10; los dos primeros ya aplicaron sus spacers
+      // cuando este lee sus anclas.
+      refreshPriority: CIRCUIT.priority,
       id: "circuit",
-      // El claim (blur-reveal) arranca con el pin, UNA vez (guard en playClaim):
-      // el onEnter del pin se re-dispara en cada re-entrada al rango.
-      onEnter: () => {
-        playClaim();
+      // will-change del claim (R3-7): activo mientras el pin lo esté.
+      onToggle: (self) => {
+        setClaimWillChange(self.isActive);
       },
     },
   });
   state.timeline = tl;
+
+  // R3-7 — CLAIM como SCRUB (supersede toggleActions): trigger propio SIN pin
+  // dentro del rango pineado, tras el draw/flash: [start + px donde acaba el
+  // draw, +40vh]. scrub 0.6, 100% reversible al subir (re-difuminado
+  // progresivo ligado al scroll, sin replay). Function-based: lee el start/
+  // end FRESCOS del circuito en cada refresh (invalidateOnRefresh).
+  if (state.claim.timeline !== null) {
+    const claimStartPx = (): number => {
+      const st = tl.scrollTrigger;
+      if (st === undefined) return Number.MAX_SAFE_INTEGER;
+      const drawEnd = (CIRCUIT.drawDur / baseUnits) * (st.end - st.start);
+      return Math.round(st.start + drawEnd);
+    };
+    state.desktopClaimTrigger = ScrollTrigger.create({
+      trigger: section,
+      start: () => claimStartPx(),
+      end: () => claimStartPx() + Math.round(0.4 * window.innerHeight),
+      animation: state.claim.timeline,
+      scrub: 0.6,
+      invalidateOnRefresh: true,
+      id: "circuit-claim",
+      onToggle: (self) => {
+        setClaimWillChange(self.isActive);
+      },
+    });
+  }
 
   // (a) Dibujo del circuito: la cabeza avanza 0% -> 100% (sin cola-cometa:
   // es el cierre, quiere continuidad — spec tanda 3).
@@ -352,11 +449,6 @@ function initDesktop(): void {
 
   // Hold: la timeline sostiene el circuito cerrado; el unpin libera.
   tl.to({}, { duration: CIRCUIT.holdDur }, CIRCUIT.drawDur + LINE.nodePopDur);
-
-  // Red de seguridad del claim (patrón line-system): si el pin ya está activo
-  // al crear el trigger (VT a ancla dentro del rango, resize), el onEnter no
-  // volverá a cruzar el start. top <= 0 cubre "pineado ahora" y "pasado".
-  if (section.getBoundingClientRect().top <= 0) playClaim();
 }
 
 /** Móvil (<lg): sin pin. Dos triggers once (claim en la sección, circuito en la fila). */
@@ -425,15 +517,12 @@ function initMobile(): void {
     },
   });
 
-  // Claim móvil: su propio trigger (el h2 entra antes que la fila del CTA).
-  state.mobileClaimTrigger = ScrollTrigger.create({
-    trigger: section,
-    start: `top ${Math.round(CIRCUIT.mobileClaimStart * 100)}%`,
-    once: true,
-    onEnter: () => {
-      playClaim();
-    },
-  });
+  // Claim móvil: su propio trigger (el h2 entra antes que la fila del CTA),
+  // RE-DISPARABLE igual que en desktop (R1).
+  state.mobileClaimTrigger = mountClaimTrigger(
+    section,
+    `top ${Math.round(CIRCUIT.mobileClaimStart * 100)}%`,
+  );
 }
 
 /**
@@ -461,9 +550,10 @@ function applyMode(): void {
   state.nodeSvg = nodeSvg;
   state.cta = cta;
 
-  // Claim: se prepara con la fracción de disparo de cada modo (desktop: el
-  // pin empieza con la sección a top 0; móvil: trigger a top 80%).
-  prepareClaim(isDesktop() ? 0 : CIRCUIT.mobileClaimStart);
+  // Claim: misma fracción de disparo en ambos modos (F-3): el h2 entra por
+  // "top 80%" (mobileClaimStart ahora es LA fracción del claim en cualquier
+  // ancho); el isPast correspondiente deja el markup final si ya pasó.
+  prepareClaim(CIRCUIT.mobileClaimStart);
 
   if (isDesktop()) {
     initDesktop();
@@ -506,6 +596,13 @@ function teardown(): void {
     state.mobileClaimTrigger.kill();
     state.mobileClaimTrigger = null;
   }
+  if (state.desktopClaimTrigger !== null) {
+    // F-3: el trigger propio del claim muere aquí en CADA remonte (resize
+    // cambia el breakpoint, resetMotion en VT). El playedMemory evita que el
+    // trigger nuevo re- anime un claim ya revelado.
+    state.desktopClaimTrigger.kill();
+    state.desktopClaimTrigger = null;
+  }
   state.traveler?.remove();
   state.ring?.remove();
   if (state.path !== null) {
@@ -522,14 +619,14 @@ function teardown(): void {
     gsap.killTweensOf(state.cta);
     gsap.set(state.cta, { clearProps: "backgroundColor" });
   }
-  const { el, split, tween } = state.claim;
-  if (tween !== null) tween.kill();
+  const { el, split, timeline } = state.claim;
+  if (timeline !== null) timeline.kill();
   if (el !== null) {
     gsap.killTweensOf(el);
     gsap.set(el, { clearProps: "opacity,visibility,filter,willChange" });
   }
   split?.revert();
-  state.claim = { el: null, split: null, tween: null, played: false };
+  state.claim = { el: null, split: null, timeline: null };
   state.traveler = null;
   state.ring = null;
   state.colors = null;
@@ -545,9 +642,8 @@ function teardown(): void {
  * Monta el pico peak-end de BookingClose. Idempotente: destruye lo anterior
  * antes de montar (la ruta nueva trae DOM nuevo). Se llama en la rama
  * no-preference del matchMedia de index.ts, DESPUÉS de initImageReveal(): su
- * pin es el de la sección más baja con triggers de la página y el refresh
- * corre en orden de creación (el pin-spacer de la persiana, anterior en la
- * página, ya existe al medirlo; ningún trigger posterior necesita el suyo).
+ * pin (refreshPriority 10, R6) es el más bajo de la página y refresca el
+ * último del trío 19/15/10.
  */
 export function initCircuit(): void {
   destroyCircuit();

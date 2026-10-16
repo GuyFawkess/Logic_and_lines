@@ -41,14 +41,19 @@ const stepIcons = [
      Tarjetas (--color-card) se mantienen sobre el capitulo (step 1.32:1,
      mejor que el 1.14:1 de hoy sobre bg) y la hairline compuesta da 1.50:1, identica
      en caracter a la de bg (1.49:1): bordes intactos. -->
-<section id="proceso" class="bg-(--color-bg-chapter) pb-24 lg:pb-32">
+<!-- R6-b: pin natural — hscroll.ts adelanta el wrapper [data-proceso-under]
+     (index.astro) con margen negativo y pinea el div interior
+     [data-proceso-pin] (start "top top", cubre slide + rail). min-h en lg
+     (NO height exacta): con viewport lg cortos (1024x768) el contenido
+     (~124svh) crece la sección en vez de desbordarla sobre Proof. El driver
+     del rail (line-system.ts) encadena su rango a hscroll.end. -->
+<section id="proceso" class="bg-(--color-bg-chapter) pb-24 lg:pb-32 lg:min-h-[100svh]">
   <div class="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
   <h2
     class="pt-24 font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text) lg:pt-32"
     data-reveal="lines"
-  >
-    {t.process.title}
-  </h2>
+    set:html={t.process.title}
+  />
   <p class="mt-4 max-w-2xl text-base leading-relaxed text-(--color-text-dark) lg:text-lg">
     {t.process.subtitle}
   </p>

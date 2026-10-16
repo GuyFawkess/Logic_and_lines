@@ -164,10 +164,17 @@ const canonicalURL = new URL(
     font-family: var(--font-sans);
     margin: 0;
     color: var(--color-text);
-    overflow-x: hidden;
+    /* R6: era overflow-x: hidden. `hidden` en un ancestro crea scroll
+     * container y degrada el scroll gestionado por Lenis/pins (además de
+     * romper cualquier position: sticky futuro). `clip` corta el overflow
+     * horizontal igual pero NO crea contenedor de scroll. El motivo hoy es el
+     * SLIDE HORIZONTAL de la sección de servicios (hscroll.ts la saca
+     * xPercent -100 al final de su pin: overflow izquierdo que no genera
+     * scrollbar, pero el clip es el cinturón para cualquier deriva futura). */
+    overflow-x: clip;
   }
   /* antes: height: 100% + justify-items: center. height: 100% capaba
-   *html y body a la altura del viewport; con overflow-x: hidden, html se
+   *html y body a la altura del viewport; con overflow capado, html se
    *volvía overflow-y:auto pero su contenido (capado a 100% también)
    *nunca crecía, así que el scroll del documento quedaba en 0. El
    *IntersectionObserver de loading="lazy" mide el viewport real, así que

@@ -57,24 +57,28 @@ const organizationSchema = {
 		<HeroHome currentLang={currentLang} />
 		<MarqueeBand currentLang={currentLang} />
 		<Thesis currentLang={currentLang} />
-		<!-- Persiana line-native (F3-v2, USO ÚNICO): wrapper sin estilos; TODO lo
-		     efímero lo crea shutter.ts solo con JS y viewport lg. Sin JS o en
-		     móvil: flujo normal, cero overlays. -->
-		<div data-shutter>
-			<ServicesIndex currentLang={currentLang} />
-		</div>
-		<!-- Persiana horizontal de capítulo (F4-t2): flip oscuro→claro al entrar
-		     al capítulo claro. Wrapper sin estilos; TODO lo efímero lo crea
-		     shutter.ts solo con JS y viewport lg. Sin JS o en móvil: flujo
-		     normal, cero overlays. -->
-		<div data-shutter-h>
+	<!-- R6: transición NATURAL Thesis→Servicios (sin persiana). La sección
+	     pinta ENCIMA (relative z-10 + fondo opaco) del panel de Proceso:
+	     al final de su pin desliza a la izquierda y lo revela. -->
+	<ServicesIndex currentLang={currentLang} />
+	<!-- R6-b: Proceso bajo Servicios — espera DETRÁS del pin de Servicios
+	     (z-0) y queda revelado cuando la sección desliza. hscroll.ts (SOLO con
+	     el stack montado — regla sin-JS: sin JS / móvil / reduced-motion este
+	     wrapper queda en flujo normal) aplica aquí dos cosas: (1) el MARGEN
+	     negativo del wrapper EXTERIOR, -210svh = -(100svh de la sección + 1.1
+	     slide), que adelanta el capítulo hasta el inicio EXACTO del slide; y
+	     (2) el PIN GSAP NATURAL del div interior [data-proceso-pin] (start
+	     "top top" natural — cero saltos —, cubre slide + rail). Fuera el
+	     sticky emulado de R6 y su paddingBottom compensatorio: el pin-spacer
+	     del pin absorbe slide+rail y Proof conserva su posición natural. -->
+	<div data-proceso-under class="relative z-0">
+		<div data-proceso-pin>
 			<ProcessRail currentLang={currentLang} />
 		</div>
-		<Proof currentLang={currentLang} />
-		<div data-shutter-h>
-			<FaqIndex currentLang={currentLang} />
-		</div>
-		<BookingClose currentLang={currentLang} />
+	</div>
+	<Proof currentLang={currentLang} />
+	<FaqIndex currentLang={currentLang} />
+	<BookingClose currentLang={currentLang} />
 	</main>
 	<SiteFooter currentLang={currentLang} />
 </Layout>

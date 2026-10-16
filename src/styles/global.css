@@ -160,8 +160,13 @@ h2 {
   scroll-margin-top: 80px;
 }
 
-/* Improve smooth scrolling */
-html {
+/* Smooth scrolling SOLO sin Lenis (R3): Lenis añade la clase `lenis` a <html>
+   al inicializarse (y la retira en destroy). Con Lenis vivo el scroll suave lo
+   lleva él: dejar `scroll-behavior: smooth` global hacía que el vuelo nativo
+   de los anchors (nav #servicios/#proceso/#razones/#faq) animase DÉCIMAS de
+   segundo compitiendo con el vuelo de Lenis sobre la misma distancia. Sin JS
+   o con reduced-motion (sin clase) el smooth nativo se conserva. */
+html:not(.lenis) {
   scroll-behavior: smooth;
 }
 

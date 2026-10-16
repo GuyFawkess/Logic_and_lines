@@ -26,96 +26,120 @@ const email = "logicandlinestudios@gmail.com";
   data-circuit
   class="relative w-full overflow-hidden border-t border-(--color-hairline) bg-(--color-bg-alt) py-24 lg:py-32 lg:min-h-[100svh]"
 >
-  <div class="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
-    {/* Closing h2 runs larger on purpose (72px vs 56px on standard section
-        titles): peak-end hierarchy, this headline closes the page. Sin
-        data-reveal: el claim usa el blur-reveal de chars del pico
-        (circuit.ts, técnica 6 del catálogo), no el reveal por líneas de F2. */}
+  <!-- R2 (rediseño del cierre): lockup centrado y contenido (max 920px).
+       Claim serif en 2 líneas + sub muted, y el CTA como lockup único: el
+       racetrack ámbar cierra ALREDEDOR del botón (el botón vive DENTRO del
+       circuito, como terminación del recorrido del viajero) con los nodos
+       como terminales a izquierda/derecha del track. circuit.ts no cambia:
+       selecciona [data-circuit-row]/[data-circuit-path]/[data-node]/CTA por
+       data-attribute y MotionPath alinea en el espacio del parentNode. -->
+  <div class="mx-auto w-full max-w-[920px] px-6 text-center lg:px-10">
+    {/* Closing h2 runs larger on purpose (peak-end hierarchy): this headline
+        closes the page. Sin data-reveal: el claim usa el blur-reveal de
+        chars del pico (circuit.ts, técnica 6 del catálogo), no el reveal por
+        líneas de F2. max-w-[20ch] lo parte en 2 líneas a cualquier ancho. */}
     <h2
-      class="max-w-[16ch] font-display text-[clamp(2.25rem,5vw,4.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text)"
-    >
-      {t.booking.title}
-    </h2>
-    <p class="mt-8 max-w-[65ch] text-lg leading-relaxed text-(--color-text-dark)">
+      class="mx-auto max-w-[20ch] font-display text-[clamp(2.25rem,4vw,3.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text)"
+      set:html={t.booking.title}
+    />
+    <p class="mx-auto mt-6 max-w-[46ch] text-lg leading-relaxed text-(--color-text-dark)">
       {t.booking.text}
     </p>
   </div>
 
-  <!-- Circuito: la línea entra desde el borde izquierdo y cierra en el CTA -->
-  <div class="relative mt-14 flex w-full items-center gap-0 pr-6 lg:pr-10" data-circuit-row>
-    <!-- Bucle de cierre (pico peak-end, F3-v2): parte del nodo de entrada
-         (donde la Línea Maestra cruza el borde del bucle), rodea la fila —CTA
-         incluido— y vuelve a cerrarse sobre ese nodo. Estado en markup: path
-         COMPLETO dibujado (regla de oro sin-JS); el JS lo prepara para
-         animar. El viajero y el anillo del pop son artefactos creados por JS.
-         preserveAspectRatio="none" estira el bucle con la fila y
-         vector-effect mantiene el trazo a 2px; el borde derecho (98%) despeja
-         el CTA en todos los anchos. -->
-    <svg
-      class="pointer-events-none absolute -inset-y-5 left-0 right-0 overflow-visible"
-      viewBox="0 0 1000 88"
-      preserveAspectRatio="none"
-      aria-hidden="true"
-    >
-      <path
-        data-circuit-path
-        d="M8 44 C8 25 24 10 50 10 L930 10 C962 10 980 26 980 44 C980 62 962 78 930 78 L50 78 C24 78 8 63 8 44 Z"
-        fill="none"
-        stroke="var(--color-primary)"
-        stroke-width="2"
-        vector-effect="non-scaling-stroke"></path>
-    </svg>
-    <!-- Nodo de cierre: svg propio SIN estirar (un circle dentro del estirado
-         sería elipse). Centrado con translate sobre el svg padre; GSAP anima
-         el circle hijo, así que el centrado es inmune (lección Morning
-         Ritual). -->
-    <svg
-      class="pointer-events-none absolute left-[0.8%] top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 overflow-visible"
-      viewBox="0 0 12 12"
-      aria-hidden="true"
-    >
-      <circle data-node cx="6" cy="6" r="4.5" fill="var(--color-primary)"></circle>
-    </svg>
-    <svg
-      class="h-2 min-w-0 flex-1 overflow-visible"
-      aria-hidden="true"
-    >
-      <line
-        x1="0"
-        y1="4"
-        x2="100%"
-        y2="4"
-        stroke="var(--color-primary)"
-        stroke-width="2"></line>
-    </svg>
-    <svg
-      class="h-2.5 w-2.5 shrink-0"
-      viewBox="0 0 10 10"
-      aria-hidden="true"
-    >
-      <circle cx="5" cy="5" r="4.5" fill="var(--color-primary)"></circle>
-    </svg>
-    <button
-      type="button"
-      class="ml-5 inline-flex h-12 shrink-0 items-center justify-center whitespace-nowrap bg-(--color-primary) px-6 text-sm font-medium text-(--color-bg) transition-colors duration-200 hover:bg-(--color-primary-hover) active:translate-y-px"
-      data-gtm-event="schedule_click"
-      data-gtm-location="booking_section"
-      data-gtm-label="cal_evaluation_call"
-      data-cal-link="logic-and-lines-knzt9s/1ª-llamada-de-evaluacion"
-      data-cal-namespace="1ª-llamada-de-evaluacion"
-      data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true","theme":"dark"}'
-    >
-      {t.booking.button}
-    </button>
+  <!-- Lockup del circuito: píldora con aspect 5/1 FIJO por CSS → el svg con
+       preserveAspectRatio="none" escala UNIFORME a cualquier ancho (la
+       cápsula nunca se deforma) y vector-effect mantiene el trazo a 1.5px.
+       El path empieza y TERMINA en el terminal izquierdo (8,64): DrawSVG
+       0→100% dibuja la vuelta completa y el viajero se suelda en el nodo de
+       cierre (mismo comportamiento que el racetrack anterior — circuit.ts
+       intacto). El botón se centra por LAYOUT (inset + margin auto: nunca
+       translate en un elemento que toca GSAP — lección Morning Ritual). -->
+  <div class="mx-auto mt-14 w-full max-w-[640px] px-6">
+    <div class="relative aspect-[5/1] w-full" data-circuit-row>
+      <svg
+        class="pointer-events-none absolute inset-0 h-full w-full overflow-visible"
+        viewBox="0 0 640 128"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path
+          data-circuit-path
+          d="M8 64 C8 28.65 36.65 0 72 0 L568 0 C603.35 0 632 28.65 632 64 C632 99.35 603.35 128 568 128 L72 128 C36.65 128 8 99.35 8 64 Z"
+          fill="none"
+          stroke="var(--color-primary)"
+          stroke-width="1.5"
+          vector-effect="non-scaling-stroke"
+          style="filter:drop-shadow(0 0 6px color-mix(in srgb, var(--color-primary) 24%, transparent))"></path>
+      </svg>
+      <!-- Terminal izquierdo: el nodo de cierre (pop + anillo al llegar el
+           viajero). Centrado con translate sobre el svg padre; GSAP anima el
+           circle hijo, así que el centrado es inmune (lección Morning
+           Ritual). Posición exacta del vértice: 8/640 = 1.25%. -->
+      <svg
+        class="pointer-events-none absolute left-[1.25%] top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 overflow-visible"
+        viewBox="0 0 12 12"
+        aria-hidden="true"
+      >
+        <circle data-node cx="6" cy="6" r="4.5" fill="var(--color-primary)"></circle>
+      </svg>
+      <!-- Terminal derecho: dot estático (sin JS). R3-6: simétrico EXACTO del
+           izquierdo — right:1.25% clava el BORDE derecho del svg en 98.75% de
+           la fila; para que el CENTRO del circle caiga ahí (igual que el
+           izquierdo en 1.25%), el svg se desplaza +50% de su ancho (espejo
+           del -translate-x-1/2 izquierdo: con -50% el dot quedaba ~10px
+           DENTRO del vértice — la asimetría que se leía como "CTA
+           descentrado" en captura; el botón medía 0.00px de error). -->
+      <svg
+        class="pointer-events-none absolute right-[1.25%] top-1/2 h-2.5 w-2.5 translate-x-1/2 -translate-y-1/2"
+        viewBox="0 0 10 10"
+        aria-hidden="true"
+      >
+        <circle cx="5" cy="5" r="4.5" fill="var(--color-primary)"></circle>
+      </svg>
+      <!-- R3-6 (verificación estática del descentrado ~28px del botón):
+           el markup es SIMÉTRICO y el centrado es exacto — inset-0 + m-auto
+           con w-fit centra el botón al píxel (0.00px de error ya medido en
+           R2), los dos terminales caen en ±1.25% con dots de 9px, el path es
+           simétrico (vértices a 8/640 y 632/640 del viewBox) y no hay hijo
+           extra del row que desplace (los 4 hijos + el viajero de circuit.ts
+           son absolute). NADA que arreglar en markup/CSS. Hipótesis para la
+           medición del QA en vivo: (1) el embed de Cal.com muta el botón en
+           runtime (inyecta estilos/atributos sobre [data-cal-link]); (2) la
+           medida se tomó con el hover-roll activo (capa duplicada del label);
+           (3) offset óptico del scrollbar (~8-17px) leído como ~28px; (4)
+           referencia de medida contra el CLAIM (h2 max-w-[20ch]) en vez de
+           contra el row — ambos están centrados en el mismo eje, pero un
+           subcadena del h2 puede parecer descentrada. -->
+      <!-- ⚠️ flex items-center OBLIGATORIO: el hover-roll (F4) envuelve el
+           texto en un span label (overflow:hidden + capa 2 absolute left:0).
+           Si el botón no es flex, el span queda INLINE (block-in-inline) y
+           left:0 de la capa 2 se resuelve contra un fragmento desplazado →
+           el texto se DUPLICA visible bajo el botón. El flex blockifica el
+           span y el clip vuelve a ser exacto (era el estado del botón v1). -->
+      <button
+        type="button"
+        class="cta-lockup-btn absolute inset-0 m-auto flex h-11 w-fit shrink-0 items-center justify-center whitespace-nowrap bg-(--color-primary) px-8 text-sm font-medium text-(--color-bg) hover:bg-(--color-primary-hover) lg:h-12"
+        data-gtm-event="schedule_click"
+        data-gtm-location="booking_section"
+        data-gtm-label="cal_evaluation_call"
+        data-cal-link="logic-and-lines-knzt9s/1ª-llamada-de-evaluacion"
+        data-cal-namespace="1ª-llamada-de-evaluacion"
+        data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true","theme":"dark"}'
+      >
+        {t.booking.button}
+      </button>
+    </div>
   </div>
 
-  <div class="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
-    <p class="mt-8 font-mono text-xs tabular-nums text-(--color-text-dark)">
+  <div class="mx-auto w-full max-w-[920px] px-6 lg:px-10">
+    <!-- Nota del lockup: mono pequeño centrada bajo el circuito. -->
+    <p class="mt-8 text-center font-mono text-xs tabular-nums text-(--color-text-dark)">
       {t.booking.footer}
     </p>
 
-    <!-- Canales directos + hora local -->
-    <div class="mt-10 flex flex-wrap items-center gap-x-10 gap-y-4">
+    <!-- Canales directos + hora local (centrados: composición del lockup). -->
+    <div class="mt-10 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
       <a
         href="https://wa.me/34628125302"
         target="_blank"
@@ -146,6 +170,41 @@ const email = "logicandlinestudios@gmail.com";
       </p>
     </div>
   </div>
+
+  <style>
+    /* Micro-interacción del CTA (R2): lift 2px + sombra ámbar sutil en
+       hover, presión con scale en active. Transiciones de propiedades
+       EXACTAS (nunca "all"), curva ease-out fuerte, y el hover gated a
+       puntero fino (los táctiles disparan hover en el tap). El flash del
+       viajero (circuit.ts) anima backgroundColor inline y al completar hace
+       clearProps: convive con esta transition sin conflicto. */
+    .cta-lockup-btn {
+      transition:
+        transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
+        background-color 200ms ease,
+        box-shadow 160ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .cta-lockup-btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .cta-lockup-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px color-mix(in srgb, var(--color-primary) 28%, transparent);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cta-lockup-btn {
+        transition: background-color 200ms ease, box-shadow 200ms ease;
+      }
+      .cta-lockup-btn:hover {
+        transform: none;
+      }
+      .cta-lockup-btn:active {
+        transform: none;
+      }
+    }
+  </style>
 
   <!-- Cal element-click embed code begins -->
   <script type="text/javascript">

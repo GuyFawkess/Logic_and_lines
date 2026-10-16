@@ -12,15 +12,26 @@
  *     duración → cabeza ~7.7x más rápida) ligado a un ScrollTrigger de su
  *     sección con scrub LINE.scrub. Las tandas 2-3 añadirán segmentos aquí.
  *  2. ProcessRail (driver único, técnica 7 del catálogo): UN ScrollTrigger
- *     sobre el grid de tarjetas + UNA timeline scrubbed que contiene el cometa
- *     de los 3 segmentos, los pops de los 4 nodos (disparados por el onUpdate
- *     de cada cometa cuando la cabeza cruza la fracción del nodo) y la entrada
- *     de las 4 tarjetas. En móvil (<lg, Tailwind lg) NO hay línea: entrada
- *     simple de tarjetas (decisión: el rail vertical exigiría reestructurar el
- *     grid F1 — intocable salvo SVG necesario — y la entrada ya da vida a la
- *     sección; el diseño F1 deliberately no tiene línea en móvil).
+ *     SIN pin + UNA timeline scrubbed de coreografía FIJA (R6): los 3
+ *     segmentos crecen drawSVG continuo, los 4 nodos estallan con un pop seco
+ *     y las 4 tarjetas entran en secuencia — la línea es la que manda. FUERA
+ *     el cometa/cola perseguidora (R6: leía "línea fea") y las medidas por
+ *     fracción de pantalla. R6: el driver va ENCADENADO al pin de Servicios
+ *     (id "rail-grid", RAIL.priority 15): start = hscroll.end leído FRESCO —
+ *     el rail arranca justo cuando el slide de salida termina y Proceso queda
+ *     revelado (el PANEL está pinneado por GSAP: hscroll.ts crea el pin
+ *     "proceso" sobre [data-proceso-pin], mismo priority 15 — se sostiene en
+ *     viewport top durante slide+rail y libera en flujo exactamente cuando
+ *     este driver acaba). En móvil (<lg, Tailwind lg) NO hay línea:
+ *     entrada simple de tarjetas (decisión: el rail vertical exigiría
+ *     reestructurar el grid F1 — intocable salvo SVG necesario — y la entrada
+ *     ya da vida a la sección; el diseño F1 deliberately no tiene línea en
+ *     móvil).
  *  3. Proof: count-up de las cifras (1.240 / 38 / 6) + subrayado ámbar de 2px
- *     dibujado justo tras arrancar el count (técnica 10 del catálogo).
+ *     dibujado justo tras arrancar el count (técnica 10 del catálogo) y
+ *     entrada escalonada RE-DISPARRABLE del grid de razones (rediseño legacy:
+ *     misma gramática de tarjeta que el rail móvil + política R1 de
+ *     text-reveal.ts).
  *
  * ESTADO FINAL SIN JS (regla de oro): el markup parte del estado FINAL (línea
  * completa, nodos visibles, cifras finales, reglas dibujadas) y es el JS quien
@@ -46,7 +57,7 @@
  */
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { DUR, LINE, RESIZE_DEBOUNCE } from "./tokens";
+import { DUR, LINE, RAIL, RESIZE_DEBOUNCE } from "./tokens";
 import { buildNodeRing, isPast } from "./utils";
 
 type SegmentEl = SVGLineElement | SVGPathElement;
@@ -91,6 +102,10 @@ interface ProofState {
   trigger: ScrollTrigger | null;
   stats: StatRecord[];
   tweens: gsap.core.Tween[];
+  /** Tarjetas del grid de razones (entrada escalonada re-disparable). */
+  cards: HTMLElement[];
+  cardsTween: gsap.core.Tween | null;
+  cardsTrigger: ScrollTrigger | null;
 }
 
 /** Tolerancia (px) para considerar un nodo "apoyado" sobre un segmento. */
@@ -111,6 +126,9 @@ const RAIL_START = 0.85;
 /** Start del trigger de Proof: "top 80%". */
 const PROOF_START = 0.8;
 
+/** Start del trigger del grid de razones: "top 85%" (igual que los reveals de texto). */
+const PROOF_GRID_START = 0.85;
+
 const rail: RailState = {
   timeline: null,
   cards: [],
@@ -120,7 +138,14 @@ const rail: RailState = {
   mobileTrigger: null,
 };
 
-const proof: ProofState = { trigger: null, stats: [], tweens: [] };
+const proof: ProofState = {
+  trigger: null,
+  stats: [],
+  tweens: [],
+  cards: [],
+  cardsTween: null,
+  cardsTrigger: null,
+};
 
 /** Segmentos independientes (fuera del rail), con su timeline propia. */
 const standalone: Array<{ timeline: gsap.core.Timeline; record: SegmentRecord }> = [];
@@ -302,12 +327,15 @@ function popNode(node: NodeRecord): void {
  * + settle de la cola (tailChase% → 0) para que el segmento quede completo.
  * immediateRender: false en el settle (segundo fromTo sobre la misma
  * propiedad: sin él pisaría el estado de arranque del cometa). Devuelve el
- * tween de dibujo, cuyo progreso gobierna los pops.
+ * tween de dibujo. `withPopChecks`: los segmentos FUERA del rail (standalone)
+ * estallan sus nodos por onUpdate discreto (mecánica legacy); el RAIL desde
+ * R6 usa coreografía fija sin cometa (ver initRailDesktop).
  */
 function addCometToTimeline(
   tl: gsap.core.Timeline,
   record: SegmentRecord,
   at: number,
+  withPopChecks = true,
 ): gsap.core.Tween {
   // Tween creado fuera y añadido con tl.add(): Timeline.fromTo() devuelve la
   // propia timeline (encadenado fluido) y no exponeria el tween del cometa,
@@ -319,9 +347,11 @@ function addCometToTimeline(
       drawSVG: `${LINE.tailChase}% 100%`,
       ease: "none",
       duration: LINE.cometPhase,
-      onUpdate: () => {
-        checkSegmentPops(record);
-      },
+      onUpdate: withPopChecks
+        ? () => {
+            checkSegmentPops(record);
+          }
+        : undefined,
     },
   );
   tl.add(comet, at);
@@ -341,53 +371,154 @@ function prepareNodes(nodeEls: SVGCircleElement[]): void {
   gsap.set(nodeEls, { scale: 0, transformOrigin: "50% 50%" });
 }
 
-/** Driver único del rail en lg+: UN trigger + UNA timeline scrubbed. */
+/**
+ * Driver del rail en lg+ (R6, retiming R6-b): UN trigger SIN pin + UNA
+ * timeline scrubbed de coreografía FIJA en unidades normalizadas (nada de
+ * medidas por fracción de pantalla). R6-b: TODO asentado antes del 0.85 (la
+ * QA medía card4 a opacity 0.90 en el fin del rango):
+ *   - segmento k: drawSVG 0→100% (ease none) en [0,0.13] / [0.24,0.37] /
+ *     [0.48,0.61] — la línea crece continua por tramos;
+ *   - nodo k: pop seco back.out(1.7) dur 0.05 en 0.13 / 0.37 / 0.61 / 0.64;
+ *   - tarjeta k: y:24→0 + autoAlpha 0→1 (0.09, power1.out) en
+ *     0.16 / 0.40 / 0.64 / 0.67 — card4 asienta en 0.76, resto hold.
+ * R6-c: la duración total de la tl es EXACTAMENTE 1.0 (hold 0.76→1.0 fijado
+ * con un tween vacío al montar). El scrub mapea el progreso del trigger
+ * [0..1] a la duración REAL de la timeline: sin ese cierre tl.duration()
+ * era 0.76 — las fracciones del guion no eran fracciones del rango, el
+ * asentamiento chocaba contra el fin del pin y el rabo del rango se leía
+ * muerto (QA2: estados idénticos a mitad del rango).
+ * FUERA el cometa/tailChase (R6: la lectura pedida es "la línea crece
+ * continua y las tarjetas salen en secuencia") y los anillos del pop (con un
+ * pop de 0.05 unidades un anillo no se lee: el pop seco basta).
+ *
+ * SIN pin PROPIO: el PANEL de Proceso está pinneado por GSAP (pin "proceso",
+ * hscroll.ts — cubre slide+rail con start "top top" natural); este driver
+ * solo dibuja. ENCADENADO al pin de Servicios: start = hscroll.end leído
+ * FRESCO en cada refresh (el slide de salida acaba EXACTAMENTE cuando el
+ * rail arranca) y end = start + RAIL.railLenVh. refreshPriority 15
+ * (RAIL.priority): hscroll (19) refresca antes y circuit (10) después — cada
+ * ancla lee posiciones frescas (GSAP 3.15.0: priority MAYOR refresca
+ * PRIMERO).
+ *
+ * Sin guard isPast: el start ya no depende de la posición del grid (encadena
+ * al pin de Servicios) y el propio ScrollTrigger coloca el playhead —
+ * progreso 0 esperando abajo del todo, 1 si el aterrizaje ya pasó el rango.
+ */
 function initRailDesktop(railSvg: SVGSVGElement, grid: HTMLElement, cards: HTMLElement[]): void {
   const segEls = Array.from(railSvg.querySelectorAll<SegmentEl>("[data-line-segment]"));
   const nodeEls = Array.from(railSvg.querySelectorAll<SVGCircleElement>("[data-node]"));
   if (segEls.length === 0) return;
 
-  // ¿Ya pasó la sección al inicializar (VT a ancla, resize por debajo)? El
-  // markup ya está en estado final: no se prepara ni se re-anima nada.
-  if (isPast(grid, RAIL_START)) return;
+  const firstSeg = segEls[0];
+  if (firstSeg === undefined) return; // inalcanzable (length > 0 arriba): guarda de tipos
 
   const records: SegmentRecord[] = segEls.map((el) => ({ el, svg: railSvg, tween: null, nodes: [] }));
-  const nodeRecords = assignNodes(railSvg, records, nodeEls);
+  // Nodos SIN medición (la coreografía es fija, no derivada de fracciones):
+  // registros mínimos para que el destroy los devuelva al estado del markup.
+  const nodeRecords: NodeRecord[] = nodeEls.map((el) => ({
+    el,
+    svg: railSvg,
+    segment: firstSeg,
+    fraction: 0,
+    ring: null,
+  }));
   rail.segments = records;
   rail.nodes = nodeRecords;
   rail.cards = cards;
 
-  // Preparación SOLO por JS: el markup parte de estado final.
+  // Preparación SOLO por JS (regla de oro): el markup parte de estado final.
+  // Segmentos incluidos: los fromTo de la timeline llevan immediateRender
+  // false (no hornean el from hasta que el playhead llega), así que SIN este
+  // set los segmentos 2-3 se verían completos (estado markup) en reposo.
   prepareNodes(nodeEls);
+  gsap.set(segEls, { drawSVG: "0% 0%" });
   if (cards.length > 0) gsap.set(cards, { y: CARD_Y, autoAlpha: 0 });
 
+  // Trigger: el wrapper del capítulo (markup de index.astro/en). El PANEL
+  // interior está pinneado por hscroll.ts (pin "proceso") durante TODO este
+  // rango: el dibujo ocurre con el capítulo quieto en viewport.
+  const under = grid.closest<HTMLElement>("[data-proceso-under]") ?? grid;
   const tl = gsap.timeline({
     scrollTrigger: {
-      trigger: grid,
-      start: "top 85%",
-      end: "top 35%",
-      scrub: LINE.scrub,
-      // El grid vive dentro del wrapper pineado por la persiana horizontal de
-      // capítulo (F4-t2, shutter.ts): sin pinnedContainer el start saldría
-      // desplazado por ese pin-spacer (mismo patrón que image-reveal.ts). En
-      // móvil el wrapper existe pero no hay pin: es inocuo.
-      pinnedContainer: grid.closest("[data-shutter-h], [data-shutter]") ?? undefined,
+      trigger: under,
+      id: "rail-grid",
+      refreshPriority: RAIL.priority,
+      start: () => {
+        const hs = ScrollTrigger.getById("hscroll");
+        // Sin hscroll (ancho <lg en la rama no-preference): arranque natural.
+        return hs !== undefined ? Math.round(hs.end) : "top 80%";
+      },
+      end: () => "+=" + Math.round(RAIL.railLenVh * window.innerHeight),
+      scrub: RAIL.scrub,
+      invalidateOnRefresh: true,
     },
   });
   rail.timeline = tl;
 
-  // Instante de llegada de la cabeza al nodo i (unidades de timeline): el
-  // segmento i-1 completa su fase de cometa. Coreografía: cada tarjeta entra
-  // justo detrás del pop de su nodo.
-  const arrival = (i: number): number => (i === 0 ? 0.02 : i - 1 + LINE.cometPhase);
-
+  // Coreografía FIJA (retiming R6-b — ver doc de la función): segmentos,
+  // nodos y tarjetas asientan antes del 0.85; el resto del rango es hold.
+  // Segmentos: la línea crece continua, un tramo fijo por segmento.
+  const SEG_AT = [0, 0.24, 0.48];
+  const SEG_DUR = 0.13;
   records.forEach((record, k) => {
-    record.tween = addCometToTimeline(tl, record, k);
+    tl.fromTo(
+      record.el,
+      { drawSVG: "0% 0%" },
+      {
+        drawSVG: "0% 100%",
+        duration: SEG_DUR,
+        ease: "none",
+        immediateRender: false,
+      },
+      SEG_AT[k] ?? k * SEG_DUR,
+    );
   });
 
-  cards.forEach((card, i) => {
-    tl.to(card, { y: 0, autoAlpha: 1, duration: 0.55, ease: "ll-reveal" }, arrival(i) + 0.12);
+  // Nodos: pop seco back.out(1.7) (0.05) cuando la línea llega a cada uno.
+  const NODE_AT = [0.13, 0.37, 0.61, 0.64];
+  const NODE_DUR = 0.05;
+  nodeRecords.forEach((rec, k) => {
+    tl.fromTo(
+      rec.el,
+      { scale: 0 },
+      {
+        scale: 1,
+        duration: NODE_DUR,
+        ease: "back.out(1.7)",
+        immediateRender: false,
+        transformOrigin: "50% 50%",
+      },
+      NODE_AT[k] ?? NODE_AT[NODE_AT.length - 1],
+    );
   });
+
+  // Tarjetas: cada una entra justo detrás de su nodo (0.09; card4 asienta en
+  // 0.76 — margen de 0.24 hasta el fin del rango para que el estado final sea
+  // EXACTO incluso con el catch-up del scrub).
+  const CARD_AT = [0.16, 0.4, 0.64, 0.67];
+  const CARD_DUR = 0.09;
+  cards.forEach((card, k) => {
+    tl.fromTo(
+      card,
+      { y: CARD_Y, autoAlpha: 0 },
+      {
+        y: 0,
+        autoAlpha: 1,
+        duration: CARD_DUR,
+        ease: "power1.out",
+        immediateRender: false,
+      },
+      CARD_AT[k] ?? CARD_AT[CARD_AT.length - 1],
+    );
+  });
+
+  // HOLD final (R6-c): la duración total de la tl debe ser EXACTAMENTE 1.0
+  // para que las fracciones de arriba sean fracciones del rango del trigger
+  // (ver docstring). Tween vacío que solo fija el fin en 1.0: el hold
+  // 0.76→1.0 queda como tramo real de scroll (dwell de lectura).
+  if (Math.abs(tl.duration() - 1) > 1e-6) {
+    tl.set({}, {}, 1);
+  }
 }
 
 /** Móvil (<lg): entrada simple de tarjetas, sin línea (ver cabecera). */
@@ -470,7 +601,16 @@ function playProof(): void {
   });
 }
 
-/** Proof: count-up de las cifras + subrayado ámbar dibujado (técnica 10). */
+/**
+ * Proof: count-up de las cifras + subrayado ámbar dibujado (técnica 10) y
+ * entrada escalonada del grid de razones (rediseño legacy). Las tarjetas usan
+ * la MISMA gramática de entrada del sistema (initRailMobile: y CARD_Y ->
+ * 0, autoAlpha, ease "ll-reveal", stagger) con la política R1 de text-reveal.ts
+ * (toggleActions "restart none restart reverse": re-disparable al bajar y
+ * reversible al subir). Ocultación inicial SOLO por gsap.set y SOLO en esta
+ * rama no-preference: sin JS o con reduced-motion el markup queda visible
+ * (regla de oro).
+ */
 function initProof(): void {
   const ul = document.querySelector<HTMLElement>("[data-stats]");
   if (ul === null) return;
@@ -518,6 +658,29 @@ function initProof(): void {
     onEnter: () => {
       playProof();
     },
+  });
+
+  // Grid de razones (rediseño legacy): entrada escalonada re-disparable.
+  // ¿Ya pasó? Estado final del markup sin preparar (mismo guard que las cifras).
+  const grid = document.querySelector<HTMLElement>("[data-reasons-grid]");
+  if (grid === null) return;
+  const cards = Array.from(grid.querySelectorAll<HTMLElement>("article"));
+  if (cards.length === 0 || isPast(grid, PROOF_GRID_START)) return;
+  proof.cards = cards;
+  gsap.set(cards, { y: CARD_Y, autoAlpha: 0 });
+  proof.cardsTween = gsap.to(cards, {
+    y: 0,
+    autoAlpha: 1,
+    duration: DUR.base,
+    ease: "ll-reveal",
+    stagger: 0.08,
+    paused: true,
+  });
+  proof.cardsTrigger = ScrollTrigger.create({
+    trigger: grid,
+    start: "top 85%",
+    animation: proof.cardsTween,
+    toggleActions: "restart none restart reverse",
   });
 }
 
@@ -615,7 +778,8 @@ function disposeNode(node: NodeRecord): void {
   }
 }
 
-/** Limpieza de Proof: trigger, tweens, texto original y estilos de la regla. */
+/** Limpieza de Proof: trigger, tweens, texto original, estilos de la regla y
+ * estado del grid de razones (tarjetas devueltas al estado del markup). */
 function destroyProof(): void {
   if (proof.trigger !== null) {
     proof.trigger.kill();
@@ -631,6 +795,18 @@ function destroyProof(): void {
     }
   });
   proof.stats = [];
+  if (proof.cardsTrigger !== null) {
+    proof.cardsTrigger.kill();
+    proof.cardsTrigger = null;
+  }
+  if (proof.cardsTween !== null) {
+    proof.cardsTween.kill();
+    proof.cardsTween = null;
+  }
+  if (proof.cards.length > 0) {
+    gsap.set(proof.cards, { clearProps: "transform,opacity,visibility" });
+    proof.cards = [];
+  }
 }
 
 /**

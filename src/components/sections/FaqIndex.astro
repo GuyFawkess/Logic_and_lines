@@ -46,14 +46,13 @@ const faqSchema = {
      preguntas a 16px) -> tokens de texto SIN cambios. La hairline de los
      <details> compuesta sobre el capitulo da 1.50:1, identica en caracter a
      la de bg (1.49:1): bordes intactos. -->
-<section id="faq" class="bg-(--color-bg-chapter) pb-24 lg:pb-32">
+<section id="faq" class="bg-(--color-bg-chapter) pb-24 lg:pb-32 lg:min-h-[100svh]">
   <div class="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
   <h2
     class="pt-24 font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text) lg:pt-32"
     data-reveal="lines"
-  >
-    {t.faq.title}
-  </h2>
+    set:html={t.faq.title}
+  />
 
   <div class="mt-14 grid grid-cols-1 gap-x-16 gap-y-12 lg:grid-cols-2">
     {
