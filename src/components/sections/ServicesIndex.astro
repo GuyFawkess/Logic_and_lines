@@ -41,114 +41,181 @@ const wipeDir = (i: number): "ltr" | "rtl" => (i % 2 === 0 ? "ltr" : "rtl");
 <!-- R6: relative z-10 + bg opaco = capa SUPERIOR del sticky-under: tapa el
      panel de Proceso (z-0, detrás) durante todo el pin y, al deslizar la
      sección al final del pin, lo revela. El bg es el MISMO color de página
-     (invisible en el fallback vertical / móvil, donde no hay solape). -->
-<section id="servicios" class="relative z-10 bg-(--color-bg) mx-auto w-full max-w-[1400px] px-6 lg:px-10">
-  <!-- Header de sección: el h2 queda FUERA del track (encima, visible durante
-       el scroll horizontal). data-hscroll-header es el ancla del contador de
-       progreso (01 / 06), que crea hscroll.ts por JS — sin JS no existe
-       (regla de oro sin-JS). -->
-  <div class="relative" data-hscroll-header>
-    <h2
-      class="pt-24 font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text) lg:pt-32"
-      data-reveal="lines"
-      set:html={t.services.title}
-    />
-  </div>
+     (invisible en el fallback vertical / móvil, donde no hay solape).
+     P1-2b (T3): la sección pasa a FULL-BLEED (w-full, sin max-w) y el
+     contenedor max-w-[1400px] baja a un div interior [data-hscroll-inner]
+     (mismo patrón que ProcessRail.astro): con el max-w en la propia sección,
+     el slide xPercent:-100 solo la sacaba hasta x=20 y dejaba una franja de
+     20px visible en el borde izquierdo. -->
+<section id="servicios" class="relative z-10 w-full bg-(--color-bg)">
+  <div class="mx-auto w-full max-w-[1400px] px-6 lg:px-10" data-hscroll-inner>
+    <!-- Header de sección: el h2 queda FUERA del track (encima, visible durante
+         el scroll horizontal). data-hscroll-header es el ancla del contador de
+         progreso (01 / 06), que crea hscroll.ts por JS — sin JS no existe
+         (regla de oro sin-JS). -->
+    <div class="relative" data-hscroll-header>
+      <h2
+        class="pt-24 font-display text-[clamp(2.25rem,5.5vw,5rem)] leading-[1] tracking-[-0.045em] text-(--color-text) lg:pt-32"
+        data-reveal="lines"
+        set:html={t.services.title}
+      />
+    </div>
 
-  <!-- Scroll horizontal reversible (F4-t2): el layout horizontal (flex nowrap,
-       paneles iguales, clip) lo aplica hscroll.ts SOLO con JS en lg +
-       no-preference. Sin JS, en móvil o con reduced-motion este wrapper es
-       inerte y los 6 servicios apilan VERTICAL (filas igualadas del markup):
-       contenido 100% visible siempre. -->
-  <div data-hscroll>
-    <div class="mt-14" data-hscroll-track>
-    {
-      services.map((entry, i) => {
-        const dims = imageDims[entry.data.img] ?? { w: 1024, h: 768 };
-        const title = isEn && entry.data.title_en ? entry.data.title_en : entry.data.title;
-        const spec =
-          isEn && entry.data.specification_en
-            ? entry.data.specification_en
-            : entry.data.specification;
-        const description =
-          isEn && entry.data.description_en
-            ? entry.data.description_en
-            : entry.data.description;
-        const href = isEn ? `/en/service/${entry.slug}` : `/service/${entry.slug}`;
-        // R2 (escala editorial): imagen reducida a 4/12 y texto a 7/12, con
-        // una columna de aire entre ambas (editorial, menos "caja"). Se
-        // conserva la alternancia de lado del markup (pares: texto izq /
-        // imagen der; impares: espejo).
-        const imgWrap =
-          i % 2 === 0
-            ? "md:col-span-4 md:col-start-9 md:row-start-1"
-            : "md:col-span-4 md:col-start-1 md:row-start-1";
-        const textWrap =
-          i % 2 === 0
-            ? "md:col-span-7 md:col-start-1 md:row-start-1"
-            : "md:col-span-7 md:col-start-6 md:row-start-1";
+    <!-- Scroll horizontal reversible (F4-t2): el layout horizontal (flex nowrap,
+         paneles iguales, clip) lo aplica hscroll.ts SOLO con JS en lg +
+         no-preference. Sin JS, en móvil o con reduced-motion este wrapper es
+         inerte y los 6 servicios apilan VERTICAL (filas igualadas del markup):
+         contenido 100% visible siempre. -->
+    <div data-hscroll>
+      <div class="mt-14" data-hscroll-track>
+      {
+        services.map((entry, i) => {
+          const dims = imageDims[entry.data.img] ?? { w: 1024, h: 768 };
+          const title = isEn && entry.data.title_en ? entry.data.title_en : entry.data.title;
+          const spec =
+            isEn && entry.data.specification_en
+              ? entry.data.specification_en
+              : entry.data.specification;
+          const description =
+            isEn && entry.data.description_en
+              ? entry.data.description_en
+              : entry.data.description;
+          const href = isEn ? `/en/service/${entry.slug}` : `/service/${entry.slug}`;
+          // R2 (escala editorial): imagen reducida a 4/12 y texto a 7/12, con
+          // una columna de aire entre ambas (editorial, menos "caja"). Se
+          // conserva la alternancia de lado del markup (pares: texto izq /
+          // imagen der; impares: espejo).
+          const imgWrap =
+            i % 2 === 0
+              ? "md:col-span-4 md:col-start-9 md:row-start-1"
+              : "md:col-span-4 md:col-start-1 md:row-start-1";
+          const textWrap =
+            i % 2 === 0
+              ? "md:col-span-7 md:col-start-1 md:row-start-1"
+              : "md:col-span-7 md:col-start-6 md:row-start-1";
+          // P1-1 (T3): columnas del STACK (solo con el stack montado): la imagen pasa
+          // a 5/12 y el texto a 6/12 (con una columna de aire entre ambos). El
+          // fallback vertical del markup conserva 4/12 + 7/12 intactos.
+          const stackCols =
+            i % 2 === 0
+              ? "--card-media-col: 8 / span 5; --card-text-col: 1 / span 6;"
+              : "--card-media-col: 1 / span 5; --card-text-col: 7 / span 6;";
 
-        return (
-          <article
-            class={`grid grid-cols-1 gap-8 border-t border-(--color-hairline) ${pad()} md:grid-cols-12 md:gap-10`}
-          >
-            <div class={`relative ${imgWrap}`}>
-              <figure class="w-full overflow-hidden" data-image-wipe={wipeDir(i)}>
-                <img
-                  src={entry.data.img}
-                  width={dims.w}
-                  height={dims.h}
-                  loading="lazy"
-                  decoding="async"
-                  alt={`${title}. ${spec ?? ""}`}
-                  class="aspect-[4/3] w-full object-cover"
-                />
-              </figure>
-            </div>
-            <div class={textWrap}>
-              <p class="font-mono text-sm tabular-nums text-(--color-text-dark)">
-                {num(i)}
-              </p>
-              <!-- R2: título más contenido (clamp top 2.25rem) para la escala
-                   editorial de la tarjeta del stack (y del fallback). -->
-              <h3 class="mt-3 font-display text-[clamp(1.625rem,2.2vw,2.25rem)] font-bold leading-[1.15] tracking-[-0.02em] text-(--color-text)">
-                {title}
-              </h3>
-              {spec && (
-                <p class="mt-3 font-mono text-xs leading-relaxed text-(--color-text-dark)">
-                  {spec}
+          return (
+            <article class={`grid grid-cols-1 gap-8 border-t border-(--color-hairline) ${pad()} md:grid-cols-12 md:gap-10`} style={stackCols}>
+              <div class={`relative ${imgWrap}`} data-card-media>
+                <figure class="w-full overflow-hidden" data-image-wipe={wipeDir(i)}>
+                  <img
+                    src={entry.data.img}
+                    width={dims.w}
+                    height={dims.h}
+                    loading="lazy"
+                    decoding="async"
+                    alt={`${title}. ${spec ?? ""}`}
+                    class="aspect-[4/3] w-full object-cover"
+                  />
+                </figure>
+              </div>
+              <div class={textWrap} data-card-text>
+                <p class="font-mono text-sm tabular-nums text-(--color-text-dark)" data-card-num>
+                  {num(i)}
                 </p>
-              )}
-              <p class="mt-4 max-w-[65ch] text-base leading-relaxed text-(--color-text-dark)">
-                {description}
-              </p>
-              <a
-                href={href}
-                aria-label={isEn ? `View service: ${title}` : `Ver servicio: ${title}`}
-                class="group mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-medium text-(--color-primary) transition-colors duration-200 hover:text-(--color-primary-hover)"
-                data-gtm-event="service_click"
-                data-gtm-location="services_index"
-                data-gtm-label={entry.slug}
-              >
-                <span>{t.services.view}</span>
-                <svg
-                  class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
+                <!-- R2: título más contenido (clamp top 2.25rem) para la escala
+                     editorial de la tarjeta del stack (y del fallback). -->
+                <h3 class="mt-3 font-display text-[clamp(1.625rem,2.2vw,2.25rem)] font-bold leading-[1.15] tracking-[-0.02em] text-(--color-text)" data-card-title>
+                  {title}
+                </h3>
+                {spec && (
+                  <p class="mt-3 font-mono text-xs leading-relaxed text-(--color-text-dark)">
+                    {spec}
+                  </p>
+                )}
+                <p class="mt-4 max-w-[65ch] text-base leading-relaxed text-(--color-text-dark)">
+                  {description}
+                </p>
+                <a
+                  href={href}
+                  aria-label={isEn ? `View service: ${title}` : `Ver servicio: ${title}`}
+                  class="group mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-medium text-(--color-primary) transition-colors duration-200 hover:text-(--color-primary-hover)"
+                  data-gtm-event="service_click"
+                  data-gtm-location="services_index"
+                  data-gtm-label={entry.slug}
                 >
-                  <path d="M5 12h14M13 6l6 6-6 6" />
-                </svg>
-              </a>
-            </div>
-          </article>
-        );
-      })
-    }
+                  <span>{t.services.view}</span>
+                  <svg
+                    class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </a>
+              </div>
+            </article>
+          );
+        })
+      }
+      </div>
     </div>
   </div>
 </section>
+
+<style>
+  /* P1-1 (T3) — TRATAMIENTO DE LA TARJETA DEL STACK DE SERVICIOS.
+     Solo aplica con el stack montado: hscroll.ts pone
+     data-hscroll-stack="true" en la sección al montarlo y lo quita al
+     desmontarlo. Sin JS, en móvil o con reduced-motion el stack NO se
+     monta -> estas reglas no aplican y el fallback vertical del markup
+     queda EXACTO como estaba (móvil sin cambios visuales). */
+  [data-hscroll-stack="true"] article {
+    /* Borde de tarjeta: --color-text al 10% (la hairline del 14% se perdía
+       sobre el fondo de la tarjeta). */
+    border: 1px solid color-mix(in oklab, var(--color-text) 10%, transparent);
+    padding: 2.5rem 3rem;
+  }
+  /* Imagen a 5/12 y A SANGRE vertical: la columna del medio sangra el
+     padding vertical de la tarjeta y la imagen ocupa el alto COMPLETO
+     (h-full + object-cover, sin aspect-[4/3]). */
+  [data-hscroll-stack="true"] [data-card-media] {
+    grid-column: var(--card-media-col);
+    margin-block: -2.5rem;
+    height: calc(100% + 5rem);
+  }
+  [data-hscroll-stack="true"] [data-card-media] figure {
+    height: 100%;
+  }
+  [data-hscroll-stack="true"] [data-card-media] img {
+    height: 100%;
+    aspect-ratio: auto;
+    filter: grayscale(1) contrast(1.05) brightness(0.92);
+    transition: filter 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  /* La tarjeta SUPERIOR del stack (la que está en foco) devuelve el color:
+     el ámbar vuelve a ser el único dueño del acento. */
+  [data-hscroll-stack="true"] article[data-hscroll-top] [data-card-media] img {
+    filter: grayscale(0) contrast(1.05) brightness(0.92);
+  }
+  /* Texto: 6/12 columnas, repartido a lo alto (número arriba, CTA abajo). */
+  [data-hscroll-stack="true"] [data-card-text] {
+    grid-column: var(--card-text-col);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  /* Número 01-06 en display. */
+  [data-hscroll-stack="true"] [data-card-num] {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 5vw, 5rem);
+    line-height: 1;
+    color: color-mix(in oklab, var(--color-text-dark) 40%, transparent);
+  }
+  /* h3 a la escala del stack. */
+  [data-hscroll-stack="true"] [data-card-title] {
+    font-size: clamp(2rem, 3vw, 3rem);
+  }
+</style>

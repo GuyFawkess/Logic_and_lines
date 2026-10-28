@@ -1,7 +1,10 @@
 ---
-// Footer v4 (F1): wordmark espaciado, nav de anclas, Instagram, legales,
-// © del año y hora local de Lanzarote. Sin emojis. Enlaces simples a > span
-// (F4 les añadirá el roll por JS).
+// Footer v4 (F1): nav de anclas, Instagram, legales, © del año y hora local
+// de Lanzarote. Sin emojis. Enlaces simples a > span (F4 les añade el roll
+// por JS).
+// P1-4 (esta tanda): el wordmark deja de ser un logo de 24px y pasa a ser el
+// cierre de la página — a todo el ancho, hecho de líneas horizontales
+// estáticas, bajo los enlaces (referencia docs/research-v4/trionn-04-footer.jpeg).
 import { useTranslations } from "../../i18n/utils";
 import { formatLanzaroteTime } from "../../lib/time";
 
@@ -40,16 +43,14 @@ const navLinks = [
 
 <footer class="w-full border-t border-(--color-hairline) bg-(--color-bg)">
   <div class="mx-auto w-full max-w-[1400px] px-6 py-16 lg:px-10">
-    <p
-      class="font-display text-xl uppercase leading-none tracking-[0.32em] text-(--color-text) md:text-2xl"
+    <!-- P1-4: rejilla de enlaces 2fr/1fr/1fr/1fr en lg (la nav pesa el doble
+         que contacto/legal/hora) y listas sin gap vertical (gap-y-0). -->
+    <div
+      class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]"
     >
-      Logic &amp; Lines
-    </p>
-
-    <div class="mt-12 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
       <!-- Navegación -->
       <nav aria-label={isEn ? "Footer" : "Pie de página"}>
-        <ul class="flex flex-col gap-1">
+        <ul class="flex flex-col gap-y-0">
           {
             navLinks.map((link) => (
               <li>
@@ -67,7 +68,7 @@ const navLinks = [
 
       <!-- Contacto -->
       <div>
-        <ul class="flex flex-col gap-1">
+        <ul class="flex flex-col gap-y-0">
           <li>
             <a
               href="https://www.instagram.com/logic_and_lines/?hl=en"
@@ -110,7 +111,7 @@ const navLinks = [
 
       <!-- Legal -->
       <div>
-        <ul class="flex flex-col gap-1">
+        <ul class="flex flex-col gap-y-0">
           <li>
             <a
               href={privacyHref}
@@ -161,6 +162,17 @@ const navLinks = [
     >
       <p>{copyright}</p>
     </div>
+
+    <!-- P1-4: wordmark de cierre a todo el ancho hecho de líneas estáticas
+         (referencia docs/research-v4/trionn-04-footer.jpeg). La máscara (3px de
+         tinta / 4px de hueco) vive en el CSS del componente: es ESTÁTICA, no
+         animada. Los márgenes negativos hacen bleed (como en Trionn) para que
+         el clamp de 13.5vw quepa dentro de la caja y la página no desborde. -->
+    <p
+      class="ll-footer-wordmark -mx-6 mt-10 whitespace-nowrap font-display uppercase text-[clamp(3rem,13.5vw,12.5rem)] leading-[0.85] tracking-[-0.03em] text-(--color-text) lg:-mx-10"
+    >
+      Logic &amp; Lines
+    </p>
   </div>
 
   <!-- Meta Pixel: eventos de contacto por canal (mismo listener que el footer v1) -->
@@ -196,4 +208,23 @@ const navLinks = [
       }
     });
   </script>
+
+  <style>
+    /* Wordmark de cierre (P1-4): el logotipo a todo el ancho hecho de líneas
+       horizontales (docs/research-v4/trionn-04-footer.jpeg). La máscara es un
+       gradiente repetido — 3px de tinta, 4px de hueco — ESTÁTICO: ni una
+       animación ni un hex nuevo (el #000 es opacidad de máscara, no color). */
+    .ll-footer-wordmark {
+      -webkit-mask-image: repeating-linear-gradient(
+        to bottom,
+        #000 0 3px,
+        transparent 3px 7px
+      );
+      mask-image: repeating-linear-gradient(
+        to bottom,
+        #000 0 3px,
+        transparent 3px 7px
+      );
+    }
+  </style>
 </footer>

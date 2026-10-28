@@ -49,12 +49,33 @@ const stepIcons = [
      del rail (line-system.ts) encadena su rango a hscroll.end. -->
 <section id="proceso" class="bg-(--color-bg-chapter) pb-24 lg:pb-32 lg:min-h-[100svh]">
   <div class="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
+  <!-- T6: el capítulo va CENTRADO (h2 + subtítulo) y el stack vertical se
+       compacta en lg para que la fila completa de tarjetas quepa en el
+       viewport mientras el panel está pineado (antes: h2 a la izquierda y las
+       tarjetas cortadas por el borde inferior).
+         - pt-24/lg:pt-20: el header sticky mide 72px; con el panel pineado en
+           top 0 el pt del h2 ES la holgura bajo el nav. pt-20 (80px) deja 8px
+           de aire y libera 48px de altura para las tarjetas (pt-32 = 128px
+           era de los capítulos EN FLUJO: Servicios/Proof/FAQ, que no se
+           pinean).
+         - text-center: el título centrado; el span ámbar de R7 y el
+           data-reveal="lines" se conservan intactos.
+         - Subtítulo: mx-auto + text-center (mismo ancho de lectura, max-w-2xl).
+         - mt del subtítulo (lg:mt-3), del rail (lg:mt-6) y de la rejilla
+           (lg:mt-5): el rail es una línea de 10px con 4 nodos, no necesita
+           56px de aire arriba ni 32px debajo.
+         - Tarjetas: SIN cambios (p-6, misma tipografía) — "las tarjetas de
+           antes" (R7) no se tocan.
+         Medido (dev, 1920x953 / 1440x900 / 1280x720 / 1900x853): con el
+         panel pineado, borde inferior de las 4 tarjetas <= innerHeight-24 y
+         borde superior >= 72 en los 4 viewports; el texto del h2 queda
+         centrado a ±1px del eje del viewport. -->
   <h2
-    class="pt-24 font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text) lg:pt-32"
+    class="pt-24 font-display text-[clamp(2.25rem,5.5vw,5rem)] leading-[1] tracking-[-0.045em] text-center text-(--color-text) lg:pt-[6.5rem]"
     data-reveal="lines"
     set:html={t.process.title}
   />
-  <p class="mt-4 max-w-2xl text-base leading-relaxed text-(--color-text-dark) lg:text-lg">
+  <p class="mx-auto mt-4 max-w-2xl text-center text-base leading-relaxed text-(--color-text-dark) lg:mt-3 lg:text-lg">
     {t.process.subtitle}
   </p>
 
@@ -63,7 +84,7 @@ const stepIcons = [
        Geometría idéntica a la hairline F1 que sustituye: caja de 10px (h-2.5),
        nodos r=5 en 12.5/37.5/62.5/87.5%, línea por el centro (y=50%). -->
   <svg
-    class="mt-14 hidden h-2.5 w-full overflow-visible lg:block"
+    class="mt-14 hidden h-2.5 w-full overflow-visible lg:mt-6 lg:block"
     aria-hidden="true"
     data-line-rail
   >
@@ -100,7 +121,7 @@ const stepIcons = [
     <circle data-node cx="87.5%" cy="50%" r="5" class="fill-(--color-primary)"></circle>
   </svg>
 
-  <div class="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2 lg:mt-8 lg:grid-cols-4" data-rail-grid>
+  <div class="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2 lg:mt-5 lg:grid-cols-4" data-rail-grid>
     {
       steps.map((s, i) => (
         <article class="flex h-full flex-col rounded-xl border border-(--color-hairline) bg-(--color-card) p-6 transition-colors duration-300 hover:border-(--color-primary)/60">
@@ -140,7 +161,10 @@ const stepIcons = [
     }
   </div>
 
-  <p class="mt-12 max-w-3xl text-lg italic text-(--color-text-dark)">
+  <!-- data-rail-quote: lo usa line-system.ts para que la cita entre en la
+       coreografía del rail DESPUÉS de la tarjeta 04 (P1-2c). En móvil (<lg)
+       no se toca: queda visible en el flujo normal. -->
+  <p class="mt-12 max-w-3xl text-lg italic text-(--color-text-dark)" data-rail-quote>
     {t.process.quote}
   </p>
   </div>

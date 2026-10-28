@@ -7,7 +7,9 @@
 // CTA y blur-reveal del claim). Aquí solo el markup: svg del bucle + nodo
 // (estado FINAL en markup, regla de oro sin-JS) y min-h en lg para que el pin
 // tenga escenario de viewport completo (sin él, durante el pin se vería una
-// banda del fondo de página bajo la sección).
+// banda del fondo de página bajo la sección). lg:flex + lg:justify-center
+// centran el lockup en vertical dentro de ese escenario (el pico se lee en el
+// centro del viewport; circuit.ts sigue pineando el section, sin cambios).
 import { useTranslations } from "../../i18n/utils";
 import { formatLanzaroteTime } from "../../lib/time";
 
@@ -24,7 +26,7 @@ const email = "logicandlinestudios@gmail.com";
 <section
   id="booking"
   data-circuit
-  class="relative w-full overflow-hidden border-t border-(--color-hairline) bg-(--color-bg-alt) py-24 lg:py-32 lg:min-h-[100svh]"
+  class="relative w-full overflow-hidden border-t border-(--color-hairline) bg-(--color-bg-alt) py-24 lg:pb-5 lg:pt-[4.5rem] lg:min-h-[100svh] lg:flex lg:flex-col lg:justify-center"
 >
   <!-- R2 (rediseño del cierre): lockup centrado y contenido (max 920px).
        Claim serif en 2 líneas + sub muted, y el CTA como lockup único: el
@@ -37,9 +39,11 @@ const email = "logicandlinestudios@gmail.com";
     {/* Closing h2 runs larger on purpose (peak-end hierarchy): this headline
         closes the page. Sin data-reveal: el claim usa el blur-reveal de
         chars del pico (circuit.ts, técnica 6 del catálogo), no el reveal por
-        líneas de F2. max-w-[20ch] lo parte en 2 líneas a cualquier ancho. */}
+        líneas de F2. Escala pico: max-w-[16ch] + clamp(2.75rem→7rem) lo
+        parte en 2 líneas a cualquier ancho y lo erige como mayor tamaño
+        tipográfico de la página. */}
     <h2
-      class="mx-auto max-w-[20ch] font-display text-[clamp(2.25rem,4vw,3.5rem)] leading-[1.12] tracking-[-0.04em] text-(--color-text)"
+      class="mx-auto max-w-[16ch] font-display text-[clamp(2.75rem,7vw,7rem)] leading-[0.98] tracking-[-0.05em] text-(--color-text)"
       set:html={t.booking.title}
     />
     <p class="mx-auto mt-6 max-w-[46ch] text-lg leading-relaxed text-(--color-text-dark)">
@@ -55,7 +59,7 @@ const email = "logicandlinestudios@gmail.com";
        cierre (mismo comportamiento que el racetrack anterior — circuit.ts
        intacto). El botón se centra por LAYOUT (inset + margin auto: nunca
        translate en un elemento que toca GSAP — lección Morning Ritual). -->
-  <div class="mx-auto mt-14 w-full max-w-[640px] px-6">
+  <div class="mx-auto mt-14 w-full max-w-[720px] px-6">
     <div class="relative aspect-[5/1] w-full" data-circuit-row>
       <svg
         class="pointer-events-none absolute inset-0 h-full w-full overflow-visible"
@@ -69,8 +73,7 @@ const email = "logicandlinestudios@gmail.com";
           fill="none"
           stroke="var(--color-primary)"
           stroke-width="1.5"
-          vector-effect="non-scaling-stroke"
-          style="filter:drop-shadow(0 0 6px color-mix(in srgb, var(--color-primary) 24%, transparent))"></path>
+          vector-effect="non-scaling-stroke"></path>
       </svg>
       <!-- Terminal izquierdo: el nodo de cierre (pop + anillo al llegar el
            viajero). Centrado con translate sobre el svg padre; GSAP anima el
@@ -108,7 +111,7 @@ const email = "logicandlinestudios@gmail.com";
            runtime (inyecta estilos/atributos sobre [data-cal-link]); (2) la
            medida se tomó con el hover-roll activo (capa duplicada del label);
            (3) offset óptico del scrollbar (~8-17px) leído como ~28px; (4)
-           referencia de medida contra el CLAIM (h2 max-w-[20ch]) en vez de
+           referencia de medida contra el CLAIM (h2 max-w-[16ch]) en vez de
            contra el row — ambos están centrados en el mismo eje, pero un
            subcadena del h2 puede parecer descentrada. -->
       <!-- ⚠️ flex items-center OBLIGATORIO: el hover-roll (F4) envuelve el
@@ -119,7 +122,7 @@ const email = "logicandlinestudios@gmail.com";
            span y el clip vuelve a ser exacto (era el estado del botón v1). -->
       <button
         type="button"
-        class="cta-lockup-btn absolute inset-0 m-auto flex h-11 w-fit shrink-0 items-center justify-center whitespace-nowrap bg-(--color-primary) px-8 text-sm font-medium text-(--color-bg) hover:bg-(--color-primary-hover) lg:h-12"
+        class="cta-lockup-btn absolute inset-0 m-auto flex h-11 w-fit shrink-0 items-center justify-center whitespace-nowrap bg-(--color-primary) px-8 text-base font-medium text-(--color-bg) hover:bg-(--color-primary-hover) lg:h-14 lg:px-10"
         data-gtm-event="schedule_click"
         data-gtm-location="booking_section"
         data-gtm-label="cal_evaluation_call"
@@ -172,17 +175,17 @@ const email = "logicandlinestudios@gmail.com";
   </div>
 
   <style>
-    /* Micro-interacción del CTA (R2): lift 2px + sombra ámbar sutil en
-       hover, presión con scale en active. Transiciones de propiedades
-       EXACTAS (nunca "all"), curva ease-out fuerte, y el hover gated a
-       puntero fino (los táctiles disparan hover en el tap). El flash del
-       viajero (circuit.ts) anima backgroundColor inline y al completar hace
-       clearProps: convive con esta transition sin conflicto. */
+    /* Micro-interacción del CTA (R2): lift 2px + cambio de color en hover,
+       sin glow: el ámbar tiene un único dueño; presión con scale en active.
+       Transiciones de propiedades EXACTAS (nunca "all"), curva ease-out
+       fuerte, y el hover gated a puntero fino (los táctiles disparan hover en
+       el tap). El flash del viajero (circuit.ts) anima backgroundColor inline
+       y al completar hace clearProps: convive con esta transition sin
+       conflicto. */
     .cta-lockup-btn {
       transition:
         transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
-        background-color 200ms ease,
-        box-shadow 160ms cubic-bezier(0.23, 1, 0.32, 1);
+        background-color 200ms ease;
     }
     .cta-lockup-btn:active {
       transform: translateY(0) scale(0.98);
@@ -190,12 +193,11 @@ const email = "logicandlinestudios@gmail.com";
     @media (hover: hover) and (pointer: fine) {
       .cta-lockup-btn:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 18px color-mix(in srgb, var(--color-primary) 28%, transparent);
       }
     }
     @media (prefers-reduced-motion: reduce) {
       .cta-lockup-btn {
-        transition: background-color 200ms ease, box-shadow 200ms ease;
+        transition: background-color 200ms ease;
       }
       .cta-lockup-btn:hover {
         transform: none;
