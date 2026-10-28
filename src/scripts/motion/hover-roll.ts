@@ -45,7 +45,7 @@ const TARGETS = [
   "header nav ul a",
   '[data-gtm-event="cta_click"][data-gtm-location="header_desktop"]',
   '[data-gtm-location="hero"]',
-  "footer a",
+  "footer a:not([data-no-roll])",
   '#booking a[data-gtm-event="contact_click"]',
 ].join(", ");
 
@@ -118,15 +118,19 @@ function setupRoll(el: HTMLElement): void {
 
   // UN timeline por link, pausado: play al entrar, reverse al salir (la
   // reversión invierte el stagger = ola inversa del brief).
+  // Stagger acotado: en labels largos (email, 29 chars) 0.02s x n = ola de
+  // ~0.6s con chars a media altura mezclados = texto "doble"/ilegible. El
+  // reparto total se limita a 0.24s.
+  const stagger = Math.min(ROLL.stagger, 0.24 / Math.max(1, chars1.length - 1));
   const tl = gsap.timeline({ paused: true });
   tl.to(
     chars1,
-    { yPercent: -100, duration: ROLL.dur, ease: "power4.out", stagger: ROLL.stagger },
+    { yPercent: -100, duration: ROLL.dur, ease: "power4.out", stagger },
     0,
   );
   tl.to(
     chars2,
-    { yPercent: -100, duration: ROLL.dur, ease: "power4.out", stagger: ROLL.stagger },
+    { yPercent: -100, duration: ROLL.dur, ease: "power4.out", stagger },
     0,
   );
 

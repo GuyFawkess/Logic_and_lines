@@ -6,6 +6,8 @@
 // cierre de la página — a todo el ancho, hecho de líneas horizontales
 // estáticas, bajo los enlaces (referencia docs/research-v4/trionn-04-footer.jpeg).
 import { useTranslations } from "../../i18n/utils";
+import { Icon } from "astro-icon/components";
+import CircuitDetail from "../decor/CircuitDetail.astro";
 import { formatLanzaroteTime } from "../../lib/time";
 
 interface Props {
@@ -41,22 +43,28 @@ const navLinks = [
 ];
 ---
 
-<footer class="w-full border-t border-(--color-hairline) bg-(--color-bg)">
-  <div class="mx-auto w-full max-w-[1400px] px-6 py-16 lg:px-10">
-    <!-- P1-4: rejilla de enlaces 2fr/1fr/1fr/1fr en lg (la nav pesa el doble
-         que contacto/legal/hora) y listas sin gap vertical (gap-y-0). -->
-    <div
-      class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]"
-    >
-      <!-- Navegación -->
-      <nav aria-label={isEn ? "Footer" : "Pie de página"}>
-        <ul class="flex flex-col gap-y-0">
+<footer class="relative w-full border-t border-(--color-hairline) bg-(--color-bg)">
+  <CircuitDetail variant="b" side="right" style="top:1.5rem;width:120px;" />
+  <div class="mx-auto w-full max-w-[1400px] px-6 pb-6 pt-10 lg:px-10 lg:pt-12">
+    <!-- v2: rejilla de 12 col en lg (nav 5 / conecta 4 / legal+hora 3), una sola
+         escala de espacio (gap-8 entre bloques, gap-4 dentro). Cada bloque abre
+         con una cabecera mono pequeña para que las tres columnas alineen. -->
+    <div class="grid grid-cols-2 gap-x-6 gap-y-8 lg:flex lg:items-start lg:justify-between lg:gap-x-12">
+      <!-- Navegación: 2 sub-columnas (3 filas) -->
+      <nav
+        aria-label={isEn ? "Footer" : "Pie de página"}
+        class="col-span-2"
+      >
+        <p class="font-mono text-xs uppercase tracking-[0.08em] text-(--color-text-dark)">
+          {isEn ? "Explore" : "Navegar"}
+        </p>
+        <ul class="mt-2 grid grid-flow-col grid-cols-[auto_auto] grid-rows-3 justify-start gap-x-10 lg:gap-x-12">
           {
             navLinks.map((link) => (
               <li>
                 <a
                   href={link.href}
-                  class="inline-flex min-h-11 items-center text-sm text-(--color-text-dark) transition-colors duration-200 hover:text-(--color-primary)"
+                  class="inline-flex min-h-11 min-w-11 items-center text-sm text-(--color-text) transition-colors duration-200 hover:text-(--color-primary) lg:min-h-9 lg:min-w-0"
                 >
                   <span>{link.label}</span>
                 </a>
@@ -66,56 +74,69 @@ const navLinks = [
         </ul>
       </nav>
 
-      <!-- Contacto -->
-      <div>
-        <ul class="flex flex-col gap-y-0">
-          <li>
-            <a
-              href="https://www.instagram.com/logic_and_lines/?hl=en"
-              target="_blank"
-              rel="noopener"
-              class="inline-flex min-h-11 items-center text-sm text-(--color-text-dark) transition-colors duration-200 hover:text-(--color-primary)"
-              data-gtm-event="social_click"
-              data-gtm-location="footer"
-              data-gtm-label="instagram"
-            >
-              <span>@logic_and_lines</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://wa.me/34628125302"
-              target="_blank"
-              rel="noopener"
-              class="inline-flex min-h-11 items-center text-sm text-(--color-text-dark) transition-colors duration-200 hover:text-(--color-primary)"
-              data-gtm-event="contact_click"
-              data-gtm-location="footer"
-              data-gtm-label="whatsapp"
-            >
-              <span>WhatsApp</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="mailto:logicandlinestudios@gmail.com"
-              class="inline-flex min-h-11 items-center text-sm text-(--color-text-dark) transition-colors duration-200 hover:text-(--color-primary)"
-              data-gtm-event="contact_click"
-              data-gtm-location="footer"
-              data-gtm-label="email"
-            >
-              <span>logicandlinestudios@gmail.com</span>
-            </a>
-          </li>
-        </ul>
+      <!-- Conecta: botones-icono -->
+      <div class="col-span-2">
+        <p class="font-mono text-xs uppercase tracking-[0.08em] text-(--color-text-dark)">
+          {isEn ? "Connect" : "Conecta"}
+        </p>
+        <div class="mt-4 flex flex-wrap gap-4">
+          <a
+            href="https://www.instagram.com/logic_and_lines/?hl=en"
+            target="_blank"
+            rel="noopener"
+            aria-label="Instagram"
+            data-no-roll
+            class="group inline-flex size-11 items-center justify-center rounded-xl border border-(--color-hairline) text-(--color-text-dark) transition-colors duration-200 hover:border-(--color-primary) hover:text-(--color-primary)"
+            data-gtm-event="social_click"
+            data-gtm-location="footer"
+            data-gtm-label="instagram"
+          >
+            <Icon name="instagram" class="h-5 w-5" />
+          </a>
+          <a
+            href="mailto:logicandlinestudios@gmail.com"
+            aria-label="Email"
+            data-no-roll
+            class="group inline-flex size-11 items-center justify-center rounded-xl border border-(--color-hairline) text-(--color-text-dark) transition-colors duration-200 hover:border-(--color-primary) hover:text-(--color-primary)"
+            data-gtm-event="contact_click"
+            data-gtm-location="footer"
+            data-gtm-label="email"
+          >
+            <Icon name="gmail2" class="h-5 w-5" />
+          </a>
+          <a
+            href="https://wa.me/34628125302"
+            target="_blank"
+            rel="noopener"
+            aria-label="WhatsApp"
+            data-no-roll
+            class="group inline-flex size-11 items-center justify-center rounded-xl border border-(--color-hairline) text-(--color-text-dark) transition-colors duration-200 hover:border-(--color-primary) hover:text-(--color-primary)"
+            data-gtm-event="contact_click"
+            data-gtm-location="footer"
+            data-gtm-label="whatsapp"
+          >
+            <Icon name="whatsapp" class="h-5 w-5" />
+          </a>
+        </div>
       </div>
 
-      <!-- Legal -->
-      <div>
-        <ul class="flex flex-col gap-y-0">
+      <!-- Hora local (cabecera) + legal -->
+      <div class="col-span-2 lg:pr-24">
+        <p
+          class="font-mono uppercase tracking-[0.08em] tabular-nums text-sm lg:text-xs text-(--color-text-dark)"
+        >
+          <span>LANZAROTE</span>
+          <!-- Hora congelada en build = fallback sin-JS; local-time.ts la
+               actualiza cada 30s (F4). -->
+          <time data-local-time data-local-time-lang={currentLang}
+            >{lanzaroteTime}</time
+          >
+        </p>
+        <ul class="mt-2 flex flex-col">
           <li>
             <a
               href={privacyHref}
-              class="inline-flex min-h-11 items-center text-sm text-(--color-text-dark) transition-colors duration-200 hover:text-(--color-primary)"
+              class="inline-flex min-h-11 min-w-11 items-center text-sm text-(--color-text) transition-colors duration-200 hover:text-(--color-primary) lg:min-h-9 lg:min-w-0"
             >
               <span>{t.privacy.link}</span>
             </a>
@@ -125,7 +146,7 @@ const navLinks = [
               href="#"
               data-cookieconsent="ignore"
               onclick="if(window.Cookiebot){window.Cookiebot.renew()}return false;"
-              class="inline-flex min-h-11 items-center text-sm text-(--color-text-dark) transition-colors duration-200 hover:text-(--color-primary)"
+              class="inline-flex min-h-11 min-w-11 items-center text-sm text-(--color-text) transition-colors duration-200 hover:text-(--color-primary) lg:min-h-9 lg:min-w-0"
             >
               <span>{t.privacy.cookies}</span>
             </a>
@@ -133,7 +154,7 @@ const navLinks = [
           <li>
             <a
               href={langHref}
-              class="inline-flex min-h-11 items-center text-sm text-(--color-text-dark) transition-colors duration-200 hover:text-(--color-primary)"
+              class="inline-flex min-h-11 min-w-11 items-center text-sm text-(--color-text) transition-colors duration-200 hover:text-(--color-primary) lg:min-h-9 lg:min-w-0"
               data-gtm-event="language_switch"
               data-gtm-location="footer"
               data-gtm-label={isEn ? "es" : "en"}
@@ -143,24 +164,6 @@ const navLinks = [
           </li>
         </ul>
       </div>
-
-      <!-- Hora local -->
-      <div>
-        <p class="font-mono text-xs tabular-nums text-(--color-text-dark)">
-          <span>LANZAROTE</span>
-          <!-- Hora congelada en build = fallback sin-JS; local-time.ts la
-               actualiza cada 30s (F4). -->
-          <time data-local-time data-local-time-lang={currentLang}
-            >{lanzaroteTime}</time
-          >
-        </p>
-      </div>
-    </div>
-
-    <div
-      class="mt-14 border-t border-(--color-hairline) pt-6 text-sm text-(--color-text-dark)"
-    >
-      <p>{copyright}</p>
     </div>
 
     <!-- P1-4: wordmark de cierre a todo el ancho hecho de líneas estáticas
@@ -169,10 +172,17 @@ const navLinks = [
          animada. Los márgenes negativos hacen bleed (como en Trionn) para que
          el clamp de 13.5vw quepa dentro de la caja y la página no desborde. -->
     <p
-      class="ll-footer-wordmark -mx-6 mt-10 whitespace-nowrap font-display uppercase text-[clamp(3rem,13.5vw,12.5rem)] leading-[0.85] tracking-[-0.03em] text-(--color-text) lg:-mx-10"
+      class="ll-footer-wordmark -mx-6 mt-8 whitespace-nowrap font-display uppercase text-[clamp(3rem,13.5vw,12.5rem)] leading-[0.85] tracking-[-0.03em] text-(--color-text) lg:-mx-10"
     >
       Logic &amp; Lines
     </p>
+
+    <!-- v2: el © cierra el pie, bajo el wordmark -->
+    <div
+      class="mt-8 border-t border-(--color-hairline) pt-4 text-sm text-(--color-text-dark)"
+    >
+      <p>{copyright}</p>
+    </div>
   </div>
 
   <!-- Meta Pixel: eventos de contacto por canal (mismo listener que el footer v1) -->

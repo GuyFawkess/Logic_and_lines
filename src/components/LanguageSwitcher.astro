@@ -17,7 +17,7 @@ const alternateURLs = getAlternateURLs(currentPath, currentLang);
       .map(([lang, label]) => (
         <a
           href={alternateURLs[lang as keyof typeof alternateURLs]}
-          class={`px-3 py-1 rounded-none text-sm font-medium transition-colors duration-200 ${
+          class={`inline-flex min-h-11 min-w-11 items-center justify-center px-3 py-1 rounded-none text-sm font-medium transition-colors duration-200 ${
             currentLang === lang
               ? "bg-(--color-primary) text-(--color-bg)"
               : "text-(--color-text) hover:bg-(--color-text)/10"
@@ -36,7 +36,7 @@ const alternateURLs = getAlternateURLs(currentPath, currentLang);
 <div class="hidden md:inline-block relative text-left dropdown group">
   <button
     type="button"
-    class="inline-flex justify-center items-center w-full rounded-none border border-(--color-text)/30 shadow-sm px-4 py-2 bg-transparent text-sm font-medium text-(--color-text) hover:bg-(--color-text)/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-(--color-primary) transition-colors duration-200"
+    class="inline-flex justify-center items-center w-full max-lg:min-h-11 rounded-none border border-(--color-text)/30 shadow-sm px-4 py-2 bg-transparent text-sm font-medium text-(--color-text) hover:bg-(--color-text)/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-(--color-primary) transition-colors duration-200"
     aria-expanded="true"
     aria-haspopup="true"
   >
@@ -70,7 +70,7 @@ const alternateURLs = getAlternateURLs(currentPath, currentLang);
         Object.entries(languages).map(([lang, label]) => (
           <a
             href={alternateURLs[lang as keyof typeof alternateURLs]}
-            class={`block px-4 py-2 text-sm text-(--color-text) hover:bg-(--color-primary) hover:text-black ${currentLang === lang ? "font-bold bg-white/5" : ""}`}
+            class={`block px-4 py-2 max-lg:py-3 text-sm text-(--color-text) hover:bg-(--color-primary) hover:text-black ${currentLang === lang ? "font-bold bg-white/5" : ""}`}
             role="menuitem"
             data-gtm-event="language_switch"
             data-gtm-location="header_dropdown"

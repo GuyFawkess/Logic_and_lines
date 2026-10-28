@@ -39,7 +39,7 @@ const closeLabel = currentLang === "en" ? "Close menu" : "Cerrar menú";
     <!-- Marca: símbolo + wordmark -->
     <a
       href={baseUrl}
-      class="flex shrink-0 items-center gap-3"
+      class="flex min-h-11 shrink-0 items-center gap-3 lg:min-h-0"
       aria-label="Logic & Lines"
     >
       <img
@@ -118,7 +118,7 @@ const closeLabel = currentLang === "en" ? "Close menu" : "Cerrar menú";
     >
       <a
         href={baseUrl}
-        class="flex items-center gap-3"
+        class="flex min-h-11 items-center gap-3"
         aria-label="Logic & Lines"
       >
         <img
@@ -158,9 +158,10 @@ const closeLabel = currentLang === "en" ? "Close menu" : "Cerrar menú";
       aria-label={currentLang === "en" ? "Mobile" : "Móvil"}
     >
       {
-        navLinks.map((link) => (
+        navLinks.map((link, i) => (
           <a
             href={link.href}
+            style={`--i:${i}`}
             class="mobile-link inline-flex min-h-11 items-center border-t border-(--color-hairline) py-4 font-display text-2xl text-(--color-text) transition-colors duration-200 hover:text-(--color-primary)"
           >
             <span>{link.label}</span>
@@ -169,23 +170,89 @@ const closeLabel = currentLang === "en" ? "Close menu" : "Cerrar menú";
       }
       <a
         href={contactHref}
-        class="mt-8 inline-flex h-12 items-center justify-center whitespace-nowrap bg-(--color-primary) px-6 text-base font-medium text-(--color-bg) transition-colors duration-200 hover:bg-(--color-primary-hover) active:translate-y-px"
+        style={`--i:${navLinks.length}`}
+        class="mobile-link mt-8 inline-flex h-12 items-center justify-center whitespace-nowrap bg-(--color-primary) px-6 text-base font-medium text-(--color-bg) transition-colors duration-200 hover:bg-(--color-primary-hover) active:translate-y-px"
         data-gtm-event="cta_click"
         data-gtm-location="header_mobile"
         data-gtm-label="schedule_call"
       >
         {t.buttons.book}
       </a>
-      <div class="mt-6">
+      <div class="mobile-link mt-6" style={`--i:${navLinks.length + 1}`}>
         <LanguageSwitcher currentLang={currentLang} />
       </div>
     </nav>
   </div>
 </header>
 
+<style>
+  /* Animación del panel móvil: solo opacity/transform. El panel se muestra con
+     [hidden]=false y la clase .is-open (añadida en el frame siguiente) lanza la
+     transición; al cerrar se quita .is-open y, al terminar, se pone hidden.
+     Easing = EASE_REVEAL (tokens.ts). Sin JS el panel no se abre (ya era así). */
+  #mobile-panel {
+    opacity: 0;
+    transform: translateY(-8px);
+    pointer-events: none;
+    transition:
+      opacity 200ms ease-out,
+      transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  #mobile-panel.is-open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition:
+      opacity 300ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  #mobile-panel .mobile-link {
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+      opacity 150ms ease-out,
+      transform 150ms ease-out,
+      color 200ms;
+  }
+  #mobile-panel.is-open .mobile-link {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity 320ms cubic-bezier(0.16, 1, 0.3, 1) calc(90ms + var(--i, 0) * 35ms),
+      transform 320ms cubic-bezier(0.16, 1, 0.3, 1) calc(90ms + var(--i, 0) * 35ms),
+      color 200ms;
+  }
+  #mobile-panel #nav-close svg {
+    opacity: 0;
+    transform: rotate(-90deg);
+    transition:
+      opacity 150ms ease-out,
+      transform 150ms ease-out;
+  }
+  #mobile-panel.is-open #nav-close svg {
+    opacity: 1;
+    transform: rotate(0);
+    transition:
+      opacity 280ms cubic-bezier(0.16, 1, 0.3, 1) 60ms,
+      transform 320ms cubic-bezier(0.16, 1, 0.3, 1) 60ms;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #mobile-panel,
+    #mobile-panel.is-open,
+    #mobile-panel .mobile-link,
+    #mobile-panel.is-open .mobile-link,
+    #mobile-panel #nav-close svg,
+    #mobile-panel.is-open #nav-close svg {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>
+
 <script>
   // Panel móvil: toggle accesible (aria-expanded + hidden), Escape para cerrar
-  // y cierre al pulsar un ancla. Sin reveal: el contenido nunca queda oculto por CSS.
+  // y cierre al pulsar un ancla. Entrada/salida por CSS (.is-open); hidden se
+  // aplica al terminar la salida (transitionend + timeout de seguridad).
   function setupMobileNav() {
     const toggle = document.getElementById("nav-toggle");
     const closeBtn = document.getElementById("nav-close");
@@ -194,27 +261,48 @@ const closeLabel = currentLang === "en" ? "Close menu" : "Cerrar menú";
     if (toggle.dataset.bound === "true") return;
     toggle.dataset.bound = "true";
 
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let hideTimer: number | undefined;
+    const finishHide = () => {
+      window.clearTimeout(hideTimer);
+      if (!panel.classList.contains("is-open")) panel.hidden = true;
+    };
+    const isOpen = () => toggle.getAttribute("aria-expanded") === "true";
+
     const open = () => {
+      window.clearTimeout(hideTimer);
       panel.hidden = false;
       toggle.setAttribute("aria-expanded", "true");
-      closeBtn.focus();
+      closeBtn.focus({ preventScroll: true });
+      if (reduce.matches) {
+        panel.classList.add("is-open");
+        return;
+      }
+      void panel.offsetHeight; // fija el estado inicial antes de transicionar
+      requestAnimationFrame(() => panel.classList.add("is-open"));
     };
     const close = () => {
-      panel.hidden = true;
       toggle.setAttribute("aria-expanded", "false");
-      toggle.focus();
+      panel.classList.remove("is-open");
+      toggle.focus({ preventScroll: true });
+      if (reduce.matches) {
+        panel.hidden = true;
+        return;
+      }
+      window.clearTimeout(hideTimer);
+      hideTimer = window.setTimeout(finishHide, 260);
     };
 
     toggle.addEventListener("click", () => {
-      if (panel.hidden) open();
-      else close();
+      if (isOpen()) close();
+      else open();
     });
     closeBtn.addEventListener("click", close);
     panel.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", close);
     });
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && !panel.hidden) close();
+      if (e.key === "Escape" && isOpen()) close();
     });
   }
 
