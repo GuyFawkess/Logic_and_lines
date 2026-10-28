@@ -11,6 +11,7 @@
 // centran el lockup en vertical dentro de ese escenario (el pico se lee en el
 // centro del viewport; circuit.ts sigue pineando el section, sin cambios).
 import { useTranslations } from "../../i18n/utils";
+import CircuitDetail from "../decor/CircuitDetail.astro";
 import { formatLanzaroteTime } from "../../lib/time";
 
 interface Props {
@@ -28,6 +29,8 @@ const email = "logicandlinestudios@gmail.com";
   data-circuit
   class="relative w-full overflow-hidden border-t border-(--color-hairline) bg-(--color-bg-alt) py-24 lg:pb-5 lg:pt-[4.5rem] lg:min-h-[100svh] lg:flex lg:flex-col lg:justify-center"
 >
+  <CircuitDetail variant="c" side="left" style="top:5rem;width:min(200px, calc((100% - 920px) / 2 - 16px));" />
+
   <!-- R2 (rediseño del cierre): lockup centrado y contenido (max 920px).
        Claim serif en 2 líneas + sub muted, y el CTA como lockup único: el
        racetrack ámbar cierra ALREDEDOR del botón (el botón vive DENTRO del
@@ -120,9 +123,13 @@ const email = "logicandlinestudios@gmail.com";
            left:0 de la capa 2 se resuelve contra un fragmento desplazado →
            el texto se DUPLICA visible bajo el botón. El flex blockifica el
            span y el clip vuelve a ser exacto (era el estado del botón v1). -->
+      <!-- CTA v2 (2026-10-28): píldora ámbar + chip circular petróleo con
+           flecha a la derecha + anillo hairline ámbar a 5px (::after). El
+           label es el PRIMER <span> del botón (hover-roll.ts resuelve el
+           label con querySelector("span"): el chip va DESPUÉS). -->
       <button
         type="button"
-        class="cta-lockup-btn absolute inset-0 m-auto flex h-11 w-fit shrink-0 items-center justify-center whitespace-nowrap bg-(--color-primary) px-8 text-base font-medium text-(--color-bg) hover:bg-(--color-primary-hover) lg:h-14 lg:px-10"
+        class="cta-lockup-btn absolute inset-0 m-auto flex h-11 w-fit shrink-0 items-center justify-center gap-3 whitespace-nowrap rounded-full bg-(--color-primary) pl-7 pr-2 text-base font-medium text-(--color-bg) hover:bg-(--color-primary-hover) focus-visible:outline-none lg:h-14 lg:gap-4 lg:pl-9 lg:pr-2.5 lg:text-lg"
         data-gtm-event="schedule_click"
         data-gtm-location="booking_section"
         data-gtm-label="cal_evaluation_call"
@@ -130,7 +137,15 @@ const email = "logicandlinestudios@gmail.com";
         data-cal-namespace="1ª-llamada-de-evaluacion"
         data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true","theme":"dark"}'
       >
-        {t.booking.button}
+        <span>{t.booking.button}</span>
+        <span
+          class="cta-lockup-chip flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-(--color-bg) text-(--color-primary) lg:h-9 lg:w-9"
+          aria-hidden="true"
+        >
+          <svg class="cta-lockup-arrow h-3.5 w-3.5 lg:h-4 lg:w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"></path>
+          </svg>
+        </span>
       </button>
     </div>
   </div>
@@ -187,6 +202,29 @@ const email = "logicandlinestudios@gmail.com";
         transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
         background-color 200ms ease;
     }
+    /* Anillo hairline (CTA v2): 1px ámbar a 5px del botón, sólido (sin glow).
+       En hover se abre ~3px por lado (scale no uniforme ≈ px iguales en X/Y
+       para la proporción del botón) y gana opacidad; en focus-visible pasa a
+       marfil 2px opaco = anillo de foco claro sobre el fondo y el ámbar. */
+    .cta-lockup-btn::after {
+      content: "";
+      position: absolute;
+      inset: -5px;
+      border: 1px solid var(--color-primary);
+      border-radius: 9999px;
+      opacity: 0.45;
+      pointer-events: none;
+      transition:
+        transform 240ms cubic-bezier(0.23, 1, 0.32, 1),
+        opacity 200ms ease;
+    }
+    .cta-lockup-btn:focus-visible::after {
+      border: 2px solid var(--color-text);
+      opacity: 1;
+    }
+    .cta-lockup-arrow {
+      transition: transform 240ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
     .cta-lockup-btn:active {
       transform: translateY(0) scale(0.98);
     }
@@ -194,15 +232,26 @@ const email = "logicandlinestudios@gmail.com";
       .cta-lockup-btn:hover {
         transform: translateY(-2px);
       }
+      .cta-lockup-btn:hover::after {
+        transform: scale(1.02, 1.09);
+        opacity: 1;
+      }
+      .cta-lockup-btn:hover .cta-lockup-arrow {
+        transform: translateX(3px);
+      }
     }
     @media (prefers-reduced-motion: reduce) {
       .cta-lockup-btn {
         transition: background-color 200ms ease;
       }
-      .cta-lockup-btn:hover {
-        transform: none;
+      .cta-lockup-btn::after,
+      .cta-lockup-arrow {
+        transition: opacity 200ms ease;
       }
-      .cta-lockup-btn:active {
+      .cta-lockup-btn:hover,
+      .cta-lockup-btn:active,
+      .cta-lockup-btn:hover::after,
+      .cta-lockup-btn:hover .cta-lockup-arrow {
         transform: none;
       }
     }

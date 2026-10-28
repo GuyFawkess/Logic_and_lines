@@ -11,7 +11,7 @@
  * repetitivo, sin glow: el F1 ya retiró el pulso del booking).
  *
  * DRIVER ÚNICO (técnica 7, desktop lg+): UN ScrollTrigger (pin de la sección,
- * start "top top", end += pinTravelVh, scrub 1, anticipatePin 1) + UNA
+ * start "top top", end += pinTravelVh, scrub 1, sin anticipatePin) + UNA
  * timeline construida una vez que contiene el dibujo + viajero + pop + anillo
  * + flash + hold. Cero triggers en paralelo para el circuito: todo deriva del
  * mismo progreso scrubbed.
@@ -353,7 +353,9 @@ function initDesktop(): void {
       end: () => "+=" + Math.round(CIRCUIT.pinTravelVh * 100) + "%",
       pin: true,
       scrub: CIRCUIT.scrub,
-      anticipatePin: 1,
+      // Sin anticipatePin: con Lenis el scroll ya corre en el hilo principal
+      // (sin desfase que anticipar) y el pre-pin adelantaba el enganche ~10px
+      // → micro-salto al entrar en Booking (QA 2026-10-28).
       invalidateOnRefresh: true,
       // R6: refreshPriority 10 (CIRCUIT.priority) — EN GSAP 3.15.0 priority
       // MAYOR refresca ANTES (sort * -1e6). Orden de página: hscroll 19 >
