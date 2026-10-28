@@ -23,14 +23,13 @@ import { destroySmoothScroll, initSmoothScroll } from "./smooth-scroll";
 import { destroyTextReveal, initTextReveal } from "./text-reveal";
 import { destroyLineSystem, initLineSystem } from "./line-system";
 import { destroyImageReveal, initImageReveal } from "./image-reveal";
-import { destroyHScroll, initHScroll } from "./hscroll";
+import { destroyHScroll, initHScroll, initHScrollMobile } from "./hscroll";
 import { destroyCircuit, initCircuit } from "./circuit";
 import { destroyPreloader, runPreloader } from "./preloader";
-import { destroyHeroLogo, initHeroLogo } from "./hero-logo";
 import { destroyMarquee, initMarquee } from "./marquee";
 import { destroyHoverRoll, initHoverRoll } from "./hover-roll";
 import { destroyLocalTime, initLocalTime } from "./local-time";
-import { EASE_REVEAL_PATH, PRELOADER } from "./tokens";
+import { EASE_REVEAL_PATH, PRELOADER, STACK_MOBILE } from "./tokens";
 
 // F3-v2: MotionPathPlugin (gratis en el paquete gsap; el viajero del circuito
 // BookingClose recorre el racetrack que cierra el bucle, circuit.ts). Mismo
@@ -94,7 +93,6 @@ function resetMotion(): void {
   destroyImageReveal();
   destroyHScroll();
   destroyCircuit();
-  destroyHeroLogo();
   destroyMarquee();
   destroyHoverRoll();
   destroyLocalTime();
@@ -162,6 +160,14 @@ export function initMotion(): void {
       destroyHScroll();
     };
   });
+  // 1b) <lg: variante VERTICAL del mismo stack (hscroll.ts, STACK_MOBILE).
+  //     Antes de la rama no-preference: image-reveal consulta isStackActive().
+  media.add(STACK_MOBILE.mountQuery, () => {
+    initHScrollMobile();
+    return () => {
+      destroyHScroll();
+    };
+  });
 
   // 2) Full experience: smooth scroll, F2 text reveals, F3-v2 line system and
   //    image line-wipes, F4 marquee velocity-reactive.
@@ -179,11 +185,10 @@ export function initMotion(): void {
     let disposed = false;
     const startReveals = (): void => {
       if (disposed) return;
-      // T7: el logo de marca se dibuja PRIMERO (es lo primero que ve el
-      // cliente) y su intro (2.4 s desktop / 1.6 s móvil) comparte el gate
-      // del preloader: el scrub del logo se monta al acabar la intro
-      // (hero-logo.ts), nunca en paralelo.
-      initHeroLogo();
+      // El hero (zoom a traves del logo) NO se monta aqui: vive en el
+      // <script> de HeroHome.astro (pin + intro propios, sin data-reveal) y
+      // espera a que el overlay del preloader desaparezca. El antiguo
+      // hero-logo.ts quedo retirado (tag git hero-logo-animation).
       initTextReveal();
       // F3-v2: sistema de línea maestra (cometas por secciones, driver del
       // rail R6 encadenado a hscroll.end, count-up de Proof) —
@@ -227,7 +232,6 @@ export function initMotion(): void {
       destroyLineSystem();
       destroyImageReveal();
       destroyCircuit();
-      destroyHeroLogo();
       destroySmoothScroll();
     };
   });

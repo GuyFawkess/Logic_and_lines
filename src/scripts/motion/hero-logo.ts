@@ -1,4 +1,9 @@
 /**
+ * RETIRADO (2026-10-28): ya no lo importa index.ts. El hero de la home es el
+ * "zoom a traves del logo" (HeroHome.astro + HERO_ZOOM en tokens.ts). Este
+ * modulo y su animacion quedan en el tag git hero-logo-animation; se conserva
+ * en disco solo como referencia (busca [data-hero-logo], que ya no existe).
+ *
  * Hero logo mark (T7) — "la línea construye el logo".
  *
  * El logo de marca (public/logoSolo.svg) se DIBUJA dentro del hero: 4 paths

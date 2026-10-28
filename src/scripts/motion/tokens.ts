@@ -207,6 +207,32 @@ export const STACK = {
   vhPerCard: 0.9,
 } as const;
 
+/**
+ * Variante VERTICAL del stack de Servicios (<lg + no-preference, 2026-10-28):
+ * la tarjeta k sube desde el borde inferior del stage y cubre a la k-1
+ * (escala + overlay de oscurecimiento), y tras la última Proceso SUBE como
+ * una hoja sobre el stack (scroll natural 1:1: el wrapper se adelanta
+ * -100svh y pinta encima; sin transform). Desktop (STACK) no cambia.
+ */
+export const STACK_MOBILE = {
+  /** Query de montaje (doble cerradura, igual que STACK.mountQuery). */
+  mountQuery: "(max-width: 1023.98px) and (prefers-reduced-motion: no-preference)",
+  /** Viewports de scroll por tarjeta (~75% del alto, pedido 70-80%). */
+  vhPerCard: 0.5,
+  /** Dwell de lectura de la última tarjeta antes de que suba Proceso (vh). */
+  dwellVh: 0.25,
+  /** Tramo en que Proceso sube y cubre (vh): 1 = scroll natural 1:1. */
+  riseVh: 1,
+  /** Escala de la tarjeta cubierta (origin arriba-centro). */
+  coverScale: 0.94,
+  /** Asomo superior de la tarjeta cubierta (px). */
+  peek: 12,
+  /** pt del h2 en modo stack móvil (cabecera fija de 72px + aire). */
+  titlePad: "5.25rem",
+  /** Aire entre el stage y el borde inferior del viewport. */
+  stageGap: "1rem",
+} as const;
+
 /*
  * Line-wipe de imágenes de servicio (F3-v2, image-reveal.ts) — técnica 4 del
  * catálogo: clip-path inset + línea guía ámbar sincronizada + inner-parallax.
@@ -401,4 +427,61 @@ export const HERO_LOGO = {
   strokeWidth: 1.5,
   /** Trazo del dash (color de marca del glifo): el marfil del sistema. */
   dashStroke: "var(--color-text)",
+} as const;
+
+/**
+ * Hero "zoom a traves del logo" (prototipo B elegido, 2026-10-28) — lo usa el
+ * <script> de HeroHome.astro. El HERO_LOGO de arriba es el hero anterior
+ * (retirado de index.ts; conservado en el tag git hero-logo-animation).
+ *
+ * Escena (desktop, pin scrubbed, timeline normalizada 0..1):
+ *   0.00-0.25 el claim se retira · 0.00-1.00 la camara atraviesa el marco
+ *   interior (scale 1 -> zoomScale, power2.in) mientras los dos marcos GIRAN
+ *   en sentidos opuestos (cerradura de combinacion, ease none = el scrub manda)
+ *   · 0.20-0.40 la barra de CTAs sale · 0.78-0.94 el logo se apaga ·
+ *   0.90-1.00 la barra de CTAs vuelve sobre el fondo ya limpio.
+ * El fondo NO cambia: termina en --color-bg (#0D1A1F), el mismo del body/Thesis.
+ */
+export const HERO_ZOOM = {
+  lgQuery: "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
+  smQuery: "(max-width: 1023.98px) and (prefers-reduced-motion: no-preference)",
+  /** Intro desktop (s); movil = la misma timeline comprimida. */
+  introDur: 2.4,
+  mobileDur: 1.6,
+  /** Longitud del pin (end relativo) y suavizado del scrub (s). */
+  pinEnd: "+=140%",
+  scrub: 0.8,
+  /** Escala final de la camara (origen = centro del marco interior). */
+  zoomScale: 14,
+  /** Giro total (grados) durante TODO el pin, lineal con el scroll:
+   *  tres ritmos distintos (cerradura de combinacion). Marcos en sentidos
+   *  opuestos; los glifos "L1" giran como una unidad sobre su propio centro.
+   *  Reposo (inicio del pin) = 0 en los tres. */
+  outerRotate: 120,
+  innerRotate: -180,
+  glyphRotate: 90,
+  /** Fases (fraccion de la timeline del pin). */
+  claimOutDur: 0.25,
+  barOutAt: 0.2,
+  barOutDur: 0.2,
+  markOutAt: 0.78,
+  markOutDur: 0.16,
+  barBackAt: 0.9,
+  barBackDur: 0.1,
+  /**
+   * Movil/tablet (<1024px, 2026-10-28): la MISMA escena (mismas fases y giros
+   * de arriba) con numeros tactiles: pin mas corto, scrub mas agil y menos
+   * zoom (el logo en reposo ya ocupa ~60vw). Las alturas del hero van en svh
+   * y ScrollTrigger 3.15 ignora el resize de la barra de URL en tactil
+   * (ignoreMobileResize = isTouch === 1 por defecto): el pin no se re-mide al
+   * plegarse la barra.
+   */
+  mobile: {
+    /** Escala final de la camara (origen = centro del marco interior). */
+    scale: 11,
+    /** Longitud del pin (end relativo). */
+    end: "+=110%",
+    /** Suavizado del scrub (s). */
+    scrub: 0.6,
+  },
 } as const;
