@@ -123,7 +123,16 @@ export default {
         value: "6",
         label: "líneas de servicio"
       }
-    ]
+    ],
+    // Descripción solo para lectores de pantalla del gráfico GrowthChart.
+    chartDescription: "Gráfico ilustrativo: un ovillo de líneas se ordena en una retícula y la línea ámbar dibuja una tendencia de crecimiento constante, con pequeños altibajos, hasta la esquina superior derecha.",
+    // Texto visible del GrowthChart: kicker + 3 frases sincronizadas con las
+    // fases del scrub (ovillo / retícula / crecimiento). Palabra ámbar en cursiva.
+    chartKicker: "Del caos al crecimiento",
+    chartPhase1: 'Todo está <em class="italic text-primary">enredado</em>.',
+    chartPhase2: 'Pongo <em class="italic text-primary">orden</em>.',
+    chartPhase3: 'Y <em class="italic text-primary">crece</em>.',
+    chartSentence: "Del caos al orden y al crecimiento."
   },
   faq: {
     title: 'Preguntas <span class="text-primary">frecuentes</span>'

@@ -123,7 +123,16 @@ export default {
         value: "6",
         label: "service lines"
       }
-    ]
+    ],
+    // Screen-reader-only description of the GrowthChart graphic.
+    chartDescription: "Illustrative chart: a tangle of lines settles into a grid and the amber line draws a steady growth trend, with small dips, up to the top right corner.",
+    // Visible GrowthChart copy: kicker + 3 lines synced with the scrub phases
+    // (tangle / grid / growth). Amber word in italics.
+    chartKicker: "From chaos to growth",
+    chartPhase1: 'Everything is <em class="italic text-primary">tangled</em>.',
+    chartPhase2: 'I bring <em class="italic text-primary">order</em>.',
+    chartPhase3: 'And it <em class="italic text-primary">grows</em>.',
+    chartSentence: "From chaos to order to growth."
   },
   faq: {
     title: 'Frequently asked <span class="text-primary">questions</span>'

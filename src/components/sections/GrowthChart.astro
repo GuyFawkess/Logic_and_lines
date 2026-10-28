@@ -1,0 +1,461 @@
+---
+// GrowthChart — "del caos al crecimiento" (técnica del prototipo D del
+// hero-lab, reutilizada en Razones). Un ovillo de líneas finas + UNA línea
+// ámbar se ordena en una retícula (la "tabla") DENTRO del marco y la línea
+// ámbar termina dibujando un gráfico de crecimiento (subida constante con
+// pequeños altibajos, nodo final arriba a la derecha) con 4 barras hairline.
+//
+// Regla sin-JS: el MARKUP es el estado FINAL (retícula ordenada, línea de
+// crecimiento, barras y nodos visibles). El caos lo aplica el script con
+// gsap.set. Morph SIN MorphSVG: gsap.to(path, { attr: { d } }) con la MISMA
+// estructura de comandos (M + C cúbicas) en todos los estados.
+// Pin del escenario (kicker + frase + panel) centrado (start center
+// center+=36) con scrub; la frase cambia con las 3 fases (enredado / orden /
+// crece). Sin motion reducido / sin JS no hay pin y el markup es el estado
+// final (las 3 frases como una frase estática).
+import { useTranslations } from "../../i18n/utils";
+
+interface Props {
+  currentLang: "es" | "en";
+}
+
+const { currentLang } = Astro.props;
+const t = useTranslations(currentLang);
+
+// ---------------------------------------------------------------------------
+// Geometría (viewBox 1200x440, preserveAspectRatio="none" + trazo no
+// escalable). Toda coordenada (también los controles del caos) vive en la
+// caja [40,1160]x[30,410]: por la envolvente convexa de las Bézier ningún
+// trazo sale del marco en ningún instante del morph.
+// ---------------------------------------------------------------------------
+type Pt = [number, number];
+const VW = 1200;
+const VH = 440;
+
+/** PRNG determinista (mulberry32): mismo ovillo en cada build. */
+function rng(seed: number): () => number {
+  let s = seed;
+  return () => {
+    s = (s + 0x6d2b79f5) | 0;
+    let r = Math.imul(s ^ (s >>> 15), 1 | s);
+    r = (r + Math.imul(r ^ (r >>> 7), 61 | r)) ^ r;
+    return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const rand = rng(20261029);
+const f = (n: number): string => n.toFixed(1);
+const between = (a: number, b: number): number => a + (b - a) * rand();
+
+/** Cúbica recta de a a b (controles a 1/3 y 2/3 sobre la recta). */
+const straight = (a: Pt, b: Pt): string =>
+  `C ${f(a[0] + (b[0] - a[0]) / 3)} ${f(a[1] + (b[1] - a[1]) / 3)} ${f(
+    a[0] + ((b[0] - a[0]) * 2) / 3,
+  )} ${f(a[1] + ((b[1] - a[1]) * 2) / 3)} ${f(b[0])} ${f(b[1])}`;
+
+const CX0 = 40;
+const CX1 = 1160;
+const CY0 = 30;
+const CY1 = 410;
+const chaosPt = (): Pt => [between(CX0, CX1), between(CY0, CY1)];
+const curly = (to: Pt): string => {
+  const c1 = chaosPt();
+  const c2 = chaosPt();
+  return `C ${f(c1[0])} ${f(c1[1])} ${f(c2[0])} ${f(c2[1])} ${f(to[0])} ${f(to[1])}`;
+};
+
+// Retícula ordenada (la "tabla").
+const GX0 = 60;
+const GX1 = 1140;
+const GY0 = 50;
+const GY1 = 390;
+const rows = 5;
+const cols = 9;
+const ys = Array.from({ length: rows }, (_, i) => GY0 + (i * (GY1 - GY0)) / (rows - 1));
+const xs = Array.from({ length: cols }, (_, j) => GX0 + (j * (GX1 - GX0)) / (cols - 1));
+const GAP = 6;
+
+function cuts(n: number): [number, number] {
+  const a = 1 + Math.floor(rand() * (n - 2));
+  let b = 1 + Math.floor(rand() * (n - 2));
+  if (b === a) b = a + 1 <= n - 2 ? a + 1 : a - 1;
+  return a < b ? [a, b] : [b, a];
+}
+
+interface Strand {
+  order: string;
+  chaos: string;
+  muted: boolean;
+}
+
+/** Línea de la retícula en 3 tramos (M C C x3), con su gemelo caótico. */
+function strand(start: Pt, end: Pt, cutsAt: [number, number], muted: boolean): Strand {
+  const horizontal = start[1] === end[1];
+  const at = (v: number): Pt => (horizontal ? [v, start[1]] : [start[0], v]);
+  const s = horizontal ? start[0] : start[1];
+  const e = horizontal ? end[0] : end[1];
+  const [k1, k2] = cutsAt;
+  const segs: Array<[number, number]> = [
+    [s, k1 - GAP],
+    [k1 + GAP, k2 - GAP],
+    [k2 + GAP, e],
+  ];
+  const order = segs
+    .map(([a, b]) => {
+      const p0 = at(a);
+      const pm = at((a + b) / 2);
+      const p1 = at(b);
+      return `M ${f(p0[0])} ${f(p0[1])} ${straight(p0, pm)} ${straight(pm, p1)}`;
+    })
+    .join(" ");
+  let cursor = chaosPt();
+  const chaos = segs
+    .map(() => {
+      const from = cursor;
+      const mid = chaosPt();
+      const to = chaosPt();
+      cursor = to;
+      return `M ${f(from[0])} ${f(from[1])} ${curly(mid)} ${curly(to)}`;
+    })
+    .join(" ");
+  return { order, chaos, muted };
+}
+
+const MUTED = new Set([1, 6, 10]);
+const strands: Strand[] = [];
+ys.forEach((y) => {
+  const [a, b] = cuts(cols);
+  strands.push(strand([GX0, y], [GX1, y], [xs[a], xs[b]], MUTED.has(strands.length)));
+});
+xs.forEach((x) => {
+  const [c, d] = cuts(rows);
+  strands.push(strand([x, GY0], [x, GY1], [ys[c], ys[d]], MUTED.has(strands.length)));
+});
+
+// Línea ámbar: 3 estados con 8 cúbicas cada uno.
+//  - caos: ovillo;  - tabla: plana sobre la base de la retícula;
+//  - crecimiento (FINAL, el markup): sube por las columnas con 3 pequeños
+//    retrocesos y acaba arriba a la derecha.
+const growthY = [390, 336, 350, 280, 294, 212, 166, 182, 72];
+const growthPts: Pt[] = xs.map((x, i) => [x, growthY[i]]);
+const flatPts: Pt[] = xs.map((x) => [x, GY1]);
+const polyline = (pts: Pt[]): string =>
+  `M ${f(pts[0][0])} ${f(pts[0][1])} ` +
+  pts
+    .slice(1)
+    .map((p, i) => straight(pts[i], p))
+    .join(" ");
+const amberGrowth = polyline(growthPts);
+const amberFlat = polyline(flatPts);
+const amberStart = chaosPt();
+const amberChaos =
+  `M ${f(amberStart[0])} ${f(amberStart[1])} ` +
+  growthPts
+    .slice(1)
+    .map(() => curly(chaosPt()))
+    .join(" ");
+
+// Barras hairline (4) bajo la línea, en columnas alternas.
+const BAR_W = 34;
+const bars = [1, 3, 5, 7].map((j) => {
+  const x0 = xs[j] - BAR_W / 2;
+  const top = growthY[j] + 26;
+  return `M ${f(x0)} ${f(GY1)} V ${f(top)} H ${f(x0 + BAR_W)} V ${f(GY1)}`;
+});
+
+// Nodos (HTML: con preserveAspectRatio="none" un <circle> se deformaría).
+const pct = (p: Pt): string =>
+  `left:${((p[0] / VW) * 100).toFixed(3)}%;top:${((p[1] / VH) * 100).toFixed(3)}%;`;
+const nodes = [
+  { style: pct(growthPts[0]), end: false },
+  { style: pct(growthPts[3]), end: false },
+  { style: pct(growthPts[6]), end: false },
+  { style: pct(growthPts[8]), end: true },
+];
+---
+
+<!-- Escenario pineado: kicker + frase por fase + panel se anclan JUNTOS.
+     Sin JS / reduced-motion: las 3 frases se leen como una frase estática
+     (flex inline); con motion el script añade data-gc-staged (apiladas en
+     una celda de grid, sin salto de layout) y oculta 1-2 con gsap.set. -->
+<div class="gc-stage" data-growth-chart>
+  <p class="gc-kicker font-mono text-xs uppercase tracking-[0.08em] text-(--color-text-dark)">
+    {t.stats.chartKicker}
+  </p>
+  <p class="sr-only">{t.stats.chartSentence}</p>
+  <div
+    class="gc-lines font-display font-normal leading-[1.05] tracking-[-0.035em] text-(--color-text)"
+    aria-hidden="true"
+  >
+    <span class="gc-phase" data-gc-phase set:html={t.stats.chartPhase1} />
+    <span class="gc-phase" data-gc-phase set:html={t.stats.chartPhase2} />
+    <span class="gc-phase" data-gc-phase set:html={t.stats.chartPhase3} />
+  </div>
+<div class="gc-panel">
+  <p class="sr-only">{t.stats.chartDescription}</p>
+  <div class="gc-canvas" aria-hidden="true">
+    <svg
+      class="gc-svg"
+      viewBox={`0 0 ${VW} ${VH}`}
+      preserveAspectRatio="none"
+      fill="none"
+      focusable="false"
+    >
+      {
+        strands.map((s) => (
+          <path
+            data-gc-path
+            d={s.order}
+            data-order={s.order}
+            data-chaos={s.chaos}
+            stroke={s.muted ? "var(--color-text-dark)" : "var(--color-bg-chapter)"}
+            stroke-opacity={s.muted ? 0.4 : 1}
+            stroke-width="1"
+            stroke-linecap="round"
+            vector-effect="non-scaling-stroke"
+          />
+        ))
+      }
+      {
+        bars.map((d) => (
+          <path
+            data-gc-bar
+            d={d}
+            stroke="var(--color-text-dark)"
+            stroke-opacity="0.45"
+            stroke-width="1"
+            vector-effect="non-scaling-stroke"
+          />
+        ))
+      }
+      <path
+        data-gc-amber
+        d={amberGrowth}
+        data-chaos={amberChaos}
+        data-flat={amberFlat}
+        data-growth={amberGrowth}
+        stroke="var(--color-primary)"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        vector-effect="non-scaling-stroke"></path>
+    </svg>
+    {
+      nodes.map((n) => (
+        <span
+          data-gc-node
+          class:list={["gc-node", { "gc-node--end": n.end }]}
+          style={n.style}
+        />
+      ))
+    }
+  </div>
+</div>
+</div>
+
+<style>
+  .gc-stage {
+    margin-top: 3.5rem;
+    width: 100%;
+    text-align: center;
+  }
+  .gc-lines {
+    margin: 0.75rem 0 1.25rem;
+    font-size: clamp(1.75rem, 7vw, 2.25rem);
+    /* Sin JS / reduced-motion: frase estática con las 3 fases seguidas. */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 0.3em;
+  }
+  /* Con motion (atributo puesto por el script): 3 estados apilados en UNA
+     celda — alto = el mayor, sin salto al cruzar fases. */
+  .gc-stage[data-gc-staged] .gc-lines {
+    display: grid;
+    justify-items: center;
+  }
+  .gc-stage[data-gc-staged] .gc-phase {
+    grid-area: 1 / 1;
+  }
+  .gc-phase {
+    display: block;
+  }
+  .gc-panel {
+    width: 100%;
+    border: 1px solid var(--color-hairline);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    overflow: hidden; /* el marco es el límite: nada sale de él */
+  }
+  .gc-canvas {
+    position: relative;
+    width: 100%;
+    /* Móvil: escenario casi cuadrado (342x~340 a 390 de ancho), no miniatura.
+       preserveAspectRatio="none" + trazo no escalable: la retícula se estira
+       en alto sin engordar líneas; los nodos HTML van en %. */
+    aspect-ratio: 1 / 1;
+    pointer-events: none;
+  }
+  .gc-svg {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  .gc-node {
+    position: absolute;
+    display: block;
+    width: 7px;
+    height: 7px;
+    margin: -3.5px 0 0 -3.5px; /* centrado sin transform (GSAP escala) */
+    border-radius: 9999px;
+    background: var(--color-primary);
+  }
+  .gc-node--end {
+    width: 11px;
+    height: 11px;
+    margin: -5.5px 0 0 -5.5px;
+  }
+  @media (min-width: 768px) {
+    .gc-panel {
+      padding: 1.5rem;
+    }
+    .gc-canvas {
+      aspect-ratio: 2 / 1;
+    }
+  }
+  @media (min-width: 1024px) {
+    .gc-stage {
+      margin-top: 4rem;
+    }
+    .gc-lines {
+      margin: 1rem 0 1.5rem;
+      font-size: clamp(2.25rem, 3.2vw, 3.25rem);
+    }
+    .gc-panel {
+      padding: 2rem;
+    }
+    .gc-canvas {
+      aspect-ratio: 1200 / 440;
+    }
+  }
+</style>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const DESKTOP = "(min-width: 1024px) and (prefers-reduced-motion: no-preference)";
+  const MOBILE = "(max-width: 1023px) and (prefers-reduced-motion: no-preference)";
+
+  let mm: gsap.MatchMedia | null = null;
+  let root: HTMLElement | null = null;
+
+  function destroyGrowthChart(): void {
+    mm?.revert();
+    mm = null;
+    root = null;
+  }
+
+  function initGrowthChart(): void {
+    const el = document.querySelector<HTMLElement>("[data-growth-chart]");
+    if (el === null || el === root) return;
+    destroyGrowthChart();
+    root = el;
+
+    const strands = Array.from(el.querySelectorAll<SVGPathElement>("[data-gc-path]"));
+    const bars = Array.from(el.querySelectorAll<SVGPathElement>("[data-gc-bar]"));
+    const nodes = Array.from(el.querySelectorAll<HTMLElement>("[data-gc-node]"));
+    const amber = el.querySelector<SVGPathElement>("[data-gc-amber]");
+    const phases = Array.from(el.querySelectorAll<HTMLElement>("[data-gc-phase]"));
+    if (amber === null || nodes.length === 0 || phases.length !== 3) return;
+    const [phase1, phase2, phase3] = phases;
+    const endNode = nodes[nodes.length - 1];
+    const midNodes = nodes.slice(0, -1);
+
+    /** Estado inicial (solo JS): ovillo, barras a 0, nodos ocultos. */
+    const toChaos = (): void => {
+      strands.forEach((p) => gsap.set(p, { attr: { d: p.dataset.chaos ?? "" } }));
+      gsap.set(amber, { attr: { d: amber.dataset.chaos ?? "" } });
+      gsap.set(bars, { scaleY: 0, transformOrigin: "50% 100%" });
+      gsap.set(nodes, { autoAlpha: 0, scale: 0 });
+      // Frases: solo la fase 1 ("enredado") al arrancar.
+      gsap.set(phase1, { autoAlpha: 1, yPercent: 0 });
+      gsap.set([phase2, phase3], { autoAlpha: 0, yPercent: 40 });
+    };
+
+    /**
+     * Secuencia en unidades normalizadas (total 1):
+     * 0-0.42 retícula (stagger), 0.22-0.5 ámbar caos->tabla,
+     * 0.52-0.8 tabla->crecimiento, barras 0.56-0.8, nodos 0.6-0.86.
+     */
+    const build = (tl: gsap.core.Timeline, k: number): void => {
+      const step = (0.24 / Math.max(strands.length, 1)) * k;
+      strands.forEach((p, i) => {
+        tl.to(p, { attr: { d: p.dataset.order ?? "" }, duration: 0.18 * k, ease: "power2.inOut" }, i * step);
+      });
+      tl.to(amber, { attr: { d: amber.dataset.flat ?? "" }, duration: 0.28 * k, ease: "power2.inOut" }, 0.22 * k);
+      tl.to(amber, { attr: { d: amber.dataset.growth ?? "" }, duration: 0.28 * k, ease: "power2.inOut" }, 0.52 * k);
+      tl.to(bars, { scaleY: 1, duration: 0.14 * k, ease: "power2.out", stagger: 0.035 * k }, 0.56 * k);
+      tl.to(midNodes, { autoAlpha: 1, scale: 1, duration: 0.06 * k, ease: "back.out(2)", stagger: 0.06 * k }, 0.62 * k);
+      tl.to(endNode, { autoAlpha: 1, scale: 1, duration: 0.06 * k, ease: "back.out(2)" }, 0.8 * k);
+      // Frases en sincronía con las fases: 1->2 cuando la retícula se forma y
+      // el ámbar se aplana (~0.2), 2->3 cuando el ámbar empieza a subir (~0.5).
+      const out = { autoAlpha: 0, yPercent: -40, duration: 0.07 * k, ease: "power1.in" };
+      const inn = { autoAlpha: 1, yPercent: 0, duration: 0.07 * k, ease: "power1.out" };
+      tl.to(phase1, out, 0.17 * k);
+      tl.to(phase2, inn, 0.23 * k);
+      tl.to(phase2, out, 0.47 * k);
+      tl.to(phase3, inn, 0.53 * k);
+    };
+
+    mm = gsap.matchMedia();
+
+    // Pin centrado bajo el header fijo de 72px (centro del viewport + 36px):
+    // la animación NO empieza hasta que el panel está en foco; durante el pin
+    // el scrub 0-100 % recorre toda la secuencia y al acabar se suelta.
+    const pinned = (end: string, scrub: number): (() => void) => {
+      // Apila las 3 frases ANTES de crear el trigger (el pin mide ya el alto final).
+      el.setAttribute("data-gc-staged", "");
+      toChaos();
+      const tl = gsap.timeline({
+        defaults: { ease: "none" },
+        scrollTrigger: {
+          id: "growth-chart",
+          trigger: el,
+          start: "center center+=36",
+          end,
+          scrub,
+          pin: true,
+          pinSpacing: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          // Orden de página (GSAP 3.15: priority MAYOR refresca ANTES):
+          // después de hscroll 19 / proceso-rail 15 (mide con sus spacers) y
+          // ANTES de circuit 10 y de los triggers 0 de FAQ/Booking, que así
+          // incluyen el spacer de este pin. Con -10 refrescaba el último y
+          // todo lo de debajo quedaba ~110vh corto → salto al entrar en Booking.
+          refreshPriority: 12,
+        },
+      });
+      // La secuencia natural dura 0.86: se estira a 1 para que el nodo final
+      // aparezca justo antes de soltar el pin y se quede.
+      build(tl, 1 / 0.86);
+      return () => el.removeAttribute("data-gc-staged");
+    };
+
+    mm.add(DESKTOP, () => pinned("+=110%", 0.8));
+    // Móvil: parada LARGA (1.6 viewports). Con +=80% (~675px a 844 de alto) un
+    // solo flick táctil con inercia atravesaba el pin en <0.3s y se leía como
+    // "sigue bajando"; además el panel era una miniatura de ~240px.
+    mm.add(MOBILE, () => pinned("+=160%", 0.6));
+    // Reduced-motion: nada — el markup ya es el estado final.
+  }
+
+  initGrowthChart();
+  document.addEventListener("astro:page-load", initGrowthChart);
+  document.addEventListener("astro:before-swap", destroyGrowthChart);
+</script>

@@ -12,6 +12,7 @@
 // El copy de las 4 razones anteriores ("Hablas conmigo...") desaparece: NO se
 // mueve a otra sección (decisión del usuario).
 import { useTranslations } from "../../i18n/utils";
+import GrowthChart from "./GrowthChart.astro";
 
 interface Props {
   currentLang: "es" | "en";
@@ -51,7 +52,17 @@ const reasonIcons = [
        F3-v2 intacto: count-up + subrayado ámbar dibujado (line-system.ts,
        selectores data-stats / data-stat-value / data-underline SIN cambios).
        El markup parte del estado FINAL; es el JS quien lo prepara. -->
-  <ul class="mt-14 grid grid-cols-1 gap-y-8 sm:grid-cols-3" data-stats>
+  <!-- OCULTAS a propósito (cifras demasiado exageradas por ahora; se reutilizarán).
+       NO usar display:none ni borrar: initProof (line-system.ts) busca [data-stats]
+       y mide su posición para montar la entrada de las tarjetas. Colapsada a
+       alto 0 sigue en el flujo y el script no cambia. Para volver a mostrarlas:
+       quitar el atributo style y aria-hidden de este <ul>. -->
+  <ul
+    class="mt-14 grid grid-cols-1 gap-y-8 sm:grid-cols-3"
+    data-stats
+    aria-hidden="true"
+    style="height:0;margin:0;overflow:hidden;visibility:hidden"
+  >
     {
       stats.map((stat) => (
         <li class="border-t border-(--color-hairline) pt-4 sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0 sm:first:border-l-0 sm:first:pl-0">
@@ -71,6 +82,9 @@ const reasonIcons = [
       ))
     }
   </ul>
+
+  <!-- Caos -> retícula -> crecimiento (técnica del hero-lab D); el panel se ancla (pin) al centrarse. -->
+  <GrowthChart currentLang={currentLang} />
 
   <!-- Grid de 6 razones (legacy): icono en círculo de trazo ámbar fino +
        heading + body. data-reasons-grid lo consume initProof (line-system.ts)
