@@ -7,6 +7,7 @@
 // categorías son h3 siempre visibles).
 import { getCollection } from "astro:content";
 import { useTranslations } from "../../i18n/utils";
+import CircuitDetail from "../decor/CircuitDetail.astro";
 
 interface Props {
   currentLang: "es" | "en";
@@ -47,7 +48,8 @@ const faqSchema = {
      <details> compuesta sobre el capitulo da 1.50:1, identica en caracter a
      la de bg (1.49:1): bordes intactos. -->
 <section id="faq" class="bg-(--color-bg-chapter) pb-24 lg:pb-32 lg:min-h-[100svh]">
-  <div class="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
+  <div class="relative mx-auto w-full max-w-[1400px] px-6 lg:px-10">
+  <CircuitDetail variant="a" side="right" tone="chapter" style="top:6rem;width:200px;" />
   <h2
     class="pt-24 font-display text-[clamp(2.25rem,5.5vw,5rem)] leading-[1] tracking-[-0.045em] text-(--color-text) lg:pt-32"
     data-reveal="lines"
@@ -109,3 +111,23 @@ const faqSchema = {
 </section>
 
 <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+<script>
+  // Abrir/cerrar un <details> cambia la altura del FAQ DESPUÉS del refresh de
+  // ScrollTrigger (solo escucha resize/load): el pin de Booking y los
+  // triggers de debajo quedarían desplazados la altura de la respuesta →
+  // salto al entrar en Booking. Un refresh por toggle (coalescido a 1 frame)
+  // los re-ancla. `toggle` no burbujea: listener en captura sobre la sección.
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  let raf = 0;
+  const onToggle = (): void => {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => ScrollTrigger.refresh());
+  };
+  const bind = (): void => {
+    document.getElementById("faq")?.addEventListener("toggle", onToggle, true);
+  };
+  bind();
+  document.addEventListener("astro:after-swap", bind);
+</script>

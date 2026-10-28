@@ -2,6 +2,7 @@
 // Tesis: statement editorial apilado (h2 + body ≤65ch), con un tramo estático
 // de la Línea Maestra como remate superior. Sin eyebrow.
 import { useTranslations } from "../../i18n/utils";
+import CircuitDetail from "../decor/CircuitDetail.astro";
 
 interface Props {
   currentLang: "es" | "en";
@@ -11,7 +12,9 @@ const { currentLang } = Astro.props;
 const t = useTranslations(currentLang);
 ---
 
-<section class="mx-auto w-full max-w-[1400px] px-6 pb-24 pt-28 lg:px-10 lg:pb-32 lg:pt-36">
+<section class="relative mx-auto w-full max-w-[1400px] px-6 pb-24 pt-28 lg:px-10 lg:pb-32 lg:pt-36">
+  <CircuitDetail variant="a" side="right" style="top:7rem;" />
+
   <!-- Tramo de línea: sale del margen izquierdo y termina en un nodo -->
   <svg
     class="h-3 w-full max-w-[22rem] overflow-visible"

@@ -9,6 +9,7 @@
 // tarjetas (decisión documentada en line-system.ts). Los nodos llevan
 // data-node y los segmentos data-line-segment para el sistema de línea.
 import { useTranslations } from "../../i18n/utils";
+import CircuitDetail from "../decor/CircuitDetail.astro";
 
 interface Props {
   currentLang: "es" | "en";
@@ -48,7 +49,8 @@ const stepIcons = [
      (~124svh) crece la sección en vez de desbordarla sobre Proof. El driver
      del rail (line-system.ts) encadena su rango a hscroll.end. -->
 <section id="proceso" class="bg-(--color-bg-chapter) pb-24 lg:pb-32 lg:min-h-[100svh]">
-  <div class="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
+  <div class="relative mx-auto w-full max-w-[1400px] px-6 lg:px-10">
+  <CircuitDetail variant="c" side="left" style="top:6rem;width:200px;" />
   <!-- T6: el capítulo va CENTRADO (h2 + subtítulo) y el stack vertical se
        compacta en lg para que la fila completa de tarjetas quepa en el
        viewport mientras el panel está pineado (antes: h2 a la izquierda y las
@@ -164,7 +166,7 @@ const stepIcons = [
   <!-- data-rail-quote: lo usa line-system.ts para que la cita entre en la
        coreografía del rail DESPUÉS de la tarjeta 04 (P1-2c). En móvil (<lg)
        no se toca: queda visible en el flujo normal. -->
-  <p class="mt-12 max-w-3xl text-lg italic text-(--color-text-dark)" data-rail-quote>
+  <p class="mx-auto mt-12 w-full max-w-full text-balance text-center text-[clamp(1.125rem,2.2vw,2rem)] italic leading-snug text-(--color-text-dark)" data-rail-quote>
     {t.process.quote}
   </p>
   </div>

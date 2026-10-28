@@ -1,0 +1,336 @@
+---
+// CircuitDetail — detalle decorativo de "plano vivo" (derivado del prototipo
+// HeroA): hairlines ortogonales #223B47, UN tramo corto ambar y 2-3 nodos.
+// Se coloca absolute en margenes/esquinas vacias de una seccion (el padre debe
+// ser `relative`). El MARKUP es el estado FINAL (sin JS, movil y
+// reduced-motion = detalle completo y estatico); toda ocultacion inicial la
+// pone el script con gsap.set dentro de gsap.matchMedia (solo >= 1024px).
+// Por debajo de 1024px el detalle no se muestra (display:none).
+// `side` indica desde que margen entra el trazado (right = espejo en CSS).
+// `style` permite al padre fijar top/bottom/width sin clases arbitrarias.
+interface Props {
+  variant?: "a" | "b" | "c";
+  side?: "left" | "right";
+  tone?: "default" | "chapter";
+  class?: string;
+  style?: string;
+}
+
+const { variant = "a", side = "left", tone = "default", class: extra = "", style = "" } = Astro.props;
+
+interface Layout {
+  hairs: string[];
+  amber: string;
+  // [x, y, on]: on = "amber" o indice de hairline; el ultimo "amber" es el ancla
+  nodes: Array<[number, number, string]>;
+}
+
+const layouts: Record<"a" | "b" | "c", Layout> = {
+  a: {
+    hairs: ["M 0 22 H 70 V 66 H 156 V 128 H 196", "M 0 112 H 34 V 152 H 92"],
+    amber: "M 70 22 V 66 H 112",
+    nodes: [
+      [70, 66, "amber"],
+      [112, 66, "amber"],
+      [156, 128, "0"],
+    ],
+  },
+  b: {
+    hairs: ["M 0 140 H 48 V 96 H 120 V 40 H 196", "M 120 96 H 170 V 150"],
+    amber: "M 48 140 V 96 H 88",
+    nodes: [
+      [48, 96, "amber"],
+      [88, 96, "amber"],
+      [120, 40, "0"],
+    ],
+  },
+  c: {
+    hairs: ["M 0 40 H 100 V 92 H 60 V 148 H 150", "M 100 40 H 160 V 78"],
+    amber: "M 100 40 V 92 H 60",
+    nodes: [
+      [100, 92, "amber"],
+      [60, 92, "amber"],
+      [160, 78, "1"],
+    ],
+  },
+};
+
+const L = layouts[variant];
+const classes = ["cd", `cd--${side}`, tone === "chapter" ? "cd--chapter" : "", extra]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<svg
+  class={classes}
+  style={style || undefined}
+  viewBox="0 0 220 170"
+  aria-hidden="true"
+  focusable="false"
+  data-circuit-detail
+>
+  {L.hairs.map((d, i) => <path data-cd-hair={i} class="cd-hair" d={d} />)}
+  <path data-cd-amber class="cd-amber" d={L.amber}></path>
+  {
+    L.nodes.map(([x, y, on]) => (
+      <circle
+        data-cd-node
+        data-cd-on={on}
+        class={on === "amber" ? "cd-node cd-node-a" : "cd-node cd-node-h"}
+        cx={x}
+        cy={y}
+        r="4"
+      />
+    ))
+  }
+  <circle data-cd-pulse class="cd-pulse" cx="0" cy="0" r="2.5" opacity="0"></circle>
+</svg>
+
+<style>
+  .cd {
+    --cd-hair: #223b47;
+    --cd-ring-fill: #0d1a1f;
+    --cd-ring: #b3aa9a;
+    position: absolute;
+    display: none;
+    width: 220px;
+    height: auto;
+    aspect-ratio: 220 / 170;
+    overflow: visible;
+    pointer-events: none;
+  }
+  /* Sobre el capitulo (#223B47) la hairline por defecto seria invisible. */
+  .cd--chapter {
+    --cd-hair: color-mix(in srgb, #b3aa9a 45%, transparent);
+    --cd-ring-fill: #223b47;
+  }
+  .cd--left {
+    left: 0;
+  }
+  .cd--right {
+    right: 0;
+    transform: scaleX(-1);
+  }
+  @media (min-width: 1024px) {
+    .cd {
+      display: block;
+    }
+  }
+  .cd-hair {
+    fill: none;
+    stroke: var(--cd-hair);
+    stroke-width: 1px;
+    vector-effect: non-scaling-stroke;
+  }
+  .cd-amber {
+    fill: none;
+    stroke: #e5a525;
+    stroke-width: 2px;
+    vector-effect: non-scaling-stroke;
+    stroke-linejoin: miter;
+  }
+  .cd-node-a {
+    fill: #e5a525;
+  }
+  .cd-node-h {
+    fill: var(--cd-ring-fill);
+    stroke: var(--cd-ring);
+    stroke-width: 1.5px;
+    vector-effect: non-scaling-stroke;
+  }
+  .cd-pulse {
+    fill: #fef7ea;
+  }
+</style>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
+  import { MotionPathPlugin } from "gsap/MotionPathPlugin";
+
+  gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin, MotionPathPlugin);
+
+  // Solo desktop y sin reduced-motion; fuera de esto el markup queda estatico
+  // (y por debajo de 1024px el CSS lo oculta).
+  const LG = "(min-width: 1024px) and (prefers-reduced-motion: no-preference)";
+  const DRAW_DUR = 1.2;
+  const PULSE_DUR = 2.4;
+  const PULSE_EVERY = 7;
+
+  let mm: gsap.MatchMedia | null = null;
+
+  function lenAt(path: SVGPathElement, x: number, y: number): number {
+    const total = path.getTotalLength();
+    let best = 0;
+    let bestD = Infinity;
+    for (let l = 0; l <= total; l += 2) {
+      const p = path.getPointAtLength(l);
+      const d = (p.x - x) ** 2 + (p.y - y) ** 2;
+      if (d < bestD) {
+        bestD = d;
+        best = l;
+      }
+    }
+    return best;
+  }
+
+  /** Tiempo normalizado (0..1) en el que una ease alcanza la fraccion f. */
+  function timeAtFraction(ease: (t: number) => number, f: number): number {
+    let lo = 0;
+    let hi = 1;
+    for (let i = 0; i < 24; i++) {
+      const mid = (lo + hi) / 2;
+      if (ease(mid) < f) lo = mid;
+      else hi = mid;
+    }
+    return (lo + hi) / 2;
+  }
+
+  function mount(svg: SVGSVGElement): void {
+    const amber = svg.querySelector<SVGPathElement>("[data-cd-amber]");
+    const pulse = svg.querySelector<SVGCircleElement>("[data-cd-pulse]");
+    const hairs = Array.from(svg.querySelectorAll<SVGPathElement>("[data-cd-hair]"));
+    const nodes = Array.from(svg.querySelectorAll<SVGCircleElement>("[data-cd-node]"));
+    if (!amber || !pulse || hairs.length === 0) return;
+
+    // Estado inicial (solo JS): nada dibujado, nodos a 0.
+    gsap.set([amber, ...hairs], { drawSVG: "0% 0%" });
+    gsap.set(nodes, { scale: 0, transformOrigin: "50% 50%" });
+
+    const ease = gsap.parseEase("power2.inOut");
+    const amberStart = 0.25;
+    const amberDur = 1;
+    const amberTotal = amber.getTotalLength();
+    const popTime = (n: SVGCircleElement): number => {
+      const cx = Number(n.getAttribute("cx"));
+      const cy = Number(n.getAttribute("cy"));
+      if (n.dataset.cdOn === "amber") {
+        return amberStart + amberDur * timeAtFraction(ease, lenAt(amber, cx, cy) / amberTotal);
+      }
+      const i = Number(n.dataset.cdOn);
+      const h = hairs[i];
+      return i * 0.15 + DRAW_DUR * timeAtFraction(ease, lenAt(h, cx, cy) / h.getTotalLength());
+    };
+
+    let drawn = false;
+    const tl = gsap.timeline({
+      paused: true,
+      onComplete: () => {
+        drawn = true;
+        sync();
+      },
+    });
+    hairs.forEach((h, i) => {
+      tl.to(h, { drawSVG: "0% 100%", duration: DRAW_DUR, ease: "power2.inOut" }, i * 0.15);
+    });
+    tl.to(amber, { drawSVG: "0% 100%", duration: amberDur, ease: "power2.inOut" }, amberStart);
+    nodes.forEach((n) => {
+      const t = popTime(n);
+      tl.to(n, { scale: 1.35, duration: 0.16, ease: "power2.out" }, t).to(
+        n,
+        { scale: 1, duration: 0.16, ease: "power2.inOut" },
+        t + 0.16,
+      );
+    });
+
+    // Pulso suave unico a lo largo del tramo ambar; solo mientras el detalle
+    // esta en pantalla y ya dibujado.
+    const pt = gsap.timeline({ paused: true, repeat: -1, repeatDelay: PULSE_EVERY - PULSE_DUR });
+    pt.set(pulse, { opacity: 0.9 }, 0)
+      .to(
+        pulse,
+        {
+          duration: PULSE_DUR,
+          ease: "sine.inOut",
+          motionPath: { path: amber, align: amber, alignOrigin: [0.5, 0.5] },
+        },
+        0,
+      )
+      .set(pulse, { opacity: 0 }, PULSE_DUR);
+
+    // "Visible" = dentro del viewport y no tapado por otra capa (ProcessRail
+    // queda bajo ServicesIndex durante el pin: dibujar mientras esta tapado
+    // haria perder la entrada). Si el centro del svg cae en otra seccion
+    // (capa superior), no cuenta como visible.
+    const host = svg.closest("section, footer");
+    const visible = (): boolean => {
+      const r = svg.getBoundingClientRect();
+      const x = r.left + r.width / 2;
+      const y = r.top + r.height / 2;
+      if (y < 0 || y > window.innerHeight || x < 0 || x > window.innerWidth) return false;
+      const el = document.elementFromPoint(x, y);
+      return el !== null && (host === null || host.contains(el));
+    };
+
+    let inView = false;
+    let started = false;
+    function sync(): void {
+      if (drawn && inView) pt.play();
+      else pt.pause();
+    }
+    // Entrada: top 85% del viewport, una sola vez (play none none none) y solo
+    // cuando el detalle es visible de verdad.
+    const tryStart = (): void => {
+      if (started || !visible()) return;
+      started = true;
+      tl.play();
+    };
+
+    // end "max": el rango no se cierra al pasar de largo; con paneles pineados
+    // (ProcessRail) la posicion natural del svg no coincide con cuando se ve,
+    // asi que la visibilidad real se evalua en cada tick (barato: un rect y,
+    // solo si esta en viewport, un elementFromPoint).
+    ScrollTrigger.create({
+      trigger: svg,
+      start: "top 85%",
+      end: "max",
+      onEnter: tryStart,
+      onUpdate: (self) => {
+        if (!self.isActive) return;
+        if (!started) tryStart();
+        const v = visible();
+        if (v !== inView) {
+          inView = v;
+          sync();
+        }
+      },
+      onLeaveBack: () => {
+        inView = false;
+        sync();
+      },
+    });
+  }
+
+  function init(): void {
+    destroy();
+    const svgs = Array.from(document.querySelectorAll<SVGSVGElement>("[data-circuit-detail]"));
+    if (svgs.length === 0) return;
+    mm = gsap.matchMedia();
+    mm.add(LG, () => {
+      svgs.forEach(mount);
+      ScrollTrigger.refresh();
+    });
+  }
+
+  function destroy(): void {
+    if (mm !== null) {
+      mm.revert();
+      mm = null;
+    }
+  }
+
+  // Un solo init compartido por todas las instancias (el bundle del script se
+  // deduplica en la pagina). ClientRouter: se re-inicia tras cada swap.
+  let didSwap = false;
+  init();
+  document.addEventListener("astro:before-swap", () => {
+    didSwap = true;
+    destroy();
+  });
+  document.addEventListener("astro:page-load", () => {
+    if (!didSwap) return;
+    didSwap = false;
+    init();
+  });
+</script>
