@@ -5,6 +5,7 @@
 // de imagen de F1 y la fila full-width 21:9 especial.
 import { getCollection } from "astro:content";
 import { useTranslations } from "../../i18n/utils";
+import CircuitDetail from "../decor/CircuitDetail.astro";
 
 interface Props {
   currentLang: "es" | "en";
@@ -54,6 +55,7 @@ const wipeDir = (i: number): "ltr" | "rtl" => (i % 2 === 0 ? "ltr" : "rtl");
          progreso (01 / 06), que crea hscroll.ts por JS — sin JS no existe
          (regla de oro sin-JS). -->
     <div class="relative" data-hscroll-header>
+      <CircuitDetail variant="b" side="right" style="top:0.5rem;width:150px;" />
       <h2
         class="pt-24 font-display text-[clamp(2.25rem,5.5vw,5rem)] leading-[1] tracking-[-0.045em] text-(--color-text) lg:pt-32"
         data-reveal="lines"
@@ -217,5 +219,37 @@ const wipeDir = (i: number): "ltr" | "rtl" => (i % 2 === 0 ? "ltr" : "rtl");
   /* h3 a la escala del stack. */
   [data-hscroll-stack="true"] [data-card-title] {
     font-size: clamp(2rem, 3vw, 3rem);
+  }
+
+  /* STACK VERTICAL (<lg, hscroll.ts initHScrollMobile pone
+     data-hscroll-stack="mobile"). La tarjeta es una columna: el TEXTO manda
+     (siempre completo) y la imagen ocupa el alto sobrante (object-cover), así
+     ningún contenido se corta al ajustar la tarjeta a 100svh. Sin JS / reduce
+     / desktop estas reglas no aplican. */
+  [data-hscroll-stack="mobile"] article {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border: 1px solid color-mix(in oklab, var(--color-text) 10%, transparent);
+    padding: 0 0 1.25rem;
+  }
+  [data-hscroll-stack="mobile"] [data-card-media] {
+    order: -1;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  [data-hscroll-stack="mobile"] [data-card-media] figure,
+  [data-hscroll-stack="mobile"] [data-card-media] img {
+    height: 100%;
+  }
+  [data-hscroll-stack="mobile"] [data-card-media] img {
+    aspect-ratio: auto;
+  }
+  [data-hscroll-stack="mobile"] [data-card-text] {
+    flex: 0 0 auto;
+    padding-inline: 1.25rem;
+  }
+  [data-hscroll-stack="mobile"] [data-card-text] a {
+    margin-top: 0.75rem;
   }
 </style>

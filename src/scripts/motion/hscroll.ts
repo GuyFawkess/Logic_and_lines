@@ -78,7 +78,7 @@
  */
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { RAIL, REVEAL, STACK } from "./tokens";
+import { RAIL, REVEAL, STACK, STACK_MOBILE } from "./tokens";
 
 interface StackState {
   timeline: gsap.core.Timeline | null;
@@ -100,6 +100,10 @@ interface StackState {
   pinTrigger: ScrollTrigger | null;
   /** true mientras el stack esté montado (la consulta image-reveal.ts). */
   mounted: boolean;
+  /** style inline del MARKUP de cada tarjeta (vars --card-*-col): clearProps
+   *  "all" lo borraba entero y un remontaje tras cruzar breakpoint perdía las
+   *  columnas del stack desktop. destroy lo restaura. */
+  cardStyles: (string | null)[];
 }
 
 const state: StackState = {
@@ -115,6 +119,7 @@ const state: StackState = {
   under: null,
   pinTrigger: null,
   mounted: false,
+  cardStyles: [],
 };
 
 const pad2 = (n: number): string => String(n).padStart(2, "0");
@@ -157,6 +162,7 @@ export function initHScroll(): void {
   state.track = track;
   state.section = section;
   state.cards = cards;
+  state.cardStyles = cards.map((card) => card.getAttribute("style"));
   state.mounted = true;
   state.inner = inner;
   // P1-1 (T3): marca de "stack montado". El tratamiento de tarjeta del
@@ -451,6 +457,190 @@ export function initHScroll(): void {
 }
 
 /**
+ * Variante VERTICAL (<lg + no-preference, STACK_MOBILE). Misma gramática que
+ * desktop adaptada al eje Y y MISMO estado/limpieza (destroyHScroll):
+ *   - La sección pinea a 100svh exactos (header + stage). Tarjetas absolutas
+ *     en el stage (overflow hidden); la k entra con yPercent 100 → 0 desde el
+ *     borde inferior del stage y la k-1 queda cubierta: scale 0.94 (origin
+ *     arriba-centro), asomo de `peek` px y overlay de oscurecimiento.
+ *   - Cola: dwell de lectura + `riseVh` de pin en el que PROCESO SUBE como una
+ *     hoja: su wrapper [data-proceso-under] se adelanta -100svh y pinta encima
+ *     (z-index 20 > z-10 de Servicios). Scroll NATURAL 1:1, sin transform: al
+ *     acabar el pin Proceso cubre el viewport exacto y la página sigue en flujo
+ *     (Servicios queda debajo, oculta). Sin pin "proceso" en móvil.
+ *   - id "hscroll-m" (NO "hscroll"): el rail móvil y las anclas de Lenis
+ *     siguen con su arranque natural (offsetTop ya incluye spacer y margen).
+ */
+export function initHScrollMobile(): void {
+  destroyHScroll();
+  const wrapper = document.querySelector<HTMLElement>("[data-hscroll]");
+  if (wrapper === null || !window.matchMedia(STACK_MOBILE.mountQuery).matches) return;
+  const track = wrapper.querySelector<HTMLElement>("[data-hscroll-track]");
+  const section = wrapper.closest<HTMLElement>("section");
+  const inner = section?.querySelector<HTMLElement>("[data-hscroll-inner]") ?? null;
+  if (track === null || section === null || inner === null) return;
+  const cards = Array.from(track.children).filter(
+    (el): el is HTMLElement => el instanceof HTMLElement,
+  );
+  if (cards.length < 2) return;
+
+  state.wrapper = wrapper;
+  state.track = track;
+  state.section = section;
+  state.inner = inner;
+  state.cards = cards;
+  state.cardStyles = cards.map((card) => card.getAttribute("style"));
+  state.mounted = true;
+  // Marca distinta de desktop ("true"): el CSS de tarjeta de desktop no
+  // aplica; el componente tiene su propio bloque para "mobile".
+  section.dataset.hscrollStack = "mobile";
+
+  // Layout SOLO por JS (regla sin-JS). Alto EXACTO 100svh (estilo crudo: svh
+  // resize-proof) — la fórmula del margen de Proceso depende de ello.
+  section.style.height = "100svh";
+  gsap.set(section, { display: "flex", flexDirection: "column", overflow: "hidden" });
+  gsap.set(inner, { display: "flex", flexDirection: "column", flex: "1 1 auto", minHeight: 0 });
+  gsap.set(wrapper, {
+    position: "relative",
+    overflow: "hidden",
+    flex: "1 1 auto",
+    minHeight: 0,
+    width: "100%",
+    marginBottom: STACK_MOBILE.stageGap,
+  });
+  gsap.set(track, { position: "absolute", inset: "0", margin: "0" });
+  const title = section.querySelector<HTMLElement>("h2");
+  if (title !== null) {
+    gsap.set(title, { paddingTop: STACK_MOBILE.titlePad });
+    state.title = title;
+  }
+
+  // Tarjetas: slot = stage menos el asomo superior (la cubierta sube `peek`
+  // px y se ve por encima de la nueva). Ocultación inicial SOLO por gsap.set.
+  gsap.set(cards, {
+    position: "absolute",
+    top: STACK_MOBILE.peek,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    margin: 0,
+    overflow: "hidden",
+    borderRadius: "0.75rem",
+    backgroundColor: "var(--color-card)",
+    transformOrigin: "50% 0%",
+  });
+  gsap.set(cards.slice(1), { yPercent: 100 });
+
+  const overlays = cards.map((card) => {
+    const overlay = document.createElement("div");
+    overlay.setAttribute("data-hscroll-dim", "");
+    overlay.setAttribute("aria-hidden", "true");
+    overlay.style.cssText =
+      "position:absolute;inset:0;pointer-events:none;" +
+      "background:var(--color-bg-alt);opacity:0;";
+    card.appendChild(overlay);
+    return overlay;
+  });
+  state.overlays = overlays;
+
+  const header = section.querySelector<HTMLElement>("[data-hscroll-header]");
+  const total = pad2(cards.length);
+  if (header !== null) {
+    const counter = document.createElement("p");
+    counter.setAttribute("data-hscroll-progress", "");
+    counter.setAttribute("aria-hidden", "true");
+    counter.style.cssText =
+      "position:absolute;right:0;bottom:0.25rem;" +
+      "font-family:var(--font-mono);font-size:0.875rem;line-height:1.5;" +
+      "font-variant-numeric:tabular-nums;color:var(--color-text-dark);";
+    counter.textContent = `${pad2(1)} / ${total}`;
+    header.appendChild(counter);
+    state.counter = counter;
+  }
+  let lastIdx = 0;
+
+  const n = cards.length;
+  const travelVh = (n - 1) * STACK_MOBILE.vhPerCard;
+  const setWillChange = (on: boolean): void => {
+    if (on) {
+      gsap.set(cards, { willChange: "transform" });
+      gsap.set(overlays, { willChange: "opacity" });
+    } else {
+      gsap.set(cards, { clearProps: "willChange" });
+      gsap.set(overlays, { clearProps: "willChange" });
+    }
+  };
+
+  const timeline = gsap.timeline({
+    scrollTrigger: {
+      trigger: section,
+      start: "top top",
+      end: () =>
+        "+=" +
+        Math.round(
+          (travelVh + STACK_MOBILE.dwellVh + STACK_MOBILE.riseVh) * window.innerHeight,
+        ),
+      pin: true,
+      scrub: STACK.scrub,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      refreshPriority: STACK.priority,
+      id: "hscroll-m",
+      onToggle: (self) => setWillChange(self.isActive),
+      onUpdate: (self) => {
+        const range = self.end - self.start;
+        if (range <= 0) return;
+        const travel = self.progress / ((travelVh * window.innerHeight) / range);
+        const idx = Math.min(n - 1, Math.max(0, Math.round(Math.min(1, travel) * (n - 1))));
+        if (idx === lastIdx) return;
+        lastIdx = idx;
+        if (state.counter !== null) state.counter.textContent = `${pad2(idx + 1)} / ${total}`;
+      },
+    },
+  });
+  if (timeline.scrollTrigger?.isActive === true) setWillChange(true);
+
+  cards.forEach((card, j) => {
+    if (j > 0) {
+      timeline.fromTo(
+        card,
+        { yPercent: 100 },
+        { yPercent: 0, duration: 1, ease: "power2.out", immediateRender: false },
+        j - 1,
+      );
+    }
+    if (j < n - 1) {
+      // Cubierta por la j+1 mientras esta sube (mismo rango): escala, asomo y
+      // oscurecimiento. Las más profundas quedan quietas detrás.
+      timeline.to(
+        card,
+        { scale: STACK_MOBILE.coverScale, y: -STACK_MOBILE.peek, duration: 1, ease: "none" },
+        j,
+      );
+      timeline.to(overlays[j], { opacity: STACK.dimOpacity, duration: 1, ease: "none" }, j);
+    }
+  });
+  // Cola: dwell + subida de Proceso (scroll natural; tween vacío = longitud).
+  timeline.to(
+    {},
+    { duration: (STACK_MOBILE.dwellVh + STACK_MOBILE.riseVh) / STACK_MOBILE.vhPerCard },
+    n - 1,
+  );
+  state.timeline = timeline;
+
+  // Proceso como hoja: -100svh (= alto de la sección pineada) deja su top en
+  // el viewport-bottom al empezar la subida y en el top EXACTO al acabar el
+  // pin. z-index por encima de Servicios (z-10). Estilos crudos, destroy los
+  // retira.
+  const under = document.querySelector<HTMLElement>("[data-proceso-under]");
+  if (under !== null) {
+    under.style.marginTop = "-100svh";
+    under.style.zIndex = "20";
+    state.under = under;
+  }
+}
+
+/**
  * Limpieza total: mata timeline/trigger, el pin "proceso" y devuelve
  * section/wrapper/track/cards al estado del markup (filas verticales), retira
  * el margen del wrapper de Proceso y el contador. resetMotion() la llama
@@ -490,6 +680,11 @@ export function destroyHScroll(): void {
     // estilo inline: ningún render posterior puede reescribir el transform.
     gsap.killTweensOf(state.cards);
     gsap.set(state.cards, { clearProps: "all" });
+    state.cards.forEach((card, j) => {
+      const markup = state.cardStyles[j] ?? null;
+      if (markup !== null) card.setAttribute("style", markup);
+    });
+    state.cardStyles = [];
   }
   if (state.overlays.length > 0) {
     // R2: los overlays son artefactos JS → mismos dos pasos que las tarjetas
@@ -502,7 +697,9 @@ export function destroyHScroll(): void {
     gsap.set(state.track, { clearProps: "position,inset,margin" });
   }
   if (state.wrapper !== null) {
-    gsap.set(state.wrapper, { clearProps: "position,overflow,flex,width" });
+    gsap.set(state.wrapper, {
+      clearProps: "position,overflow,flex,width,minHeight,marginBottom",
+    });
   }
   if (state.section !== null) {
     // R6: killTweensOf también para la sección (el fromTo del slide es un
@@ -510,13 +707,14 @@ export function destroyHScroll(): void {
     // xPercent en el clearProps.
     gsap.killTweensOf(state.section);
     gsap.set(state.section, {
-      clearProps: "minHeight,display,flexDirection,justifyContent,xPercent,willChange",
+      clearProps:
+        "minHeight,height,overflow,display,flexDirection,justifyContent,xPercent,willChange",
     });
   }
   if (state.inner !== null) {
     // P1-2b (T3): el div interior recibió display/flexDirection/flex por
     // gsap.set -> mismos clearProps para volver al estado del markup.
-    gsap.set(state.inner, { clearProps: "display,flexDirection,flex" });
+    gsap.set(state.inner, { clearProps: "display,flexDirection,flex,minHeight" });
     state.inner = null;
   }
   if (state.pinTrigger !== null) {
@@ -530,6 +728,7 @@ export function destroyHScroll(): void {
     // R6-b: el margen del wrapper lo aplicó este módulo con estilo crudo →
     // se retira a mano (matchMedia.revert() no deshace mutaciones de style).
     state.under.style.marginTop = "";
+    state.under.style.zIndex = ""; // variante móvil (hoja sobre Servicios)
     state.under = null;
   }
   if (state.counter !== null) {
