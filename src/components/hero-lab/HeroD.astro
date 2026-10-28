@@ -1,0 +1,445 @@
+---
+// HERO LAB D — "Del caos a la lógica".
+// Un ovillo de líneas finas (y UNA línea ámbar) que se resuelve en una
+// retícula limpia + la Línea Maestra. Desktop: pin + scrub (end +=170%).
+// Móvil: sin pin, caos -> orden una vez al cargar (1,6 s).
+//
+// Regla sin-JS: el MARKUP es el estado FINAL ORDENADO (d ordenadas, nodo
+// visible, claim completo en dos líneas). El caos inicial lo pone el script
+// con gsap.set. El morph va SIN MorphSVG: gsap.to(path, { attr: { d } }) con
+// la MISMA estructura de comandos en caos y orden (M + C cúbicas; un tramo
+// recto es una cúbica con los puntos de control sobre la recta).
+import { useTranslations } from "../../i18n/utils";
+
+interface Props {
+  currentLang: "es" | "en";
+}
+
+const { currentLang } = Astro.props;
+const t = useTranslations(currentLang);
+const contactHref = currentLang === "en" ? "/en/contact" : "/contact";
+
+const [line1, line2] = t.value.title as string[];
+const italicWord = t.value.titleItalic as string;
+const italicIndex = line2.indexOf(italicWord);
+const beforeItalic = italicIndex >= 0 ? line2.slice(0, italicIndex) : line2;
+const afterItalic =
+  italicIndex >= 0 ? line2.slice(italicIndex + italicWord.length) : "";
+
+// ---------------------------------------------------------------------------
+// Geometría (viewBox 1440x900, preserveAspectRatio="none" + trazo no escalable:
+// la retícula sigue ortogonal en cualquier proporción y no hay recorte).
+// Columna de texto <= x 641 en desktop (todo en vw); el ovillo vive en
+// x >= 760 y, por la envolvente convexa de las Bézier, nunca la invade.
+// ---------------------------------------------------------------------------
+type Pt = [number, number];
+
+/** PRNG determinista (mulberry32): mismo ovillo en cada build. */
+function rng(seed: number): () => number {
+  let s = seed;
+  return () => {
+    s = (s + 0x6d2b79f5) | 0;
+    let r = Math.imul(s ^ (s >>> 15), 1 | s);
+    r = (r + Math.imul(r ^ (r >>> 7), 61 | r)) ^ r;
+    return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const rand = rng(20261028);
+const f = (n: number): string => n.toFixed(1);
+const between = (a: number, b: number): number => a + (b - a) * rand();
+
+/** Cúbica recta de a a b (controles a 1/3 y 2/3 sobre la recta). */
+const straight = (a: Pt, b: Pt): string =>
+  `C ${f(a[0] + (b[0] - a[0]) / 3)} ${f(a[1] + (b[1] - a[1]) / 3)} ${f(
+    a[0] + ((b[0] - a[0]) * 2) / 3,
+  )} ${f(a[1] + ((b[1] - a[1]) * 2) / 3)} ${f(b[0])} ${f(b[1])}`;
+
+// Caja del caos (zona densa) — derecha del lienzo.
+const CX0 = 760;
+const CX1 = 1400;
+const CY0 = 110;
+const CY1 = 800;
+const chaosPt = (): Pt => [between(CX0, CX1), between(CY0, CY1)];
+const curly = (to: Pt): string => {
+  const c1 = chaosPt();
+  const c2 = chaosPt();
+  return `C ${f(c1[0])} ${f(c1[1])} ${f(c2[0])} ${f(c2[1])} ${f(to[0])} ${f(to[1])}`;
+};
+
+// Retícula ordenada.
+const GX0 = 740;
+const GX1 = 1380;
+const GY0 = 150;
+const GY1 = 760;
+const rows = 8;
+const cols = 7;
+const ys = Array.from({ length: rows }, (_, i) => GY0 + (i * (GY1 - GY0)) / (rows - 1));
+const xs = Array.from({ length: cols }, (_, j) => GX0 + (j * (GX1 - GX0)) / (cols - 1));
+const GAP = 7; // medio hueco en cada cruce elegido
+
+/** Dos índices interiores distintos y ordenados (cortes de la línea). */
+function cuts(n: number): [number, number] {
+  const a = 1 + Math.floor(rand() * (n - 2));
+  let b = 1 + Math.floor(rand() * (n - 2));
+  if (b === a) b = a + 1 <= n - 2 ? a + 1 : a - 1;
+  return a < b ? [a, b] : [b, a];
+}
+
+interface Strand {
+  order: string;
+  chaos: string;
+  muted: boolean;
+}
+
+/** Línea de la retícula en 3 tramos (M C C x3), con su gemelo caótico. */
+function strand(start: Pt, end: Pt, cutsAt: [number, number], muted: boolean): Strand {
+  const horizontal = start[1] === end[1];
+  const at = (v: number): Pt => (horizontal ? [v, start[1]] : [start[0], v]);
+  const s = horizontal ? start[0] : start[1];
+  const e = horizontal ? end[0] : end[1];
+  const [k1, k2] = cutsAt;
+  const segs: Array<[number, number]> = [
+    [s, k1 - GAP],
+    [k1 + GAP, k2 - GAP],
+    [k2 + GAP, e],
+  ];
+  const order = segs
+    .map(([a, b]) => {
+      const p0 = at(a);
+      const pm = at((a + b) / 2);
+      const p1 = at(b);
+      return `M ${f(p0[0])} ${f(p0[1])} ${straight(p0, pm)} ${straight(pm, p1)}`;
+    })
+    .join(" ");
+  // Caos: mismos comandos; cada "M" arranca donde acabó el tramo anterior
+  // (trazo continuo), las cúbicas con controles aleatorios en la caja.
+  let cursor = chaosPt();
+  const chaos = segs
+    .map(() => {
+      const from = cursor;
+      const mid = chaosPt();
+      const to = chaosPt();
+      cursor = to;
+      return `M ${f(from[0])} ${f(from[1])} ${curly(mid)} ${curly(to)}`;
+    })
+    .join(" ");
+  return { order, chaos, muted };
+}
+
+const MUTED = new Set([2, 7, 11]);
+const strands: Strand[] = [];
+ys.forEach((y, i) => {
+  const [a, b] = cuts(cols);
+  strands.push(strand([GX0, y], [GX1, y], [xs[a], xs[b]], MUTED.has(strands.length)));
+  if (i < cols) {
+    const [c, d] = cuts(rows);
+    const x = xs[i];
+    strands.push(strand([x, GY0], [x, GY1], [ys[c], ys[d]], MUTED.has(strands.length)));
+  }
+});
+
+// Línea Maestra: vertical entre columnas de la retícula y luego horizontal
+// hacia el borde inferior izquierdo, donde cierra con un nodo (continúa en
+// la Tesis). 6 cúbicas en orden y en caos.
+const AX = (xs[3] + xs[4]) / 2;
+const AY0 = 96;
+const AY1 = 880;
+const AEND: Pt = [40, AY1];
+const amberPts: Pt[] = [
+  [AX, AY0],
+  [AX, AY0 + (AY1 - AY0) / 3],
+  [AX, AY0 + ((AY1 - AY0) * 2) / 3],
+  [AX, AY1],
+  [AX - (AX - AEND[0]) / 3, AY1],
+  [AX - ((AX - AEND[0]) * 2) / 3, AY1],
+  AEND,
+];
+const amberOrder =
+  `M ${f(amberPts[0][0])} ${f(amberPts[0][1])} ` +
+  amberPts
+    .slice(1)
+    .map((p, i) => straight(amberPts[i], p))
+    .join(" ");
+const amberStart = chaosPt();
+const amberChaos =
+  `M ${f(amberStart[0])} ${f(amberStart[1])} ` +
+  amberPts
+    .slice(1)
+    .map(() => curly(chaosPt()))
+    .join(" ");
+
+const nodeLeft = `${((AEND[0] / 1440) * 100).toFixed(3)}%`;
+const nodeTop = `${((AEND[1] / 900) * 100).toFixed(3)}%`;
+---
+
+<section
+  class="hero-d relative flex min-h-[calc(100svh-72px)] flex-col justify-end overflow-hidden bg-(--color-bg) pb-12 pt-16 lg:pb-14"
+  data-hero-d
+>
+  <!-- Lienzo: móvil = banda superior que encuadra solo la zona de la
+       retícula (x 600-1440); desktop = a sangre completa. -->
+  <div
+    class="hd-canvas pointer-events-none absolute right-0 top-0"
+    aria-hidden="true"
+  >
+    <svg
+      class="absolute inset-0 block h-full w-full"
+      viewBox="0 0 1440 900"
+      preserveAspectRatio="none"
+      fill="none"
+    >
+      {
+        strands.map((s, i) => (
+          <path
+            data-hd-path
+            data-hd-index={i}
+            d={s.order}
+            data-order={s.order}
+            data-chaos={s.chaos}
+            stroke={s.muted ? "var(--color-text-dark)" : "var(--color-bg-chapter)"}
+            stroke-opacity={s.muted ? 0.4 : 1}
+            stroke-width="1"
+            stroke-linecap="round"
+            vector-effect="non-scaling-stroke"
+          />
+        ))
+      }
+      <path
+        data-hd-amber
+        d={amberOrder}
+        data-order={amberOrder}
+        data-chaos={amberChaos}
+        stroke="var(--color-primary)"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        vector-effect="non-scaling-stroke"></path>
+    </svg>
+    <!-- Nodo de cierre en HTML (con preserveAspectRatio="none" un <circle>
+         se deformaría). Mismo punto que el final de la línea ámbar. -->
+    <span
+      data-hd-node
+      class="hd-node absolute block rounded-full bg-(--color-primary)"
+      style={`left:${nodeLeft};top:${nodeTop};`}></span>
+  </div>
+
+  <div
+    class="hd-copy relative z-10 w-full px-6"
+  >
+    <div class="hd-col">
+      <h1
+        class="hd-claim font-display font-normal leading-[0.98] tracking-[-0.045em] text-(--color-text)"
+      >
+        <span class="sr-only">{line1} {line2}</span>
+        <span class="hd-stack block" aria-hidden="true">
+          <span class="block pb-1 text-balance" data-hd-state="1">{line1}</span>
+          <span class="block pb-2 text-balance" data-hd-state="2"
+            >{beforeItalic}<em class="italic text-primary">{italicWord}</em>{afterItalic}</span
+          >
+        </span>
+      </h1>
+
+      <p
+        class="mt-6 max-w-[52ch] font-mono text-sm leading-relaxed text-(--color-text-dark) md:text-[15px]"
+      >
+        {t.value.keywordsLine}
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-4">
+        <a
+          href={contactHref}
+          class="inline-flex h-11 items-center justify-center whitespace-nowrap bg-(--color-primary) px-6 text-sm font-medium text-(--color-bg) transition-colors duration-200 hover:bg-(--color-primary-hover) active:translate-y-px"
+          data-gtm-event="cta_click"
+          data-gtm-location="hero"
+          data-gtm-label="schedule_call"
+        >
+          {t.buttons.book}
+        </a>
+        <a
+          href="https://wa.me/34628125302"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex h-11 items-center justify-center whitespace-nowrap border border-(--color-hairline) px-6 text-sm font-medium text-(--color-text) transition-colors duration-200 hover:border-(--color-primary) hover:text-(--color-primary) active:translate-y-px"
+          data-gtm-event="contact_click"
+          data-gtm-location="hero"
+          data-gtm-label="whatsapp"
+        >
+          WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Medidas propias en CSS con ámbito (no dependen del escaneo de Tailwind). */
+  .hd-canvas {
+    width: 171%; /* móvil: encuadra solo x 600-1440 del viewBox */
+    height: 44%;
+  }
+  .hd-node {
+    width: 11px;
+    height: 11px;
+    margin: -5.5px 0 0 -5.5px; /* centrado sin transform (GSAP escala el nodo) */
+  }
+  .hd-claim {
+    font-size: clamp(2.6rem, 11vw, 3.5rem);
+  }
+  @media (min-width: 1024px) {
+    .hero-d {
+      height: calc(100svh - 72px);
+      min-height: 0;
+    }
+    .hd-canvas {
+      width: 100%;
+      height: 100%;
+    }
+    .hd-copy {
+      padding-left: clamp(3.5rem, 6.5vw, 8rem);
+      padding-right: 0;
+    }
+    .hd-col {
+      max-width: 38vw;
+    }
+    .hd-claim {
+      font-size: clamp(3.25rem, 4.9vw, 6rem);
+    }
+  }
+
+  /* Los dos estados del claim comparten celda SOLO cuando el scrub de
+     desktop va a correr (JS activo, >=lg, sin reduced-motion): sin salto de
+     layout en el cruce. Sin JS / móvil / reduced-motion: las dos líneas en
+     flujo (claim completo). La OCULTACIÓN del estado 2 la pone gsap.set. */
+  @media (scripting: enabled) and (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+    .hd-stack {
+      display: grid;
+    }
+    .hd-stack > * {
+      grid-area: 1 / 1;
+    }
+  }
+</style>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
+
+  gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
+
+  const DESKTOP = "(min-width: 1024px) and (prefers-reduced-motion: no-preference)";
+  const MOBILE = "(max-width: 1023px) and (prefers-reduced-motion: no-preference)";
+  /** Puerta del preloader (index.ts/preloader.ts): libera ~1.0 s tras crearse. */
+  const PRELOADER_WAIT = 1.0;
+
+  let mm: gsap.MatchMedia | null = null;
+  let root: HTMLElement | null = null;
+
+  function headerHeight(): number {
+    const h = document.querySelector("header");
+    return h ? Math.round(h.getBoundingClientRect().height) : 72;
+  }
+
+  /** Espera al overlay del preloader si está en pantalla (primera visita). */
+  function preloaderDelay(): number {
+    return document.querySelector("[data-ll-preloader]") !== null ? PRELOADER_WAIT : 0;
+  }
+
+  function destroyHeroD(): void {
+    mm?.revert();
+    mm = null;
+    root = null;
+  }
+
+  function initHeroD(): void {
+    const el = document.querySelector<HTMLElement>("[data-hero-d]");
+    if (el === null || el === root) return;
+    destroyHeroD();
+    root = el;
+
+    const strands = Array.from(el.querySelectorAll<SVGPathElement>("[data-hd-path]"));
+    const amber = el.querySelector<SVGPathElement>("[data-hd-amber]");
+    const node = el.querySelector<HTMLElement>("[data-hd-node]");
+    const s1 = el.querySelector<HTMLElement>('[data-hd-state="1"]');
+    const s2 = el.querySelector<HTMLElement>('[data-hd-state="2"]');
+    if (amber === null || node === null || s1 === null || s2 === null) return;
+    const all = [...strands, amber];
+
+    const toChaos = (): void => {
+      all.forEach((p) => gsap.set(p, { attr: { d: p.dataset.chaos ?? "" } }));
+      gsap.set(node, { autoAlpha: 0, scale: 0 });
+    };
+
+    mm = gsap.matchMedia();
+
+    // DESKTOP: pin + scrub. 0-0.6 morph (stagger por índice, ámbar al final),
+    // 0.55-0.70 cruce del claim, 0.70-1 reposo en orden.
+    mm.add(DESKTOP, () => {
+      toChaos();
+      gsap.set(s2, { autoAlpha: 0, yPercent: 18 });
+
+      const tl = gsap.timeline({
+        defaults: { ease: "none" },
+        scrollTrigger: {
+          id: "hero-d",
+          trigger: el,
+          start: () => `top ${headerHeight()}px`,
+          end: "+=170%",
+          pin: true,
+          scrub: 0.8,
+          refreshPriority: 30,
+          invalidateOnRefresh: false,
+        },
+      });
+      const step = 0.3 / Math.max(strands.length, 1);
+      strands.forEach((p, i) => {
+        tl.to(p, { attr: { d: p.dataset.order ?? "" }, duration: 0.3, ease: "power2.inOut" }, i * step * 0.95);
+      });
+      tl.to(amber, { attr: { d: amber.dataset.order ?? "" }, duration: 0.3, ease: "power2.inOut" }, 0.3);
+      tl.to(node, { autoAlpha: 1, scale: 1, duration: 0.05, ease: "back.out(2)" }, 0.57);
+      tl.to(s1, { autoAlpha: 0, yPercent: -18, duration: 0.15, ease: "power1.inOut" }, 0.55);
+      tl.to(s2, { autoAlpha: 1, yPercent: 0, duration: 0.15, ease: "power1.inOut" }, 0.55);
+      tl.to({}, { duration: 0.3 }, 0.7);
+
+      // Entrada: el ovillo se dibuja (DrawSVG) tras el preloader. Al acabar
+      // se limpian los dash para que el morph no arrastre longitudes viejas.
+      // Tweens creados en síncrono (quedan dentro del contexto matchMedia) y
+      // arrancados un tick después, cuando ya se sabe si hay preloader.
+      gsap.set(all, { drawSVG: "0% 0%" });
+      const intro = gsap.to(all, {
+        drawSVG: "0% 100%",
+        duration: 1.1,
+        ease: "power2.out",
+        stagger: 0.035,
+        paused: true,
+        onComplete: () => {
+          gsap.set(all, { clearProps: "strokeDasharray,strokeDashoffset" });
+        },
+      });
+      gsap.delayedCall(0.05, () => {
+        intro.delay(preloaderDelay()).restart(true);
+      });
+
+      ScrollTrigger.refresh();
+    });
+
+    // MÓVIL: sin pin. Caos -> orden una vez al cargar, 1.6 s en total.
+    mm.add(MOBILE, () => {
+      toChaos();
+      const tl = gsap.timeline({ paused: true });
+      strands.forEach((p, i) => {
+        tl.to(p, { attr: { d: p.dataset.order ?? "" }, duration: 0.9, ease: "power2.inOut" }, i * 0.03);
+      });
+      tl.to(amber, { attr: { d: amber.dataset.order ?? "" }, duration: 0.9, ease: "power2.inOut" }, 0.55);
+      tl.to(node, { autoAlpha: 1, scale: 1, duration: 0.15, ease: "back.out(2)" }, 1.45);
+      gsap.delayedCall(0.05, () => {
+        tl.delay(preloaderDelay()).restart(true);
+      });
+    });
+    // Reduced-motion: nada — el markup ya es el estado final ordenado.
+  }
+
+  initHeroD();
+  document.addEventListener("astro:page-load", initHeroD);
+  document.addEventListener("astro:before-swap", destroyHeroD);
+</script>

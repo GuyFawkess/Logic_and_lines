@@ -1,0 +1,539 @@
+---
+// HERO LAB · A — "El plano vivo".
+// Plano de circuito (SVG inline) alrededor del claim: hairlines #223B47 + la
+// Linea Maestra ambar que entra arriba-izquierda, recorre el camino principal
+// y acaba en el ultimo nodo; al hacer scroll sigue bajando (cola) hasta el
+// borde inferior del viewport. El MARKUP es el estado FINAL (sin JS y
+// reduced-motion = plano completo y estatico); toda ocultacion inicial la
+// pone el script con gsap.set dentro de gsap.matchMedia.
+// Atributos propios (data-ha-*): no usa data-hero-logo ni data-reveal.
+interface Props {
+  currentLang: "es" | "en";
+}
+
+const { currentLang } = Astro.props;
+const contactHref = currentLang === "en" ? "/en/contact" : "/contact";
+---
+
+<section class="ha" data-hero-a aria-labelledby="ha-title">
+  <div class="ha-bg" aria-hidden="true">
+    <!-- Desktop / tablet: viewBox 1440x900. Caminos en los margenes laterales y
+         en la franja superior (libre de texto). -->
+    <svg
+      class="ha-svg ha-svg-lg"
+      data-ha-svg="lg"
+      viewBox="0 0 1440 900"
+      preserveAspectRatio="xMidYMid slice"
+    >
+      <path data-ha-hair="0" class="ha-hair" d="M 96 150 H 760 V 190 H 1344 V 420 H 1296 V 640 H 1344 V 820"></path>
+      <path data-ha-hair="1" class="ha-hair" d="M 96 480 H 30 V 580 H -20"></path>
+      <path data-ha-hair="2" class="ha-hair" d="M 1460 300 H 1392 V 540 H 1460"></path>
+      <path data-ha-hair="3" class="ha-hair" d="M 96 300 H 60 V 380 H -20"></path>
+      <path data-ha-amber class="ha-amber" d="M -20 150 H 96 V 300 H 150 V 480 H 96 V 640 H 40 V 770"></path>
+      <circle data-ha-node data-ha-on="amber" class="ha-node ha-node-a" cx="96" cy="150" r="4.5"></circle>
+      <circle data-ha-node data-ha-on="amber" class="ha-node ha-node-a" cx="150" cy="300" r="4.5"></circle>
+      <circle data-ha-node data-ha-on="amber" class="ha-node ha-node-a" cx="96" cy="480" r="4.5"></circle>
+      <circle data-ha-node data-ha-on="amber" class="ha-node ha-node-a" cx="40" cy="640" r="4.5"></circle>
+      <circle data-ha-node data-ha-on="amber" data-ha-anchor class="ha-node ha-node-a" cx="40" cy="770" r="5"></circle>
+      <circle data-ha-node data-ha-on="0" class="ha-node ha-node-h" cx="1344" cy="420" r="4.5"></circle>
+      <circle data-ha-pulse class="ha-pulse" cx="0" cy="0" r="3" opacity="0"></circle>
+    </svg>
+
+    <!-- Movil: viewBox 390x772, caminos solo en los margenes de 12 %. -->
+    <svg
+      class="ha-svg ha-svg-sm"
+      data-ha-svg="sm"
+      viewBox="0 0 390 772"
+      preserveAspectRatio="xMidYMid slice"
+    >
+      <path data-ha-hair="0" class="ha-hair" d="M 22 90 H 200 V 130 H 366 V 360 H 352 V 560 H 370 V 790"></path>
+      <path data-ha-hair="1" class="ha-hair" d="M 20 470 H 6 V 540 H -10"></path>
+      <path data-ha-amber class="ha-amber" d="M -10 90 H 22 V 250 H 34 V 470 H 20 V 640 H 12 V 740"></path>
+      <circle data-ha-node data-ha-on="amber" class="ha-node ha-node-a" cx="22" cy="90" r="4"></circle>
+      <circle data-ha-node data-ha-on="amber" class="ha-node ha-node-a" cx="34" cy="250" r="4"></circle>
+      <circle data-ha-node data-ha-on="amber" class="ha-node ha-node-a" cx="20" cy="470" r="4"></circle>
+      <circle data-ha-node data-ha-on="amber" class="ha-node ha-node-a" cx="20" cy="640" r="4"></circle>
+      <circle data-ha-node data-ha-on="amber" data-ha-anchor class="ha-node ha-node-a" cx="12" cy="740" r="5"></circle>
+      <circle data-ha-node data-ha-on="0" class="ha-node ha-node-h" cx="366" cy="360" r="4"></circle>
+      <circle data-ha-pulse class="ha-pulse" cx="0" cy="0" r="3" opacity="0"></circle>
+    </svg>
+  </div>
+
+  <!-- Cola de la Linea Maestra: sale del ultimo nodo, cruza el borde inferior del
+       hero y el scroll la sigue dibujando (la geometria la pone el script). -->
+  <svg class="ha-tail" aria-hidden="true">
+    <path data-ha-tail class="ha-amber" d=""></path>
+  </svg>
+
+  <div class="ha-content">
+    <h1
+      id="ha-title"
+      class="ha-title font-display font-normal tracking-[-0.04em] text-(--color-text)"
+    >
+      <span class="block">Tu negocio ya tiene la lógica.</span>
+      <span class="block">Yo trazo las <em class="italic text-primary">líneas.</em></span>
+    </h1>
+
+    <div class="ha-bar" data-ha-bar>
+      <p class="max-w-[46ch] font-mono text-sm leading-relaxed text-(--color-text-dark) md:text-[15px]">
+        Marketing y automatización con IA para negocios en Lanzarote
+      </p>
+      <div class="flex flex-wrap items-center gap-4">
+        <a
+          href={contactHref}
+          class="inline-flex h-11 items-center justify-center whitespace-nowrap bg-(--color-primary) px-6 text-sm font-medium text-(--color-bg) transition-colors duration-200 hover:bg-(--color-primary-hover) active:translate-y-px"
+          data-gtm-event="cta_click"
+          data-gtm-location="hero"
+          data-gtm-label="schedule_call"
+        >
+          Reserva tu llamada
+        </a>
+        <a
+          href="https://wa.me/34628125302"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex h-11 items-center justify-center whitespace-nowrap border border-(--color-hairline) px-6 text-sm font-medium text-(--color-text) transition-colors duration-200 hover:border-(--color-primary) hover:text-(--color-primary) active:translate-y-px"
+          data-gtm-event="contact_click"
+          data-gtm-location="hero"
+          data-gtm-label="whatsapp"
+        >
+          WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ha {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: calc(100svh - 72px);
+    background-color: var(--color-bg);
+  }
+  .ha-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .ha-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .ha-svg-lg {
+    display: none;
+  }
+  .ha-hair {
+    fill: none;
+    stroke: #223b47;
+    stroke-width: 1px;
+    vector-effect: non-scaling-stroke;
+  }
+  .ha-amber {
+    fill: none;
+    stroke: #e5a525;
+    stroke-width: 2px;
+    vector-effect: non-scaling-stroke;
+    stroke-linejoin: miter;
+  }
+  .ha-node-a {
+    fill: #e5a525;
+  }
+  .ha-node-h {
+    fill: #0d1a1f;
+    stroke: #b3aa9a;
+    stroke-width: 1.5px;
+    vector-effect: non-scaling-stroke;
+  }
+  .ha-pulse {
+    fill: #fef7ea;
+  }
+  .ha-tail {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 0;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .ha-content {
+    position: relative;
+    z-index: 2;
+    padding: 2rem 3.5rem 2.5rem;
+  }
+  .ha-title {
+    margin: 0;
+    font-size: clamp(2.25rem, 9.6vw, 3.25rem);
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+  .ha-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1.75rem;
+  }
+
+  @media (min-width: 1024px) {
+    .ha-svg-sm {
+      display: none;
+    }
+    .ha-svg-lg {
+      display: block;
+    }
+    .ha-content {
+      padding: 0 14% 5rem;
+    }
+    .ha-title {
+      font-size: clamp(2.25rem, 4.9vw, 5.25rem);
+      line-height: 1.04;
+      text-wrap: wrap;
+    }
+    .ha-bar {
+      margin-top: 2rem;
+    }
+  }
+</style>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
+  import { MotionPathPlugin } from "gsap/MotionPathPlugin";
+  import { SplitText } from "gsap/SplitText";
+
+  gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin, MotionPathPlugin, SplitText);
+
+  const LG = "(min-width: 1024px) and (prefers-reduced-motion: no-preference)";
+  const SM = "(max-width: 1023px) and (prefers-reduced-motion: no-preference)";
+  const RM = "(prefers-reduced-motion: reduce)";
+  /** Intro desktop 2.4 s; movil la misma timeline comprimida a 1.6 s. */
+  const INTRO_DUR = 2.4;
+  const MOBILE_DUR = 1.6;
+  const AMBER_START = 0.25;
+  const AMBER_DUR = 1.4;
+  const PULSE_DUR = 2.2;
+  const PULSE_EVERY = 6;
+  const SHIFT_PX = 6;
+
+  let mm: gsap.MatchMedia | null = null;
+
+  /** Espera a que el overlay del preloader (index.ts) desaparezca. Fail-open: max 6 s. */
+  function whenPreloaderGone(cb: () => void): () => void {
+    let raf = 0;
+    const t0 = performance.now();
+    const tick = (): void => {
+      const overlay = document.querySelector("[data-ll-preloader]");
+      if (overlay === null || performance.now() - t0 > 6000) {
+        cb();
+        return;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    tick();
+    return () => cancelAnimationFrame(raf);
+  }
+
+  /** Longitud (px de path) del punto del camino mas cercano a (x, y). */
+  function lenAt(path: SVGPathElement, x: number, y: number): number {
+    const total = path.getTotalLength();
+    let best = 0;
+    let bestD = Infinity;
+    for (let l = 0; l <= total; l += 2) {
+      const p = path.getPointAtLength(l);
+      const d = (p.x - x) ** 2 + (p.y - y) ** 2;
+      if (d < bestD) {
+        bestD = d;
+        best = l;
+      }
+    }
+    return best;
+  }
+
+  /** Tiempo normalizado (0..1) en el que una ease alcanza la fraccion f. */
+  function timeAtFraction(ease: (t: number) => number, f: number): number {
+    let lo = 0;
+    let hi = 1;
+    for (let i = 0; i < 24; i++) {
+      const mid = (lo + hi) / 2;
+      if (ease(mid) < f) lo = mid;
+      else hi = mid;
+    }
+    return (lo + hi) / 2;
+  }
+
+  interface Scene {
+    svg: SVGSVGElement;
+    amber: SVGPathElement;
+    hairs: SVGPathElement[];
+    nodes: SVGCircleElement[];
+    anchor: SVGCircleElement;
+    pulse: SVGCircleElement;
+  }
+
+  function getScene(section: HTMLElement, key: "lg" | "sm"): Scene | null {
+    const svg = section.querySelector<SVGSVGElement>(`[data-ha-svg="${key}"]`);
+    if (!svg) return null;
+    const amber = svg.querySelector<SVGPathElement>("[data-ha-amber]");
+    const anchor = svg.querySelector<SVGCircleElement>("[data-ha-anchor]");
+    const pulse = svg.querySelector<SVGCircleElement>("[data-ha-pulse]");
+    const hairs = Array.from(svg.querySelectorAll<SVGPathElement>("[data-ha-hair]"));
+    const nodes = Array.from(svg.querySelectorAll<SVGCircleElement>("[data-ha-node]"));
+    if (!amber || !anchor || !pulse || hairs.length === 0 || nodes.length === 0) return null;
+    return { svg, amber, hairs, nodes, anchor, pulse };
+  }
+
+  /** Centro en px de pantalla de un circulo SVG (via CTM: ignora su transform). */
+  function screenCenter(svg: SVGSVGElement, c: SVGCircleElement): { x: number; y: number } {
+    const m = svg.getScreenCTM();
+    const cx = Number(c.getAttribute("cx"));
+    const cy = Number(c.getAttribute("cy"));
+    if (!m) return { x: cx, y: cy };
+    const p = new DOMPoint(cx, cy).matrixTransform(m);
+    return { x: p.x, y: p.y };
+  }
+
+  /**
+   * Cola de la Linea Maestra: del ultimo nodo hacia abajo, mas alla del borde
+   * del hero. Con progreso p (0..1 sobre un scroll de L px) la punta queda
+   * exactamente en el borde inferior del viewport (heroTop + H == 100svh).
+   */
+  function mountTail(
+    section: HTMLElement,
+    scene: Scene,
+    tail: SVGPathElement,
+    tailSvg: SVGSVGElement,
+    animate: boolean,
+  ): void {
+    const extra = (): number => Math.round(window.innerHeight * 0.6);
+    let f0 = 0;
+    const layout = (): void => {
+      const sr = section.getBoundingClientRect();
+      const c = screenCenter(scene.svg, scene.anchor);
+      const cx = c.x - sr.left;
+      const cy = c.y - sr.top;
+      const total = sr.height + extra();
+      tailSvg.style.height = `${total}px`;
+      tail.setAttribute("d", `M ${cx} ${cy} V ${total}`);
+      f0 = Math.min(1, Math.max(0, (sr.height - cy) / (total - cy)));
+    };
+    const draw = (p: number): void => {
+      gsap.set(tail, { drawSVG: `0% ${(f0 + (1 - f0) * p) * 100}%` });
+    };
+    layout();
+    draw(0);
+    ScrollTrigger.create({
+      start: 0,
+      end: () => `+=${extra()}`,
+      onRefresh: (self) => {
+        layout();
+        draw(animate ? self.progress : 0);
+      },
+      onUpdate: (self) => {
+        if (animate) draw(self.progress);
+      },
+    });
+  }
+
+  function initHeroA(): void {
+    destroyHeroA();
+    const section = document.querySelector<HTMLElement>("[data-hero-a]");
+    if (section === null) return;
+    const title = section.querySelector<HTMLElement>(".ha-title");
+    const bar = section.querySelector<HTMLElement>("[data-ha-bar]");
+    const tail = section.querySelector<SVGPathElement>("[data-ha-tail]");
+    const tailSvg = section.querySelector<SVGSVGElement>(".ha-tail");
+    if (!title || !bar || !tail || !tailSvg) return;
+
+    mm = gsap.matchMedia();
+
+    const run = (ctx: gsap.Context, key: "lg" | "sm", speed: number): (() => void) => {
+      const scene = getScene(section, key);
+      if (!scene) return () => {};
+      const { amber, hairs, nodes, anchor, pulse } = scene;
+      const finePointer = key === "lg" && window.matchMedia("(pointer: fine)").matches;
+      let dead = false;
+
+      // Estado inicial (solo JS): nada dibujado, nodos a 0, claim oculto.
+      gsap.set([amber, ...hairs], { drawSVG: "0% 0%" });
+      gsap.set(nodes, { scale: 0, transformOrigin: "50% 50%" });
+      gsap.set(tail, { opacity: 0 });
+      gsap.set(title, { opacity: 0 });
+      gsap.set(bar, { opacity: 0, y: 14 });
+      mountTail(section, scene, tail, tailSvg, true);
+
+      const amberTotal = amber.getTotalLength();
+      const easeIO = gsap.parseEase("power2.inOut");
+      // Tiempo (en la timeline) en el que cada nodo "recibe" su linea.
+      const popTime = (n: SVGCircleElement): number => {
+        const cx = Number(n.getAttribute("cx"));
+        const cy = Number(n.getAttribute("cy"));
+        if (n.dataset.haOn === "amber") {
+          const f = lenAt(amber, cx, cy) / amberTotal;
+          return AMBER_START + AMBER_DUR * timeAtFraction(easeIO, f);
+        }
+        const h = hairs[Number(n.dataset.haOn)];
+        const f = lenAt(h, cx, cy) / h.getTotalLength();
+        const start = Number(n.dataset.haOn) * 0.15;
+        return start + 1.2 * timeAtFraction(easeIO, f);
+      };
+
+      const buildIntro = (lines: Element[]): gsap.core.Timeline => {
+        const tl = gsap.timeline({ paused: true });
+        hairs.forEach((h, i) => {
+          tl.to(h, { drawSVG: "0% 100%", duration: 1.2, ease: "power2.inOut" }, i * 0.15);
+        });
+        tl.to(amber, { drawSVG: "0% 100%", duration: AMBER_DUR, ease: "power2.inOut" }, AMBER_START);
+        nodes.forEach((n) => {
+          const t = popTime(n);
+          tl.to(n, { scale: 1.35, duration: 0.175, ease: "power2.out" }, t).to(
+            n,
+            { scale: 1, duration: 0.175, ease: "power2.inOut" },
+            t + 0.175,
+          );
+        });
+        tl.set(tail, { opacity: 1 }, AMBER_START + AMBER_DUR);
+        tl.fromTo(
+          lines,
+          { yPercent: 110 },
+          { yPercent: 0, duration: 0.7, stagger: 0.08, ease: "power3.out" },
+          1.3,
+        );
+        tl.to(bar, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 1.75);
+        return tl;
+      };
+
+      // Pulso unico que recorre la linea cada ~6 s (MotionPath); pop al cruzar nodos.
+      const buildPulse = (): gsap.core.Timeline => {
+        const pt = gsap.timeline({ paused: true, repeat: -1, repeatDelay: PULSE_EVERY - PULSE_DUR });
+        pt.set(pulse, { opacity: 1 }, 0).to(
+          pulse,
+          {
+            duration: PULSE_DUR,
+            ease: "none",
+            motionPath: { path: amber, align: amber, alignOrigin: [0.5, 0.5] },
+          },
+          0,
+        );
+        nodes
+          .filter((n) => n.dataset.haOn === "amber")
+          .forEach((n) => {
+            const f = lenAt(amber, Number(n.getAttribute("cx")), Number(n.getAttribute("cy"))) / amberTotal;
+            const t = Math.max(0, f * PULSE_DUR - 0.08);
+            pt.to(n, { scale: 1.3, duration: 0.15, ease: "power2.out" }, t).to(
+              n,
+              { scale: 1, duration: 0.2, ease: "power2.inOut" },
+              t + 0.15,
+            );
+          });
+        pt.set(pulse, { opacity: 0 }, PULSE_DUR);
+        return pt;
+      };
+
+      // Hover: los nodos (no las lineas) se desplazan hasta 6 px hacia el cursor.
+      let removePointer = (): void => {};
+      if (finePointer) {
+        const movers = nodes.filter((n) => n !== anchor);
+        const qs = movers.map((n) => ({
+          n,
+          qx: gsap.quickTo(n, "x", { duration: 0.6, ease: "power3.out" }),
+          qy: gsap.quickTo(n, "y", { duration: 0.6, ease: "power3.out" }),
+        }));
+        const onMove = (e: PointerEvent): void => {
+          for (const q of qs) {
+            const c = screenCenter(scene.svg, q.n);
+            q.qx(Math.max(-1, Math.min(1, (e.clientX - c.x) / 320)) * SHIFT_PX);
+            q.qy(Math.max(-1, Math.min(1, (e.clientY - c.y) / 320)) * SHIFT_PX);
+          }
+        };
+        const onLeave = (): void => {
+          for (const q of qs) {
+            q.qx(0);
+            q.qy(0);
+          }
+        };
+        section.addEventListener("pointermove", onMove);
+        section.addEventListener("pointerleave", onLeave);
+        removePointer = () => {
+          section.removeEventListener("pointermove", onMove);
+          section.removeEventListener("pointerleave", onLeave);
+        };
+      }
+
+      const cancelGate = whenPreloaderGone(() => {
+        // Las fuentes antes de partir las lineas (si no, el reparto es erroneo).
+        void document.fonts.ready.then(() => {
+          if (dead) return;
+          ctx.add(() => {
+            let revealed = false;
+            const split = SplitText.create(title.querySelectorAll(".block"), {
+              type: "lines",
+              mask: "lines",
+              autoSplit: true,
+              onSplit: (self: SplitText) => {
+                gsap.set(self.lines, { yPercent: revealed ? 0 : 110 });
+                gsap.set(title, { opacity: 1 });
+              },
+            });
+            const intro = buildIntro(split.lines);
+            intro.timeScale(speed);
+            const pt = buildPulse();
+            intro.eventCallback("onComplete", () => {
+              revealed = true;
+              pt.play();
+            });
+            intro.play();
+          });
+        });
+      });
+
+      return () => {
+        dead = true;
+        cancelGate();
+        removePointer();
+      };
+    };
+
+    mm.add(LG, (ctx) => run(ctx as gsap.Context, "lg", 1));
+    mm.add(SM, (ctx) => run(ctx as gsap.Context, "sm", INTRO_DUR / MOBILE_DUR));
+
+    // prefers-reduced-motion: plano completo y estatico; la cola llega al borde del hero.
+    mm.add(RM, () => {
+      const key = window.matchMedia("(min-width: 1024px)").matches ? "lg" : "sm";
+      const scene = getScene(section, key);
+      if (scene) mountTail(section, scene, tail, tailSvg, false);
+    });
+
+    ScrollTrigger.refresh();
+  }
+
+  function destroyHeroA(): void {
+    if (mm !== null) {
+      mm.revert();
+      mm = null;
+    }
+  }
+
+  // Carga inicial: init inmediato. Navegaciones del ClientRouter: se re-inicia
+  // en el astro:page-load que sigue a cada swap (mismo patron que HeroB/index.ts).
+  let didSwap = false;
+  initHeroA();
+  document.addEventListener("astro:before-swap", () => {
+    didSwap = true;
+    destroyHeroA();
+  });
+  document.addEventListener("astro:page-load", () => {
+    if (!didSwap) return;
+    didSwap = false;
+    initHeroA();
+  });
+</script>

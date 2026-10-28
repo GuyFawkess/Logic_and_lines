@@ -1,0 +1,25 @@
+---
+// HERO LAB D — "Del caos a la lógica". Prototipo aislado para comparar
+// heroes: cabecera, el hero D y la Tesis (para juzgar la salida del hero).
+import Layout from "../../layouts/Layout.astro";
+import SiteHeader from "../../components/sections/SiteHeader.astro";
+import HeroD from "../../components/hero-lab/HeroD.astro";
+import Thesis from "../../components/sections/Thesis.astro";
+
+export const prerender = true;
+
+const currentLang = "es";
+---
+
+<Layout
+	title="Hero lab D · Del caos a la lógica"
+	description="Prototipo de hero D de Logic & Lines: un ovillo de líneas que se ordena en una retícula y en la Línea Maestra."
+	ogImage="/logoNoSub.svg"
+	chrome={false}
+>
+	<SiteHeader currentLang={currentLang} />
+	<main>
+		<HeroD currentLang={currentLang} />
+		<Thesis currentLang={currentLang} />
+	</main>
+</Layout>

@@ -1,0 +1,29 @@
+---
+// Hero lab C — página de laboratorio. Renderiza el header del sitio, el
+// prototipo de hero (components/hero-lab/HeroC.astro) y la sección Thesis
+// real para poder juzgar la transición de salida del hero.
+//
+// Es un LAB, no la home: no cambia nada del sitio público. Se sirve en
+// /hero-lab/c con el mismo Layout que la home (chrome={false} + SiteHeader).
+import Layout from "../../layouts/Layout.astro";
+import SiteHeader from "../../components/sections/SiteHeader.astro";
+import HeroC from "../../components/hero-lab/HeroC.astro";
+import Thesis from "../../components/sections/Thesis.astro";
+
+export const prerender = true;
+
+const currentLang = "es";
+---
+
+<Layout
+	title="Hero lab C — Letras ventana con foto"
+	description="Prototipo de hero: un wordmark gigante que hace de ventana a la fotografía de marca. Logic & Lines, marketing y automatización con IA en Lanzarote."
+	ogImage="/logoNoSub.svg"
+	chrome={false}
+>
+	<SiteHeader currentLang={currentLang} />
+	<main>
+		<HeroC currentLang={currentLang} />
+		<Thesis currentLang={currentLang} />
+	</main>
+</Layout>

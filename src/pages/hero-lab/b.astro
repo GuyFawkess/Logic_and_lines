@@ -1,0 +1,25 @@
+---
+// HERO LAB · B — "Zoom a traves del logo". Prototipo aislado para comparar:
+// SiteHeader + HeroB + Thesis (para juzgar la salida del hero).
+import Layout from "../../layouts/Layout.astro";
+import SiteHeader from "../../components/sections/SiteHeader.astro";
+import HeroB from "../../components/hero-lab/HeroB.astro";
+import Thesis from "../../components/sections/Thesis.astro";
+
+export const prerender = true;
+
+const currentLang = "es";
+---
+
+<Layout
+	title="Hero lab B · Zoom a través del logo"
+	description="Prototipo de hero B (laboratorio interno): el logo como portal."
+	ogImage="/logoNoSub.svg"
+	chrome={false}
+>
+	<SiteHeader currentLang={currentLang} />
+	<main>
+		<HeroB currentLang={currentLang} />
+		<Thesis currentLang={currentLang} />
+	</main>
+</Layout>

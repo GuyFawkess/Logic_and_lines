@@ -1,0 +1,25 @@
+---
+// HERO LAB · A — "El plano vivo". Prototipo aislado para comparar:
+// SiteHeader + HeroA + Thesis (para juzgar la salida del hero).
+import Layout from "../../layouts/Layout.astro";
+import SiteHeader from "../../components/sections/SiteHeader.astro";
+import HeroA from "../../components/hero-lab/HeroA.astro";
+import Thesis from "../../components/sections/Thesis.astro";
+
+export const prerender = true;
+
+const currentLang = "es";
+---
+
+<Layout
+	title="Hero lab A · El plano vivo"
+	description="Prototipo de hero A (laboratorio interno): un plano que se dibuja."
+	ogImage="/logoNoSub.svg"
+	chrome={false}
+>
+	<SiteHeader currentLang={currentLang} />
+	<main>
+		<HeroA currentLang={currentLang} />
+		<Thesis currentLang={currentLang} />
+	</main>
+</Layout>

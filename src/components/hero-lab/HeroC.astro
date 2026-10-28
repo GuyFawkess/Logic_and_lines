@@ -1,0 +1,679 @@
+---
+// Hero lab C — "Letras ventana con foto".
+//
+// Un wordmark gigante (LÍNEAS, font-display, tracking cerrado) funciona como
+// VENTANA: dentro de las letras se ve la fotografía. Estructura SVG inline:
+//   <text> (misma fuente del sitio) → <clipPath> de letras → 4 capas de
+//   <image> con duotone navy/amber (feColorMatrix, SIN blur) → contorno
+//   ámbar de 1px por encima (hairline wordmark legible incluso sin fotos).
+//
+// REGLAS DEL PROYECTO (docs/motion-plan.md):
+// - El MARKUP es el ESTADO FINAL (todo visible y estático). El ocultado
+//   inicial lo pone SOLO gsap.set dentro del <script> de este componente:
+//   sin JS y con prefers-reduced-motion la página se ve terminada.
+// - Un solo Lenis (el del sitio, en src/scripts/motion/smooth-scroll.ts): aquí
+//   NO se inicializa otro. Los ScrollTrigger que se montan se actualizan solos
+//   porque Lenis ya llama a ScrollTrigger.update en cada scroll.
+// - Paleta cerrada: petroleo #0D1A1F, #16262E, #223B47, marfil, ámbar #E5A525.
+// - Prohibido: glow/bloom, drop-shadow blur, partículas, gradientes animados,
+//   WebGL/canvas. Aquí solo SVG, transform, opacity y clip-path.
+import { useTranslations } from "../../i18n/utils";
+
+interface Props {
+	currentLang: "es" | "en";
+}
+
+const { currentLang } = Astro.props;
+const t = useTranslations(currentLang);
+const contactHref = currentLang === "en" ? "/en/contact" : "/contact";
+
+const [line1, line2] = t.value.title;
+const italicWord = t.value.titleItalic as string;
+const italicIndex = line2.indexOf(italicWord);
+const beforeItalic = italicIndex >= 0 ? line2.slice(0, italicIndex) : line2;
+const afterItalic =
+	italicIndex >= 0 ? line2.slice(italicIndex + italicWord.length) : "";
+
+/*
+ * 4 fotos del stack. Placeholders: los ficheros todavía NO existen en
+ * public/hero-lab/ — se dibuja debajo un rect de color + hatch ámbar de 1px
+ * para que el efecto ya se lea sin fotos. Cuando lleguen las fotos basta con
+ * soltarlas en public/hero-lab/c-N.jpg: la <image> que falta falla en
+ * silencio (SVG no dibuja icono de imagen rota) y el rect de debajo sigue
+ * haciendo de respaldo.
+ */
+const IMAGES = [
+	"/hero-lab/c-1.jpg",
+	"/hero-lab/c-2.jpg",
+	"/hero-lab/c-3.jpg",
+	"/hero-lab/c-4.jpg",
+];
+
+/** Base de cada capa (una de las cuatro superficies de la paleta). */
+const LAYER_BASE = ["#16262E", "#223B47", "#0D1A1F", "#16262E"];
+/** Ángulo del hatch diagonal de cada capa (grados). */
+const LAYER_HATCH = [45, -45, 30, 60];
+
+const LAYERS = IMAGES.map((src, i) => ({
+	src,
+	base: LAYER_BASE[i],
+	hatch: LAYER_HATCH[i],
+}));
+
+/*
+ * GEOMETRÍA DEL WORDMARK (medida en el navegador con la fuente real, no
+ * estimada a ojo):
+ * - font-size en unidades del viewBox. El wordmark mide 1000 unidades de
+ *   ancho (el ancho del viewBox) → las 6 mayúsculas + tracking -0.01em suman
+ *   exactamente 1000 y la tinta ocupa 0 → 999.91.
+ * - adv = avance natural de la letra a ese font-size (va como textLength para
+ *   que la caja no cambie si la fuente aún no ha cargado).
+ * - x = borde izquierdo de la caja de avance de la letra.
+ * - inkX/inkW = caja de TINTA (lo que ve el ojo): es la que usa el clip de
+ *   dibujado para que la letra se revele de izquierda a derecha.
+ */
+const FONT_SIZE = 281.6;
+const BASELINE = 270;
+const VIEW_H = 280;
+/** Sangre del layer: margen extra para el parallax (que empuja la foto). */
+const BLEED_X = -40;
+const BLEED_Y = -20;
+const BLEED_W = 1080;
+const BLEED_H = 320;
+
+const LETTERS = [
+	{ ch: "L", x: -15.16, adv: 170.37, inkX: 0, inkW: 145.5 },
+	{ ch: "Í", x: 152.39, adv: 103.63, inkX: 167.55, inkW: 72.75 },
+	{ ch: "N", x: 253.2, adv: 223.31, inkX: 268.36, inkW: 196.02 },
+	{ ch: "E", x: 473.69, adv: 184.45, inkX: 488.85, inkW: 154.59 },
+	{ ch: "A", x: 655.32, adv: 201.91, inkX: 656.33, inkW: 198.04 },
+	{ ch: "S", x: 854.41, adv: 161.92, inkX: 871.59, inkW: 128.32 },
+];
+---
+
+<section
+	class="relative flex min-h-[calc(100svh-72px)] flex-col justify-center overflow-hidden pb-10 pt-6 lg:pb-12 lg:pt-8"
+	data-hero-c
+>
+	<div class="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
+		<!--
+			EL WORDMARK-VENTANA. El <svg> es aria-hidden: el h1 real (abajo) es
+			el texto que leen los buscadores y el LCP.
+		-->
+		<div class="relative" data-hero-c-stage>
+			<svg
+				class="block h-auto w-full overflow-visible"
+				viewBox={`0 0 1000 ${VIEW_H}`}
+				aria-hidden="true"
+				data-hero-c-svg
+			>
+				<defs>
+					<!--
+						DUOTONE navy → amber (sin blur, sin gradiente): una sola
+						feColorMatrix que mapea la luminancia de la foto a la rampa
+						#0D1A1F → #E5A525 de la paleta.
+					-->
+					<filter
+						id="hero-c-duo"
+						color-interpolation-filters="sRGB"
+						x="-10%"
+						y="-10%"
+						width="120%"
+						height="120%"
+					>
+						<feColorMatrix
+							type="matrix"
+							values="0.1801 0.6059 0.0612 0 0.051
+									0.1159 0.3898 0.0393 0 0.102
+									0.0049 0.0164 0.0017 0 0.122
+									0 0 0 1 0"
+						></feColorMatrix>
+					</filter>
+
+					<!-- Hatch diagonal ámbar de 1px: el respaldo mientras no hay foto. -->
+					{
+						LAYERS.map((layer, i) => (
+							<pattern
+								id={`hero-c-hatch-${i}`}
+								width="9"
+								height="9"
+								patternUnits="userSpaceOnUse"
+								patternTransform={`rotate(${layer.hatch})`}
+							>
+								<rect width="9" height="9" fill={layer.base}></rect>
+								<line
+									x1="0"
+									y1="0"
+									x2="0"
+									y2="9"
+									stroke="#E5A525"
+									stroke-width="1"
+									opacity="0.28"></line>
+							</pattern>
+						))
+					}
+
+					<!-- VENTANA: la forma de las letras recorta la fotografía. -->
+					<clipPath id="hero-c-letters" clipPathUnits="userSpaceOnUse">
+						{
+							LETTERS.map((letter) => (
+								<text
+									class="font-display"
+									x={letter.x}
+									y={BASELINE}
+									font-size={FONT_SIZE}
+									textLength={letter.adv}
+									lengthAdjust="spacingAndGlyphs"
+								>
+									{letter.ch}
+								</text>
+							))
+						}
+					</clipPath>
+
+					<!--
+						VENTANA DE APERTURA: el rect que se abre de izquierda a
+						derecha (scaleX 0 → 1) para enseñar la primera capa.
+					-->
+					<clipPath id="hero-c-window" clipPathUnits="userSpaceOnUse">
+						<rect
+							data-hero-c-window
+							x={BLEED_X}
+							y={BLEED_Y}
+							width={BLEED_W}
+							height={BLEED_H}
+						></rect>
+					</clipPath>
+
+					<!--
+						TINTA: un rect por letra. Cada uno se escala en X desde su
+						borde izquierdo: la letra se dibuja de izquierda a derecha
+						con el escalonado de 0.1s (la línea maestra travels).
+					-->
+					<clipPath id="hero-c-ink" clipPathUnits="userSpaceOnUse">
+						{
+							LETTERS.map((letter) => (
+								<rect
+									data-hero-c-ink
+									x={letter.inkX - 2}
+									y={BLEED_Y}
+									width={letter.inkW + 4}
+									height={BLEED_H}
+								></rect>
+							))
+						}
+					</clipPath>
+				</defs>
+
+				<!-- 1) La fotografía, dentro de las letras. -->
+				<g clip-path="url(#hero-c-letters)">
+					<g clip-path="url(#hero-c-window)">
+						{
+							LAYERS.map((layer, i) => (
+								<g data-hero-c-layer={i} opacity={i === 0 ? 1 : 0}>
+									<rect
+										x={BLEED_X}
+										y={BLEED_Y}
+										width={BLEED_W}
+										height={BLEED_H}
+										fill={`url(#hero-c-hatch-${i})`}
+									></rect>
+									<image
+										href={layer.src}
+										x={BLEED_X}
+										y={BLEED_Y}
+										width={BLEED_W}
+										height={BLEED_H}
+										preserveAspectRatio="xMidYMid slice"
+										filter="url(#hero-c-duo)"
+									></image>
+								</g>
+							))
+						}
+					</g>
+				</g>
+
+				<!-- 2) El contorno ámbar de 1px: el wordmark se lee siempre. -->
+				<g clip-path="url(#hero-c-ink)">
+					{
+						LETTERS.map((letter) => (
+							<text
+								class="font-display"
+								x={letter.x}
+								y={BASELINE}
+								font-size={FONT_SIZE}
+								textLength={letter.adv}
+								lengthAdjust="spacingAndGlyphs"
+								fill="none"
+								stroke="#E5A525"
+								stroke-width="1"
+								vector-effect="non-scaling-stroke"
+							>
+								{letter.ch}
+							</text>
+						))
+					}
+				</g>
+			</svg>
+		</div>
+
+		<!-- 3) El claim real (H1, texto de verdad en el DOM). -->
+		<h1
+			class="mt-6 font-display text-[clamp(1.5rem,3.6vw,3.25rem)] font-normal leading-[1.04] tracking-[-0.03em] text-(--color-text) lg:mt-8"
+			data-hero-c-claim
+		>
+			<span class="block text-balance">{line1}</span>
+			<span class="block text-balance"
+				>{beforeItalic}<em class="italic text-primary">{italicWord}</em>{afterItalic}</span
+			>
+		</h1>
+
+		<p
+			class="mt-4 max-w-[52ch] font-mono text-sm leading-relaxed text-(--color-text-dark) md:text-[15px] lg:mt-5"
+			data-hero-c-sub
+		>
+			{t.value.keywordsLine}
+		</p>
+
+		<div class="mt-6 flex flex-wrap items-center gap-4 lg:mt-7" data-hero-c-ctas>
+			<a
+				href={contactHref}
+				class="inline-flex h-11 items-center justify-center whitespace-nowrap bg-(--color-primary) px-6 text-sm font-medium text-(--color-bg) transition-colors duration-200 hover:bg-(--color-primary-hover) active:translate-y-px"
+				data-gtm-event="cta_click"
+				data-gtm-location="hero"
+				data-gtm-label="schedule_call"
+			>
+				{t.buttons.book}
+			</a>
+			<a
+				href="https://wa.me/34628125302"
+				target="_blank"
+				rel="noopener"
+				class="inline-flex h-11 items-center justify-center whitespace-nowrap border border-(--color-hairline) px-6 text-sm font-medium text-(--color-text) transition-colors duration-200 hover:border-(--color-primary) hover:text-(--color-primary) active:translate-y-px"
+				data-gtm-event="contact_click"
+				data-gtm-location="hero"
+				data-gtm-label="whatsapp"
+			>
+				WhatsApp
+			</a>
+		</div>
+	</div>
+</section>
+
+<script>
+	/**
+	 * Hero lab C — motion.
+	 *
+	 * - INTRO (desktop): las 6 letras se dibujan de izquierda a derecha (clip
+	 *   por letra, scaleX 0 → 1, escalonado 0.1s) y después se abre la ventana
+	 *   de la fotografía (scaleX 0 → 1, power4.inOut). Móvil: la misma
+	 *   coreografía comprimida a ≤ 1.6s.
+	 * - CICLO: cada 3.2s la capa siguiente entra en crossfade dentro de las
+	 *   letras (opacity). La 1ª capa es la del markup (reduced-motion: se ve
+	 *   la primera y no hay ciclo).
+	 * - PARALLAX (desktop + puntero fino): el puntero desplaza las capas unos
+	 *   pocos px (quickTo, máx. 14px de pantalla), con más recorrido la capa
+	 *   más al fondo.
+	 * - SALIDA: al hacer scroll el wordmark se disuelve (scrub) — reversible.
+	 *
+	 * Sin DrawSVG sobre <text>: el plugin mide la longitud con
+	 * getTotalLength() y <text> no la tiene (mismo aviso que emite el logo del
+	 * hero con non-scaling-stroke). El dibujado se hace sobre el clip de cada
+	 * letra (scaleX): cada letra se revela por su propia caja de tinta, sin
+	 * estimar longitudes de contorno y sin artefactos de dash.
+	 */
+	import gsap from "gsap";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
+	import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
+
+	gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
+
+	/** Sin movimiento = sin intro, sin ciclo, sin parallax: la página se ve estática. */
+	const NO_MOTION = "(prefers-reduced-motion: no-preference)";
+	const DESKTOP = "(min-width: 1024px)";
+	const FINE_POINTER = "(hover: hover) and (pointer: fine)";
+
+	/** Segundos entre cambios de capa. */
+	const LAYER_EVERY = 3.2;
+	/** Duración del crossfade entre capas. */
+	const LAYER_FADE = 1.2;
+	/** Parallax máximo por capa (px de pantalla). */
+	const PARALLAX_MAX = 14;
+
+	/** viewBox del wordmark (para pasar de px de pantalla a unidades SVG). */
+	const VIEW_W = 1000;
+
+	let mm: gsap.MatchMedia | null = null;
+	let mounted = false;
+
+	/**
+	 * GATE DEL PRELOADER: el sitio muestra su overlay en la primera carga de
+	 * la pestaña (src/scripts/motion/index.ts + sessionStorage). El hero entra
+	 * cuando el overlay ya se está levantando: esperamos a que desaparezca.
+	 */
+	let gateReady = false;
+	let resolveGate: (() => void) | null = null;
+	const gate = new Promise<void>((resolve) => {
+		resolveGate = resolve;
+	});
+
+	function watchPreloader(): void {
+		const ready = (): boolean => {
+			if (document.querySelector("[data-ll-preloader]") !== null) return false;
+			if (!gateReady) {
+				gateReady = true;
+				resolveGate?.();
+				resolveGate = null;
+			}
+			return true;
+		};
+		const observer = new MutationObserver(() => {
+			ready();
+		});
+		// Un frame: el script del Layout (que arranca el preloader) es un
+		// módulo diferido y se ejecuta en el mismo turno que este script.
+		window.requestAnimationFrame(() => {
+			observer.observe(document.body, { childList: true, subtree: true });
+			ready();
+		});
+	}
+
+	/** Origen SVG (user space) del borde izquierdo de un rect del clip. */
+	function leftOrigin(_index: number, target: Element): string {
+		const x = target.getAttribute("x") ?? "0";
+		return `${x} 0`;
+	}
+
+	/**
+	 * Origen SVG del borde izquierdo del rect de la ventana de apertura: se
+	 * lee del propio markup (este bloque es un módulo aparte y no ve las
+	 * constantes del frontmatter).
+	 */
+	function windowOrigin(target: SVGRectElement): string {
+		return `${target.getAttribute("x") ?? "0"} 0`;
+	}
+
+	function destroy(): void {
+		if (mm !== null) {
+			mm.revert();
+			mm = null;
+		}
+		mounted = false;
+	}
+
+	function init(): void {
+		if (mounted) return;
+		const root = document.querySelector<HTMLElement>("[data-hero-c]");
+		if (root === null) return;
+
+		const inkRects = Array.from(
+			root.querySelectorAll<SVGRectElement>("[data-hero-c-ink]"),
+		);
+		const windowRect = root.querySelector<SVGRectElement>("[data-hero-c-window]");
+		const layers = Array.from(
+			root.querySelectorAll<SVGGElement>("[data-hero-c-layer]"),
+		);
+		const stage = root.querySelector<HTMLElement>("[data-hero-c-stage]");
+		const svg = root.querySelector<SVGSVGElement>("[data-hero-c-svg]");
+		const claim = root.querySelector<HTMLElement>("[data-hero-c-claim]");
+		const sub = root.querySelector<HTMLElement>("[data-hero-c-sub]");
+		const ctas = root.querySelector<HTMLElement>("[data-hero-c-ctas]");
+
+		if (
+			inkRects.length === 0 ||
+			windowRect === null ||
+			layers.length === 0 ||
+			stage === null ||
+			svg === null
+		) {
+			return;
+		}
+
+		mounted = true;
+
+		// --- Foto que falta = falla en silencio. Chromium llega a pintar la
+		//     página 404 (text/html) dentro de un <image> SVG, así que cada
+		//     <image> se oculta y solo se muestra si un Image() de prueba carga
+		//     de verdad (los placeholders de debajo hacen de respaldo). ---
+		root.querySelectorAll<SVGImageElement>("[data-hero-c-layer] image").forEach((img) => {
+			const href = img.getAttribute("href");
+			if (href === null) return;
+			img.setAttribute("display", "none");
+			const probe = new Image();
+			probe.onload = () => {
+				if (probe.naturalWidth > 0) img.removeAttribute("display");
+			};
+			probe.src = href;
+		});
+
+		mm = gsap.matchMedia();
+
+		// --- Capa de ciclo: cada 3.2s entra la siguiente en crossfade. ---
+		const buildCycle = (delay: number): gsap.core.Timeline => {
+			const cycle = gsap.timeline({ repeat: -1, paused: true, delay });
+			for (let i = 1; i < layers.length; i++) {
+				const at = i * LAYER_EVERY;
+				cycle.to(
+					layers[i],
+					{ autoAlpha: 1, duration: LAYER_FADE, ease: "power2.inOut" },
+					at,
+				);
+				cycle.to(
+					layers[i - 1],
+					{ autoAlpha: 0, duration: LAYER_FADE, ease: "power2.inOut" },
+					at,
+				);
+			}
+			return cycle;
+		};
+
+		// --- INTRO + SALIDA (desktop). ---
+		mm.add(`${NO_MOTION} and ${DESKTOP}`, () => {
+			const tl = gsap.timeline({ paused: true, delay: 0.1 });
+
+			// (1) Las letras se dibujan: cada clip de tinta crece en X.
+			tl.fromTo(
+				inkRects,
+				{ scaleX: 0, svgOrigin: leftOrigin },
+				{
+					scaleX: 1,
+					duration: 1.05,
+					ease: "power4.inOut",
+					stagger: 0.1,
+				},
+				0,
+			);
+
+			// (2) Se abre la ventana de la fotografía (izquierda → derecha).
+			tl.fromTo(
+				windowRect,
+				{ scaleX: 0, svgOrigin: windowOrigin(windowRect) },
+				{ scaleX: 1, duration: 1.1, ease: "power4.inOut" },
+				1.5,
+			);
+
+			// (3) El claim, la línea mono y los CTA entran detrás.
+			if (claim !== null) {
+				tl.fromTo(
+					claim,
+					{ autoAlpha: 0, y: 18 },
+					{ autoAlpha: 1, y: 0, duration: 0.9, ease: "power3.out" },
+					0.85,
+				);
+			}
+			if (sub !== null) {
+				tl.fromTo(
+					sub,
+					{ autoAlpha: 0, y: 12 },
+					{ autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out" },
+					1.15,
+				);
+			}
+			if (ctas !== null) {
+				tl.fromTo(
+					ctas,
+					{ autoAlpha: 0, y: 12 },
+					{ autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out" },
+					1.3,
+				);
+			}
+
+			// (4) El ciclo de capas arranca cuando el hero ya está montado.
+			const cycle = buildCycle(2.7);
+
+			// (5) Salida por scroll (reversible, sin pin).
+			gsap.fromTo(
+				svg,
+				{ autoAlpha: 1, y: 0, scale: 1 },
+				{
+					autoAlpha: 0.2,
+					y: -56,
+					scale: 0.97,
+					ease: "none",
+					scrollTrigger: {
+						trigger: root,
+						start: "top top",
+						end: "bottom top",
+						scrub: 0.6,
+						invalidateOnRefresh: true,
+					},
+				},
+			);
+
+			let disposed = false;
+			gate.then(() => {
+				if (disposed) return;
+				tl.play();
+				cycle.play();
+			});
+
+			return () => {
+				disposed = true;
+			};
+		});
+
+		// --- INTRO + SALIDA (móvil): ≤ 1.6s, sin pins. ---
+		mm.add(`${NO_MOTION} and (max-width: 1023px)`, () => {
+			const tl = gsap.timeline({ paused: true, delay: 0.05 });
+
+			tl.fromTo(
+				inkRects,
+				{ scaleX: 0, svgOrigin: leftOrigin },
+				{
+					scaleX: 1,
+					duration: 0.5,
+					ease: "power3.out",
+					stagger: 0.05,
+				},
+				0,
+			);
+			tl.fromTo(
+				windowRect,
+				{ scaleX: 0, svgOrigin: windowOrigin(windowRect) },
+				{ scaleX: 1, duration: 0.75, ease: "power3.inOut" },
+				0.65,
+			);
+			if (claim !== null) {
+				tl.fromTo(
+					claim,
+					{ autoAlpha: 0, y: 14 },
+					{ autoAlpha: 1, y: 0, duration: 0.6, ease: "power3.out" },
+					0.3,
+				);
+			}
+			if (sub !== null) {
+				tl.fromTo(
+					sub,
+					{ autoAlpha: 0, y: 10 },
+					{ autoAlpha: 1, y: 0, duration: 0.55, ease: "power3.out" },
+					0.45,
+				);
+			}
+			if (ctas !== null) {
+				tl.fromTo(
+					ctas,
+					{ autoAlpha: 0, y: 10 },
+					{ autoAlpha: 1, y: 0, duration: 0.55, ease: "power3.out" },
+					0.55,
+				);
+			}
+
+			const cycle = buildCycle(1.5);
+
+			gsap.fromTo(
+				svg,
+				{ autoAlpha: 1, y: 0 },
+				{
+					autoAlpha: 0.25,
+					y: -24,
+					ease: "none",
+					scrollTrigger: {
+						trigger: root,
+						start: "top top",
+						end: "bottom top",
+						scrub: 0.5,
+						invalidateOnRefresh: true,
+					},
+				},
+			);
+
+			let disposed = false;
+			gate.then(() => {
+				if (disposed) return;
+				tl.play();
+				cycle.play();
+			});
+
+			return () => {
+				disposed = true;
+			};
+		});
+
+		// --- PARALLAX (desktop + puntero fino): la foto se desplaza dentro
+		//     de las letras, capa a capa (más recorrido la capa del fondo). ---
+		mm.add(`${NO_MOTION} and ${DESKTOP} and ${FINE_POINTER}`, () => {
+			const depths = [5, 9, 12, PARALLAX_MAX];
+			const movers = layers.map((layer, i) => ({
+				x: gsap.quickTo(layer, "x", { duration: 0.9, ease: "power3.out" }),
+				y: gsap.quickTo(layer, "y", { duration: 0.9, ease: "power3.out" }),
+				depth: depths[i] ?? PARALLAX_MAX,
+			}));
+
+			const onMove = (event: PointerEvent): void => {
+				const rect = stage.getBoundingClientRect();
+				if (rect.width === 0 || rect.height === 0) return;
+				// px de pantalla → unidades del viewBox.
+				const k = rect.width / VIEW_W;
+				const nx = (event.clientX - rect.left) / rect.width - 0.5;
+				const ny = (event.clientY - rect.top) / rect.height - 0.5;
+				for (const mover of movers) {
+					mover.x((nx * mover.depth) / k);
+					mover.y((-ny * mover.depth * 0.6) / k);
+				}
+			};
+			const onLeave = (): void => {
+				for (const mover of movers) {
+					mover.x(0);
+					mover.y(0);
+				}
+			};
+
+			stage.addEventListener("pointermove", onMove);
+			stage.addEventListener("pointerleave", onLeave);
+
+			return () => {
+				stage.removeEventListener("pointermove", onMove);
+				stage.removeEventListener("pointerleave", onLeave);
+				onLeave();
+			};
+		});
+	}
+
+	document.addEventListener("astro:before-swap", destroy);
+	document.addEventListener("astro:page-load", () => {
+		if (!mounted) init();
+	});
+
+	watchPreloader();
+	init();
+</script>
