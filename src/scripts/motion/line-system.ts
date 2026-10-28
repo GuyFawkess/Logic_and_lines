@@ -83,6 +83,8 @@ interface SegmentRecord {
 interface RailState {
   timeline: gsap.core.Timeline | null;
   cards: HTMLElement[];
+  /** Cita del capítulo (P1-2c): entra en la tl tras la tarjeta 04 (solo lg+). */
+  quote: HTMLElement | null;
   segments: SegmentRecord[];
   nodes: NodeRecord[];
   mobileTween: gsap.core.Tween | null;
@@ -132,6 +134,7 @@ const PROOF_GRID_START = 0.85;
 const rail: RailState = {
   timeline: null,
   cards: [],
+  quote: null,
   segments: [],
   nodes: [],
   mobileTween: null,
@@ -372,21 +375,25 @@ function prepareNodes(nodeEls: SVGCircleElement[]): void {
 }
 
 /**
- * Driver del rail en lg+ (R6, retiming R6-b): UN trigger SIN pin + UNA
+ * Driver del rail en lg+ (R6, retiming P1-2a/P1-2c): UN trigger SIN pin + UNA
  * timeline scrubbed de coreografía FIJA en unidades normalizadas (nada de
- * medidas por fracción de pantalla). R6-b: TODO asentado antes del 0.85 (la
- * QA medía card4 a opacity 0.90 en el fin del rango):
- *   - segmento k: drawSVG 0→100% (ease none) en [0,0.13] / [0.24,0.37] /
- *     [0.48,0.61] — la línea crece continua por tramos;
- *   - nodo k: pop seco back.out(1.7) dur 0.05 en 0.13 / 0.37 / 0.61 / 0.64;
- *   - tarjeta k: y:24→0 + autoAlpha 0→1 (0.09, power1.out) en
- *     0.16 / 0.40 / 0.64 / 0.67 — card4 asienta en 0.76, resto hold.
- * R6-c: la duración total de la tl es EXACTAMENTE 1.0 (hold 0.76→1.0 fijado
- * con un tween vacío al montar). El scrub mapea el progreso del trigger
- * [0..1] a la duración REAL de la timeline: sin ese cierre tl.duration()
- * era 0.76 — las fracciones del guion no eran fracciones del rango, el
- * asentamiento chocaba contra el fin del pin y el rabo del rango se leía
- * muerto (QA2: estados idénticos a mitad del rango).
+ * medidas por fracción de pantalla). P1-2a: la tarjeta 01 y el nodo 1 NACEN
+ * en estado final (NO se ocultan) — el capítulo de Proceso deja de abrir
+ * vacío; P1-2c: la cita entra DESPUÉS de la tarjeta 04. Tabla de tiempos
+ * (fracciones del rango del trigger; RAIL.railLenVh = 1.6):
+ *   - segmento k: drawSVG 0→100% (ease none) en [0,0.12] / [0.26,0.38] /
+ *     [0.52,0.64] — la línea crece continua por tramos;
+ *   - nodo k (SOLO 2-4): pop seco back.out(1.7) dur 0.05 en 0.12 / 0.38 /
+ *     0.64 — el nodo 1 ya visible, sin tween;
+ *   - tarjeta k (SOLO 02-04): y:24→0 + autoAlpha 0→1 (0.07, power1.out) en
+ *     0.15 / 0.41 / 0.68 — card4 asienta en 0.75;
+ *   - cita: y:24→0 + autoAlpha 0→1 (0.07) en 0.77 — asienta en 0.84, hold de
+ *     lectura hasta 1.0.
+ * R6-c: la duración total de la tl es EXACTAMENTE 1.0 (hold fijado con un
+ * tween vacío al montar). El scrub mapea el progreso del trigger [0..1] a la
+ * duración REAL de la timeline: sin ese cierre las fracciones del guion no
+ * serían fracciones del rango (el asentamiento chocaba contra el fin del pin
+ * y el rabo del rango se leía muerto — QA2).
  * FUERA el cometa/tailChase (R6: la lectura pedida es "la línea crece
  * continua y las tarjetas salen en secuencia") y los anillos del pop (con un
  * pop de 0.05 unidades un anillo no se lee: el pop seco basta).
@@ -426,13 +433,25 @@ function initRailDesktop(railSvg: SVGSVGElement, grid: HTMLElement, cards: HTMLE
   rail.nodes = nodeRecords;
   rail.cards = cards;
 
+  // P1-2c: la cita entra en la coreografía DESPUÉS de la tarjeta 04 (ver
+  // QUOTE_AT). Localizada por data-rail-quote (ProcessRail.astro); la rama
+  // móvil (<lg) NO la toca: allí queda visible en el flujo normal.
+  const quote = document.querySelector<HTMLElement>("[data-rail-quote]");
+  rail.quote = quote;
+
   // Preparación SOLO por JS (regla de oro): el markup parte de estado final.
   // Segmentos incluidos: los fromTo de la timeline llevan immediateRender
   // false (no hornean el from hasta que el playhead llega), así que SIN este
   // set los segmentos 2-3 se verían completos (estado markup) en reposo.
-  prepareNodes(nodeEls);
+  // P1-2a: la tarjeta 01 y el nodo 1 NACEN en estado final (NO se ocultan):
+  // el capítulo de Proceso deja de abrir vacío (antes: las 4 tarjetas a
+  // opacity 0 al llegar al ancla #proceso y ~900px de scroll solo con el
+  // título y la cita). La ocultación inicial sigue siendo SOLO por gsap.set
+  // (regla de oro: sin JS = todo visible).
+  prepareNodes(nodeEls.slice(1));
   gsap.set(segEls, { drawSVG: "0% 0%" });
-  if (cards.length > 0) gsap.set(cards, { y: CARD_Y, autoAlpha: 0 });
+  if (cards.length > 1) gsap.set(cards.slice(1), { y: CARD_Y, autoAlpha: 0 });
+  if (quote !== null) gsap.set(quote, { y: CARD_Y, autoAlpha: 0 });
 
   // Trigger: el wrapper del capítulo (markup de index.astro/en). El PANEL
   // interior está pinneado por hscroll.ts (pin "proceso") durante TODO este
@@ -455,11 +474,12 @@ function initRailDesktop(railSvg: SVGSVGElement, grid: HTMLElement, cards: HTMLE
   });
   rail.timeline = tl;
 
-  // Coreografía FIJA (retiming R6-b — ver doc de la función): segmentos,
-  // nodos y tarjetas asientan antes del 0.85; el resto del rango es hold.
+  // Coreografía FIJA (retiming P1-2a/P1-2c — ver doc de la función): la
+  // tarjeta 01 y el nodo 1 ya están visibles (nacen en estado final), así que
+  // el segmento 1 arranca en progress 0 y la cita cierra tras la tarjeta 04.
   // Segmentos: la línea crece continua, un tramo fijo por segmento.
-  const SEG_AT = [0, 0.24, 0.48];
-  const SEG_DUR = 0.13;
+  const SEG_AT = [0, 0.26, 0.52];
+  const SEG_DUR = 0.12; // seg1 [0,0.12] · seg2 [0.26,0.38] · seg3 [0.52,0.64]
   records.forEach((record, k) => {
     tl.fromTo(
       record.el,
@@ -475,9 +495,11 @@ function initRailDesktop(railSvg: SVGSVGElement, grid: HTMLElement, cards: HTMLE
   });
 
   // Nodos: pop seco back.out(1.7) (0.05) cuando la línea llega a cada uno.
-  const NODE_AT = [0.13, 0.37, 0.61, 0.64];
+  // SOLO nodos 2-4: el nodo 1 nace visible (P1-2a) y NO lleva tween (queda en
+  // su estado de markup).
+  const NODE_AT = [0.12, 0.38, 0.64]; // nodos 2, 3, 4 (el nodo 1 ya visible)
   const NODE_DUR = 0.05;
-  nodeRecords.forEach((rec, k) => {
+  nodeRecords.slice(1).forEach((rec, i) => {
     tl.fromTo(
       rec.el,
       { scale: 0 },
@@ -488,16 +510,15 @@ function initRailDesktop(railSvg: SVGSVGElement, grid: HTMLElement, cards: HTMLE
         immediateRender: false,
         transformOrigin: "50% 50%",
       },
-      NODE_AT[k] ?? NODE_AT[NODE_AT.length - 1],
+      NODE_AT[i] ?? NODE_AT[NODE_AT.length - 1],
     );
   });
 
-  // Tarjetas: cada una entra justo detrás de su nodo (0.09; card4 asienta en
-  // 0.76 — margen de 0.24 hasta el fin del rango para que el estado final sea
-  // EXACTO incluso con el catch-up del scrub).
-  const CARD_AT = [0.16, 0.4, 0.64, 0.67];
-  const CARD_DUR = 0.09;
-  cards.forEach((card, k) => {
+  // Tarjetas: cada una entra justo detrás de su nodo (0.07). SOLO 02-04: la
+  // tarjeta 01 nace visible (P1-2a) y NO lleva tween. card4 asienta en 0.75.
+  const CARD_AT = [0.15, 0.41, 0.68]; // tarjetas 02, 03, 04 (la 01 ya visible)
+  const CARD_DUR = 0.07;
+  cards.slice(1).forEach((card, i) => {
     tl.fromTo(
       card,
       { y: CARD_Y, autoAlpha: 0 },
@@ -508,14 +529,32 @@ function initRailDesktop(railSvg: SVGSVGElement, grid: HTMLElement, cards: HTMLE
         ease: "power1.out",
         immediateRender: false,
       },
-      CARD_AT[k] ?? CARD_AT[CARD_AT.length - 1],
+      CARD_AT[i] ?? CARD_AT[CARD_AT.length - 1],
     );
   });
+
+  // Cita (P1-2c): entra DESPUÉS de la tarjeta 04 (0.77) y asienta en 0.84;
+  // 0.84→1.0 es hold de lectura.
+  const QUOTE_AT = 0.77;
+  if (quote !== null) {
+    tl.fromTo(
+      quote,
+      { y: CARD_Y, autoAlpha: 0 },
+      {
+        y: 0,
+        autoAlpha: 1,
+        duration: 0.07,
+        ease: "power1.out",
+        immediateRender: false,
+      },
+      QUOTE_AT,
+    );
+  }
 
   // HOLD final (R6-c): la duración total de la tl debe ser EXACTAMENTE 1.0
   // para que las fracciones de arriba sean fracciones del rango del trigger
   // (ver docstring). Tween vacío que solo fija el fin en 1.0: el hold
-  // 0.76→1.0 queda como tramo real de scroll (dwell de lectura).
+  // 0.84→1.0 queda como tramo real de scroll (dwell de lectura).
   if (Math.abs(tl.duration() - 1) > 1e-6) {
     tl.set({}, {}, 1);
   }
@@ -761,6 +800,12 @@ function destroyRail(): void {
     gsap.set(rail.cards, { clearProps: "transform,opacity,visibility" });
   }
   rail.cards = [];
+  // Restaura la cita al estado del markup (P1-2c): la prepara solo la rama
+  // lg+, pero destroyRail corre también al pasar a <lg con resize.
+  if (rail.quote !== null) {
+    gsap.set(rail.quote, { clearProps: "transform,opacity,visibility" });
+    rail.quote = null;
+  }
   rail.segments = [];
   rail.nodes = [];
 }

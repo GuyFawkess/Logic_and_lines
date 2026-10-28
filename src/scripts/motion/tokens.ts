@@ -123,8 +123,13 @@ export const REVEAL = {
  * de priority es el que comparten ambos triggers de Proceso.
  */
 export const RAIL = {
-  /** Longitud del rango scrubbed (vh): los 3 tramos + pops + tarjetas. */
-  railLenVh: 2.2,
+  /**
+   * Longitud del rango scrubbed (vh): los 3 tramos + pops + tarjetas + cita.
+   * P1-2a/P1-2c: 1.6 (antes 2.2) — la tarjeta 01 y el nodo 1 NACEN visibles
+   * (el capítulo de Proceso no abre vacío) y la cita entra tras la tarjeta 04
+   * dentro de este mismo rango.
+   */
+  railLenVh: 1.6,
   /** Scrub (s): igualado al del pin de Servicios (R6). */
   scrub: 0.6,
   /** refreshPriority (ver cabecera: 19 > 15 > 10, orden de página). */
@@ -231,14 +236,20 @@ export const IMAGE_WIPE = {
 /*
  * Preloader (F4, preloader.ts) — técnica 11 del catálogo: contador + la línea
  * maestra dibujándose; al completar, el overlay se levanta y el hero arranca.
- * SOLO primera carga del documento (flag de módulo, no sessionStorage); las
- * navegaciones VT y reduced-motion no lo ven.
+ * Gating DOBLE (P1-5): (1) flag de módulo en index.ts — SOLO primera carga
+ * del documento; las navegaciones VT y reduced-motion no lo ven; (2)
+ * sessionStorage (sessionKey) — la MISMA pestaña ya no lo repite en recargas
+ * posteriores. Lectura/escritura en try/catch con fail-open = mostrar el
+ * preloader (el peor caso es repetir el overlay, nunca dejar la página
+ * tapada). Presupuesto F4: dur + exitDur = 1.0 + 0.6 = 1.6 s (≤1,6 s).
  */
 export const PRELOADER = {
   /** Duración del dibujo de línea + contador (s), ease power1.inOut. */
-  dur: 1.4,
+  dur: 1.0,
   /** Salida del overlay (s), yPercent -100 con power4.inOut. */
-  exitDur: 0.7,
+  exitDur: 0.6,
+  /** Clave de sessionStorage: la pestaña que ya vio el overlay no lo repite. */
+  sessionKey: "ll-pre",
   /** Hard-cap failsafe (s): si algo se atasca, el overlay se quita igual. */
   hardCap: 2.5,
 } as const;
@@ -313,4 +324,81 @@ export const CIRCUIT = {
   claimDur: 0.8,
   /** Stagger entre chars del claim (s, from:"random", técnica 6). */
   claimStagger: 0.08,
+} as const;
+
+/*
+ * Hero logo mark (T7) — "la línea construye el logo": el logo de marca
+ * (public/logoSolo.svg: 2 marcos ámbar + 2 glifos marfil) se DIBUJA dentro del
+ * hero y se disuelve de nuevo en línea con el scroll.
+ *
+ * El MARKUP parte del estado FINAL (relleno completo): sin JS y con
+ * reduced-motion se ve el logo finished. El ocultado inicial (fill-opacity 0,
+ * trazo listo para dibujar) lo pone SOLO el JS con gsap.set.
+ *
+ * INTRO (una timeline, construida una vez por rama):
+ *   t=0.00 marco exterior (0.90) | t=0.45 marco interior (0.70) |
+ *   t=0.85 glifo L (0.50) | t=0.97 glifo 1 (0.50) | t=1.15 relleno (0.50) |
+ *   t=1.20 un solo trazo marfil recorre el marco exterior (1.20) -> 2.40 s.
+ *   El presupuesto del brief es <= 2.4 s: el dash arranca 0.05 s después del
+ *   relleno (no después de que termine) para caber dentro.
+ * MOVIL: la MISMA timeline con timeScale 1.5 -> 1.60 s (brief: <= 1.6 s).
+ */
+export const HERO_LOGO = {
+  /** Query lg (Tailwind): scrub + tilt solo en desktop. */
+  lgQuery: "(min-width: 1024px)",
+  /** Duración del dibujo de cada tramo (s, escala desktop). */
+  frameDur: 0.9,
+  innerDur: 0.7,
+  glyphDur: 0.5,
+  /** Stagger entre los dos glifos (s). */
+  glyphStagger: 0.12,
+  /** Solape del tramo interior con el exterior (s; el interior entra antes). */
+  innerOverlap: 0.45,
+  /** Solape del tramo de glifos con el de marcos (s; entran antes). */
+  glyphOverlap: 0.3,
+  /** Cierre: relleno 0 -> 1 y trazo -> 0 (s). */
+  fillDur: 0.5,
+  /** Un único trazo marfil que recorre el marco exterior (s). */
+  dashDur: 1.2,
+  /** Desvanecido del dash en su cola (s) — cierra dentro del presupuesto. */
+  dashFadeDur: 0.3,
+  /** Fracción de la longitud del marco usada por el dash (%). */
+  dashRatio: 12,
+  /** Timeline completa (s) — presupuesto del brief: <= 2.4. */
+  totalDur: 2.4,
+  /** Timeline móvil (s) — presupuesto del brief: <= 1.6. */
+  mobileDur: 1.6,
+  /** Scrub (s) del disolvido por scroll (desktop). */
+  scrub: 0.6,
+  /**
+   * FASES del disolvido (fracción del rango scrubbed). El rango del trigger
+   * es toda la salida del hero (828 px a 1440), pero el logo vive en la
+   * parte ALTA del hero: si el disolvido tardase todo el rango, se
+   * completaría con el logo ya fuera de pantalla y no se vería. Por eso las
+   * tres fases caben en el primer 32 % del rango — justo lo que el logo
+   * tarda en salir del viewport.
+   *   relleno se va (0 -> 0.12) · el trazo aparece (0.04 -> 0.18) ·
+   *   el dibujo se deshace del revés (0.08 -> 0.20).
+   */
+  dissolveFillDur: 0.12,
+  dissolveStrokeAt: 0.04,
+  dissolveStrokeDur: 0.14,
+  dissolveDrawAt: 0.08,
+  dissolveDrawDur: 0.12,
+  /** Stagger del disolvido (fracción del rango), en orden inverso al dibujo. */
+  dissolveStagger: 0.02,
+  /** Escala y desplazamiento del disolvido (fracción del rango). */
+  dissolveMoveDur: 0.24,
+  /** Escala final del disolvido (el logo se encoge). */
+  dissolveScale: 0.82,
+  /** Desplazamiento vertical del disolvido (vh, negativo = sube). */
+  dissolveYVh: -6,
+  /** Tilt del puntero: grados máximos por eje. */
+  tiltMax: 5,
+  /** Tilt: suavizado del quickTo (s). */
+  tiltDur: 0.6,
+  /** Grosor del trazo de dibujado (px de pantalla, non-scaling-stroke). */
+  strokeWidth: 1.5,
+  /** Trazo del dash (color de marca del glifo): el marfil del sistema. */
+  dashStroke: "var(--color-text)",
 } as const;

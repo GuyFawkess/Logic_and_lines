@@ -8,6 +8,9 @@
  *   - el CTA de BookingClose                 -> [data-cal-link]
  *   - las anclas del nav desktop (SiteHeader) -> header nav ul a
  *   - el CTA del header (SiteHeader)          -> [data-gtm-event="cta_click"]
+ *   - los 2 CTAs del hero (HeroHome)          -> [data-gtm-location="hero"]
+ *   - todos los enlaces del pie                -> footer a
+ *   - WhatsApp y email de Booking              -> #booking a[data-gtm-event="contact_click"]
  *
  * (ES/EN por igual: los selectores son de atributos/estructura, no de texto.)
  *
@@ -41,6 +44,9 @@ const TARGETS = [
   "[data-cal-link]",
   "header nav ul a",
   '[data-gtm-event="cta_click"][data-gtm-location="header_desktop"]',
+  '[data-gtm-location="hero"]',
+  "footer a",
+  '#booking a[data-gtm-event="contact_click"]',
 ].join(", ");
 
 interface RollEntry {

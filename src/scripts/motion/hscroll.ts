@@ -60,6 +60,21 @@
  * en xPercent -100 (overflow IZQUIERDO, que no genera scrollbar). Cinturón:
  * html/body { overflow-x: clip } — vive en Layout.astro y aplica a TODOS los
  * breakpoints; `clip` no crea contenedor de scroll.
+ *
+ * P1-1/P1-2b (T3, 2026-10-28):
+ *   - La <section> de Servicios es FULL-BLEED: el contenedor max-w-[1400px]
+ *     bajó a un div interior [data-hscroll-inner] (mismo patrón que
+ *     ProcessRail). Motivo: con el max-w en la propia sección, el slide
+ *     xPercent:-100 solo la sacaba hasta x=20 y dejaba una franja de 20px
+ *     visible en el borde izquierdo. Este módulo convierte ese div interior
+ *     en la columna flex que reparte header + stage.
+ *   - El borde y el padding de la tarjeta viven en el CSS del componente
+ *     (ServicesIndex.astro), no aquí: así el tratamiento de tarjeta solo
+ *     aplica con el stack montado.
+ *   - data-hscroll-stack="true" (en la <section>) es la marca de "stack
+ *     montado": la pone initHScroll() y la retira destroyHScroll(). El CSS
+ *     del componente la usa como condición -> sin JS / móvil / reduced-motion
+ *     el stack no se monta y el fallback vertical queda intacto.
  */
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -70,6 +85,9 @@ interface StackState {
   wrapper: HTMLElement | null;
   track: HTMLElement | null;
   section: HTMLElement | null;
+  /** P1-2b (T3): div interior [data-hscroll-inner] (el max-w bajó a él; la
+   *  section es full-bleed). En modo stack es la columna flex header+stage. */
+  inner: HTMLElement | null;
   /** h2 del header (R3-4: su pt se neutraliza en modo stack; destroy restaura). */
   title: HTMLElement | null;
   cards: HTMLElement[];
@@ -89,6 +107,7 @@ const state: StackState = {
   wrapper: null,
   track: null,
   section: null,
+  inner: null,
   title: null,
   cards: [],
   overlays: [],
@@ -127,7 +146,8 @@ export function initHScroll(): void {
   if (wrapper === null || !window.matchMedia(STACK.mountQuery).matches) return;
   const track = wrapper.querySelector<HTMLElement>("[data-hscroll-track]");
   const section = wrapper.closest<HTMLElement>("section");
-  if (track === null || section === null) return;
+  const inner = section?.querySelector<HTMLElement>("[data-hscroll-inner]") ?? null;
+  if (track === null || section === null || inner === null) return;
   const cards = Array.from(track.children).filter(
     (el): el is HTMLElement => el instanceof HTMLElement,
   );
@@ -138,6 +158,12 @@ export function initHScroll(): void {
   state.section = section;
   state.cards = cards;
   state.mounted = true;
+  state.inner = inner;
+  // P1-1 (T3): marca de "stack montado". El tratamiento de tarjeta del
+  // componente (ServicesIndex.astro) SOLO aplica con esta marca: sin JS, en
+  // móvil o con reduced-motion el stack no se monta y el fallback vertical
+  // queda intacto. destroyHScroll() la retira.
+  section.dataset.hscrollStack = "true";
 
   // Layout de stage SOLO por JS (regla de oro sin-JS): la sección pasa a
   // capítulo a viewport completo (header + stage) y el stage a slot relativo
@@ -148,6 +174,10 @@ export function initHScroll(): void {
     flexDirection: "column",
     justifyContent: "center",
   });
+  // P1-2b (T3): el contenedor max-w-[1400px] bajó a un div interior -> ese
+  // div es ahora la columna flex que reparte header + stage (la section sigue
+  // siendo el flex container de 100svh).
+  gsap.set(inner, { display: "flex", flexDirection: "column", flex: "1 1 auto" });
   gsap.set(wrapper, {
     position: "relative",
     overflow: "hidden",
@@ -175,9 +205,11 @@ export function initHScroll(): void {
 
   // Tarjetas: todas IGUALES (imprescindible para apilar), centradas por
   // LAYOUT (inset + margin:auto — nunca translate: GSAP lo hornea), con el
-  // cromo del sistema (radio 12px = rounded-xl, hairline, --color-card).
-  // Sin hex nuevos: todo por vars existentes. SIN will-change persistente:
-  // lo aplica/retira onToggle (solo durante el pin).
+  // cromo del sistema (radio 12px = rounded-xl, --color-card). P1-1 (T3): el
+  // borde y el padding de la tarjeta viven en el CSS del componente (solo
+  // aplican con data-hscroll-stack). Sin hex nuevos: todo por vars
+  // existentes. SIN will-change persistente: lo aplica/retira onToggle
+  // (solo durante el pin).
   gsap.set(cards, {
     position: "absolute",
     inset: "0",
@@ -186,9 +218,7 @@ export function initHScroll(): void {
     height: STACK.cardHeight,
     overflow: "hidden",
     borderRadius: "0.75rem",
-    border: "1px solid var(--color-hairline)",
     backgroundColor: "var(--color-card)",
-    padding: "2.5rem 3rem",
   });
   // Ocultación inicial SOLO por gsap.set: las tarjetas 2..N esperan fuera del
   // stage (a la derecha); sin JS nunca se aplica → filas verticales visibles.
@@ -210,6 +240,17 @@ export function initHScroll(): void {
   });
   state.overlays = overlays;
 
+  /** P1-1 (T3): la imagen en COLOR la lleva la tarjeta superior del stack (la
+   *  que está en foco). Se marca con data-hscroll-top (lo lee el CSS del
+   *  componente). El índice es el MISMO que el del contador 01/06 -> la
+   *  imagen en color y el contador nunca se contradicen. */
+  const setTopCard = (idx: number): void => {
+    cards.forEach((card, j) => {
+      if (j === idx) card.setAttribute("data-hscroll-top", "");
+      else card.removeAttribute("data-hscroll-top");
+    });
+  };
+
   // Contador de progreso: artefacto de animación creado por JS (sin JS no
   // existe). Absolute dentro del header relativo: resize-proof.
   const header = section.querySelector<HTMLElement>("[data-hscroll-header]");
@@ -224,20 +265,23 @@ export function initHScroll(): void {
     counter.textContent = `${pad2(1)} / ${pad2(cards.length)}`;
     header.appendChild(counter);
     state.counter = counter;
+    // P1-1 (T3): estado inicial correcto sin esperar al primer onUpdate
+    // (imagen 01 en color, el resto en gris).
+    setTopCard(0);
   }
 
   let lastIdx = -1;
   const total = pad2(cards.length);
   const updateCounter = (progress: number): void => {
-    const counter = state.counter;
-    if (counter === null) return;
     const idx = Math.min(
       cards.length - 1,
       Math.max(0, Math.round(progress * (cards.length - 1))),
     );
     if (idx === lastIdx) return;
     lastIdx = idx;
-    counter.textContent = `${pad2(idx + 1)} / ${total}`;
+    const counter = state.counter;
+    if (counter !== null) counter.textContent = `${pad2(idx + 1)} / ${total}`;
+    setTopCard(idx);
   };
 
   const n = cards.length;
@@ -430,7 +474,11 @@ export function destroyHScroll(): void {
     state.timeline.kill();
     state.timeline = null;
   }
+  // P1-1/P1-2b (T3): fuera el estado de stack -> el CSS del componente deja de
+  // aplicar y el fallback vertical del markup vuelve intacto.
+  if (state.section !== null) state.section.removeAttribute("data-hscroll-stack");
   if (state.cards.length > 0) {
+    state.cards.forEach((card) => card.removeAttribute("data-hscroll-top"));
     // FIX (f4): killTweensOf antes del clearProps. Causa raíz: los fromTo
     // hijos del timeline (parent.data === "nested") sobreviven a
     // `timeline.kill()` porque Context.kill solo itera data top-level
@@ -465,6 +513,12 @@ export function destroyHScroll(): void {
       clearProps: "minHeight,display,flexDirection,justifyContent,xPercent,willChange",
     });
   }
+  if (state.inner !== null) {
+    // P1-2b (T3): el div interior recibió display/flexDirection/flex por
+    // gsap.set -> mismos clearProps para volver al estado del markup.
+    gsap.set(state.inner, { clearProps: "display,flexDirection,flex" });
+    state.inner = null;
+  }
   if (state.pinTrigger !== null) {
     // R6-b: el pin del panel muere antes de retirar su margen (matar el
     // trigger desmonta su pin-spacer; al ir en ese orden no hay un refresh
@@ -491,5 +545,6 @@ export function destroyHScroll(): void {
   state.wrapper = null;
   state.track = null;
   state.section = null;
+  state.inner = null;
   state.mounted = false;
 }

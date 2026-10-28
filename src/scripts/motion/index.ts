@@ -26,15 +26,17 @@ import { destroyImageReveal, initImageReveal } from "./image-reveal";
 import { destroyHScroll, initHScroll } from "./hscroll";
 import { destroyCircuit, initCircuit } from "./circuit";
 import { destroyPreloader, runPreloader } from "./preloader";
+import { destroyHeroLogo, initHeroLogo } from "./hero-logo";
 import { destroyMarquee, initMarquee } from "./marquee";
 import { destroyHoverRoll, initHoverRoll } from "./hover-roll";
 import { destroyLocalTime, initLocalTime } from "./local-time";
-import { EASE_REVEAL_PATH } from "./tokens";
+import { EASE_REVEAL_PATH, PRELOADER } from "./tokens";
 
 // F3-v2: MotionPathPlugin (gratis en el paquete gsap; el viajero del circuito
 // BookingClose recorre el racetrack que cierra el bucle, circuit.ts). Mismo
 // patrón que los demás plugins: importar y registrar al inicio del módulo.
 gsap.registerPlugin(ScrollTrigger, CustomEase, SplitText, DrawSVGPlugin, MotionPathPlugin);
+(window as any).__ST = ScrollTrigger;
 
 // "ll-reveal" es el gemelo GSAP de EASE_REVEAL (cubic-bezier(0.16, 1, 0.3, 1)).
 // El SVG path de abajo es la aproximación estándar de power4.out usada por reveals.
@@ -45,10 +47,35 @@ let media: gsap.MatchMedia | null = null;
 /**
  * true solo hasta el primer initMotion del documento: el preloader (y su
  * gating de reveals) corre UNA vez por carga completa; las navegaciones del
- * ClientRouter (VT) y las recargas de ruta no lo ven. Flag de módulo a
- * propósito — NO sessionStorage (regla del brief F4).
+ * ClientRouter (VT) nunca lo ven. Flag de MÓDULO (no es el gating de pestaña:
+ * ese vive en sessionStorage, PRELOADER.sessionKey).
  */
 let firstDocumentLoad = true;
+
+/**
+ * ¿Esta pestaña ya ha visto el preloader? (P1-5 / motion-plan.md: sessionStorage
+ * para saltarlo en visitas repetidas). FAIL-OPEN: si sessionStorage no está
+ * disponible (modo privado, cookies bloqueadas, quota) se devuelve false → se
+ * MUESTRA el preloader. El peor caso es repetir el overlay, nunca dejar la
+ * página tapada.
+ */
+function hasSeenPreloader(): boolean {
+  try {
+    return window.sessionStorage.getItem(PRELOADER.sessionKey) === "1";
+  } catch {
+    return false;
+  }
+}
+
+/** Marca la pestaña como "preloader visto" (idempotente, fail-open). */
+function markPreloaderSeen(): void {
+  try {
+    window.sessionStorage.setItem(PRELOADER.sessionKey, "1");
+  } catch {
+    // fail-open: si no se puede escribir, el preloader se repetirá en la
+    // siguiente carga de esta pestaña. No es un estado roto.
+  }
+}
 
 /** Drops everything created by the previous init (matchMedia contexts revert). */
 function resetMotion(): void {
@@ -67,6 +94,7 @@ function resetMotion(): void {
   destroyImageReveal();
   destroyHScroll();
   destroyCircuit();
+  destroyHeroLogo();
   destroyMarquee();
   destroyHoverRoll();
   destroyLocalTime();
@@ -92,18 +120,29 @@ export function initMotion(): void {
   // hora del build (fallback aceptable, ver local-time.ts).
   initLocalTime();
 
-  // Gating del preloader (F4, técnica 11 del catálogo): SOLO primera carga del
-  // documento (flag de módulo, NO sessionStorage). runPreloader crea el
-  // overlay de forma síncrona (tapar antes del primer paint de reveals) y
-  // devuelve la promesa que libera las reveals AL EMPEZAR la salida del
-  // overlay (el hero entra con la pantalla aún abriéndose). Reduced-motion
-  // resuelve la promesa al instante sin overlay (dentro de runPreloader).
-  // Las navegaciones VT nunca llegan aquí con el flag en true: su init viene
-  // de astro:page-load tras un after-swap.
+  // Gating del preloader (F4, técnica 11 del catálogo) — DOBLE (P1-5):
+  //   1. Flag de MÓDULO (firstDocumentLoad): SOLO primera carga del documento;
+  //      las navegaciones VT nunca llegan aquí con el flag en true (su init
+  //      viene de astro:page-load tras un after-swap).
+  //   2. sessionStorage (PRELOADER.sessionKey): la MISMA pestaña ya vio el
+  //      overlay en una carga anterior → no se repite.
+  // runPreloader crea el overlay de forma síncrona (tapar antes del primer
+  // paint de reveals) y devuelve la promesa que libera las reveals AL EMPEZAR
+  // la salida del overlay (el hero entra con la pantalla aún abriéndose).
+  // Reduced-motion resuelve la promesa al instante sin overlay (dentro de
+  // runPreloader). Fail-open: sin sessionStorage disponible se muestra
+  // siempre.
   let revealGate: Promise<void> | null = null;
   if (firstDocumentLoad) {
-    revealGate = runPreloader();
     firstDocumentLoad = false;
+    // P1-5: en la MISMA pestaña el preloader se ve UNA vez. Se marca al
+    // iniciar el overlay (la "primera vista" ya está en marcha): cualquier
+    // recarga posterior de esta pestaña entra sin overlay. Fail-open: sin
+    // sessionStorage disponible se muestra siempre.
+    if (!hasSeenPreloader()) {
+      markPreloaderSeen();
+      revealGate = runPreloader();
+    }
   }
 
   media = gsap.matchMedia();
@@ -140,6 +179,11 @@ export function initMotion(): void {
     let disposed = false;
     const startReveals = (): void => {
       if (disposed) return;
+      // T7: el logo de marca se dibuja PRIMERO (es lo primero que ve el
+      // cliente) y su intro (2.4 s desktop / 1.6 s móvil) comparte el gate
+      // del preloader: el scrub del logo se monta al acabar la intro
+      // (hero-logo.ts), nunca en paralelo.
+      initHeroLogo();
       initTextReveal();
       // F3-v2: sistema de línea maestra (cometas por secciones, driver del
       // rail R6 encadenado a hscroll.end, count-up de Proof) —
@@ -183,6 +227,7 @@ export function initMotion(): void {
       destroyLineSystem();
       destroyImageReveal();
       destroyCircuit();
+      destroyHeroLogo();
       destroySmoothScroll();
     };
   });
