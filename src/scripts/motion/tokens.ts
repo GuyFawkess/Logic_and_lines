@@ -228,7 +228,7 @@ export const STACK_MOBILE = {
   /** Asomo superior de la tarjeta cubierta (px). */
   peek: 12,
   /** pt del h2 en modo stack móvil (cabecera fija de 72px + aire). */
-  titlePad: "5.25rem",
+  titlePad: "7.5rem",
   /** Aire entre el stage y el borde inferior del viewport. */
   stageGap: "1rem",
 } as const;

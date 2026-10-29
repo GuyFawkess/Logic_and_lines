@@ -3,7 +3,7 @@ export default {
     title: ["Your business already has the logic.", "I draw the lines."],
     titleItalic: "lines",
     keywordsLine: "Marketing and AI automation for businesses in Lanzarote",
-    subtitle: "I'm a full-stack developer who designs, builds and maintains the websites, automations and AI agents your business relies on every day."
+    subtitle: "We are experts in web development and digital marketing: we design, build and maintain the websites, automations and AI agents your business relies on every day."
   },
   marquee: {
     phrases: [

@@ -177,6 +177,9 @@ const nodes = [
      Sin JS / reduced-motion: las 3 frases se leen como una frase estática
      (flex inline); con motion el script añade data-gc-staged (apiladas en
      una celda de grid, sin salto de layout) y oculta 1-2 con gsap.set. -->
+<div class="gc-track" data-gc-track>
+<div class="gc-sticky" data-gc-sticky>
+<slot name="head" />
 <div class="gc-stage" data-growth-chart>
   <p class="gc-kicker font-mono text-xs uppercase tracking-[0.08em] text-(--color-text-dark)">
     {t.stats.chartKicker}
@@ -251,10 +254,12 @@ const nodes = [
   </div>
 </div>
 </div>
+</div>
+</div>
 
 <style>
   .gc-stage {
-    margin-top: 3.5rem;
+    margin-top: 2rem;
     width: 100%;
     text-align: center;
   }
@@ -451,7 +456,46 @@ const nodes = [
     // Móvil: parada LARGA (1.6 viewports). Con +=80% (~675px a 844 de alto) un
     // solo flick táctil con inercia atravesaba el pin en <0.3s y se leía como
     // "sigue bajando"; además el panel era una miniatura de ~240px.
-    mm.add(MOBILE, () => pinned("+=160%", 0.6));
+    // Móvil: el escenario se ancla con position:sticky (lo resuelve el
+    // compositor, sin saltos al scroll táctil) y el scrub lo lleva un trigger
+    // SIN pin sobre el contenedor alto. Con pin:true (position:fixed) en el
+    // móvil real el panel "resbalaba" hacia abajo antes de quedarse.
+    mm.add(MOBILE, () => {
+      // Se ancla TODO el bloque (título + subtítulo de la sección + escenario):
+      // si solo se anclaba el panel, el título se iba hacia arriba y parecía que
+      // la página seguía bajando.
+      const sticky = el.closest<HTMLElement>("[data-gc-sticky]") as HTMLElement;
+      const track = sticky.parentElement as HTMLElement;
+      el.setAttribute("data-gc-staged", "");
+      toChaos();
+      const stuckTop = (): number => Math.max(76, (window.innerHeight - sticky.offsetHeight) / 2 + 36);
+      const layout = (): void => {
+        track.style.height = `${sticky.offsetHeight + window.innerHeight * 2.6}px`;
+        sticky.style.position = "sticky";
+        sticky.style.top = `${stuckTop()}px`;
+      };
+      layout();
+      const tl = gsap.timeline({
+        defaults: { ease: "none" },
+        scrollTrigger: {
+          id: "growth-chart",
+          trigger: track,
+          start: () => `top top+=${stuckTop()}`,
+          end: () => `bottom top+=${stuckTop() + sticky.offsetHeight}`,
+          scrub: 0.6,
+          invalidateOnRefresh: true,
+          onRefreshInit: layout,
+          refreshPriority: 12,
+        },
+      });
+      build(tl, 1 / 0.86);
+      return () => {
+        el.removeAttribute("data-gc-staged");
+        sticky.style.position = "";
+        sticky.style.top = "";
+        track.style.height = "";
+      };
+    });
     // Reduced-motion: nada — el markup ya es el estado final.
   }
 

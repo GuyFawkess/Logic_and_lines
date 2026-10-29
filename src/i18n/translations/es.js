@@ -3,7 +3,7 @@ export default {
     title: ["Tu negocio ya tiene la lógica.", "Yo trazo las líneas."],
     titleItalic: "líneas",
     keywordsLine: "Marketing y automatización con IA para negocios en Lanzarote",
-    subtitle: "Soy desarrollador full-stack: diseño, construyo y mantengo las webs, automatizaciones y agentes de IA con los que tu negocio trabaja cada día."
+    subtitle: "Somos expertos en desarrollo web y marketing digital: diseñamos, construimos y mantenemos las webs, automatizaciones y agentes de IA con los que tu negocio trabaja cada día."
   },
   marquee: {
     phrases: [

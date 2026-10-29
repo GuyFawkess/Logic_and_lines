@@ -38,6 +38,8 @@ const reasonIcons = [
      fronteras propias. pb simétrico al pt (ritmo de capítulo) porque el grid
      de tarjetas cierra la sección antes de la banda de FAQ. -->
 <section id="razones" class="mx-auto w-full max-w-[1400px] px-6 pb-24 pt-24 lg:px-10 lg:min-h-[100svh] lg:pb-32 lg:pt-32">
+  <GrowthChart currentLang={currentLang}>
+  <Fragment slot="head">
   <h2
     class="text-center font-display text-[clamp(2.25rem,5.5vw,5rem)] leading-[1] tracking-[-0.045em] text-(--color-text)"
     data-reveal="lines"
@@ -82,14 +84,13 @@ const reasonIcons = [
       ))
     }
   </ul>
-
-  <!-- Caos -> retícula -> crecimiento (técnica del hero-lab D); el panel se ancla (pin) al centrarse. -->
-  <GrowthChart currentLang={currentLang} />
+  </Fragment>
+  </GrowthChart>
 
   <!-- Grid de 6 razones (legacy): icono en círculo de trazo ámbar fino +
        heading + body. data-reasons-grid lo consume initProof (line-system.ts)
        para la entrada escalonada re-disparable. -->
-  <div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" data-reasons-grid>
+  <div class="mt-16 max-lg:mt-[28svh] grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" data-reasons-grid>
     {
       reasons.map((reason, i) => (
         <article class="group rounded-xl border border-(--color-hairline) bg-(--color-card) p-6 transition-colors duration-300 hover:border-(--color-primary)/60">
